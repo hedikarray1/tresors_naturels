@@ -5,5 +5,12 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-card *ngFor="let product of products">
+    <img src="{{product.img_url}}" />
+    <ion-card-content>
+      <h1 class="txt-center"> {{product?.title?.rendered}}</h1>
+      <h2 class="txt-center"> Belle, Belle envolée</h2>
+      <h3 class="txt-center">35.00 TND</h3>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
