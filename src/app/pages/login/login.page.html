@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <form (ngSubmit)="login()" [formGroup]="credentiels">
+  <ion-item>
+    <ion-input type="text" placeholder="Username" formControlName="username"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+  </ion-item>
+  <ion-button type="submit" expand="block" [disabled]="!credentiels.valid">Se connecter</ion-button>
+  <ion-button type="butt on" expand="block" [disabled]="!credentiels.valid">Not yet a member ? Sign up</ion-button>
+  
+</form>
+</ion-content>
