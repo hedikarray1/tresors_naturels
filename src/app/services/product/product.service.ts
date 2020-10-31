@@ -14,13 +14,13 @@ export class ProductService {
   getAllproducts(){
     let options={
       observe: "response" as "body",
-    params: new HttpParams().append("per_page","100")
+    params: new HttpParams().append("per_page","10")
     }
-return this.http.get(environment.apiURL+"/wp/v2/product"+"?_embed",options).pipe(
+return this.http.get(environment.apiURL+"wp/v2/product"+"?_embed",options).pipe(
 map(resp=>{
 let data=resp["body"];
 for(let produit of data){
-produit.img_url=produit["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["meduim"].source_url;
+produit.img_url=produit["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium"].source_url;
 }
 return data;
 })
