@@ -1,4 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { environment } from './../../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,11 +8,37 @@ import { Injectable } from '@angular/core';
 })
 export class ProductService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
 
-  getAllproducts(){
+  getAllproducts() {
+    let options = {
+      observe: "response" as "body",
+      params: new HttpParams().append("per_page", "95")
+    }
+    return this.http.get(environment.apiURL + "wp/v2/product" + "?_embed", options).pipe(
+      map(resp => {
+        let data = resp["body"];
+        for (let produit of data) {
+          produit.img_url = produit["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium_large"].source_url;
+        }
+        return data;
+      })
+    );
 
+  }
+
+  getproduct(id) {
+   
+    return this.http.get(environment.apiURL + "wp/v2/product/"+id + "?_embed").pipe(
+      map(resp => {
+        
+          resp['img_url'] = resp["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium_large"].source_url;
+        
+        return resp;
+       
+      })
+    );
 
   }
 }
