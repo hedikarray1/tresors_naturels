@@ -5,11 +5,13 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let product of products" (click)="goToDetail(product.id)">
-    <img src="{{product.img_url}}" />
+  <ion-card  >
+    <img src="{{product?.img_url}}" />
     <ion-card-content>
       <h2 class="txt-center"> {{product?.title?.rendered}}</h2>
-     
+    <br>
+      <div  [innerHTML]="product?.content?.rendered"> </div>
+      
     </ion-card-content>
   </ion-card>
 </ion-content>

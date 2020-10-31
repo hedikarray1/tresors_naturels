@@ -8,23 +8,37 @@ import { Injectable } from '@angular/core';
 })
 export class ProductService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
 
-  getAllproducts(){
-    let options={
+  getAllproducts() {
+    let options = {
       observe: "response" as "body",
-    params: new HttpParams().append("per_page","10")
+      params: new HttpParams().append("per_page", "95")
     }
-return this.http.get(environment.apiURL+"wp/v2/product"+"?_embed",options).pipe(
-map(resp=>{
-let data=resp["body"];
-for(let produit of data){
-produit.img_url=produit["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium"].source_url;
-}
-return data;
-})
-);
+    return this.http.get(environment.apiURL + "wp/v2/product" + "?_embed", options).pipe(
+      map(resp => {
+        let data = resp["body"];
+        for (let produit of data) {
+          produit.img_url = produit["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium_large"].source_url;
+        }
+        return data;
+      })
+    );
+
+  }
+
+  getproduct(id) {
+   
+    return this.http.get(environment.apiURL + "wp/v2/product/"+id + "?_embed").pipe(
+      map(resp => {
+        
+          resp['img_url'] = resp["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium_large"].source_url;
+        
+        return resp;
+       
+      })
+    );
 
   }
 }
