@@ -1,3 +1,4 @@
+import { CategoryService } from './../../services/category/category.service';
 import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { LoadingController } from '@ionic/angular';
@@ -15,7 +16,8 @@ export class AllProductsPage implements OnInit {
   constructor(
     private loadingController : LoadingController,
     private router : Router,
-    private ProductService: ProductService
+    private ProductService: ProductService,
+    private CategoryService:CategoryService
     ) { }
 
  async ngOnInit() {
@@ -26,6 +28,11 @@ export class AllProductsPage implements OnInit {
       this.products = data;
        loading.dismiss();
     });
+this.CategoryService.getCategoriesWithProducts().subscribe((data:any[])=>{
+console.log("begin get categories");
+console.log(data);
+console.log("end of function");
+});
 
     this.ProductService.getAllProductsWooCommerce().subscribe((data1:any[])=>{
       console.log(data1);
