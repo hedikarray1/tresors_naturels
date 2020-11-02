@@ -45,12 +45,12 @@ ion-chip {
 
 .card-body {
     background-color: #ffffff;
-    padding: 30px;
-    height: calc(100vh - (200px + 56px));
+    padding: 10px 30px;
+ //   height: calc(100vh - (200px + 56px));
     overflow: hidden;
 
     .user-meta {
-        padding-top: 40px;
+        padding-top: 10px;
 
         .playername {
             font-size: 24px;
