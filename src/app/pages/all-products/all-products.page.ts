@@ -12,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class AllProductsPage implements OnInit {
   products: any[];
   productswoo: any[];
+  
   constructor(
     private loadingController : LoadingController,
     private router : Router,
