@@ -1,10 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <img class="img-header" src="http://localhost/tresors/inyrdeds/2020/04/logo.png">
+    <img class="img-header" src="http://localhost/site-tresors/inyrdeds/2020/04/logo.png">
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <!--
   <ion-card *ngFor="let product of products" (click)="goToDetail(product.id)">
     <img src="{{product.img_url}}" />
     <ion-card-content>
@@ -12,4 +13,26 @@
      
     </ion-card-content>
   </ion-card>
+-->
+<div style="font-family: TuesdayNight-Regular;text-align: center;">naturelle</div>
+
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+<!--
+    <ion-slide *ngFor="let card of [0,1,2,3,4,5,6]" style="width: 150px; height: 200px; border: 2px solid #f8f8f8">
+      <ion-col>
+        <ion-label>Card #{{ card }}</ion-label>
+        <ion-img style="pointer-events:none" src="https://via.placeholder.com/150"></ion-img>
+      </ion-col>
+    </ion-slide>
+  -->
+    <ion-slide *ngFor="let product1 of productswoo" style="width: 190px; height: 250px; border: 2px solid #f8f8f8">
+      <ion-col>
+
+        <ion-img style="pointer-events:none;width: 130px;margin-left: 27px;" src="{{product1?.images[0]?.src}}"></ion-img>
+        <div style=" font-family: Lato-Regular;height: 41px !important;">{{product1?.name}}</div>
+<span style="color: rgb(167, 167, 167); font-family:  Cormorant-SemiBoldItalic;font-size: smaller;" *ngFor="let category of product1.categories"> {{category?.name}},</span>
+<div style="font-family: Cormorant-Medium; font-size: larger;" [innerHTML]="product1?.price_html"></div>
+      </ion-col>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
