@@ -55,5 +55,30 @@ export class CategoryService {
    })
    );
   }
+  getAllCategory(){
+    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",{});
+   return this.http.get(myUrl);
+  }
+
+  getParentCategory(){
+    let params = {
+      "parent" : 0
+    }
+    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
+   return this.http.get(myUrl);
+  }
+
+  getSousCategory(id){
+    let params = {
+      "parent" : id
+    }
+    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
+   return this.http.get(myUrl);
+  }
+
+  getCategory(id){
+    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories/"+id,{});
+   return this.http.get(myUrl);
+  }
 
 }

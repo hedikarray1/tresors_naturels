@@ -22,13 +22,18 @@ const routes: Routes = [
   {
     path: 'detail-produit/:id',
     loadChildren: () => import('./pages/detail-produit/detail-produit.module').then( m => m.DetailProduitPageModule)
-  },  {
+  },
+  {
     path: 'bottom-navigation',
     loadChildren: () => import('./pages/bottom-navigation/bottom-navigation.module').then( m => m.BottomNavigationPageModule)
   },
   {
     path: 'account',
     loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule)
+  },
+  {
+    path: 'category',
+    loadChildren: () => import('./pages/category/category.module').then( m => m.CategoryPageModule)
   },
 
 
