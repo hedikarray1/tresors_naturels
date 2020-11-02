@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path: 'detail-produit/:id',
     loadChildren: () => import('./pages/detail-produit/detail-produit.module').then( m => m.DetailProduitPageModule)
+  },  {
+    path: 'category',
+    loadChildren: () => import('./pages/category/category.module').then( m => m.CategoryPageModule)
   },
+
 
 
 ];

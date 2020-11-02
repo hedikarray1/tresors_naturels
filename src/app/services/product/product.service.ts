@@ -1,3 +1,4 @@
+import { WoocommerceService } from './../woocommerce.service';
 import { map } from 'rxjs/operators';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -8,7 +9,7 @@ import { Injectable } from '@angular/core';
 })
 export class ProductService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private WooCommerceService:WoocommerceService,private http: HttpClient) { }
 
 
   getAllproducts() {
@@ -26,6 +27,11 @@ export class ProductService {
       })
     );
 
+  }
+
+  getAllProductsWooCommerce(){
+    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",{});
+   return this.http.get(myUrl);
   }
 
   getproduct(id) {

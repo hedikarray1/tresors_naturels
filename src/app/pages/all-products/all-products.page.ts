@@ -11,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllProductsPage implements OnInit {
   products: any[];
+  productswoo: any[];
   constructor(
     private loadingController : LoadingController,
     private router : Router,
@@ -21,9 +22,14 @@ export class AllProductsPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     this.ProductService.getAllproducts().subscribe((data: any[]) => {
-      console.log(data);
+    //  console.log(data);
       this.products = data;
        loading.dismiss();
+    });
+
+    this.ProductService.getAllProductsWooCommerce().subscribe((data1:any[])=>{
+      console.log(data1);
+      this.productswoo=data1;
     });
   }
 
