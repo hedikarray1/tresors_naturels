@@ -12,8 +12,8 @@ export class UserService {
 
 
   getUsetByEmail(){
-    let params={email: "houssem.gabsi@esprit.tn"};
-   let myUrl=this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/customers",params);
+    
+   let myUrl=this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/customers/"+"5",{});
    return this.http.get(myUrl);
   }
 }

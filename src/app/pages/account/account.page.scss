@@ -39,6 +39,15 @@ ion-chip {
                 border: 8px solid #9Dc912;
                 background-color: #fff;
             }
+            ion-icon{
+                display: block;
+                position: absolute;
+                margin-left: 150px;
+                width: 30px; ;
+                height: 30px;
+                bottom: calc(-1*(80px + 4px)); // -42px;
+
+            }
         }
     }
 }

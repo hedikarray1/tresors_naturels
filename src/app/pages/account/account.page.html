@@ -20,23 +20,40 @@
       <div class="header">
         
         <div class="avatar">
-          <img src="../../../assets/14936557467_73668eb801_o_color_blur.jpg" alt="">
+          <img src="{{User?.avatar_url}}" alt="">
+          <ion-icon slot="end" name="camera"></ion-icon>
         </div>
       
       </div>
       <div class="card-body">
         <div class="user-meta ion-text-center">
-          <h3 class="playername">{{User?.first_name}}</h3>
-          <h5 class="country">{{User?.last_name}}</h5>
-          <h6 class="ranking">{{User?.email}} <ion-chip>
+          <h3 class="playername">{{User?.username}} </h3>
+          <h5 class="country">{{User?.first_name}} {{User?.last_name}}</h5>
+          <h6 class="ranking">{{User?.email}}
+            <!-- 
+            <ion-chip>
               <ion-label>2</ion-label>
             </ion-chip>
+              -->
+
           </h6>
         </div>
 
-        <ion-button expand="full" color="primary">http://rogerfederer.com</ion-button>
-        <ion-button expand="full" color="secondary">@RogerFederer on Twitter</ion-button>
+        <ion-button (click)="displayHideFacturationCard()" expand="full" color="primary">Informations de facturation</ion-button>
+        <ion-card *ngIf="facturation" id="facturation-card">
+          <ion-card-content>
+            <ion-card-title>Informations de facturation</ion-card-title>
+            <ion-label>Nom</ion-label>
+            <ion-input>{{User?.billing?.last_name}}</ion-input>
+            <ion-label>Prenom</ion-label>
+            <ion-input>{{User?.billing?.first_name}}</ion-input>
+            <ion-button expand="full">Modifier</ion-button>
+          </ion-card-content>
+        </ion-card>
+        <ion-button expand="full" color="secondary">Informations de livraison</ion-button>
         <ion-button expand="full" color="secondary">View profile at ATP</ion-button>
+        <br/>
+        <br/>
         <br/>
 
       </div>
