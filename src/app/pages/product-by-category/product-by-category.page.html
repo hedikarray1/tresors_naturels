@@ -9,7 +9,7 @@
     <p class="category-name">{{category}}</p>
   </div>
 
-<div class="card-container" *ngFor="let product of products">
+<div class="card-container" *ngFor="let product of products" (click)="goToDetail(product?.id)">
   <ion-card class="product-card" >
     <div class="product-image-container">
       <img src="{{product?.images[0]?.src}}" />
@@ -23,4 +23,12 @@
     </ion-card-content>
   </ion-card>
 </div>
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+  <ion-infinite-scroll-content loadingText="Charger plus produits...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+<br/>
+<br/>
+<br/>
+<br/>
 </ion-content>

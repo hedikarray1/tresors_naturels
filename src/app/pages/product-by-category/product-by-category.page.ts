@@ -11,6 +11,10 @@ export class ProductByCategoryPage implements OnInit {
   
   products : any[];
   category : any;
+  idCategory : any;
+  page = 1;
+  count = null;
+
   constructor(
     private poductService : ProductService,
     private route: ActivatedRoute,
@@ -19,17 +23,36 @@ export class ProductByCategoryPage implements OnInit {
 
   ngOnInit() {
     this.category = this.route.snapshot.paramMap.get('category') ;
-    this.getCategory(this.route.snapshot.paramMap.get('id'))
+    this.idCategory = this.route.snapshot.paramMap.get('id') ;
+    this.getCategory()
   }
 
   
- async getCategory(category){
+ async getCategory(){
    
-  this.poductService.getProductsByCategory(category).subscribe((data: any[]) => {
-   
+  this.poductService.getProductsByCategory(this.idCategory).subscribe((data: any[]) => {
+    this.count = this.poductService.totalProducts;
     this.products = data;
      console.log("category :" , this.products);
   });
+}
+
+loadMore(event) {
+  this.page++;
+
+  this.poductService.getProductsByCategory(this.idCategory,this.page).subscribe(res => {
+    this.products = [...this.products, ...res];
+    event.target.complete();
+
+    // Disable infinite loading when maximum reached
+    if (this.page == this.poductService.pages) {
+      event.target.disabled = true;
+    }
+  });
+}
+
+goToDetail(id) {
+  this.router.navigateByUrl('detail-produit/' + id);
 }
 
 }
