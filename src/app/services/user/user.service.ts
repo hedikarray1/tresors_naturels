@@ -1,3 +1,6 @@
+import { environment } from './../../../environments/environment';
+import { WoocommerceService } from './../woocommerce.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,5 +8,12 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
 
-  constructor() { }
+  constructor(private http:HttpClient,private WoocommerceService:WoocommerceService) { }
+
+
+  getUsetByEmail(){
+    let params={email: "houssem.gabsi@esprit.tn"};
+   let myUrl=this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/customers",params);
+   return this.http.get(myUrl);
+  }
 }

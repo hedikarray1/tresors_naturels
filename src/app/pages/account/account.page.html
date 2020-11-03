@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button color="light">
-        <ion-icon slot="start" name="ios-arrow-back"></ion-icon>
+        <ion-icon slot="start" name="back"></ion-icon>
         Favorites
       </ion-button>
     </ion-buttons>
@@ -18,17 +18,17 @@
 <ion-content fullscreen="true"  >
     <div class="card">
       <div class="header">
-        <!--
+        
         <div class="avatar">
-          <img src="../../assets/player104.png" alt="">
+          <img src="../../../assets/14936557467_73668eb801_o_color_blur.jpg" alt="">
         </div>
-        -->
+      
       </div>
       <div class="card-body">
         <div class="user-meta ion-text-center">
-          <h3 class="playername">Roger Federer</h3>
-          <h5 class="country">Switzerland</h5>
-          <h6 class="ranking">Current ranking: <ion-chip>
+          <h3 class="playername">{{User?.first_name}}</h3>
+          <h5 class="country">{{User?.last_name}}</h5>
+          <h6 class="ranking">{{User?.email}} <ion-chip>
               <ion-label>2</ion-label>
             </ion-chip>
           </h6>

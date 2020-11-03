@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountPage implements OnInit {
 
-  constructor() { }
-
+  constructor(private UserService:UserService) { }
+ User:any;
   ngOnInit() {
+    this.UserService.getUsetByEmail().subscribe((data:any)=>{
+this.User=data;
+    });
   }
 
 }
