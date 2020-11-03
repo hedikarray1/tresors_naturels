@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
+  facturation= false;
 
   constructor(private UserService:UserService) { }
  User:any;
@@ -16,4 +17,7 @@ this.User=data;
     });
   }
 
+  displayHideFacturationCard(){
+this.facturation=!this.facturation;
+  }
 }
