@@ -11,37 +11,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./all-products.page.scss'],
 })
 export class AllProductsPage implements OnInit {
-  products: any[];
+
   productswoo: any[];
-  
+
   constructor(
-    private loadingController : LoadingController,
-    private router : Router,
+    private loadingController: LoadingController,
+    private router: Router,
     private ProductService: ProductService,
-    private CategoryService:CategoryService
-    ) { }
+    private CategoryService: CategoryService
+  ) { }
 
- async ngOnInit() {
-    const loading = await this.loadingController.create();
-    await loading.present();
-    this.ProductService.getAllproducts().subscribe((data: any[]) => {
-    //  console.log(data);
-      this.products = data;
-       loading.dismiss();
-    });
-this.CategoryService.getCategoriesWithProducts().subscribe((data:any[])=>{
-console.log("begin get categories");
-console.log(data);
-console.log("end of function");
-});
+  ngOnInit() {
 
-    this.ProductService.getAllProductsWooCommerce().subscribe((data1:any[])=>{
-      console.log(data1);
-      this.productswoo=data1;
+    this.getAllProducts()
+
+  }
+
+  getCategoriesWithProducts() {
+    this.CategoryService.getCategoriesWithProducts().subscribe((data: any[]) => {
+      console.log("categories : ", data);
     });
   }
 
-  goToDetail(id){
-    this.router.navigateByUrl('detail-produit/'+id);
+  getAllProducts() {
+    this.ProductService.getAllProductsWooCommerce().subscribe((data1: any[]) => {
+      console.log(data1);
+      this.productswoo = data1;
+    });
+  }
+
+  goToDetail(id) {
+    this.router.navigateByUrl('detail-produit/' + id);
   }
 }

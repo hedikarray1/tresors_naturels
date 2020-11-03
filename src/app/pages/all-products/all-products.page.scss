@@ -4,6 +4,40 @@
 
 .img-header {
    width: 24%;
-  
+
    margin-left: 38%;
-} 
+}
+
+.category-name {
+   font-family: TuesdayNight-Regular ;
+   text-align: center;
+   font-size: x-large;
+}
+
+.slide {
+   width: 190px;
+   height: 250px;
+   border: 2px solid #f8f8f8;
+}
+
+.product-img {
+   pointer-events: none;
+   width: 130px;
+   margin-left: 27px;
+}
+
+.product-name {
+   font-family: Lato-Regular;
+   height: 41px !important;
+}
+
+.product-category {
+   color: rgb(167, 167, 167);
+   font-family: Cormorant-SemiBoldItalic;
+   font-size: smaller;
+}
+
+.product-price {
+   font-family: Cormorant-Medium;
+   font-size: larger;
+}

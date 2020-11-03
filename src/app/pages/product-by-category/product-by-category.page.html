@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <img class="img-header" src="../../../assets/logo/logo.png">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="category-container">
+    <p class="category-name">{{category}}</p>
+  </div>
+
+<div class="card-container" *ngFor="let product of products">
+  <ion-card class="product-card" >
+    <div class="product-image-container">
+      <img src="{{product?.images[0]?.src}}" />
+    </div>
+    <ion-card-content>
+      <div class="product-name">{{product?.name}}</div>
+      <div class="product-category-container">
+        <span class="product-category" *ngFor="let category of product?.categories"> {{category?.name}},</span>
+      </div>
+      <div class="product-price" [innerHTML]="product?.price_html"></div>
+    </ion-card-content>
+  </ion-card>
+</div>
+</ion-content>

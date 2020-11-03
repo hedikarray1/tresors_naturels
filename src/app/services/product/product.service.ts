@@ -34,6 +34,14 @@ export class ProductService {
    return this.http.get(myUrl);
   }
 
+  getProductsByCategory(category){
+    let params = {
+      "category" : category
+    }
+    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
+   return this.http.get(myUrl);
+  }
+
   getproduct(id) {
    
     return this.http.get(environment.apiURL + "wp/v2/product/"+id + "?_embed").pipe(

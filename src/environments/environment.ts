@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL : "http://localhost/site-tresors/wp-json/",
+  apiURL : "http://localhost/tresors/wp-json/",
   serverURL : "http://localhost/tresors/",
 };
 

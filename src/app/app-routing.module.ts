@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'bottom-navigation',
     pathMatch: 'full'
   },
   {
@@ -35,6 +35,11 @@ const routes: Routes = [
     path: 'category',
     loadChildren: () => import('./pages/category/category.module').then( m => m.CategoryPageModule)
   },
+  {
+    path: 'product-by-category/:category/:id',
+    loadChildren: () => import('./pages/product-by-category/product-by-category.module').then( m => m.ProductByCategoryPageModule)
+  },
+
 
 
 

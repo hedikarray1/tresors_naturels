@@ -1,7 +1,6 @@
-<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
 <ion-header>
   <ion-toolbar>
-    <ion-title>category</ion-title>
+    <img class="img-header" src="../../../assets/logo/logo.png">
   </ion-toolbar>
 </ion-header>
 
@@ -9,17 +8,27 @@
 
 
   <ion-list>
-    <div *ngFor="let cat of categorys" >
-      <ion-item class="item-stable" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}">
-        <i class="icon" [ngClass]="isCategoryShown(cat.name) ? 'ion-minus' : 'ion-plus'" *ngIf="cat.children?.length >0"></i>
-        &nbsp;
+    <div *ngFor="let cat of categorys">
+      <ion-item class="item-stable" (click)="goToProductByCategory(cat.name ,cat.id)"
+        [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0">
         {{cat.name}}
       </ion-item>
-      <div *ngIf="isCategoryShown(cat.name)">
-      <ion-item class="item-accordion" *ngFor="let subCat of cat.children" >
-        {{subCat.name}}
+
+      <ion-item class="item-stable" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}"
+        *ngIf="cat.children?.length >0">
+       
+        {{cat.name}}
+        <ion-icon name="caret-down-outline" *ngIf="!isCategoryShown(cat.name)"> </ion-icon>
+        <ion-icon name="caret-forward-outline" *ngIf="isCategoryShown(cat.name)"> </ion-icon>
+
       </ion-item>
-    </div>
+      <div *ngIf="isCategoryShown(cat.name)">
+        <ion-item class="item-accordion" *ngFor="let subCat of cat.children"
+          (click)="goToProductByCategory(subCat.name ,subCat.id)">
+          {{subCat.name}}
+
+        </ion-item>
+      </div>
     </div>
   </ion-list>
 
