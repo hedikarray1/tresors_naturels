@@ -9,50 +9,44 @@ import { Injectable } from '@angular/core';
 })
 export class ProductService {
 
+  totalProducts = null;
+  pages: any;
+
   constructor(private WooCommerceService:WoocommerceService,private http: HttpClient) { }
 
 
-  getAllproducts() {
-    let options = {
-      observe: "response" as "body",
-      params: new HttpParams().append("per_page", "95")
-    }
-    return this.http.get(environment.apiURL + "wp/v2/product" + "?_embed", options).pipe(
-      map(resp => {
-        let data = resp["body"];
-        for (let produit of data) {
-          produit.img_url = produit["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium_large"].source_url;
-        }
-        return data;
-      })
-    );
-
-  }
+  
 
   getAllProductsWooCommerce(){
     let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",{});
    return this.http.get(myUrl);
   }
 
-  getProductsByCategory(category){
-    let params = {
-      "category" : category
-    }
+  getproduct(id){
+    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/"+id,{});
+    return this.http.get(myUrl);
+  }
+
+  getProductsByCategory(category,page =1){
+    let options = {
+      observe: "response" as 'body'
+    };
+     let  params = {
+      per_page: '5',
+      page: ''+ page ,
+      category : ''+ category
+    };
+    
     let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
-   return this.http.get(myUrl);
+   return this.http.get(myUrl,options).pipe(  map((res:any[])=>{
+    this.pages = res['headers'].get('x-wp-totalpages');
+    this.totalProducts = res['headers'].get('x-wp-total');
+    let data = res['body'];
+    return data ;
+   })); 
   }
 
-  getproduct(id) {
-   
-    return this.http.get(environment.apiURL + "wp/v2/product/"+id + "?_embed").pipe(
-      map(resp => {
-        
-          resp['img_url'] = resp["_embedded"]["wp:featuredmedia"][0]["media_details"].sizes["medium_large"].source_url;
-        
-        return resp;
-       
-      })
-    );
 
-  }
+
+  
 }

@@ -16,4 +16,5 @@ export class UserService {
    let myUrl=this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/customers/"+"5",{});
    return this.http.get(myUrl);
   }
+
 }

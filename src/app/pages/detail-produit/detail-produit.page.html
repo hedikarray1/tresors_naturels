@@ -5,13 +5,39 @@
 </ion-header>
 
 <ion-content>
-  <ion-card  >
-    <img src="{{product?.img_url}}" />
+  <ion-card class="product-card">
+  
+      <div class="product-image-container">
+        <img src="{{product?.images[0]?.src}}" />
+      </div>
+     
     <ion-card-content>
-      <h2 class="txt-center"> {{product?.title?.rendered}}</h2>
-    <br>
-      <div  [innerHTML]="product?.content?.rendered"> </div>
-      
+
+      <ion-card-header class="product-info-container">
+     
+        <div class="product-name"><strong>{{product?.name}}</strong></div>
+     </ion-card-header>
+       
+        <ion-card-header class="product-info-container">
+          <div class="container-row">
+            <div class="product-price" [innerHTML]="product?.price_html"></div>
+            <div class="product-short_description" [innerHTML]="product?.short_description" *ngIf="product?.description != ''"></div>  
+          </div>
+          <br/>
+        <label class="text-size"><strong>Catégory</strong> : </label>
+         
+          <div class="product-category-container">
+            <span class="product-category" *ngFor="let category of product?.categories"> {{category?.name}},</span>
+          </div>
+        
+        </ion-card-header>
+     
+
+     <label class="text-size"><strong>Description</strong></label>
+     <br/>
+     <div class="product-short_description" [innerHTML]="product?.short_description" *ngIf="product?.description == ''"></div>  
+        
+      <div class="product-description" [innerHTML]="product?.description"></div>
     </ion-card-content>
   </ion-card>
 </ion-content>
