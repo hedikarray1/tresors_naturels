@@ -7,10 +7,10 @@ import Base64 from 'crypto-js/enc-base64';
 })
 export class WoocommerceService {
   nonce: string = ''
-  currentTimestamp: number = 0 
-  customer_key: string = 'ck_a32fb9ce427b528e361b6aa4069cbc14be7b4151'; 
+  currentTimestamp: number = 0 ;
+  customer  customer_key: string = 'ck_a32fb9ce427b528e361b6aa4069cbc14be7b4151'; 
   customer_secret: string = 'cs_ad6c7f6631489b1b186f69621cdafa4451129c75';  
-  constructor() { }
+r() { }
 
   authenticateApi(method,url,params) {
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -43,4 +43,6 @@ export class WoocommerceService {
     return url+'?oauth_consumer_key='+this.customer_key+'&oauth_nonce='+this.nonce+'&oauth_signature_method=HMAC-SHA1&oauth_timestamp='+this.currentTimestamp+'&oauth_version=1.0&oauth_signature='+Base64.stringify(hmacSHA1(method+'&'+encodeURIComponent(url)+'&'+encodeURIComponent(signatureStr),this.customer_secret+'&'))+paramStr;
 
   }
-}
+
+
+  }

@@ -16,4 +16,22 @@ export class UserService {
    let myUrl=this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/customers/"+"5",{});
    return this.http.get(myUrl);
   }
+
+  updateUser(user){
+   
+    let param = {
+      first_name: "James",
+      billing: {
+        first_name: "James"
+      },
+      shipping: {
+        first_name: "James"
+      }
+    }
+    console.log(param);
+    let myUrl= this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v2/customers/"+user.id+"",{});
+    console.log(myUrl);
+    return this.http.put(myUrl,param);
+  }
+  
 }
