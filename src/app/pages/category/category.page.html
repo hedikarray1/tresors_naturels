@@ -10,7 +10,7 @@
   <ion-list>
     <div *ngFor="let cat of categorys">
       <ion-item class="item-stable" (click)="goToProductByCategory(cat.name ,cat.id)"
-        [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0">
+        [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0"  >
         {{cat.name}}
       </ion-item>
 
@@ -18,8 +18,9 @@
         *ngIf="cat.children?.length >0">
        
         {{cat.name}}
-        <ion-icon name="caret-down-outline" *ngIf="!isCategoryShown(cat.name)"> </ion-icon>
-        <ion-icon name="caret-forward-outline" *ngIf="isCategoryShown(cat.name)"> </ion-icon>
+        <ion-icon name="chevron-down-outline"  *ngIf="!isCategoryShown(cat.name)"></ion-icon>
+        <ion-icon name="chevron-up-outline" *ngIf="isCategoryShown(cat.name)"></ion-icon>
+        
 
       </ion-item>
       <div *ngIf="isCategoryShown(cat.name)">
