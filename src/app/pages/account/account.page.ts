@@ -21,4 +21,10 @@ this.User=data;
 this.facturation=!this.facturation;
   }
 
+  update(){
+    this.UserService.updateUser().then((data:any)=>{
+      this.User=data;
+          });
+  }
+
 }
