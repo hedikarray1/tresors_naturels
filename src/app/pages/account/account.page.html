@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button color="light">
         <ion-icon slot="start" name="back"></ion-icon>
-        Favorites
+        Profil
       </ion-button>
     </ion-buttons>
     <ion-title>&nbsp;</ion-title>
@@ -21,7 +21,7 @@
         
         <div class="avatar">
           <img src="{{User.avatar_url}}" alt="">
-          <ion-icon name="create-outline"></ion-icon>     
+          <ion-icon name="create-outline" (click)="displayHideUpdateInfosCard()"></ion-icon>     
            </div>
       
       </div>
@@ -38,7 +38,13 @@
 
           </h6>
         </div>
-
+<ion-card *ngIf="update_infosCard">
+  <ion-card-content>
+    <ion-card-title>Modifier mes informations</ion-card-title>
+    <ion-button expand="full">modifier les informations générales</ion-button>
+    <ion-button expand="full">modifier le mot de passe</ion-button>
+  </ion-card-content>
+</ion-card>
         <ion-button (click)="displayHideFacturationCard()" expand="full" color="primary">Informations de facturation</ion-button>
         <ion-card *ngIf="facturation" id="facturation-card">
           <ion-card-content>

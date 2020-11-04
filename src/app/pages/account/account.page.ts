@@ -11,6 +11,8 @@ export class AccountPage implements OnInit {
   livraison= false;
   livraisoninputs=true;
   facturationinputs=true;
+  update_infosCard=false;
+
   livraisonTextButton="Modifier"
   facturationTextButton="Modifier"
   constructor(private UserService:UserService) { }
@@ -22,6 +24,10 @@ export class AccountPage implements OnInit {
   displayHideFacturationCard(){
 this.facturation=!this.facturation;
   }
+
+  displayHideUpdateInfosCard(){
+    this.update_infosCard=!this.update_infosCard;
+      }
 
   displayHideLivraisonCard(){
     this.livraison=!this.livraison;
@@ -61,6 +67,8 @@ this.facturationTextButton="Sauvegarder"
 
     this.UserService.updateUser(this.User).subscribe((data:any)=>{
 this.User=data;
+this.facturation=false;
+this.livraison=false;
     });
   }
 }

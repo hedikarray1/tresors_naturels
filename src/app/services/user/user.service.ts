@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { WoocommerceService } from './../woocommerce.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -19,19 +19,13 @@ export class UserService {
 
   updateUser(user){
    
-    let param = {
-      first_name: "James",
-      billing: {
-        first_name: "James"
-      },
-      shipping: {
-        first_name: "James"
-      }
-    }
-    console.log(param);
-    let myUrl= this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v2/customers/"+user.id+"",{});
-    console.log(myUrl);
-    return this.http.put(myUrl,param);
+   
+    
+    let url1=environment.apiURL+"wc/v3/customers/"+user.id+"?"+this.WoocommerceService.authenticateApiForPost("POST",environment.apiURL+"wc/v3/customers/"+user.id+"",{});
+
+    return this.http.post(url1,user);
   }
   
+
+
 }
