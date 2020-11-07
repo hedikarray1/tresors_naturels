@@ -1,9 +1,8 @@
 
 .img-header {
-   width: 24%;
-  
-   margin-left: 38%;
-} 
+   width: 28%;
+   margin-left: 30%;
+ }
 
 .product-card {
    display: table-cell;
@@ -35,7 +34,7 @@
 
 .product-name {
    font-family: Lato-Regular;
-   font-size: 4vw;
+   font-size: 5vw;
  //  height: 41px !important;
  //  text-align: center;
 }
@@ -76,3 +75,19 @@
    font-size: 4vw;
 
 }
+
+//-------------------------------------
+
+
+.ios component-segment ion-header ion-segment {
+   position: absolute;
+ 
+   top: 50%;
+   left: 50%;
+ 
+   transform: translateX(-50%) translateY(-50%);
+ }
+ 
+ component-segment ion-content ion-segment {
+   margin: 10px auto;
+ }

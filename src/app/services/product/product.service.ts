@@ -31,6 +31,7 @@ export class ProductService {
     let options = {
       observe: "response" as 'body'
     };
+    
      let  params = {
       per_page: '5',
       page: ''+ page ,

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button color="light">
         <ion-icon slot="start" name="back"></ion-icon>
-        Favorites
+        Profil
       </ion-button>
     </ion-buttons>
     <ion-title>&nbsp;</ion-title>
@@ -20,16 +20,16 @@
       <div class="header">
         
         <div class="avatar">
-          <img src="{{User?.avatar_url}}" alt="">
-          <ion-icon slot="end" name="camera"></ion-icon>
-        </div>
+          <img src="{{User.avatar_url}}" alt="">
+          <ion-icon name="create-outline" (click)="displayHideUpdateInfosCard()"></ion-icon>     
+           </div>
       
       </div>
       <div class="card-body">
         <div class="user-meta ion-text-center">
-          <h3 class="playername">{{User?.username}} </h3>
-          <h5 class="country">{{User?.first_name}} {{User?.last_name}}</h5>
-          <h6 class="ranking">{{User?.email}}
+          <h3 class="playername">{{User.username}} </h3>
+          <h5 class="country">{{User.first_name}} {{User.last_name}}</h5>
+          <h6 class="ranking">{{User.email}}
             <!-- 
             <ion-chip>
               <ion-label>2</ion-label>
@@ -38,20 +38,89 @@
 
           </h6>
         </div>
-
+<ion-card *ngIf="update_infosCard">
+  <ion-card-content>
+    <ion-card-title>Modifier mes informations</ion-card-title>
+    <ion-button expand="full">modifier les informations générales</ion-button>
+    <ion-button expand="full">modifier le mot de passe</ion-button>
+  </ion-card-content>
+</ion-card>
         <ion-button (click)="displayHideFacturationCard()" expand="full" color="primary">Informations de facturation</ion-button>
         <ion-card *ngIf="facturation" id="facturation-card">
           <ion-card-content>
             <ion-card-title>Informations de facturation</ion-card-title>
-            <ion-label>Nom</ion-label>
-            <ion-input>{{User?.billing?.last_name}}</ion-input>
-            <ion-label>Prenom</ion-label>
-            <ion-input>{{User?.billing?.first_name}}</ion-input>
-            <ion-button expand="full">Modifier</ion-button>
+            <ion-item>
+              <ion-label position="floating">Nom</ion-label>
+              <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.last_name" placeholder="Votre nom"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Prenom</ion-label>
+              <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.first_name" placeholder="Votre prenom"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Adresse 1</ion-label>
+              <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.address_1" placeholder="Votre adresse 1"></ion-input>
+            </ion-item> <ion-item>
+              <ion-label position="floating">Adresse 2</ion-label>
+              <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.address_2" placeholder="Votre adresse 2"></ion-input>
+            </ion-item> <ion-item>
+              <ion-label position="floating">Ville</ion-label>
+              <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.city" placeholder="Votre ville"></ion-input>
+            </ion-item>
+           <ion-item>
+            <ion-label position="floating">Pays</ion-label>
+            <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.country" placeholder="Votre pays"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Code postal</ion-label>
+            <ion-input  readonly="{{facturationinputs}}" [(ngModel)]="User.billing.postcode" placeholder="code postal"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input readonly="{{facturationinputs}}" placeholder="Votre adresse électronique" [(ngModel)]="User.billing.email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Téléphone</ion-label>
+            <ion-input readonly="{{facturationinputs}}" placeholder="Votre numéro de téléphone" [(ngModel)]="User.billing.phone"></ion-input>
+          </ion-item>
+            <ion-button (click)="FacturationAction()" expand="full">{{facturationTextButton}}</ion-button>
           </ion-card-content>
         </ion-card>
-        <ion-button expand="full" color="secondary">Informations de livraison</ion-button>
-        <ion-button expand="full" color="secondary" (click)="update()">View profile at ATP</ion-button>
+        <ion-button expand="full"  (click)="displayHideLivraisonCard()" color="secondary">Informations de livraison</ion-button>
+        <ion-card *ngIf="livraison" id="facturation-card">
+          <ion-card-content>
+            <ion-card-title>Informations de livraison</ion-card-title>
+            <ion-item>
+              <ion-label position="floating">Nom</ion-label>
+              <ion-input readonly="{{livraisoninputs}}" placeholder="Votre nom" [(ngModel)]="User.shipping.last_name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Prenom</ion-label>
+              <ion-input readonly="{{livraisoninputs}}" placeholder="Votre nom" [(ngModel)]="User.shipping.first_name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Adresse 1</ion-label>
+              <ion-input readonly="{{livraisoninputs}}" placeholder="Votre adresse 1" [(ngModel)]="User.shipping.address_1"></ion-input>
+            </ion-item> <ion-item>
+              <ion-label position="floating">Adresse 2</ion-label>
+              <ion-input readonly="{{livraisoninputs}}" placeholder="Votre adresse 2" [(ngModel)]="User.shipping.address_2"></ion-input>
+            </ion-item> <ion-item>
+              <ion-label position="floating">Ville</ion-label>
+              <ion-input readonly="{{livraisoninputs}}" placeholder="Votre ville" [(ngModel)]="User.shipping.city"></ion-input>
+            </ion-item>
+           <ion-item>
+            <ion-label position="floating">Pays</ion-label>
+            <ion-input readonly="{{livraisoninputs}}" placeholder="Votre pays" [(ngModel)]="User.shipping.country"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Code postal</ion-label>
+            <ion-input readonly="{{livraisoninputs}}" placeholder="code postal" [(ngModel)]="User.shipping.postcode"></ion-input>
+          </ion-item>
+           
+            <ion-button (click)="LivraisonAction()"  expand="full">{{livraisonTextButton}}</ion-button>
+          </ion-card-content>
+        </ion-card>
+
         <br/>
         <br/>
         <br/>
