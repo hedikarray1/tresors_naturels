@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 const USER_CART = 'cart-user';
+const USER_STATE = 'user-state';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class StorageService {
   signOut() {
     window.sessionStorage.clear();
   }
+
 
   public saveToken(token: string) {
     window.sessionStorage.removeItem(TOKEN_KEY);
@@ -35,12 +37,24 @@ export class StorageService {
     return JSON.parse(sessionStorage.getItem(USER_KEY));
   }
 
-  public savePanier(panier :any[]) {
+  public saveCart(panier :any[]) {
     window.sessionStorage.removeItem(USER_CART);
     window.sessionStorage.setItem(USER_CART, JSON.stringify(panier));
   }
 
-  public getPanier() :any[] {
+  public getCart() :any[] {
     return JSON.parse(sessionStorage.getItem(USER_CART));
+  }
+
+  
+  public saveUserState(state) {
+    window.sessionStorage.removeItem(USER_STATE);
+    window.sessionStorage.setItem(USER_STATE, state);
+  }
+
+  public getUserState()  {
+    if (sessionStorage.getItem(USER_STATE) == "true")
+       return true;
+    return false ;
   }
 }

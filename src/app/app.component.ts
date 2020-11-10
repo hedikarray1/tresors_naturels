@@ -1,3 +1,4 @@
+import { StorageService } from './services/storage/storage.service';
 import { PanierService } from './services/panier/panier.service';
 import { PanierModalPage } from './pages/panier-modal/panier-modal.page';
 import { Component, OnInit  } from '@angular/core';
@@ -50,6 +51,11 @@ export class AppComponent implements OnInit {
       icon: 'mail'
     }, 
     {
+      title: 'Panier',
+      url: 'bottom-navigation/panier',
+      icon: 'bag-handle'
+    },
+    {
       title: 'Account',
       url: 'bottom-navigation/account',
       icon: 'person'
@@ -60,6 +66,8 @@ export class AppComponent implements OnInit {
       icon: 'log-out'
     },
   ];
+
+  
   public labels = [
     {
       title: 'Account',
@@ -75,15 +83,12 @@ export class AppComponent implements OnInit {
 ];
 
 
-   cart = [];
-  cartItemCount: number ;
-
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
-    private panierService : PanierService
+    private storageService : StorageService
   ) {
     this.initializeApp();
   }
@@ -101,37 +106,16 @@ export class AppComponent implements OnInit {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
 
-    this.cart = this.panierService.getCart();
-   // this.cartItemCount = this.panierService.getCartItemCount();
+    let user= {
+      id : 5
+    }
+    this.storageService.saveUser(user);
+    this.storageService.saveUserState(true);
+
+    console.log("user connecte",this.storageService.getUser());
+  
   }
 
   
-  async openCart() {
-  //  this.animateCSS('bounceOutLeft', true);
- 
-    let modal = await this.modalCtrl.create({
-      component: PanierModalPage,
-      cssClass: 'cart-modal'
-    });
-    modal.onWillDismiss().then(() => {
-   //   this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
-    //  this.animateCSS('bounceInLeft');
-    });
-    modal.present();
-  }
- /*
-  animateCSS(animationName, keepAnimated = false) {
-    const node = this.fab.nativeElement;
-    node.classList.add('animated', animationName)
-    
-    //https://github.com/daneden/animate.css
-    function handleAnimationEnd() {
-      if (!keepAnimated) {
-        node.classList.remove('animated', animationName);
-      }
-      node.removeEventListener('animationend', handleAnimationEnd)
-    }
-    node.addEventListener('animationend', handleAnimationEnd)
-  }
-*/
+  
 }
