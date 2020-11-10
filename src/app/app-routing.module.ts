@@ -38,7 +38,8 @@ const routes: Routes = [
   {
     path: 'product-by-category/:category/:id',
     loadChildren: () => import('./pages/product-by-category/product-by-category.module').then( m => m.ProductByCategoryPageModule)
-  },  {
+  },
+  {
     path: 'qui-sommes-nous',
     loadChildren: () => import('./pages/qui-sommes-nous/qui-sommes-nous.module').then( m => m.QuiSommesNousPageModule)
   },
