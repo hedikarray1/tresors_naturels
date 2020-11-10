@@ -62,7 +62,11 @@ const routes: Routes = [
   {
     path: 'panier-modal',
     loadChildren: () => import('./pages/panier-modal/panier-modal.module').then( m => m.PanierModalPageModule)
+  },  {
+    path: 'order',
+    loadChildren: () => import('./pages/order/order.module').then( m => m.OrderPageModule)
   },
+
 
 
 
