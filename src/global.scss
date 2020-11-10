@@ -26,6 +26,16 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
+ 
+.cart-modal {
+  //--height: 75%;
+  --max-height: 75%;
+  --min-height: 50%;
+  --border-radius: 10px;
+  padding: 25px;
+}
+
+
 @font-face {
     font-family: 'Cormorant-Regular';
     

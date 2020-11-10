@@ -1,10 +1,14 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button>Retour</ion-back-button>
+    </ion-buttons>
+    
     <img class="img-header" src="../../../assets/logo/logo.png">
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="datashow">
   <ion-card class="product-card">
   
       <div class="product-image-container">
@@ -16,12 +20,9 @@
       <ion-card-header class="product-info-container">
      
         <div class="product-name"><strong>{{product?.name}}</strong></div>
-     </ion-card-header>
-       
-        <ion-card-header class="product-info-container">
+     
           <div class="container-row">
-            <div class="product-price" [innerHTML]="product?.price_html"></div>
-            <div class="product-short_description" [innerHTML]="product?.short_description" *ngIf="product?.description != ''"></div>  
+            <div class="product-price" [innerHTML]="product?.price_html"></div> 
           </div>
           <br/>
         <label class="text-size"><strong>Catégory</strong> : </label>
@@ -32,12 +33,36 @@
         
         </ion-card-header>
      
+   
+      <ion-segment  [(ngModel)]="segmentValue">
+        <ion-segment-button value="description" *ngIf="product?.description != ''">
+          <ion-label>Description</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="information" *ngIf="product?.short_description != '' || product?.attributes != '' ">
+          <ion-label>Informations</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+     <div *ngIf="segmentValue == 'information'">
+     <!--
+      <ul class="product-short_description" *ngIf="product?.short_description != ''">
+        <strong>Contenance</strong>
+        <li class="product-short_description" [innerHTML]="product?.short_description" ></li>
+      </ul>
 
-     <label class="text-size"><strong>Description</strong></label>
-     <br/>
-     <div class="product-short_description" [innerHTML]="product?.short_description" *ngIf="product?.description == ''"></div>  
-        
-      <div class="product-description" [innerHTML]="product?.description"></div>
+      <ul class="product-short_description">
+       <strong> {{product?.attributes[0]?.name}}</strong> 
+        <li class="product-short_description" *ngFor="let att of product?.attributes[0]?.options"> {{att}}</li>
+      </ul>
+      -->
+
+      <ul class="product-short_description" >
+        <strong>Contenance</strong>
+        <li class="product-short_description" [innerHTML]="product?.short_description" ></li>
+        <li class="product-short_description" *ngFor="let att of product?.attributes[0]?.options" [innerHTML]="att"> </li>
+      </ul>
+     </div>
+       
+      <div  *ngIf="segmentValue == 'description'" class="product-description" [innerHTML]="product?.description"></div>
     </ion-card-content>
   </ion-card>
 </ion-content>

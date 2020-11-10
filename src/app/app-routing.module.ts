@@ -38,7 +38,31 @@ const routes: Routes = [
   {
     path: 'product-by-category/:category/:id',
     loadChildren: () => import('./pages/product-by-category/product-by-category.module').then( m => m.ProductByCategoryPageModule)
+  },  {
+    path: 'qui-sommes-nous',
+    loadChildren: () => import('./pages/qui-sommes-nous/qui-sommes-nous.module').then( m => m.QuiSommesNousPageModule)
   },
+  {
+    path: 'engagements',
+    loadChildren: () => import('./pages/engagements/engagements.module').then( m => m.EngagementsPageModule)
+  },
+  {
+    path: 'paiement-et-livraison',
+    loadChildren: () => import('./pages/paiement-et-livraison/paiement-et-livraison.module').then( m => m.PaiementEtLivraisonPageModule)
+  },
+  {
+    path: 'contactez-nous',
+    loadChildren: () => import('./pages/contactez-nous/contactez-nous.module').then( m => m.ContactezNousPageModule)
+  },
+  {
+    path: 'panier',
+    loadChildren: () => import('./pages/panier/panier.module').then( m => m.PanierPageModule)
+  },
+  {
+    path: 'panier-modal',
+    loadChildren: () => import('./pages/panier-modal/panier-modal.module').then( m => m.PanierModalPageModule)
+  },
+
 
 
 

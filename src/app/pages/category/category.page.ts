@@ -63,7 +63,7 @@ isCategoryShown(category) {
 };
 
 goToProductByCategory(category ,id){
-  this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
+  this.router.navigateByUrl('product-by-category/'+category+"/"+id);
 }
 
 }

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BottomNavigationPageRoutingModule } from './bottom-navigation-routing.module';
 
 import { BottomNavigationPage } from './bottom-navigation.page';
+import { PanierModalPageModule } from '../panier-modal/panier-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BottomNavigationPageRoutingModule
+    BottomNavigationPageRoutingModule,
+    PanierModalPageModule
   ],
   declarations: [BottomNavigationPage]
 })

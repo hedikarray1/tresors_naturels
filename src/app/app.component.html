@@ -1,3 +1,38 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-content>
+      <img class="img-logo" src="../assets/logo/logo-blanc.png">
+      <ion-list id="inbox-list">
+
+       
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+          <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
+            detail="false" [class.selected]="selectedIndex == i">
+            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-outline'"></ion-icon>
+            <ion-label>{{ p.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false" >
+          <ion-item (click)="openCart()" lines="none" detail="false" >
+            <ion-icon slot="start" [ios]="'bag-handle-outline'" [md]="'bag-handle-outline'"></ion-icon>
+            <ion-label>Panier</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+      <!--
+      <ion-list id="labels-list" end>
+        
+
+        <ion-item *ngFor="let label of labels" lines="none">
+          <ion-icon slot="start" [ios]="label.icon + '-outline'" [md]="label.icon + '-outline'"></ion-icon>
+          <ion-label>{{ label.title }}</ion-label>
+        </ion-item>
+      </ion-list>
+    -->
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

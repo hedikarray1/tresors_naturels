@@ -1,20 +1,118 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header >
+  <ion-toolbar class="header">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    
+    <img class="img-header" src="../../../assets/logo/logo.png">
+    
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content padding>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-slides class="slides" [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide  class="slide" >
+      <ion-col class="slide-col">
+        <img class="slide-img"  src="../../assets/slides/slider-final-1300x900.png" >
+      </ion-col>
+    </ion-slide>
+   
+  </ion-slides>
+
+  <div class="naturelle-txt" >naturelle</div>
+  <div class="category" >UNE MARQUE UNE HISTOIRE</div>
+  <div class="subcategory" >Cosmétiques sains & naturels</div>
+<br/>
+<br/>
+
+<div class="category-container">
+  <p>COFFRETS</p>
+</div>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let productc of productsCoffrets" class="slide-product" >
+      <ion-card class="product-card" >
+        <div class="product-image-container">
+          <img src="{{productc?.images[0]?.src}}" />
+        </div>
+        <ion-card-content>
+          <div class="product-name">{{productc?.name}}</div>
+          <div class="product-category-container">
+            <span class="product-category" *ngFor="let category of productc?.categories"> {{category?.name}},</span>
+          </div>
+          <div class="product-price" [innerHTML]="productc?.price_html"></div>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-slide>
+  </ion-slides>
+
+<br/>
+<div class="category-container">
+  <p>BELLE AMBIANCE</p>
+</div>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let productba of productsBelleAmbiance" class="slide-product" >
+      <ion-card class="product-card" >
+        <div class="product-image-container">
+          <img src="{{productba?.images[0]?.src}}" />
+        </div>
+        <ion-card-content>
+          <div class="product-name">{{productba?.name}}</div>
+          <div class="product-category-container">
+            <span class="product-category" *ngFor="let category of productba?.categories"> {{category?.name}},</span>
+          </div>
+          <div class="product-price" [innerHTML]="productba?.price_html"></div>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-slide>
+  </ion-slides>
+
+  
+<br/>
+<div class="category-container">
+  <p>BELLE ENVOLÉE</p>
+</div>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let productbe of productsBelleEnvolee" class="slide-product" >
+      <ion-card class="product-card" >
+        <div class="product-image-container">
+          <img src="{{productbe?.images[0]?.src}}" />
+        </div>
+        <ion-card-content>
+          <div class="product-name">{{productbe?.name}}</div>
+          <div class="product-category-container">
+            <span class="product-category" *ngFor="let category of productbe?.categories"> {{category?.name}},</span>
+          </div>
+          <div class="product-price" [innerHTML]="productbe?.price_html"></div>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-slide>
+  </ion-slides>
+
+   
+<br/>
+<div class="category-container">
+  <p>BELLE SENSUELLE</p>
+</div>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let productbs of productsBelleSensuelle" class="slide-product" >
+      <ion-card class="product-card" >
+        <div class="product-image-container">
+          <img src="{{productbs?.images[0]?.src}}" />
+        </div>
+        <ion-card-content>
+          <div class="product-name">{{productbs?.name}}</div>
+          <div class="product-category-container">
+            <span class="product-category" *ngFor="let category of productbs?.categories"> {{category?.name}},</span>
+          </div>
+          <div class="product-price" [innerHTML]="productbs?.price_html"></div>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-slide>
+  </ion-slides>
+
 </ion-content>

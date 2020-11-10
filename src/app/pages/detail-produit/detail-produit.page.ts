@@ -10,6 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DetailProduitPage implements OnInit {
 
+  segmentValue = ""  ;
+  datashow = false ;
+
   product : any ;
   constructor(
     private loadingController : LoadingController,
@@ -24,9 +27,22 @@ export class DetailProduitPage implements OnInit {
     this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).subscribe((data: any) => {
       console.log(data);
       this.product = data;
+      this.setSegmentValue();
+      this.datashow =true ;
        loading.dismiss();
     });
   }
 
+
+  setSegmentValue(){
+    if (this.product?.description != ''){
+      this.segmentValue = "description" ;
+    }else if (this.product?.short_description != ''){
+      this.segmentValue = "information" ;
+    }else if (this.product?.attributes != ''){
+      this.segmentValue = "information" ;
+    }
+
+  }
 
 }

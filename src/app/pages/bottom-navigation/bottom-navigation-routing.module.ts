@@ -14,20 +14,15 @@ const routes: Routes = [
         children:[
           {
             path:"",
-            loadChildren: () => import('../all-products/all-products.module').then( m => m.AllProductsPageModule)
+            loadChildren: () => import('../../home/home.module').then( m => m.HomePageModule)
           }
         ],          
 
       },
         {
           path:"all-products",
-          children:[
-            {
-              path:"",
-              loadChildren: () => import('../all-products/all-products.module').then( m => m.AllProductsPageModule)
-            }
-          ],          
-
+           loadChildren: () => import('../all-products/all-products.module').then( m => m.AllProductsPageModule)
+        
         },
         {
           path: 'account',
@@ -41,7 +36,25 @@ const routes: Routes = [
           path: 'product-by-category/:category/:id',
           loadChildren: () => import('../product-by-category/product-by-category.module').then( m => m.ProductByCategoryPageModule)
         },
-      
+        {
+          path: 'home',
+          loadChildren: () => import('../../home/home.module').then( m => m.HomePageModule)
+        },{
+          path: 'qui-sommes-nous',
+          loadChildren: () => import('../qui-sommes-nous/qui-sommes-nous.module').then( m => m.QuiSommesNousPageModule)
+        },
+        {
+          path: 'engagements',
+          loadChildren: () => import('../engagements/engagements.module').then( m => m.EngagementsPageModule)
+        },
+        {
+          path: 'paiement-et-livraison',
+          loadChildren: () => import('../paiement-et-livraison/paiement-et-livraison.module').then( m => m.PaiementEtLivraisonPageModule)
+        },
+        {
+          path: 'contactez-nous',
+          loadChildren: () => import('../contactez-nous/contactez-nous.module').then( m => m.ContactezNousPageModule)
+        },
       
     ],
   }

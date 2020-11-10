@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    
+    <img class="img-header" src="../../../assets/logo/logo.png">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="category-container">
+    <p>CONTACTEZ NOUS</p>
+  </div>
+  <div class="ion-padding">
+    <div class="naturelle-txt">Tresors Naturels</div>
+    <div class="title">QUE POUVONS-NOUS FAIRE POUR VOUS</div>
+    <p class="subtitle">Nous serons toujours à votre écoute</p>
+  </div>
+  <form (ngSubmit)="submit()" [formGroup]="contactForm">
+
+  
+
+    <ion-item>
+      <ion-label position="floating" >Votre Nom (obligatoire)</ion-label>
+      <ion-input type="text" placeholder="Nom" formControlName="nom" class="form-controll" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Votre Email (obligatoire)</ion-label>
+      <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Sujet</ion-label>
+      <ion-input type="text" placeholder="Sujet" formControlName="sujet"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Votre message</ion-label>
+      <!--ion-input type="textarea" placeholder="message" formControlName="message" line="4"></!--ion-input-->
+      <ion-textarea formControlName="message" rows="5" (keyup)="adjustTextarea($event)" ></ion-textarea>
+    </ion-item>
+
+    <ion-button type="submit" expand="block" [disabled]="!contactForm.valid">ENVOYER</ion-button>
+
+  </form>
+</ion-content>

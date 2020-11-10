@@ -17,9 +17,44 @@ export class ProductService {
 
   
 
-  getAllProductsWooCommerce(){
-    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",{});
-   return this.http.get(myUrl);
+  getAllProductsWooCommercePerPage(page =1){
+    let options = {
+      observe: "response" as 'body'
+    };
+    
+     let  params = {
+      per_page: '5',
+      page: ''+ page 
+    };
+    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
+   return this.http.get(myUrl,options).pipe(  map((res:any[])=>{
+    this.pages = res['headers'].get('x-wp-totalpages');
+    this.totalProducts = res['headers'].get('x-wp-total');
+    let data = res['body'];
+    return data ;
+   })); 
+  }
+
+  getAllProductsWooCommerce(count){
+
+    
+    let options = {
+      observe: "response" as 'body'
+    };
+    
+     let  params = {
+      per_page: ""+ count
+    };
+
+    console.log("params recherche",params);
+    
+    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
+   return this.http.get(myUrl,options).pipe(  map((res:any[])=>{
+    this.pages = res['headers'].get('x-wp-totalpages');
+    this.totalProducts = res['headers'].get('x-wp-total');
+    let data = res['body'];
+    return data ;
+   })); 
   }
 
   getproduct(id){
@@ -31,6 +66,7 @@ export class ProductService {
     let options = {
       observe: "response" as 'body'
     };
+    
      let  params = {
       per_page: '5',
       page: ''+ page ,
