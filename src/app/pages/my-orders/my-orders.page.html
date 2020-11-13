@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>my-orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let order of orders" class="action-card">
+   
+    <ion-card-header>
+     <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
+      <ion-card-title>Commande N° {{order.number}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="card-content">
+
+      <ion-grid>
+        
+          <ion-row>
+            <ion-col size="8">
+              Total:
+          </ion-col>
+          <ion-col size="4">  {{order.total}} {{order.currency}} </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="8">
+            Méthode de paiement:
+        </ion-col>
+        <ion-col size="4"> {{order.payment_method_title}} </ion-col>
+      </ion-row>
+       <ion-row>
+            <ion-col size="8" >
+            <ion-chip  outline color="{{status[order.status].color}}">
+              <ion-label  color="{{status[order.status].color}}" >{{status[order.status].title}}</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col class="to-details-col" size="4">
+           
+            <a  class="to_details" (click)="toDetails(order.id)" >
+              plus de details
+            </a>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

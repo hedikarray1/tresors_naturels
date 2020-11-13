@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -15,7 +16,7 @@ export class AccountPage implements OnInit {
 
   livraisonTextButton="Modifier"
   facturationTextButton="Modifier"
-  constructor(private UserService:UserService) { }
+  constructor(private UserService:UserService,private StorageService:StorageService) { }
   
  User:any={};
   ngOnInit() {
@@ -59,7 +60,7 @@ this.facturationTextButton="Sauvegarder"
   }
 
   getUserData(){
-    this.UserService.getUsetByEmail().subscribe((data:any)=>{
+    this.UserService.getUserById(this.StorageService.getUser().id).subscribe((data:any)=>{
       this.User=data;
           });
   }

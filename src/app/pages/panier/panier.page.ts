@@ -17,18 +17,7 @@ export class PanierPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getPanier(5);
   }
 
-  getPanier(id){
-    this.panierServie.getPanierFromServer(id).subscribe((res: any[]) => {
-      console.log("panier",res);
-      this.panier = res['data'] ;
-    })
-  }
-
-  addToPanier(id,produits){
-
-  }
 
 }

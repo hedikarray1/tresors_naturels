@@ -1,5 +1,7 @@
 {
   "name": "tresors_naturels",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

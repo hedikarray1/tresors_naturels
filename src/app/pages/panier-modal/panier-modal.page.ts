@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
@@ -11,13 +12,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PanierModalPage implements OnInit {
 
-  panier: any[];
+  panier: any[]=[];
   userState: boolean = false;
 
   constructor(
     private panierService: PanierService,
     private modalCtrl: ModalController,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private Router:Router
   ) { }
 
   ngOnInit() {
@@ -129,5 +131,11 @@ console.log("panier",this.panier);
     }
 
   }
+
+  checkout(){
+    this.Router.navigateByUrl('order');
+
+  }
+
 
 }

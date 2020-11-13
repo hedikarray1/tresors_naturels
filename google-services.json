@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1023662903537",
+    "firebase_url": "https://site-tresor-7c14e.firebaseio.com",
+    "project_id": "site-tresor-7c14e",
+    "storage_bucket": "site-tresor-7c14e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023662903537:android:08493d82a8fc6a2dc51950",
+        "android_client_info": {
+          "package_name": "com.societe2i.sitetresor2020"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023662903537-olmddrg8kcmtbhfj04hu7t0ap4bondft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXMZR0FapqdzSK9rdpe-waDOjfMdFHOhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023662903537-olmddrg8kcmtbhfj04hu7t0ap4bondft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

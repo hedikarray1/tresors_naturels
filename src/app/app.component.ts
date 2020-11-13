@@ -1,3 +1,4 @@
+import { FCM } from '@ionic-native/fcm/ngx';
 import { StorageService } from './services/storage/storage.service';
 import { PanierService } from './services/panier/panier.service';
 import { PanierModalPage } from './pages/panier-modal/panier-modal.page';
@@ -88,7 +89,8 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
-    private storageService : StorageService
+    private storageService : StorageService,
+    private fcm: FCM
   ) {
     this.initializeApp();
   }
@@ -97,6 +99,21 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.fcm.getToken().then(token => {
+        console.log(token);
+        // send token to the server
+      });
+
+      this.fcm.onNotification().subscribe(data => {
+        console.log(data);
+        if (data.wasTapped) {
+          console.log('Received in background');
+
+        } else {
+          console.log('Received in foreground');
+        }
+      });
+
     });
   }
 
@@ -107,7 +124,7 @@ export class AppComponent implements OnInit {
     }
 
     let user= {
-      id : 5
+      id : 262
     }
     this.storageService.saveUser(user);
     this.storageService.saveUserState(true);

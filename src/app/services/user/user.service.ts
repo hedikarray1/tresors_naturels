@@ -13,9 +13,9 @@ export class UserService {
   customer_key: string = 'ck_a32fb9ce427b528e361b6aa4069cbc14be7b4151';
   customer_secret: string = 'cs_ad6c7f6631489b1b186f69621cdafa4451129c75';
 */
-  getUsetByEmail() {
+  getUserById(id) {
 
-    let myUrl = this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/customers/" + "5", {});
+    let myUrl = this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/customers/" + id, {});
     return this.http.get(myUrl);
   }
 
