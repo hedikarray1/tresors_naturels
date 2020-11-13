@@ -13,7 +13,6 @@ export class AuthService {
 
   login(credentials) {
     return this.http.post(environment.apiURL + 'jwt-auth/v1/token', credentials);
-
   }
   logout(){
 

@@ -26,6 +26,17 @@ export class PanierService {
 
   }
 
+  
+  emptyCartFromServer() {
+
+    let  params = {
+     user_id: this.storageService.getUser().id
+   };
+   let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/emptyCart",params);
+  return this.http.get(myUrl);
+
+ }
+
   addToCartOnServer(produits) {
 
     let  params = {

@@ -1,3 +1,4 @@
+import { PopoverCardProductPageModule } from './pages/popovers/popover-card-product/popover-card-product.module';
 import { PanierModalPageModule } from './pages/panier-modal/panier-modal.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    PanierModalPageModule
+    PanierModalPageModule,
+    PopoverCardProductPageModule
   ],
   providers: [
     HttpClientModule,

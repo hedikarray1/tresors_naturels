@@ -1,0 +1,27 @@
+
+      <div class="card-input-container">
+
+        <ion-button (click)="removeItem()" fill="clear" color="dark"[disabled]="itemQty<2" >
+          <ion-icon name="remove-circle-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="clear" color="dark">
+        {{itemQty}}
+        </ion-button>
+
+        <ion-button (click)="addItem()" fill="clear" color="dark">
+          <ion-icon name="add-circle-outline"></ion-icon>
+        </ion-button>
+
+      
+        
+        
+      </div>
+  
+
+  <ion-button class="icon-add-item" class="button-add" (click)="addToCart(product)" fill="outline" color="dark">
+      
+    <ion-icon name="cart-outline" slot="start"></ion-icon>
+    Ajouter au panier
+  </ion-button>
+

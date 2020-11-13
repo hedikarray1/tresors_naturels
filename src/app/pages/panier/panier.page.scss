@@ -1,4 +1,4 @@
-.img-header {
+/*.img-header {
     width: 28%;
     margin-left: 30%;
   }
@@ -69,5 +69,40 @@
     font-size: 6vw;
     text-align: center;
  }
+ */
+ //-------------------------------------------
  
+ion-item {
+    border-radius: 5px;
+    margin-bottom: 2%;
+}
+
+.item-total {
+    margin: 4% 0% ;
+    border-radius: 0px;
+}
+
+.cart-input-container {
+   display: flex;
+   flex-direction: row;
+   justify-content: start;
+
+}
+
+.cart_item-quantity {
+   font-family: Cormorant-SemiBoldItalic;
+    font-size: 2vw;
+ }
+
  
+ .product-name {
+   font-family: Lato-Regular;
+   font-size: 3vw;
+}
+
+.item-totale {
+   border-radius: 0px  !important;
+}
+.button-save {
+   margin: 4%;
+}

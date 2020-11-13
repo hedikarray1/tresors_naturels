@@ -1,6 +1,8 @@
+import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-by-category',
@@ -14,10 +16,12 @@ export class ProductByCategoryPage implements OnInit {
   idCategory : any;
   page = 1;
   count = null;
+  rep = /&amp;/gi;
 
   constructor(
     private poductService : ProductService,
     private route: ActivatedRoute,
+    private popoverController : PopoverController,
     private router : Router,
   ) { }
 
@@ -53,6 +57,19 @@ loadMore(event) {
 
 goToDetail(id) {
   this.router.navigateByUrl('detail-produit/' + id);
+}
+
+
+async showPopover(event: MouseEvent,product) {
+  const popover = await this.popoverController.create({
+    component: PopoverCardProductPage,
+    componentProps: {
+      "id": product.id,
+      "product": product,    
+      },
+    translucent: true
+  });
+  return popover.present();
 }
 
 }

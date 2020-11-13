@@ -1,3 +1,4 @@
+import { PopoverCardProductPageModule } from './../popovers/popover-card-product/popover-card-product.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,8 @@ import { ProductByCategoryPage } from './product-by-category.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProductByCategoryPageRoutingModule
+    ProductByCategoryPageRoutingModule,
+    PopoverCardProductPageModule
   ],
   declarations: [ProductByCategoryPage]
 })

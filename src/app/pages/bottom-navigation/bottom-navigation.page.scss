@@ -1,6 +1,6 @@
 
 ion-tab-button , ion-tab-bar , ion-tabs{
-	background: #2e2e2e;
+	background: var(--tresorsBlack);
 }
 
 ion-icon {
@@ -13,4 +13,16 @@ ion-label {
 .img-header {
 	width: 28%;
 	margin-left: 30%;
+  }
+
+
+  .tab-selected {
+	
+	ion-label {
+	  color: var(--menuhous);
+	}
+
+	ion-icon {
+		color: var(--menuhous);
+	  }
   }

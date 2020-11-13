@@ -1,3 +1,4 @@
+import { StorageService } from './../../services/storage/storage.service';
 import { async } from '@angular/core/testing';
 import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +20,8 @@ export class LoginPage implements OnInit {
     private alertController : AlertController,
     private router : Router,
     private loadingController : LoadingController,
-    private authService : AuthService
+    private authService : AuthService,
+    private storageService : StorageService
   ) { }
 
   ngOnInit() {
@@ -34,14 +36,22 @@ export class LoginPage implements OnInit {
      await loading.present();
 
      this.authService.login(this.credentiels.value).subscribe(
-       async (res) => {
+       async (res : any) => {
+        console.log("succes",res);
          await loading.dismiss();
-         this.router.navigateByUrl('/all-products' , {replaceUrl : true});
+         this.storageService.saveToken(res.token) ;
+         let user ={
+           id : res.user_id
+         }
+         this.storageService.saveUser(user);
+         this.storageService.saveUserState(true);
+         this.router.navigateByUrl('/bottom-navigation' , {replaceUrl : true});
        }, async (res) => {
          await loading.dismiss();
+         console.log("error",res);
          const alert = await this.alertController.create({
            header : 'login failer',
-           message : res.error.error ,
+           message : res.error.message ,
            buttons : ['OK'],
          }) ;
          await alert.present();

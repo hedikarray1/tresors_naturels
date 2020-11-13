@@ -13,15 +13,19 @@
     <p class="category-name">{{category}}</p>
   </div>
 
-<div class="card-container" *ngFor="let product of products" (click)="goToDetail(product?.id)">
+<div class="card-container" *ngFor="let product of products" >
   <ion-card class="product-card" >
-    <div class="product-image-container">
+    <ion-button class="icon-add-item" *ngIf="product?.type == 'simple'" (click)="showPopover($event,product)" fill="clear" color="dark">
+      
+      <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+    </ion-button>
+    <div class="product-image-container" (click)="goToDetail(product?.id)">
       <img src="{{product?.images[0]?.src}}" />
     </div>
-    <ion-card-content>
+    <ion-card-content (click)="goToDetail(product?.id)">
       <div class="product-name">{{product?.name}}</div>
       <div class="product-category-container">
-        <span class="product-category" *ngFor="let category of product?.categories"> {{category?.name}},</span>
+        <span class="product-category" *ngFor="let category of product?.categories"> {{category?.name?.replace(rep,'&')}},</span>
       </div>
       <div class="product-price" [innerHTML]="product?.price_html"></div>
     </ion-card-content>

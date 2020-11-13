@@ -9,8 +9,8 @@ export class WoocommerceService {
   nonce: string = ''
   currentTimestamp: number = 0 
   ck_4219ba5725ae8441281c5a9aa53d435c65908b2f
-  customer_key: string = 'ck_4a92bcb1b1713654e98d65328b3b6216c000f08c'; 
-  customer_secret: string = 'cs_07aa20773656d90725cdf9860d347e84d4180fc7';  
+  customer_key: string = 'ck_4219ba5725ae8441281c5a9aa53d435c65908b2f'; 
+  customer_secret: string = 'cs_2c0a74624396d18c32274ad504ff0326c669bdcf';  
   constructor() { }
   
 
