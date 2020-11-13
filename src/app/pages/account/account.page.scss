@@ -26,8 +26,8 @@ ion-chip {
         height: 200px; // 20vh;
 
         .avatar {
-            width: 160px; //40vw
-            height: 160px;
+            width: 110px;
+            height: 150px;
             position: relative;
             margin: 0 auto;
 
@@ -38,6 +38,8 @@ ion-chip {
                 bottom: calc(-1*(80px + 4px)); // -42px;
                 border: 8px solid #9Dc912;
                 background-color: #fff;
+                width: 110px;
+                height: 110px;
             }
             ion-icon{
                 display: block;
@@ -56,6 +58,7 @@ ion-chip {
     background-color: #ffffff;
     padding: 10px 30px;
  //   height: calc(100vh - (200px + 56px));
+    margin-top: 10px;
     overflow: hidden;
 
     .user-meta {

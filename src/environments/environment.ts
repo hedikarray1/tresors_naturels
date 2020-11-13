@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL : "http://localhost/site-tresors/wp-json/",
-  serverURL : "http://localhost/site-tresors/",
+  apiURL : "https://laboratoiretresorsnaturels.tn/wp-json/",
+  serverURL : "https://laboratoiretresorsnaturels.tn/",
 };
 
 /*

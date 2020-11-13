@@ -21,7 +21,7 @@
         
         <div class="avatar">
           <img src="{{User.avatar_url}}" alt="">
-          <ion-icon name="create-outline" (click)="displayHideUpdateInfosCard()"></ion-icon>     
+             
            </div>
       
       </div>
@@ -45,7 +45,14 @@
     <ion-button expand="full">modifier le mot de passe</ion-button>
   </ion-card-content>
 </ion-card>
-        <ion-button (click)="displayHideFacturationCard()" expand="full" color="primary">Informations de facturation</ion-button>
+<ion-segment value="call">
+  <ion-segment-button (click)="displayHideFacturationCard()" value="call">
+    <ion-label>Facturation</ion-label>
+  </ion-segment-button>
+  <ion-segment-button (click)="displayHideLivraisonCard()"  value="favorite">
+    <ion-label>Livraison</ion-label>
+  </ion-segment-button>
+</ion-segment>
         <ion-card *ngIf="facturation" id="facturation-card">
           <ion-card-content>
             <ion-card-title>Informations de facturation</ion-card-title>
@@ -86,7 +93,6 @@
             <ion-button (click)="FacturationAction()" expand="full">{{facturationTextButton}}</ion-button>
           </ion-card-content>
         </ion-card>
-        <ion-button expand="full"  (click)="displayHideLivraisonCard()" color="secondary">Informations de livraison</ion-button>
         <ion-card *ngIf="livraison" id="facturation-card">
           <ion-card-content>
             <ion-card-title>Informations de livraison</ion-card-title>

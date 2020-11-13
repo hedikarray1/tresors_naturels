@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +15,7 @@ export class PanierPage implements OnInit  {
   totale : number =0;
 
   constructor(
+    private Router:Router,
     private panierService: PanierService,
     private storageService: StorageService
     ) { }
@@ -146,6 +148,11 @@ export class PanierPage implements OnInit  {
     } else {
       this.storageService.saveCart(this.panier);
     }
+
+  }
+
+  checkout(){
+    this.Router.navigateByUrl('order');
 
   }
 

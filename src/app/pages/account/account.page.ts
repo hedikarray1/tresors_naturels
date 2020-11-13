@@ -24,7 +24,9 @@ export class AccountPage implements OnInit {
   }
 
   displayHideFacturationCard(){
+    this.livraison=false;
 this.facturation=!this.facturation;
+
   }
 
   displayHideUpdateInfosCard(){
@@ -33,6 +35,7 @@ this.facturation=!this.facturation;
 
   displayHideLivraisonCard(){
     this.livraison=!this.livraison;
+    this.facturation=false;
 
   }
   

@@ -8,9 +8,8 @@ import Base64 from 'crypto-js/enc-base64';
 export class WoocommerceService {
   nonce: string = ''
   currentTimestamp: number = 0 
-  ck_4219ba5725ae8441281c5a9aa53d435c65908b2f
-  customer_key: string = 'ck_4219ba5725ae8441281c5a9aa53d435c65908b2f'; 
-  customer_secret: string = 'cs_2c0a74624396d18c32274ad504ff0326c669bdcf';  
+  customer_key: string = 'ck_403c8b8f6ebde132af28895e60cd31e8822f83a6'; 
+  customer_secret: string = 'cs_87467c4b3b737f11e79d25e71d271f05658e91bc';  
   constructor() { }
   
 
