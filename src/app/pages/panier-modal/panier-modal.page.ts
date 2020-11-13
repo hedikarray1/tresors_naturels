@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
@@ -17,7 +18,8 @@ export class PanierModalPage implements OnInit {
   constructor(
     private panierService: PanierService,
     private modalCtrl: ModalController,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private Router:Router
   ) { }
 
   ngOnInit() {
@@ -134,5 +136,11 @@ console.log("panier",this.panier);
     }
 
   }
+
+  checkout(){
+    this.Router.navigateByUrl('order');
+
+  }
+
 
 }

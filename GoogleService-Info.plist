@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1023662903537-leb7f8ft9339sh7c93kjg2q73m0sb0qs.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1023662903537-leb7f8ft9339sh7c93kjg2q73m0sb0qs</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA3DXKP25t93xemeV5nWufMIhEl9jZyZ14</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1023662903537</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.societe2i.sitetresor2020</string>
+	<key>PROJECT_ID</key>
+	<string>site-tresor-7c14e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>site-tresor-7c14e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1023662903537:ios:3fd581be4b4178d5c51950</string>
+	<key>DATABASE_URL</key>
+	<string>https://site-tresor-7c14e.firebaseio.com</string>
+</dict>
+</plist>

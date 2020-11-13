@@ -18,7 +18,7 @@ export class OrderService {
     payment_method_title:string,
     customer_note:string,
     currency:string,
-    shipping_lines,
+    shipping_lines:any[],
     line_items	){
 
 
@@ -30,10 +30,30 @@ export class OrderService {
         payment_method_title:payment_method_title,
         customer_note:customer_note,
         currency:currency,
-        shipping_lines:shipping_lines,
+        status:"processing",
+      //  shipping_lines:shipping_lines,
         line_items:line_items
       };
-      let url=environment.apiURL+"wc/v3/orders"+this.WoocommerceService.authenticateApiForPost("POST",environment.apiURL+"wc/v3/orders",{});
-this.http.post(url,params);
+      let url=environment.apiURL+"wc/v3/orders?"+this.WoocommerceService.authenticateApiForPost("POST",environment.apiURL+"wc/v3/orders",{});
+return this.http.post(url,params);
+  }
+
+
+getMyOrderDetails(id){
+
+  return this.http.get(this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/orders/"+id,{}),{});
+
+}
+
+getMyOrders(id){
+
+  let params={customer:id};
+  return this.http.get(this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/orders",params),{});
+
+}
+
+  getAllPaymentMethods(){
+    
+   return this.http.get(this.WoocommerceService.authenticateApi("GET",environment.apiURL+"wc/v3/shipping_methods",{}),{});
   }
 }

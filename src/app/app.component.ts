@@ -1,3 +1,4 @@
+//import { FCM } from '@ionic-native/fcm/ngx';
 import { Router } from '@angular/router';
 import { StorageService } from './services/storage/storage.service';
 import { PanierService } from './services/panier/panier.service';
@@ -99,6 +100,21 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+  /*/    this.fcm.getToken().then(token => {
+        console.log(token);
+        // send token to the server
+      });
+
+      this.fcm.onNotification().subscribe(data => {
+        console.log(data);
+        if (data.wasTapped) {
+          console.log('Received in background');
+
+        } else {
+          console.log('Received in foreground');
+        }
+      });
+*/
     });
   }
 

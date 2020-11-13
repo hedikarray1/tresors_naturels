@@ -59,6 +59,15 @@ const routes: Routes = [
         path: 'panier',
         loadChildren: () => import('../panier/panier.module').then(m => m.PanierPageModule)
       },
+      
+  {
+    path: 'my-orders',
+    loadChildren: () => import('../my-orders/my-orders.module').then( m => m.MyOrdersPageModule)
+  },
+  {
+    path: 'my-order-details/:id',
+    loadChildren: () => import('../my-order-details/my-order-details.module').then( m => m.MyOrderDetailsPageModule)
+  },
 
     ],
   }
