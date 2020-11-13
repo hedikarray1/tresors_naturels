@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'bottom-navigation',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
