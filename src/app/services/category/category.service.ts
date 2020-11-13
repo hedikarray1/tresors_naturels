@@ -62,7 +62,8 @@ export class CategoryService {
 
   getParentCategory(){
     let params = {
-      "parent" : 0
+      "parent" : 0,
+      "hide_empty" : true
     }
     let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
    return this.http.get(myUrl);

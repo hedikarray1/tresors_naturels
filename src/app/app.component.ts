@@ -1,4 +1,5 @@
-import { FCM } from '@ionic-native/fcm/ngx';
+//import { FCM } from '@ionic-native/fcm/ngx';
+import { Router } from '@angular/router';
 import { StorageService } from './services/storage/storage.service';
 import { PanierService } from './services/panier/panier.service';
 import { PanierModalPage } from './pages/panier-modal/panier-modal.page';
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
     {
       title: 'Panier',
       url: 'bottom-navigation/panier',
-      icon: 'bag-handle'
+      icon: 'cart'
     },
     {
       title: 'Account',
@@ -90,7 +91,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
     private storageService : StorageService,
-    private fcm: FCM
+    private router : Router
   ) {
     this.initializeApp();
   }
@@ -99,7 +100,7 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.fcm.getToken().then(token => {
+  /*/    this.fcm.getToken().then(token => {
         console.log(token);
         // send token to the server
       });
@@ -113,7 +114,7 @@ export class AppComponent implements OnInit {
           console.log('Received in foreground');
         }
       });
-
+*/
     });
   }
 
@@ -123,16 +124,19 @@ export class AppComponent implements OnInit {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
 
-    let user= {
-      id : 262
-    }
-    this.storageService.saveUser(user);
-    this.storageService.saveUserState(true);
+  
+   // this.storageService.saveUser(user);
+   // this.storageService.saveUserState(true);
 
     console.log("user connecte",this.storageService.getUser());
+    console.log("user connecte",this.storageService.getUserState());
   
   }
 
   
+  
+goTo(link) {
+  this.router.navigateByUrl(link);
+}
   
 }

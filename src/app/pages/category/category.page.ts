@@ -14,6 +14,7 @@ export class CategoryPage implements OnInit {
 
   categorys : any[];
   shownCategory : any;
+   rep = /&amp;/gi;
 
   constructor(
     private loadingController : LoadingController,
@@ -32,6 +33,7 @@ export class CategoryPage implements OnInit {
      
       this.categorys = data;
       for (let cat of this.categorys) {
+    
         this.categoryService.getSousCategory(cat.id).subscribe((data: any[]) => {
           cat.children = data ;
          });

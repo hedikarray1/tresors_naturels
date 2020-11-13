@@ -1,45 +1,92 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="padding-top: 2%;">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <img class="img-header" src="../../../assets/logo/logo.png">
+    <img style="width: 28%;   margin-left: 30%;" src="../../../assets/logo/logo.png">
+    
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content  class="card-background-page">
 
-
+<!--
   <ion-list>
     <div *ngFor="let cat of categorys" >
-
-     
+      
 
       <ion-item class="item-stable" (click)="goToProductByCategory(cat.name ,cat.id)"
         [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0"  >
-        {{cat.name}}
+        <ion-label>     {{cat.name.replace(rep,'&')}} </ion-label>
       </ion-item>
 
       <ion-item class="item-stable" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}"
         *ngIf="cat.children?.length >0">
-       
-        {{cat.name}}
-        <ion-icon name="chevron-down-outline"  *ngIf="!isCategoryShown(cat.name)" item-end></ion-icon>
-        <ion-icon name="chevron-up-outline" *ngIf="isCategoryShown(cat.name)" item-end></ion-icon>
+        <ion-label>     {{cat.name.replace(rep,'&')}} </ion-label>
+        <ion-icon name="chevron-down-outline"  *ngIf="!isCategoryShown(cat.name)"slot="end"></ion-icon>
+        <ion-icon name="chevron-up-outline" *ngIf="isCategoryShown(cat.name)" slot="end"></ion-icon>
         
 
       </ion-item>
     
-      <div *ngIf="isCategoryShown(cat.name)">
+      <div class="subCategoryContainer" *ngIf="isCategoryShown(cat.name)">
         <ion-item class="item-accordion" *ngFor="let subCat of cat.children"
           (click)="goToProductByCategory(subCat.name ,subCat.id)">
-          {{subCat.name}}
+          <ion-label>  {{subCat.name.replace(rep,'&')}} </ion-label>
 
         </ion-item>
       </div>
     </div>
   </ion-list>
+-->
+<div *ngFor="let cat of categorys" >
 
+  <ion-card class="product-card" (click)="goToProductByCategory(cat.name ,cat.id)"  [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0" >
+    <ion-button class="icon-add-item"  fill="clear" color="dark">
+      {{cat.name.replace(rep,'&')}}
+    </ion-button>
+    
+      <img src="{{cat?.image?.src}}">
+    
+</ion-card>
+
+<ion-card class="product-card" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length >0">
+  <ion-button class="icon-add-item"  fill="clear" color="dark">
+    {{cat.name.replace(rep,'&')}}
+  </ion-button>
+  
+    <img src="{{cat?.image?.src}}">
+    <ion-card-content *ngIf="isCategoryShown(cat.name)">
+     
+        <ion-item class="item-accordion" *ngFor="let subCat of cat.children"
+          (click)="goToProductByCategory(subCat.name ,subCat.id)">
+          <ion-label>  {{subCat.name.replace(rep,'&')}} </ion-label>
+      
+        </ion-item>
+  
+    </ion-card-content>
+  
+</ion-card>
+
+<!--
+  <div class="test"  (click)="goToProductByCategory(cat.name ,cat.id)"  [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0" >
+    <img src="{{cat?.image?.src}}">
+    <ion-button fill="clear" color="dark" class="cartegory-name">     {{cat.name.replace(rep,'&')}} </ion-button>
+  </div>
+  <div class="test" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}"
+  *ngIf="cat.children?.length >0" >
+    <img src="{{cat?.image?.src}}">
+    <ion-label class="cartegory-name">     {{cat.name.replace(rep,'&')}} </ion-label>
+  </div>
+  <div class="subCategoryContainer" *ngIf="isCategoryShown(cat.name)">
+    <ion-item class="item-accordion" *ngFor="let subCat of cat.children"
+      (click)="goToProductByCategory(subCat.name ,subCat.id)">
+      <ion-label>  {{subCat.name.replace(rep,'&')}} </ion-label>
+
+    </ion-item>
+  </div>
+  -->
+</div>
 
 </ion-content>

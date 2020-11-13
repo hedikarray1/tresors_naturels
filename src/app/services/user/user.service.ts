@@ -30,6 +30,13 @@ export class UserService {
     return this.http.post(url1,user);
   }
   
+  createUser(user){
+   
+   
+    
+    let url1=environment.apiURL+"wc/v3/customers"+"?"+this.WoocommerceService.authenticateApiForPost("POST",environment.apiURL+"wc/v3/customers",{});
 
+    return this.http.post(url1,user);
+  }
 
 }

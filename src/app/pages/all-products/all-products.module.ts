@@ -1,3 +1,4 @@
+import { PopoverCardProductPageModule } from './../popovers/popover-card-product/popover-card-product.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +16,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     FormsModule,
     IonicModule,
     AllProductsPageRoutingModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    PopoverCardProductPageModule
   ],
   declarations: [AllProductsPage]
 })

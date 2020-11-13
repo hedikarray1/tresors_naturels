@@ -91,3 +91,87 @@
  component-segment ion-content ion-segment {
    margin: 10px auto;
  }
+
+ 
+.cart_item-quantity {
+   font-family: Cormorant-SemiBoldItalic;
+    font-size: 2vw;
+ }
+
+ 
+.button-save {
+   margin: 2%;
+   
+}
+
+.button-add-panier {
+   margin: 2%;
+  // --border-radius: 20px;
+}
+
+   
+
+.slide-product {
+   width: 50%;
+ }
+ 
+ .slide-product-card {
+   width: 95%;
+   margin: 0%;
+ }
+ 
+ 
+ 
+ .slide-product-container {
+   width: 190px;
+   height: 250px;
+   border: 2px solid #f8f8f8;
+ }
+ 
+ .slide-product-image-container {
+   width : 100%;
+   display : flex ;
+   justify-content : center;
+ }
+ 
+ .slide-product-image-container img {
+   width: 100%;
+ }
+ 
+ .slide-product-name {
+   font-family: Lato-Regular;
+   font-size: 4vw;
+   text-align: center;
+   height: 10vw;
+ }
+ 
+ .slide-product-category-container {
+   display: flex;
+   justify-content: center;
+   height: 7vw;
+ }
+ 
+ .slide-product-category {
+   color: rgb(167, 167, 167);
+   font-family: Cormorant-SemiBoldItalic;
+   font-size: 3vw;
+ }
+ 
+ .slide-product-price {
+   font-family: Cormorant-Medium;
+   font-size: 4vw;
+   text-align: center;
+ }
+
+
+
+//slides
+.slides .slide .slide-img{
+   width: 100%;
+ }
+ 
+ .slide-col {
+   padding: 0%;
+   width: 100%;
+ 
+ }

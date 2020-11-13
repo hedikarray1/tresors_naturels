@@ -68,6 +68,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/order/order.module').then( m => m.OrderPageModule)
   },
   {
+    path: 'popover-card-product',
+    loadChildren: () => import('./pages/popovers/popover-card-product/popover-card-product.module').then( m => m.PopoverCardProductPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
     path: 'my-orders',
     loadChildren: () => import('./pages/my-orders/my-orders.module').then( m => m.MyOrdersPageModule)
   },

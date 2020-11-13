@@ -1,10 +1,10 @@
-<ion-header >
-  <ion-toolbar class="header">
+<ion-header>
+  <ion-toolbar style="padding-top: 2%;">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <img class="img-header" src="../../../assets/logo/logo.png">
+    <img style="width: 28%;   margin-left: 30%;" src="../../assets/logo/logo.png">
     
   </ion-toolbar>
 </ion-header>
@@ -31,14 +31,14 @@
 </div>
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let productc of productsCoffrets" class="slide-product" >
-      <ion-card class="product-card" >
+      <ion-card class="product-card" (click)="goToDetail(productc?.id)" >
         <div class="product-image-container">
           <img src="{{productc?.images[0]?.src}}" />
         </div>
         <ion-card-content>
           <div class="product-name">{{productc?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productc?.categories"> {{category?.name}},</span>
+            <span class="product-category" *ngFor="let category of productc?.categories"> {{category?.name?.replace(rep,'&')}},</span>
           </div>
           <div class="product-price" [innerHTML]="productc?.price_html"></div>
         </ion-card-content>
@@ -53,14 +53,14 @@
 </div>
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let productba of productsBelleAmbiance" class="slide-product" >
-      <ion-card class="product-card" >
+      <ion-card class="product-card" (click)="goToDetail(productba?.id)">
         <div class="product-image-container">
           <img src="{{productba?.images[0]?.src}}" />
         </div>
         <ion-card-content>
           <div class="product-name">{{productba?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productba?.categories"> {{category?.name}},</span>
+            <span class="product-category" *ngFor="let category of productba?.categories"> {{category?.name?.replace(rep,'&')}},</span>
           </div>
           <div class="product-price" [innerHTML]="productba?.price_html"></div>
         </ion-card-content>
@@ -76,14 +76,14 @@
 </div>
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let productbe of productsBelleEnvolee" class="slide-product" >
-      <ion-card class="product-card" >
+      <ion-card class="product-card" (click)="goToDetail(productbe?.id)">
         <div class="product-image-container">
           <img src="{{productbe?.images[0]?.src}}" />
         </div>
         <ion-card-content>
           <div class="product-name">{{productbe?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productbe?.categories"> {{category?.name}},</span>
+            <span class="product-category" *ngFor="let category of productbe?.categories"> {{category?.name?.replace(rep,'&')}},</span>
           </div>
           <div class="product-price" [innerHTML]="productbe?.price_html"></div>
         </ion-card-content>
@@ -99,14 +99,14 @@
 </div>
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let productbs of productsBelleSensuelle" class="slide-product" >
-      <ion-card class="product-card" >
+      <ion-card class="product-card" (click)="goToDetail(productbs?.id)" >
         <div class="product-image-container">
           <img src="{{productbs?.images[0]?.src}}" />
         </div>
         <ion-card-content>
           <div class="product-name">{{productbs?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productbs?.categories"> {{category?.name}},</span>
+            <span class="product-category" *ngFor="let category of productbs?.categories"> {{category?.name?.replace(rep,'&')}},</span>
           </div>
           <div class="product-price" [innerHTML]="productbs?.price_html"></div>
         </ion-card-content>

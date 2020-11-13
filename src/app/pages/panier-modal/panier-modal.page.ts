@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PanierModalPage implements OnInit {
 
-  panier: any[]=[];
+  panier: any[] = [];
   userState: boolean = false;
 
   constructor(
@@ -108,7 +108,7 @@ console.log("panier",this.panier);
     let totale = 0;
     for (let p of this.panier) {
     
-      totale = totale + p.quantity*p.product_regular_price ;
+      totale = totale + p.total ;
             
     }
     return totale;
@@ -120,11 +120,16 @@ console.log("panier",this.panier);
 
   async save() {
     if (this.userState) {
-      await this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
-        console.log("panier", res);
-        this.panier = res['data'];
-        this.modalCtrl.dismiss();
+
+      await this.panierService.emptyCartFromServer().subscribe((res: any[]) => {
+        console.log("empty panier", res);
+         this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
+          console.log("panier", res);
+          this.panier = res['data'];
+          this.modalCtrl.dismiss();
+        })
       })
+     
 
     } else {
       this.storageService.saveCart(this.panier);

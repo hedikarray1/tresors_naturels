@@ -1,9 +1,9 @@
 ion-content   {
-    --background: #2e2e2e;
+   // --background: #2e2e2e;
 }
 
 ion-list  {
-    background: #2e2e2e;
+   // background: #2e2e2e;
     padding: 0px 2% ;
 }
 
@@ -16,3 +16,9 @@ ion-item {
     margin-bottom: 2% ;
     border-radius: 0px;
 }
+
+
+.button-save {
+    margin: 4% 10% !important;
+ }
+

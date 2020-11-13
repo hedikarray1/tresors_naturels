@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
   productsBelleEnvolee : any[];
   productsBelleSensuelle : any[];
   productsCoffrets : any[];
+  rep = /&amp;/gi;
 
   constructor(
     private poductService : ProductService,
@@ -33,6 +34,12 @@ export class HomePage implements OnInit {
     this.getProductCoffret();
 
   }
+
+  
+goToDetail(id) {
+  this.router.navigateByUrl('detail-produit/' + id);
+}
+
 
   async getCategory(category){
    

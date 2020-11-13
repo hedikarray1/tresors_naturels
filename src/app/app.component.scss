@@ -50,11 +50,11 @@ ion-menu ion-content {
  }
  
  ion-menu.md ion-item.selected {
-   --background: rgba(var(--ion-color-primary-rgb), 0.14);
+   --background: rgba(var(--menuhous-rgb), 0.14);
  }
  
  ion-menu.md ion-item.selected ion-icon {
-   color: var(--ion-color-primary);
+   color: var(--menuhous);
  }
  
  ion-menu.md ion-item ion-icon {
@@ -85,7 +85,7 @@ ion-menu ion-content {
  }
  
  ion-menu.ios ion-item.selected ion-icon {
-   color: var(--ion-color-primary);
+   color: var(--menuhous);
  }
  
  ion-menu.ios ion-item ion-icon {
@@ -115,15 +115,15 @@ ion-menu ion-content {
  }
  
  ion-item.selected {
-   --color: var(--ion-color-primary);
+   --color:var(--menuhous);
  }
 
  ion-menu {
-   --ion-background-color: #2e2e2e;
+   --ion-background-color: var(--tresorsBlack);
    --ion-text-color: white;
  
    ion-toolbar {
-     --background: #2e2e2e;
+     --background: var(--tresorsBlack);
    }
  
    ion-list {/* optional, but it needs when you use gradient as a background color.*/

@@ -1,26 +1,64 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="padding-top: 2%;">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <img class="img-header" src="../../../assets/logo/logo.png">
+    <img style="width: 28%;   margin-left: 30%;" src="../../../assets/logo/logo.png">
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content >
 
-<div class="card-container" *ngFor="let product of panier " >
-  <ion-card class="product-card" >
-    <div class="product-image-container">
-      <img src="{{product?.thumbnail}}" />
-    </div>
-    <ion-card-content>
-      <div class="product-name">{{product?.product_name}}</div>
-      <div class="product-price" [innerHTML]="product?.price_html"></div>
-      <div class="product-price" >{{product?.quantity}}</div>
-    </ion-card-content>
-  </ion-card>
-</div>
+
+    <ion-list>
+      <ion-item class="item-cart" *ngFor="let p of panier" class="ion-text-wrap">
+        <ion-thumbnail slot="start">
+          <img src="{{p?.thumbnail}}" />
+        </ion-thumbnail>
+        <ion-label>
+          <p class="product-name">{{p?.product_name}}</p>
+              <p [innerHTML]="p?.price_html"></p>
+              <div class="cart-input-container">
+                <ion-button (click)="decrementCartItem(p)" fill="clear" color="dark">
+                  <ion-icon name="remove-circle-outline" ></ion-icon>
+               </ion-button>
+               <ion-button fill="clear" color="dark">
+                {{ p?.quantity }}
+                 </ion-button>
+           <!--    <p class="cart_item-quantity">{{ p?.quantity }}</p>-->
+               <ion-button (click)="incrementCartItem(p)" fill="clear" color="dark">
+                <ion-icon name="add-circle-outline"></ion-icon>
+             </ion-button>
+              </div>
+          
+        </ion-label>
+
+        <ion-button (click)="removeCartItem(p)" fill="clear" color="dark">
+          <ion-icon name="close" slot="end"></ion-icon>
+        </ion-button>
+         
+      </ion-item>
+
+      <ion-item class="item-totale">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4">
+              Totale:
+            </ion-col>
+            <ion-col size="8" class="ion-text-end">
+              {{totale}} TND
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+
+    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block" (click)="save()">
+      Sauvgarder
+    </ion-button>
+  
+
 
 </ion-content>
