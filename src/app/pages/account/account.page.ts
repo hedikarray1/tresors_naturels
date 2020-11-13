@@ -41,9 +41,14 @@ async openCart() {
   ngOnInit() {
   this.getUserData();
   }
+  ionViewDidEnter(){
+    this.getUserData();
 
+  }
   displayHideFacturationCard(){
+    this.livraison=false;
 this.facturation=!this.facturation;
+
   }
 
   displayHideUpdateInfosCard(){
@@ -52,6 +57,7 @@ this.facturation=!this.facturation;
 
   displayHideLivraisonCard(){
     this.livraison=!this.livraison;
+    this.facturation=false;
 
   }
   

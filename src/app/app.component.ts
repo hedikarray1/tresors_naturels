@@ -1,10 +1,11 @@
-//import { FCM } from '@ionic-native/fcm/ngx';
+
+import { FCM } from '@ionic-native/fcm/ngx';
 import { Router } from '@angular/router';
 import { StorageService } from './services/storage/storage.service';
 import { PanierService } from './services/panier/panier.service';
 import { PanierModalPage } from './pages/panier-modal/panier-modal.page';
 import { Component, OnInit  } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -91,7 +92,9 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
     private storageService : StorageService,
-    private router : Router
+    private router : Router,
+    private fcm:FCM,
+    private AlertCTRL:AlertController
   ) {
     this.initializeApp();
   }
@@ -106,10 +109,18 @@ export class AppComponent implements OnInit {
       }else {
         this.splashScreen.hide();
       }
+          
+      this.fcm.getToken().then(async token => {
      
 
-  /*/    this.fcm.getToken().then(token => {
+   
         console.log(token);
+     const alert =await  this.AlertCTRL.create({
+          header : 'FCM token',
+          message : token+"" ,
+          buttons : ['OK'],
+        }) ;
+         await alert.present();
         // send token to the server
       });
 
@@ -122,7 +133,7 @@ export class AppComponent implements OnInit {
           console.log('Received in foreground');
         }
       });
-*/
+
     });
   }
 

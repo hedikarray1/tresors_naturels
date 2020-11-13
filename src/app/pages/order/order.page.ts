@@ -17,6 +17,8 @@ billing:any={};
 shipping:any={};
 current_user:any={};
 payment_methodes:any[]=[];
+selectedpayment;
+notes="";
   constructor(private UserService:UserService,private OrderService:OrderService,private PanierService:PanierService,private StorageService:StorageService) { }
 
   ngOnInit() {
@@ -25,7 +27,12 @@ payment_methodes:any[]=[];
     this.getPAymentmethodes();
     this.getUserdata();
   }
-
+  ionViewDidEnter(){
+    this.userState=this.StorageService.getUserState();
+    this.getPanier();
+    this.getPAymentmethodes();
+    this.getUserdata();
+  }
 getUserdata(){
   if(this.userState){
     //for online users
@@ -80,7 +87,7 @@ this.panier.forEach(element=>{
 
 this.OrderService.CreateOrder(this.billing,
   this.shipping,
-  this.current_user.id,[],this.payment_methodes[0].id,this.payment_methodes[0].title,"zidna fazet","TND",this.payment_methodes,this.panier).subscribe((data:any)=>{
+  this.current_user.id,[],this.selectedpayment,this.payment_methodes[this.payment_methodes.findIndex(x => x.id ===this.selectedpayment)].title,this.notes,"TND",this.payment_methodes,this.panier).subscribe((data:any)=>{
     console.log("payement",data);
   });
 

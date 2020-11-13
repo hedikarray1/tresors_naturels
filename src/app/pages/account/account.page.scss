@@ -1,8 +1,9 @@
 ion-content {
-    --background: url(../../../assets/14936557467_73668eb801_o_color_blur.jpg) no-repeat top center/cover fixed, #fff;
+    --background: url(../../../assets/images/motif.png) no-repeat top center/cover fixed, #fff;
     position: relative;
     height: 100%;
     width: 100%;
+    
 
     ion-button {
         margin-top: 1em;
@@ -27,14 +28,13 @@ ion-chip {
 }
 
 .card {
-    margin: 0 auto;
-
+    margin: 0 3%;
     .header {
         height: 200px; // 20vh;
 
         .avatar {
-            width: 160px; //40vw
-            height: 160px;
+            width: 110px;
+            height: 150px;
             position: relative;
             margin: 0 auto;
 
@@ -43,8 +43,11 @@ ion-chip {
                 border-radius: 50%;
                 position: absolute;
                 bottom: calc(-1*(80px + 4px)); // -42px;
-                border: 8px solid #9Dc912;
+                border: 8px solid    #eeeeee;
+                ;
                 background-color: #fff;
+                width: 110px;
+                height: 110px;
             }
             ion-icon{
                 display: block;
@@ -60,9 +63,12 @@ ion-chip {
 }
 
 .card-body {
-    background-color: #ffffff;
+    background-color: #ffffffad;
     padding: 10px 30px;
+    border-radius: 2%;
+
  //   height: calc(100vh - (200px + 56px));
+    margin-top: 10px;
     overflow: hidden;
 
     .user-meta {
@@ -76,7 +82,7 @@ ion-chip {
 
         .country {
             font-size: 90%;
-            color: #949ea6;
+            color: #fab324;
             text-transform: uppercase;
             margin: 0 auto;
         }
