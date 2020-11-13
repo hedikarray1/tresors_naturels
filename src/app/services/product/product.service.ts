@@ -23,7 +23,7 @@ export class ProductService {
     };
     
      let  params = {
-      per_page: '5',
+      per_page: '6',
       page: ''+ page 
     };
     let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);

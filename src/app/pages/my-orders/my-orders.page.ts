@@ -1,8 +1,10 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { Router } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
 import { OrderService } from './../../services/order/order.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-orders',
@@ -26,7 +28,7 @@ status={"pending":{title:"en attente",color:"warning"},
     "refunded":{title:"Remboursé",color:"tertiary"},
      "failed":{title:"échec",color:"danger"} ,
      "trash":{title:"En corbeille",color:"danger"}}
-  constructor(private router:Router,private StorageService:StorageService,private OrderService:OrderService,private UserService:UserService) { }
+  constructor(private router:Router,private modalCtrl: ModalController , private StorageService:StorageService,private OrderService:OrderService,private UserService:UserService) { }
 
   ngOnInit() {
     this.userState=this.StorageService.getUserState();
@@ -62,5 +64,18 @@ this.orders=data;
 
 toDetails(id){
   this.router.navigate(["my-order-details/"+id])
+}
+
+
+async openCart() {
+ 
+ 
+  let modal = await this.modalCtrl.create({
+    component: PanierModalPage,
+    cssClass: 'cart-modal'
+  });
+  modal.onWillDismiss().then(() => {
+  });
+  modal.present();
 }
 }

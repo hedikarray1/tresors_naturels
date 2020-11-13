@@ -1,4 +1,6 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-qui-sommes-nous',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuiSommesNousPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController
+  ) { }
 
   ngOnInit() {
+  }
+
+  async openCart() {
+ 
+ 
+    let modal = await this.modalCtrl.create({
+      component: PanierModalPage,
+      cssClass: 'cart-modal'
+    });
+    modal.onWillDismiss().then(() => {
+    });
+    modal.present();
   }
 
 }

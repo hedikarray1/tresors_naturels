@@ -1,7 +1,8 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { async } from '@angular/core/testing';
 import { CategoryService } from './../../services/category/category.service';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { MbscListviewOptions , mobiscroll} from '@mobiscroll/angular';
 
@@ -19,8 +20,23 @@ export class CategoryPage implements OnInit {
   constructor(
     private loadingController : LoadingController,
     private router : Router,
-    private categoryService : CategoryService
+    private categoryService : CategoryService,
+    private modalCtrl: ModalController
     ) { }
+
+    
+
+async openCart() {
+ 
+ 
+  let modal = await this.modalCtrl.create({
+    component: PanierModalPage,
+    cssClass: 'cart-modal'
+  });
+  modal.onWillDismiss().then(() => {
+  });
+  modal.present();
+}
 
  async ngOnInit() {
    await this.getCategory();
@@ -65,7 +81,7 @@ isCategoryShown(category) {
 };
 
 goToProductByCategory(category ,id){
-  this.router.navigateByUrl('product-by-category/'+category+"/"+id);
+  this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
 }
 
 }

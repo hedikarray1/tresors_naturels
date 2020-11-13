@@ -1,10 +1,11 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { PanierService } from './../../services/panier/panier.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { CategoryService } from './../../services/category/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { async } from '@angular/core/testing';
-import { LoadingController, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -28,13 +29,13 @@ export class AllProductsPage implements OnInit {
     private router: Router,
     private panierService: PanierService,
     private storageService: StorageService,
-    private popoverController : PopoverController
+    private popoverController : PopoverController,
+    private modalCtrl: ModalController
   ) { }
 
   async ngOnInit() {
     this.userState = this.storageService.getUserState();
     await this.getAllProductsPerPage();
-
 
 
   }
@@ -117,5 +118,19 @@ export class AllProductsPage implements OnInit {
     });
     return popover.present();
   }
+
+  
+async openCart() {
+  //  this.animateCSS('bounceOutLeft', true);
+ 
+    let modal = await this.modalCtrl.create({
+      component: PanierModalPage,
+      cssClass: 'cart-modal'
+    });
+    modal.onWillDismiss().then(() => {
+    });
+    modal.present();
+  }
+
 
 }

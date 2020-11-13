@@ -1,26 +1,30 @@
-//header
-.header {
-  padding: 1% 0%;}
-
 .img-header {
   width: 28%;
-  margin-left: 30%;
+  margin-left: 36%;
+  position: inherit;
+}
+.img-header2 {
+  width: 35%;
+  margin-left: 44%;
+  position: inherit;
+}
+.icon-close-search {
+  margin-right: 1%;
 }
 //slides
-.slides .slide .slide-img{
+.slides .slide .slide-img {
   width: 100%;
 }
 
 .slide-col {
   padding: 0%;
   width: 100%;
-
 }
 
 //category
 
 .naturelle-txt {
-  font-family: TuesdayNight-Regular ;
+  font-family: TuesdayNight-Regular;
   color: #d1d1d1;
   text-align: center;
   width: 100%;
@@ -28,11 +32,11 @@
 }
 
 .category {
-  font-family: Lato,sans-serif;
+  font-family: Lato, sans-serif;
   text-align: center;
   width: 100%;
   font-size: 8vw;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 }
 .subcategory {
   font-family: cursive;
@@ -55,10 +59,8 @@
   font-size: xx-large;
   width: 100%;
   text-align: center;
-  font-family: Lato,sans-serif;
+  font-family: Lato, sans-serif;
 }
-
-
 
 .slide-product {
   width: 50%;
@@ -69,8 +71,6 @@
   margin: 0%;
 }
 
-
-
 .product-container {
   width: 190px;
   height: 250px;
@@ -78,9 +78,9 @@
 }
 
 .product-image-container {
-  width : 100%;
-  display : flex ;
-  justify-content : center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .product-image-container img {
@@ -91,13 +91,13 @@
   font-family: Lato-Regular;
   font-size: 4vw;
   text-align: center;
-  height: 10vw;
+  height: 11vw !important;
 }
 
 .product-category-container {
   display: flex;
   justify-content: center;
-  height: 7vw;
+  height: 9vw;
 }
 
 .product-category {
@@ -112,41 +112,157 @@
   text-align: center;
 }
 
+//bar ajout panier
+.row-panier {
+  background: black;
+  padding: 0%;
+}
 
+.col-panier {
+  text-align: center;
+  font-size: 3vw;
+}
 
-   //bar ajout panier
-   .row-panier {
+.col-panier-txt {
+  padding: 4vw;
+  color: var(--menuhous);
+}
+
+.panier-icon {
+  padding: 3vw 0vw;
+}
+
+.col-panier-color {
+  background: #afaeae;
+}
+
+.button-panier {
+  margin: 0%;
+}
+
+.card-separator {
+  border-bottom: 1px solid #e2dfdf;
+  margin: 0% 6%;
+}
+
+//*********************************************************************************************************
+//--------------------All Produits---------------------------------------------------------
+
+.content-all-product {
+  .card-flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  ion-card-content {
+    padding: 5px 20px;
+  }
+
+  .card-container {
+    display: flex;
+    justify-content: center;
+    width: 48%;
+    margin: 1%;
+  }
+
+  .product-card {
+    width: 100%;
+    margin: 0%;
+  }
+
+  .category-name {
+    font-size: xx-large;
+    width: 100%;
+    text-align: center;
+  }
+
+  .product-container {
+    width: 190px;
+    height: 250px;
+    border: 2px solid #f8f8f8;
+  }
+
+  .product-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-image-container img {
+    width: 100%;
+  }
+
+  .product-name {
+    font-family: Lato-Regular;
+    font-size: 4vw;
+    height: 11vw !important;
+    text-align: center;
+  }
+
+  .product-category-container {
+    display: flex;
+    justify-content: center;
+    height: 9vw;
+  }
+
+  .product-category {
+    color: rgb(167, 167, 167);
+    font-family: Cormorant-SemiBoldItalic;
+    font-size: 3vw;
+  }
+
+  .product-price {
+    font-family: Cormorant-Medium;
+    font-size: 3vw;
+    text-align: center;
+  }
+
+  .icon-add-item {
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  //bar ajout panier
+  .row-panier {
     background: black;
     padding: 0%;
- }
- 
- .col-panier {
-   
-   
-     text-align: center;
-     font-size: 4vw;
- }
- 
- .col-panier-txt {
+  }
+
+  .col-panier {
+    text-align: center;
+    font-size: 3vw;
+  }
+
+  .col-panier-txt {
     padding: 4vw;
-    color : var(--menuhous);
-    
- }
- 
- .panier-icon {
-    color : var(--menuhous);
-    --color : var(--menuhous);
- }
- 
- .col-panier-color {
+    color: var(--menuhous);
+  }
+
+  .panier-icon {
+    padding: 3vw 0vw;
+  }
+
+  .col-panier-color {
     background: #afaeae;
- }
-   
- 
- .button-panier {
+  }
+
+  .button-panier {
     margin: 0%;
- }
- 
- 
- 
- 
+  }
+
+  .card-separator {
+    border-bottom: 1px solid #e2dfdf;
+    margin: 0% 6%;
+  }
+}
+
+
+#notifications-badge {
+  background-color: red;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  border-radius: 100%;
+}

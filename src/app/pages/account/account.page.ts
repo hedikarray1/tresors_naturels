@@ -1,6 +1,8 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-account',
@@ -16,7 +18,24 @@ export class AccountPage implements OnInit {
 
   livraisonTextButton="Modifier"
   facturationTextButton="Modifier"
-  constructor(private UserService:UserService,private StorageService:StorageService) { }
+  constructor(
+    private UserService:UserService,
+    private StorageService:StorageService,
+    private modalCtrl: ModalController
+    ) { }
+
+    
+async openCart() {
+  
+ 
+    let modal = await this.modalCtrl.create({
+      component: PanierModalPage,
+      cssClass: 'cart-modal'
+    });
+    modal.onWillDismiss().then(() => {
+    });
+    modal.present();
+  }
   
  User:any={};
   ngOnInit() {

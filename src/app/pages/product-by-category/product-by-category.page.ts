@@ -1,8 +1,9 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-by-category',
@@ -23,6 +24,7 @@ export class ProductByCategoryPage implements OnInit {
     private route: ActivatedRoute,
     private popoverController : PopoverController,
     private router : Router,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -70,6 +72,18 @@ async showPopover(event: MouseEvent,product) {
     translucent: true
   });
   return popover.present();
+}
+
+async openCart() {
+ 
+ 
+  let modal = await this.modalCtrl.create({
+    component: PanierModalPage,
+    cssClass: 'cart-modal'
+  });
+  modal.onWillDismiss().then(() => {
+  });
+  modal.present();
 }
 
 }

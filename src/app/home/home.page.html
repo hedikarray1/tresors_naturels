@@ -1,126 +1,271 @@
 <ion-header>
-  <ion-toolbar style="padding-top: 2%;">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+   
+      <img *ngIf="searchShow"  class="img-header" src="../../../assets/logo/logo.png" />
+      <img *ngIf="!searchShow"  class="img-header2" src="../../../assets/logo/logo.png" />
     
-    <img style="width: 28%;   margin-left: 30%;" src="../../assets/logo/logo.png">
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!searchShow" (click)="showSearch()">
+        <ion-icon
+          slot="icon-only"
+          color="dark"
+          slot="end"
+          name="search-outline"
+        ></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="openCart()">
+        <ion-icon
+          slot="icon-only"
+          color="dark"
+          slot="end"
+          name="cart-outline"
+        >
+        
+      </ion-icon>
+  
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="searchShow">
+    <ion-searchbar [(ngModel)]="searchText"></ion-searchbar>
     
+        <ion-icon
+        (click)="showSearch()"
+          slot="icon-only"
+          color="dark"
+          slot="end"
+          name="close-outline"
+          class="icon-close-search"
+        ></ion-icon>
+     
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
-  <ion-slides class="slides" [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide  class="slide" >
+<ion-content padding *ngIf="searchText == ''">
+  <ion-slides
+    class="slides"
+    [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
+  >
+    <ion-slide class="slide" *ngFor="let imgS of slidesPictures ">
       <ion-col class="slide-col">
-        <img class="slide-img"  src="../../assets/slides/slider-final-1300x900.png" >
+        <img
+          class="slide-img"
+          src="{{imgS}}"
+        />
       </ion-col>
     </ion-slide>
-   
   </ion-slides>
 
-  <div class="naturelle-txt" >naturelle</div>
-  <div class="category" >UNE MARQUE UNE HISTOIRE</div>
-  <div class="subcategory" >Cosmétiques sains & naturels</div>
-<br/>
-<br/>
+  <div class="naturelle-txt">naturelle</div>
+  <div class="category">UNE MARQUE UNE HISTOIRE</div>
+  <div class="subcategory">Cosmétiques sains & naturels</div>
+  <br />
+  <br />
 
-<div class="category-container">
-  <p>COFFRETS</p>
-</div>
-  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide *ngFor="let productc of productsCoffrets" class="slide-product" >
-      <ion-card class="product-card" (click)="goToDetail(productc?.id)" >
-        <div class="product-image-container">
+  <div class="category-container">
+    <p>COFFRETS</p>
+  </div>
+  <ion-slides
+    [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
+  >
+    <ion-slide *ngFor="let productc of productsCoffrets" class="slide-product">
+      <ion-card class="product-card">
+        <div class="product-image-container" (click)="goToDetail(productc?.id)">
           <img src="{{productc?.images[0]?.src}}" />
         </div>
-        <ion-card-content>
+        <ion-card-content (click)="goToDetail(productc?.id)">
           <div class="product-name">{{productc?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productc?.categories"> {{category?.name?.replace(rep,'&')}},</span>
+            <span
+              class="product-category"
+              *ngFor="let category of productc?.categories"
+            >
+              {{category?.name?.replace(rep,'&')}},</span
+            >
           </div>
           <div class="product-price" [innerHTML]="productc?.price_html"></div>
         </ion-card-content>
-        <ion-row  class="row-panier">
-          <ion-col  class="col-panier col-panier-txt" size="9">
-          Ajouter au panier
+
+        <ion-row (click)="showPopover($event,productc)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+            Ajouter au panier
           </ion-col>
-          <ion-col  class="col-panier col-panier-color" size="3">
-              <ion-icon size="large" color="light"  name="cart-outline"></ion-icon>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-card>
-
     </ion-slide>
   </ion-slides>
 
-<br/>
-<div class="category-container">
-  <p>BELLE AMBIANCE</p>
-</div>
-  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide *ngFor="let productba of productsBelleAmbiance" class="slide-product" >
-      <ion-card class="product-card" (click)="goToDetail(productba?.id)">
-        <div class="product-image-container">
+  <br />
+  <div class="category-container">
+    <p>BELLE AMBIANCE</p>
+  </div>
+  <ion-slides
+    [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
+  >
+    <ion-slide
+      *ngFor="let productba of productsBelleAmbiance"
+      class="slide-product"
+    >
+      <ion-card class="product-card">
+        <div
+          class="product-image-container"
+          (click)="goToDetail(productba?.id)"
+        >
           <img src="{{productba?.images[0]?.src}}" />
         </div>
-        <ion-card-content>
+        <ion-card-content (click)="goToDetail(productba?.id)">
           <div class="product-name">{{productba?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productba?.categories"> {{category?.name?.replace(rep,'&')}},</span>
+            <span
+              class="product-category"
+              *ngFor="let category of productba?.categories"
+            >
+              {{category?.name?.replace(rep,'&')}},</span
+            >
           </div>
           <div class="product-price" [innerHTML]="productba?.price_html"></div>
         </ion-card-content>
-      </ion-card>
 
+        <ion-row (click)="showPopover($event,productba)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+            Ajouter au panier
+          </ion-col>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </ion-slide>
   </ion-slides>
 
-  
-<br/>
-<div class="category-container">
-  <p>BELLE ENVOLÉE</p>
-</div>
-  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide *ngFor="let productbe of productsBelleEnvolee" class="slide-product" >
-      <ion-card class="product-card" (click)="goToDetail(productbe?.id)">
-        <div class="product-image-container">
+  <br />
+  <div class="category-container">
+    <p>BELLE ENVOLÉE</p>
+  </div>
+  <ion-slides
+    [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
+  >
+    <ion-slide
+      *ngFor="let productbe of productsBelleEnvolee"
+      class="slide-product"
+    >
+      <ion-card class="product-card">
+        <div
+          class="product-image-container"
+          (click)="goToDetail(productbe?.id)"
+        >
           <img src="{{productbe?.images[0]?.src}}" />
         </div>
-        <ion-card-content>
+        <ion-card-content (click)="goToDetail(productbe?.id)">
           <div class="product-name">{{productbe?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productbe?.categories"> {{category?.name?.replace(rep,'&')}},</span>
+            <span
+              class="product-category"
+              *ngFor="let category of productbe?.categories"
+            >
+              {{category?.name?.replace(rep,'&')}},</span
+            >
           </div>
           <div class="product-price" [innerHTML]="productbe?.price_html"></div>
         </ion-card-content>
+        <ion-row (click)="showPopover($event,productbe)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+            Ajouter au panier
+          </ion-col>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
       </ion-card>
-
     </ion-slide>
   </ion-slides>
 
-   
-<br/>
-<div class="category-container">
-  <p>BELLE SENSUELLE</p>
-</div>
-  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide *ngFor="let productbs of productsBelleSensuelle" class="slide-product" >
-      <ion-card class="product-card" (click)="goToDetail(productbs?.id)" >
-        <div class="product-image-container">
+  <br />
+  <div class="category-container">
+    <p>BELLE SENSUELLE</p>
+  </div>
+  <ion-slides
+    [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
+  >
+    <ion-slide
+      *ngFor="let productbs of productsBelleSensuelle"
+      class="slide-product"
+    >
+      <ion-card class="product-card">
+        <div
+          class="product-image-container"
+          (click)="goToDetail(productbs?.id)"
+        >
           <img src="{{productbs?.images[0]?.src}}" />
         </div>
-        <ion-card-content>
+        <ion-card-content (click)="goToDetail(productbs?.id)">
           <div class="product-name">{{productbs?.name}}</div>
           <div class="product-category-container">
-            <span class="product-category" *ngFor="let category of productbs?.categories"> {{category?.name?.replace(rep,'&')}},</span>
+            <span
+              class="product-category"
+              *ngFor="let category of productbs?.categories"
+            >
+              {{category?.name?.replace(rep,'&')}},</span
+            >
           </div>
           <div class="product-price" [innerHTML]="productbs?.price_html"></div>
         </ion-card-content>
-      </ion-card>
 
+        <ion-row (click)="showPopover($event,productbs)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+            Ajouter au panier
+          </ion-col>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </ion-slide>
   </ion-slides>
+</ion-content>
 
+
+
+<ion-content class="content-all-product" *ngIf="searchText != ''">
+  <div class="card-flex-wrap">
+    <div
+      class="card-container"
+      *ngFor="let product of allProducts |filter:searchText"
+    >
+      <ion-card class="product-card">
+        <div class="product-image-container" (click)="goToDetail(product?.id)">
+          <img src="{{product?.images[0]?.src}}" />
+        </div>
+        <ion-card-content (click)="goToDetail(product?.id)">
+          <div class="product-name">{{product?.name}}</div>
+          <div class="product-category-container">
+            <span
+              class="product-category"
+              *ngFor="let category of product?.categories"
+            >
+              {{category?.name}},</span
+            >
+          </div>
+          <div class="product-price" [innerHTML]="product?.price_html"></div>
+        </ion-card-content>
+
+        <ion-row (click)="showPopover($event,product)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+            Ajouter au panier
+          </ion-col>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

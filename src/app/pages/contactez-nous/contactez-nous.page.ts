@@ -1,5 +1,7 @@
+import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-contactez-nous',
@@ -12,6 +14,7 @@ export class ContactezNousPage implements OnInit {
 
   constructor(
     private fb : FormBuilder,
+    private modalCtrl: ModalController  
   ) { }
 
   ngOnInit() {
@@ -23,6 +26,18 @@ export class ContactezNousPage implements OnInit {
     })
   }
 
+  
+async openCart() {
+ 
+ 
+  let modal = await this.modalCtrl.create({
+    component: PanierModalPage,
+    cssClass: 'cart-modal'
+  });
+  modal.onWillDismiss().then(() => {
+  });
+  modal.present();
+}
   submit(){
 
   }

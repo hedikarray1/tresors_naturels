@@ -10,8 +10,15 @@ ion-content {
     }
 }
 
+.img-header {
+    width: 28%;
+    margin-left: 36%;
+    position: inherit;
+  }
+  
+
 ion-toolbar {
-    --background: transparent;
+   // --background: transparent;
 }
 
 ion-chip {

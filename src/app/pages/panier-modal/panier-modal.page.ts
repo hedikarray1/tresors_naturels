@@ -138,6 +138,7 @@ console.log("panier",this.panier);
   }
 
   checkout(){
+    this.modalCtrl.dismiss();
     this.Router.navigateByUrl('order');
 
   }

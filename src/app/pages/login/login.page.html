@@ -2,7 +2,7 @@
 <ion-content>
 
   <div>
-    <img src="../../../assets/images/2732.png" >
+    <img src="https://laboratoiretresorsnaturels.tn/static_pictures/login_picture.jpg" >
   </div>
 
  <form class="form-login" (ngSubmit)="login()" [formGroup]="credentiels">
@@ -19,6 +19,7 @@
   
   <ion-button  type="submit" color="dark" fill="outline" expand="block" [disabled]="!credentiels.valid">Se connecter</ion-button>
 
+  <ion-button   color="dark" fill="outline" expand="block" (click)="goToRegister()">Créer un compte</ion-button>
   
 </form>
 </ion-content>

@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public appPages = [
     {
-      title: 'Home',
+      title: 'Accueil',
       url: 'bottom-navigation/home',
       icon: 'home'
     },
@@ -32,6 +32,21 @@ export class AppComponent implements OnInit {
       url: 'bottom-navigation/all-products',
       icon: 'list'
     },
+    {
+      title: 'Panier',
+      url: 'bottom-navigation/panier',
+      icon: 'cart'
+    },
+    {
+      title: 'Mes commandes',
+      url: 'bottom-navigation/my-orders',
+      icon: 'receipt'
+    },
+    {
+      title: 'Compte',
+      url: 'bottom-navigation/account',
+      icon: 'person'
+    }, 
     {
       title: 'Engagements',
       url: 'bottom-navigation/engagements',
@@ -51,22 +66,6 @@ export class AppComponent implements OnInit {
       title: 'Contactez nous',
       url: 'bottom-navigation/contactez-nous',
       icon: 'mail'
-    }, 
-    {
-      title: 'Panier',
-      url: 'bottom-navigation/panier',
-      icon: 'cart'
-    },
-    
-    {
-      title: 'Mes commandes',
-      url: 'bottom-navigation/my-orders',
-      icon: 'receipt'
-    },
-    {
-      title: 'Account',
-      url: 'bottom-navigation/account',
-      icon: 'person'
     }, 
   ];
 
