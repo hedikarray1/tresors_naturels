@@ -90,7 +90,7 @@
             <ion-label position="floating">Téléphone</ion-label>
             <ion-input readonly="{{facturationinputs}}" placeholder="Votre numéro de téléphone" [(ngModel)]="User.billing.phone"></ion-input>
           </ion-item>
-            <ion-button (click)="FacturationAction()" expand="full">{{facturationTextButton}}</ion-button>
+          <ion-button expand="block" fill="outline" color="dark"  value="block"  (click)="FacturationAction()" >{{facturationTextButton}}</ion-button>
           </ion-card-content>
         </ion-card>
         <ion-card *ngIf="livraison" id="facturation-card">
@@ -123,7 +123,7 @@
             <ion-input readonly="{{livraisoninputs}}" placeholder="code postal" [(ngModel)]="User.shipping.postcode"></ion-input>
           </ion-item>
            
-            <ion-button (click)="LivraisonAction()"  expand="full">{{livraisonTextButton}}</ion-button>
+          <ion-button expand="block" fill="outline" color="dark"  value="block"  (click)="LivraisonAction()"  >{{livraisonTextButton}}</ion-button>
           </ion-card-content>
         </ion-card>
 

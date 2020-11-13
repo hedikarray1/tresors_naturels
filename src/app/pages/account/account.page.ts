@@ -22,7 +22,10 @@ export class AccountPage implements OnInit {
   ngOnInit() {
   this.getUserData();
   }
+  ionViewDidEnter(){
+    this.getUserData();
 
+  }
   displayHideFacturationCard(){
     this.livraison=false;
 this.facturation=!this.facturation;

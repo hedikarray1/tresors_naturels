@@ -33,6 +33,11 @@ status={"pending":{title:"en attente",color:"warning"},
     this.getUserdata();
   }
   
+  ionViewDidEnter(){
+    this.userState=this.StorageService.getUserState();
+    this.getUserdata();
+  }
+  
 async getUserdata(){
   if(this.userState){
     //for online users

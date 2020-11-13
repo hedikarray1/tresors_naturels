@@ -33,6 +33,10 @@ orderId="";
 this.getOrder();
   }
 
+  ionViewDidEnter(){
+    this.orderId=this.route.snapshot.paramMap.get("id");
+    this.getOrder();
+  }
   getOrder(){
     let lineItems:any[]=[];
     this.OrderService.getMyOrderDetails(this.orderId).subscribe((data:any)=>{

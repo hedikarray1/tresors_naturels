@@ -1,3 +1,4 @@
+
 import { FCM } from '@ionic-native/fcm/ngx';
 import { Router } from '@angular/router';
 import { StorageService } from './services/storage/storage.service';
@@ -117,7 +118,7 @@ export class AppComponent implements OnInit {
         console.log(token);
      const alert =await  this.AlertCTRL.create({
           header : 'FCM token',
-          message : token ,
+          message : token+"" ,
           buttons : ['OK'],
         }) ;
          await alert.present();
