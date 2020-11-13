@@ -1,3 +1,5 @@
+import { async } from '@angular/core/testing';
+import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
 
 
@@ -11,50 +13,69 @@ const USER_STATE = 'user-state';
 })
 export class StorageService {
 
-  
-  constructor() { }
 
+  constructor(private storage: Storage) { }
+/*
   signOut() {
-    window.sessionStorage.clear();
+
+    this.storage.clear();
   }
 
 
   public saveToken(token: string) {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+
+    this.storage.remove(TOKEN_KEY);
+    this.storage.set(TOKEN_KEY, token);
   }
 
-  public getToken(): string {
-    return sessionStorage.getItem(TOKEN_KEY);
+  public getToken() {
+    return this.storage.get(TOKEN_KEY).then((val) => {
+      return val;
+    });
+
   }
 
-  public saveUser(user :any) {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+  public saveUser(user: any) {
+
+
+    this.storage.remove(USER_KEY);
+    this.storage.set(USER_KEY, JSON.stringify(user));
   }
 
-  public getUser() :any {
-    return JSON.parse(sessionStorage.getItem(USER_KEY));
+  public getUser(): any {
+    return this.storage.get(USER_KEY).then((val) => {
+      return val;
+    });
   }
 
-  public saveCart(panier :any[]) {
-    window.sessionStorage.removeItem(USER_CART);
-    window.sessionStorage.setItem(USER_CART, JSON.stringify(panier));
+  public saveCart(panier: any[]) {
+
+    this.storage.remove(USER_CART);
+    this.storage.set(USER_CART, JSON.stringify(panier));
   }
 
-  public getCart() :any[] {
-    return JSON.parse(sessionStorage.getItem(USER_CART));
+  public getCart(): any {
+    return this.storage.get(USER_CART).then((val) => {
+      return val;
+    });
   }
 
-  
+
   public saveUserState(state) {
-    window.sessionStorage.removeItem(USER_STATE);
-    window.sessionStorage.setItem(USER_STATE, state);
+
+    this.storage.remove(USER_STATE);
+    this.storage.set(USER_STATE, state);
   }
 
-  public getUserState()  {
-    if (sessionStorage.getItem(USER_STATE) == "true")
-       return true;
-    return false ;
+ async  getUserState(): any {
+    let st: boolean = false;
+
+    await this.storage.get(USER_STATE).then((val) => {
+
+      st = val;
+
+    });
+    return st;
   }
+  */
 }

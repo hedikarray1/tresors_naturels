@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { StorageService } from './../../services/storage/storage.service';
 import { async } from '@angular/core/testing';
 import { AuthService } from './../../services/auth/auth.service';
@@ -13,51 +14,60 @@ import { AlertController, LoadingController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-   credentiels : FormGroup;
+  credentiels: FormGroup;
 
   constructor(
-    private fb : FormBuilder,
-    private alertController : AlertController,
-    private router : Router,
-    private loadingController : LoadingController,
-    private authService : AuthService,
-    private storageService : StorageService
+    private fb: FormBuilder,
+    private alertController: AlertController,
+    private router: Router,
+    private loadingController: LoadingController,
+    private authService: AuthService,
+    private storageService: StorageService,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
     this.credentiels = this.fb.group({
-      username :['' , [Validators.required]],
-      password : ['' , [Validators.required , Validators.minLength(6)]] 
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
-  async login(){
-     const loading = await this.loadingController.create();
-     await loading.present();
+  async login() {
+    const loading = await this.loadingController.create();
+    await loading.present();
 
-     this.authService.login(this.credentiels.value).subscribe(
-       async (res : any) => {
-        console.log("succes",res);
+    this.authService.login(this.credentiels.value).subscribe(
+      async (res: any) => {
+        console.log("succes", res);
+
+        await loading.dismiss();
+     
+        this.storage.remove('auth-token');
+        this.storage.set('auth-token', res.token);
+
+        let user = {
+          id: res.user_id
+        }
         
-         await loading.dismiss();
-         this.storageService.saveToken(res.token) ;
-         let user ={
-           id : res.user_id
-         }
-         this.storageService.saveUser(user);
-         this.storageService.saveUserState(true);
-         this.router.navigateByUrl('/bottom-navigation' , {replaceUrl : true});
-       }, async (res) => {
-         await loading.dismiss();
-         console.log("error",res);
-         const alert = await this.alertController.create({
-           header : 'Connexion échoué',
-           message : res.error.message ,
-           buttons : ['OK'],
-         }) ;
-         await alert.present();
-       }
-     )
+        this.storage.remove('auth-user');
+        this.storage.set('auth-user', user);
+        
+        this.storage.remove('user-state');
+        this.storage.set('user-state', true);
+        
+        this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
+      }, async (res) => {
+        await loading.dismiss();
+        console.log("error", res);
+        const alert = await this.alertController.create({
+          header: 'Connexion échoué',
+          message: res.error.message,
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    )
   }
 
   get username() {
@@ -68,8 +78,8 @@ export class LoginPage implements OnInit {
     return this.credentiels.get('password');
   }
 
-  goToRegister(){
-    this.router.navigateByUrl('/register' , {replaceUrl : true});
+  goToRegister() {
+    this.router.navigateByUrl('/register', { replaceUrl: true });
   }
 
 }

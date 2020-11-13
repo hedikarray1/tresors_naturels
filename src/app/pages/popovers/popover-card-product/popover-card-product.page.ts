@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { PanierService } from './../../../services/panier/panier.service';
 import { StorageService } from './../../../services/storage/storage.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,7 +19,8 @@ export class PopoverCardProductPage implements OnInit {
     private popoverController : PopoverController,
     private navParams: NavParams,
     private panierService: PanierService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
@@ -27,8 +29,12 @@ export class PopoverCardProductPage implements OnInit {
     console.log("all data",this.navParams.data);
     console.log("product",this.product);
     console.log("id",this.id);
-    this.userState = this.storageService.getUserState();
-    this.userState = this.storageService.getUserState();
+
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val ;
+    });
+  
    
   }
    close(){

@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FCM } from '@ionic-native/fcm/ngx'
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FCM } from '@ionic-native/fcm/ngx'
     HttpClientModule,
     BrowserModule, 
     IonicModule.forRoot(), 
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     PanierModalPageModule,
     PopoverCardProductPageModule

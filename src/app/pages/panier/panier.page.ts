@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
@@ -8,46 +9,53 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './panier.page.html',
   styleUrls: ['./panier.page.scss'],
 })
-export class PanierPage implements OnInit  {
+export class PanierPage implements OnInit {
 
-  panier: any[] =[];
+  panier: any[] = [];
   userState: boolean = false;
-  totale : number =0;
+  totale: number = 0;
 
   constructor(
-    private Router:Router,
+    private Router: Router,
     private panierService: PanierService,
-    private storageService: StorageService
-    ) { }
+    private storageService: StorageService,
+    private storage: Storage
+  ) { }
 
-    ionViewDidEnter(){
-      this.userState = this.storageService.getUserState();
-  
-    this.getPanier();
-   console.log("userState",this.userState);
-   console.log("panier",this.panier);
-    }
+  ionViewDidEnter() {
 
-  ngOnInit() {
-    this.userState = this.storageService.getUserState();
-  
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
     this.getPanier();
-   console.log("userState",this.userState);
-   console.log("panier",this.panier);
+    console.log("userState", this.userState);
+    console.log("panier", this.panier);
   }
 
-  async getPanier(){
+  ngOnInit() {
+
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+    this.getPanier();
+    console.log("userState", this.userState);
+    console.log("panier", this.panier);
+  }
+
+  async getPanier() {
     if (this.userState) {
-    await  this.panierService.getCartFromServer().subscribe((res: any[]) => {
+      await this.panierService.getCartFromServer().subscribe((res: any[]) => {
         this.panier = res['data'];
         this.getTotal();
       })
 
-        } else {
-          this.panier = this.panierService.getCartFromStorage();
-          this.getTotal();  
-        }
-       
+    } else {
+      this.panier = this.panierService.getCartFromStorage();
+      this.getTotal();
+    }
+
   }
 
   incrementCartItem(product) {
@@ -57,7 +65,7 @@ export class PanierPage implements OnInit  {
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
           p.quantity += 1;
-          this.totale += p.price *1 ;
+          this.totale += p.price * 1;
           added = true;
           break;
         }
@@ -67,7 +75,7 @@ export class PanierPage implements OnInit  {
       this.panier = this.panierService.getCartFromStorage();
       this.totale += product.price;
     }
-   
+
   }
 
   decrementCartItem(product) {
@@ -85,13 +93,13 @@ export class PanierPage implements OnInit  {
         }
         index++;
       }
-    
+
     } else {
       this.panierService.decreaseProductFromCartFromStorage(product);
       this.panier = this.panierService.getCartFromStorage();
       this.totale -= product.price;
     }
-    
+
   }
 
   removeCartItem(product) {
@@ -111,19 +119,19 @@ export class PanierPage implements OnInit  {
       this.panierService.removeProductFromCartFromStorage(product);
       this.panier = this.panierService.getCartFromStorage();
     }
-   
+
   }
 
   getTotal() {
     this.totale = 0
     for (let p of this.panier) {
-    
-      this.totale +=  p.total ;
-            
+
+      this.totale += p.total;
+
     }
   }
 
- 
+
 
   async save() {
     console.log("saving");
@@ -131,27 +139,28 @@ export class PanierPage implements OnInit  {
 
       await this.panierService.emptyCartFromServer().subscribe((res: any[]) => {
         console.log("empty panier", res);
-         this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
+        this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
           console.log("panier", res);
           this.panier = res['data'];
-        //  this.modalCtrl.dismiss();
+          //  this.modalCtrl.dismiss();
         })
       })
-/*
-       this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
-        console.log("panier", res);
-        this.panier = res['data'];
-    
-      })
-      */
+      /*
+             this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
+              console.log("panier", res);
+              this.panier = res['data'];
+          
+            })
+            */
 
     } else {
-      this.storageService.saveCart(this.panier);
+      this.storage.remove('cart-user');
+      this.storage.set('cart-user', this.panier);
     }
 
   }
 
-  checkout(){
+  checkout() {
     this.Router.navigateByUrl('order');
 
   }

@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { StorageService } from './../../services/storage/storage.service';
@@ -19,27 +20,31 @@ export class PanierModalPage implements OnInit {
     private panierService: PanierService,
     private modalCtrl: ModalController,
     private storageService: StorageService,
-    private Router:Router
+    private Router: Router,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
-   this.userState = this.storageService.getUserState();
 
-   
- this.getPanier();
-console.log("userState",this.userState);
-console.log("panier",this.panier);
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+
+    this.getPanier();
+    console.log("userState", this.userState);
+    console.log("panier", this.panier);
   }
 
- async getPanier(){
+  async getPanier() {
     if (this.userState) {
-    await  this.panierService.getCartFromServer().subscribe((res: any[]) => {
+      await this.panierService.getCartFromServer().subscribe((res: any[]) => {
         this.panier = res['data'];
       })
 
-        } else {
-          this.panier = this.panierService.getCartFromStorage();
-        }
+    } else {
+      this.panier = this.panierService.getCartFromStorage();
+    }
   }
 
   decreaseCartItem(product) {
@@ -107,9 +112,9 @@ console.log("panier",this.panier);
   getTotal() {
     let totale = 0;
     for (let p of this.panier) {
-    
-      totale = totale + p.total ;
-            
+
+      totale = totale + p.total;
+
     }
     return totale;
   }
@@ -123,21 +128,24 @@ console.log("panier",this.panier);
 
       await this.panierService.emptyCartFromServer().subscribe((res: any[]) => {
         console.log("empty panier", res);
-         this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
+        this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
           console.log("panier", res);
           this.panier = res['data'];
           this.modalCtrl.dismiss();
         })
       })
-     
+
 
     } else {
-      this.storageService.saveCart(this.panier);
+
+      this.storage.remove('cart-user');
+      this.storage.set('cart-user', this.panier);
+
     }
 
   }
 
-  checkout(){
+  checkout() {
     this.modalCtrl.dismiss();
     this.Router.navigateByUrl('order');
 

@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { UserService } from './../../services/user/user.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
@@ -11,88 +12,98 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderPage implements OnInit {
 
-  panier: any[]=[];
+  panier: any[] = [];
   userState: boolean = false;
-billing:any={};
-shipping:any={};
-current_user:any={};
-payment_methodes:any[]=[];
-selectedpayment;
-notes="";
-  constructor(private UserService:UserService,private OrderService:OrderService,private PanierService:PanierService,private StorageService:StorageService) { }
+  billing: any = {};
+  shipping: any = {};
+  current_user: any = {};
+  payment_methodes: any[] = [];
+  selectedpayment;
+  notes = "";
+  constructor(private UserService: UserService, private storage: Storage, private OrderService: OrderService, private PanierService: PanierService, private StorageService: StorageService) { }
 
   ngOnInit() {
-    this.userState=this.StorageService.getUserState();
-    this.getPanier();
-    this.getPAymentmethodes();
-    this.getUserdata();
-  }
-  ionViewDidEnter(){
-    this.userState=this.StorageService.getUserState();
-    this.getPanier();
-    this.getPAymentmethodes();
-    this.getUserdata();
-  }
-getUserdata(){
-  if(this.userState){
-    //for online users
-    this.UserService.getUserById(this.StorageService.getUser().id).subscribe((data:any)=>{
-    this.billing=data.billing;
-    this.shipping=data.shipping;
-    console.log("is online",data);
-    this.current_user=data;
 
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
     });
-  }else{
-    console.log("is not online");
-
-    this.current_user={id:0};
+    this.getPanier();
+    this.getPAymentmethodes();
+    this.getUserdata();
   }
-}
+  ionViewDidEnter() {
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+    this.getPanier();
+    this.getPAymentmethodes();
+    this.getUserdata();
+  }
+  getUserdata() {
+    if (this.userState) {
+      //for online users
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.UserService.getUserById(val.id).subscribe((data: any) => {
+          this.billing = data.billing;
+          this.shipping = data.shipping;
+          console.log("is online", data);
+          this.current_user = data;
+        });
+      });
 
-  getPAymentmethodes(){
-    this.OrderService.getAllPaymentMethods().subscribe((data:any[])=>{this.payment_methodes=data});
+    } else {
+      console.log("is not online");
+
+      this.current_user = { id: 0 };
+    }
+  }
+
+  getPAymentmethodes() {
+    this.OrderService.getAllPaymentMethods().subscribe((data: any[]) => { this.payment_methodes = data });
 
   }
 
   getPanierTotal() {
     let totale = 0;
     for (let p of this.panier) {
-    
-      totale = totale + p.quantity*p.product_regular_price ;
-            
+
+      totale = totale + p.quantity * p.product_regular_price;
+
     }
     return totale;
   }
 
- async getPanier(){
-  if (this.userState) {
-  await  this.PanierService.getCartFromServer().subscribe((res: any[]) => {
-      this.panier = res['data'];
-      let lineItems:any[]=[];
-this.panier.forEach(element=>{
-  element.subtotal=element.subtotal+"";
-  element.total=element.total+"";
-});
-    })
+  async getPanier() {
+    if (this.userState) {
+      await this.PanierService.getCartFromServer().subscribe((res: any[]) => {
+        this.panier = res['data'];
+        let lineItems: any[] = [];
+        this.panier.forEach(element => {
+          element.subtotal = element.subtotal + "";
+          element.total = element.total + "";
+        });
+      })
 
-      } else {
-        this.panier = this.PanierService.getCartFromStorage();
-      }
-}
-
-
-  createOrder(){
+    } else {
+      this.panier = this.PanierService.getCartFromStorage();
+    }
+  }
 
 
-this.OrderService.CreateOrder(this.billing,
-  this.shipping,
-  this.current_user.id,[],this.selectedpayment,this.payment_methodes[this.payment_methodes.findIndex(x => x.id ===this.selectedpayment)].title,this.notes,"TND",this.payment_methodes,this.panier).subscribe((data:any)=>{
-    console.log("payement",data);
-  });
+  createOrder() {
 
 
-//this.OrderService.CreateOrder()
+    this.OrderService.CreateOrder(this.billing,
+      this.shipping,
+      this.current_user.id, [], this.selectedpayment, this.payment_methodes[this.payment_methodes.findIndex(x => x.id === this.selectedpayment)].title, this.notes, "TND", this.payment_methodes, this.panier).subscribe((data: any) => {
+        console.log("payement", data);
+      });
+
+
+    //this.OrderService.CreateOrder()
 
   }
 
