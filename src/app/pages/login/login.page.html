@@ -1,18 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
- <form (ngSubmit)="login()" [formGroup]="credentiels">
+
+  <div>
+    <img src="../../../assets/images/2732.png" >
+  </div>
+
+ <form class="form-login" (ngSubmit)="login()" [formGroup]="credentiels">
+  
   <ion-item>
-    <ion-input type="text" placeholder="Username" formControlName="username"></ion-input>
+    <ion-label position="floating" color="dark">Nom d'utilisateur</ion-label>
+    <ion-input type="text" formControlName="username" class="form-controll" required></ion-input>
   </ion-item>
+ 
   <ion-item>
-    <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+    <ion-label position="floating" color="dark">Mot de passe</ion-label>
+    <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
   </ion-item>
-  <ion-button type="submit" expand="block" [disabled]="!credentiels.valid">Se connecter</ion-button>
+  
+  <ion-button  type="submit" color="dark" fill="outline" expand="block" [disabled]="!credentiels.valid">Se connecter</ion-button>
 
   
 </form>

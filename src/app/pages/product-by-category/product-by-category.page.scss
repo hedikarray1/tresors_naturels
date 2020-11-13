@@ -76,3 +76,42 @@
    top:0;
    right:0;
    }
+
+
+   
+
+   //bar ajout panier
+.row-panier {
+   background: black;
+   padding: 0%;
+}
+
+.col-panier {
+  
+  
+    text-align: center;
+    font-size: 4vw;
+}
+
+.col-panier-txt {
+   padding: 4vw;
+   color : var(--menuhous);
+   
+}
+
+.panier-icon {
+   color : var(--menuhous);
+   --color : var(--menuhous);
+}
+
+.col-panier-color {
+   background: #afaeae;
+}
+  
+
+.button-panier {
+   margin: 0%;
+}
+
+
+

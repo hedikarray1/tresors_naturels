@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
       icon: 'book'
     },
     {
-      title: 'Nous produits',
+      title: 'Nos produits',
       url: 'bottom-navigation/all-products',
       icon: 'list'
     },
@@ -57,16 +57,17 @@ export class AppComponent implements OnInit {
       url: 'bottom-navigation/panier',
       icon: 'cart'
     },
+    
+    {
+      title: 'Mes commandes',
+      url: 'bottom-navigation/my-orders',
+      icon: 'receipt'
+    },
     {
       title: 'Account',
       url: 'bottom-navigation/account',
       icon: 'person'
     }, 
-    {
-      title: 'Deconnecter',
-      url: 'bottom-navigation/contactez-nous',
-      icon: 'log-out'
-    },
   ];
 
   
@@ -101,8 +102,18 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      if ( this.storageService.getUserState()){
+        this.splashScreen.hide();
+        this.router.navigateByUrl("bottom-navigation");
+
+      }else {
+        this.splashScreen.hide();
+      }
+          
       this.fcm.getToken().then(async token => {
+     
+
+   
         console.log(token);
      const alert =await  this.AlertCTRL.create({
           header : 'FCM token',
@@ -145,6 +156,11 @@ export class AppComponent implements OnInit {
   
 goTo(link) {
   this.router.navigateByUrl(link);
+}
+
+logOut() {
+  this.storageService.signOut();
+  this.router.navigateByUrl("login");
 }
   
 }

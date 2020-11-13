@@ -38,6 +38,7 @@ export class LoginPage implements OnInit {
      this.authService.login(this.credentiels.value).subscribe(
        async (res : any) => {
         console.log("succes",res);
+        
          await loading.dismiss();
          this.storageService.saveToken(res.token) ;
          let user ={
@@ -50,7 +51,7 @@ export class LoginPage implements OnInit {
          await loading.dismiss();
          console.log("error",res);
          const alert = await this.alertController.create({
-           header : 'login failer',
+           header : 'Connexion échoué',
            message : res.error.message ,
            buttons : ['OK'],
          }) ;
