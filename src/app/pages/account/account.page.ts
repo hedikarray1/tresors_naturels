@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
@@ -21,7 +22,8 @@ export class AccountPage implements OnInit {
   constructor(
     private UserService:UserService,
     private StorageService:StorageService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private storage : Storage
     ) { }
 
     
@@ -85,9 +87,14 @@ this.facturationTextButton="Sauvegarder"
   }
 
   getUserData(){
-    this.UserService.getUserById(this.StorageService.getUser().id).subscribe((data:any)=>{
-      this.User=data;
-          });
+
+    this.storage.get('auth-user').then((val) => {
+      console.log('auth-user', val);
+      this.UserService.getUserById(val.id).subscribe((data:any)=>{
+        this.User=data;
+            });
+    });
+    
   }
 
   updateUser(){

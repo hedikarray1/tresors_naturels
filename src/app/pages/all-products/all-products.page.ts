@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { PanierService } from './../../services/panier/panier.service';
@@ -29,12 +30,17 @@ export class AllProductsPage implements OnInit {
     private router: Router,
     private panierService: PanierService,
     private storageService: StorageService,
-    private popoverController : PopoverController,
-    private modalCtrl: ModalController
+    private popoverController: PopoverController,
+    private modalCtrl: ModalController,
+    private storage: Storage
   ) { }
 
   async ngOnInit() {
-    this.userState = this.storageService.getUserState();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+
     await this.getAllProductsPerPage();
 
 
@@ -88,17 +94,19 @@ export class AllProductsPage implements OnInit {
     let product = [
       {
         "product_id": p.id,
-        "variation_id" : 0 ,
+        "variation_id": 0,
         "quantity": 1
       }
     ]
     console.log("saving");
     if (this.userState) {
-      this.panierService.addToCartOnServer(product).subscribe((res: any[]) => {
-        console.log("panier", res);
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.addToCartOnServer(product, val.id).subscribe((res: any[]) => {
+          console.log("panier", res);
 
+        })
       })
-
     } else {
 
       // this.storageService.saveCart(this.panier);
@@ -107,22 +115,22 @@ export class AllProductsPage implements OnInit {
 
   }
 
- async showPopover(event: MouseEvent,product) {
+  async showPopover(event: MouseEvent, product) {
     const popover = await this.popoverController.create({
       component: PopoverCardProductPage,
       componentProps: {
         "id": product.id,
-        "product": product,    
-        },
+        "product": product,
+      },
       translucent: true
     });
     return popover.present();
   }
 
-  
-async openCart() {
-  //  this.animateCSS('bounceOutLeft', true);
- 
+
+  async openCart() {
+    //  this.animateCSS('bounceOutLeft', true);
+
     let modal = await this.modalCtrl.create({
       component: PanierModalPage,
       cssClass: 'cart-modal'

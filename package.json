@@ -79,7 +79,8 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {}
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-sqlite-storage": {}
     },
     "platforms": []
   }

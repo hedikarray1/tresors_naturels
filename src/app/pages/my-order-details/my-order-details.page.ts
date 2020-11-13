@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { ProductService } from './../../services/product/product.service';
 import { OrderService } from './../../services/order/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,57 +12,63 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyOrderDetailsPage implements OnInit {
 
-  constructor( private loadingController : LoadingController,
+  constructor(private loadingController: LoadingController,
     private route: ActivatedRoute,
-    private ProductService:ProductService,
-    private router : Router,private OrderService:OrderService) { }
+    private ProductService: ProductService,
+    private storage: Storage,
+    private router: Router,
+    private OrderService: OrderService
+  ) { }
 
-    status={"pending":{title:"en attente",color:"warning"},
- "processing":{title:"en cours",color:"secondary"},
-  "on-hold":{title:"en attente",color:"warning"},
-   "completed":{title:"Terminé",color:"success"}, 
-   "cancelled":{title:"Annulé",color:"danger"},
-    "refunded":{title:"Remboursé",color:"tertiary"},
-     "failed":{title:"échec",color:"danger"} ,
-     "trash":{title:"En corbeille",color:"danger"}}
-orderId="";
- Order:any={}
- facturationitem=true;
- livraisonitem=false;
-  ngOnInit() {
-    this.orderId=this.route.snapshot.paramMap.get("id");
-this.getOrder();
+  status = {
+    'pending': { title: 'en attente', color: 'warning' },
+    'processing': { title: 'en cours', color: 'secondary' },
+    'on-hold': { title: 'en attente', color: 'warning' },
+    'completed': { title: 'Terminé', color: 'success' },
+    'cancelled': { title: 'Annulé', color: 'danger' },
+    'refunded': { title: 'Remboursé', color: 'tertiary' },
+    'failed': { title: 'échec', color: 'danger' },
+    'trash': { title: 'En corbeille', color: 'danger' }
   }
-
-  ionViewDidEnter(){
-    this.orderId=this.route.snapshot.paramMap.get("id");
+  orderId = '';
+  Order: any = {}
+  facturationitem = true;
+  livraisonitem = false;
+  
+  ngOnInit() {
+    this.orderId = this.route.snapshot.paramMap.get('id');
     this.getOrder();
   }
-  getOrder(){
-    let lineItems:any[]=[];
-    this.OrderService.getMyOrderDetails(this.orderId).subscribe((data:any)=>{
-this.Order=data;
-lineItems=data.line_items
-lineItems.forEach(element => {
-  this.ProductService.getproduct(element.product_id).subscribe((data1:any)=>{
-element.product=data1;
-  });
-});
-this.Order.line_items=lineItems;
-this.Order.date_created=new Date(this.Order.date_created);
+
+  ionViewDidEnter() {
+    this.orderId = this.route.snapshot.paramMap.get('id');
+    this.getOrder();
+  }
+  getOrder() {
+    let lineItems: any[] = [];
+    this.OrderService.getMyOrderDetails(this.orderId).subscribe((data: any) => {
+      this.Order = data;
+      lineItems = data.line_items
+      lineItems.forEach(element => {
+        this.ProductService.getproduct(element.product_id).subscribe((data1: any) => {
+          element.product = data1;
+        });
+      });
+      this.Order.line_items = lineItems;
+      this.Order.date_created = new Date(this.Order.date_created);
     });
   }
 
 
 
-  showFacturationLivraison(type){
-    if(type==='facturation'){
-      this.facturationitem=true;
-    this.livraisonitem=false;
+  showFacturationLivraison(type) {
+    if (type === 'facturation') {
+      this.facturationitem = true;
+      this.livraisonitem = false;
 
-    }else{
-      this.facturationitem=false;
-      this.livraisonitem=true;
+    } else {
+      this.facturationitem = false;
+      this.livraisonitem = true;
     }
   }
 

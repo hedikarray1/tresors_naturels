@@ -147,6 +147,7 @@ this.getSlidesNbr();
     this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json",).subscribe( (res : any ) =>{
        this.slideNBR = res.number ;
        console.log("response get slides",res);
+       this.slidesPictures = [];
        for (let i=1 ;i<=this.slideNBR;i++ ){
                this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_"+i+".jpg");
        }
