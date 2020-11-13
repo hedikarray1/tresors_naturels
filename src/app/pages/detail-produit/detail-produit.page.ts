@@ -116,11 +116,13 @@ export class DetailProduitPage implements OnInit {
     ]
     console.log("saving");
     if (this.userState) {
-      this.panierService.addToCartOnServer(product).subscribe((res: any[]) => {
-        console.log("panier", res);
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.addToCartOnServer(product, val.id).subscribe((res: any[]) => {
+          console.log("panier", res);
 
+        })
       })
-
     } else {
 
       // this.storageService.saveCart(this.panier);
@@ -147,11 +149,13 @@ export class DetailProduitPage implements OnInit {
     ]
     console.log("saving");
     if (this.userState) {
-      this.panierService.addToCartOnServer(product).subscribe((res: any[]) => {
-        console.log("panier", res);
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.addToCartOnServer(product, val.id).subscribe((res: any[]) => {
+          console.log("panier", res);
 
+        })
       })
-
     } else {
 
       // this.storageService.saveCart(this.panier);

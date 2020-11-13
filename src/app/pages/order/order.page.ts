@@ -78,17 +78,19 @@ export class OrderPage implements OnInit {
 
   async getPanier() {
     if (this.userState) {
-      await this.PanierService.getCartFromServer().subscribe((res: any[]) => {
-        this.panier = res['data'];
-        let lineItems: any[] = [];
-        this.panier.forEach(element => {
-          element.subtotal = element.subtotal + "";
-          element.total = element.total + "";
-        });
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.PanierService.getCartFromServer(val.id).subscribe((res: any[]) => {
+          this.panier = res['data'];
+          let lineItems: any[] = [];
+          this.panier.forEach(element => {
+            element.subtotal = element.subtotal + "";
+            element.total = element.total + "";
+          });
+        })
       })
-
     } else {
-      this.panier = this.PanierService.getCartFromStorage();
+      //  this.panier = this.PanierService.getCartFromStorage();
     }
   }
 

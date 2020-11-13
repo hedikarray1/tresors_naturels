@@ -46,13 +46,15 @@ export class PanierPage implements OnInit {
 
   async getPanier() {
     if (this.userState) {
-      await this.panierService.getCartFromServer().subscribe((res: any[]) => {
-        this.panier = res['data'];
-        this.getTotal();
-      })
-
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.getCartFromServer(val.id).subscribe((res: any[]) => {
+          this.panier = res['data'];
+          this.getTotal();
+        })
+      });
     } else {
-      this.panier = this.panierService.getCartFromStorage();
+      //  this.panier = this.panierService.getCartFromStorage();
       this.getTotal();
     }
 
@@ -72,7 +74,7 @@ export class PanierPage implements OnInit {
       }
     } else {
       this.panierService.addProductToCartFromStorage(product);
-      this.panier = this.panierService.getCartFromStorage();
+      //  this.panier = this.panierService.getCartFromStorage();
       this.totale += product.price;
     }
 
@@ -96,7 +98,7 @@ export class PanierPage implements OnInit {
 
     } else {
       this.panierService.decreaseProductFromCartFromStorage(product);
-      this.panier = this.panierService.getCartFromStorage();
+      // this.panier = this.panierService.getCartFromStorage();
       this.totale -= product.price;
     }
 
@@ -117,7 +119,7 @@ export class PanierPage implements OnInit {
     } else {
       this.totale -= product.total;
       this.panierService.removeProductFromCartFromStorage(product);
-      this.panier = this.panierService.getCartFromStorage();
+      //  this.panier = this.panierService.getCartFromStorage();
     }
 
   }
@@ -136,13 +138,15 @@ export class PanierPage implements OnInit {
   async save() {
     console.log("saving");
     if (this.userState) {
-
-      await this.panierService.emptyCartFromServer().subscribe((res: any[]) => {
-        console.log("empty panier", res);
-        this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
-          console.log("panier", res);
-          this.panier = res['data'];
-          //  this.modalCtrl.dismiss();
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.emptyCartFromServer(val.id).subscribe((res: any[]) => {
+          console.log("empty panier", res);
+          this.panierService.addToCartOnServer(this.panier, val.id).subscribe((res: any[]) => {
+            console.log("panier", res);
+            this.panier = res['data'];
+            //  this.modalCtrl.dismiss();
+          })
         })
       })
       /*
