@@ -144,7 +144,7 @@ this.getSlidesNbr();
 
   getSlidesNbr(){
     console.log('get slide nbr enter');
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").subscribe( (res : any ) =>{
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json",).subscribe( (res : any ) =>{
        this.slideNBR = res.number ;
        console.log("response get slides",res);
        for (let i=1 ;i<=this.slideNBR;i++ ){
