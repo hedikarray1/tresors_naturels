@@ -68,7 +68,7 @@ export class ProductService {
     };
     
      let  params = {
-      per_page: '5',
+      per_page: '6',
       page: ''+ page ,
       category : ''+ category
     };

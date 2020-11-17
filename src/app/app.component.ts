@@ -17,6 +17,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent implements OnInit {
 
   public selectedIndex = 0;
+  panier: any[] = [];
+  userState: boolean = false;
   public appPages = [
     {
       title: 'Accueil',
@@ -71,19 +73,6 @@ export class AppComponent implements OnInit {
   ];
 
 
-  public labels = [
-    {
-      title: 'Account',
-      url: 'bottom-navigation/account',
-      icon: 'person'
-    },
-    {
-      title: 'Deconnecter',
-      url: 'bottom-navigation/contactez-nous',
-      icon: 'log-out'
-    },
-
-  ];
 
 
   constructor(
@@ -94,7 +83,8 @@ export class AppComponent implements OnInit {
     private storage: Storage,
     private router: Router,
     private fcm: FCM,
-    private AlertCTRL: AlertController
+    private AlertCTRL: AlertController,
+    private panierService: PanierService
   ) {
     this.initializeApp();
   }
@@ -142,6 +132,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     const path = window.location.pathname.split('bottom-navigation/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
@@ -153,7 +144,7 @@ export class AppComponent implements OnInit {
 
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
-
+      this.userState = val;
     });
 
 
@@ -164,8 +155,6 @@ export class AppComponent implements OnInit {
 
 
   }
-
-
 
   goTo(link) {
     this.router.navigateByUrl(link);

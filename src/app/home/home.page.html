@@ -77,6 +77,7 @@
         <div class="product-image-container" (click)="goToDetail(productc?.id)">
           <img src="{{productc?.images[0]?.src}}" />
         </div>
+        <div class="card-separator"></div>
         <ion-card-content (click)="goToDetail(productc?.id)">
           <div class="product-name">{{productc?.name}}</div>
           <div class="product-category-container">
@@ -92,7 +93,7 @@
 
         <ion-row (click)="showPopover($event,productc)" class="row-panier">
           <ion-col class="col-panier col-panier-txt" size="9">
-            Ajouter au panier
+          ACHETER
           </ion-col>
           <ion-col class="col-panier col-panier-color panier-icon" size="3">
             <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
@@ -120,6 +121,7 @@
         >
           <img src="{{productba?.images[0]?.src}}" />
         </div>
+        <div class="card-separator"></div>
         <ion-card-content (click)="goToDetail(productba?.id)">
           <div class="product-name">{{productba?.name}}</div>
           <div class="product-category-container">
@@ -135,7 +137,7 @@
 
         <ion-row (click)="showPopover($event,productba)" class="row-panier">
           <ion-col class="col-panier col-panier-txt" size="9">
-            Ajouter au panier
+          ACHETER
           </ion-col>
           <ion-col class="col-panier col-panier-color panier-icon" size="3">
             <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
@@ -163,6 +165,7 @@
         >
           <img src="{{productbe?.images[0]?.src}}" />
         </div>
+        <div class="card-separator"></div>
         <ion-card-content (click)="goToDetail(productbe?.id)">
           <div class="product-name">{{productbe?.name}}</div>
           <div class="product-category-container">
@@ -177,7 +180,7 @@
         </ion-card-content>
         <ion-row (click)="showPopover($event,productbe)" class="row-panier">
           <ion-col class="col-panier col-panier-txt" size="9">
-            Ajouter au panier
+          ACHETER
           </ion-col>
           <ion-col class="col-panier col-panier-color panier-icon" size="3">
             <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
@@ -205,6 +208,7 @@
         >
           <img src="{{productbs?.images[0]?.src}}" />
         </div>
+        <div class="card-separator"></div>
         <ion-card-content (click)="goToDetail(productbs?.id)">
           <div class="product-name">{{productbs?.name}}</div>
           <div class="product-category-container">
@@ -220,7 +224,7 @@
 
         <ion-row (click)="showPopover($event,productbs)" class="row-panier">
           <ion-col class="col-panier col-panier-txt" size="9">
-            Ajouter au panier
+          ACHETER
           </ion-col>
           <ion-col class="col-panier col-panier-color panier-icon" size="3">
             <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
@@ -243,6 +247,7 @@
         <div class="product-image-container" (click)="goToDetail(product?.id)">
           <img src="{{product?.images[0]?.src}}" />
         </div>
+        <div class="card-separator"></div>
         <ion-card-content (click)="goToDetail(product?.id)">
           <div class="product-name">{{product?.name}}</div>
           <div class="product-category-container">
@@ -258,7 +263,7 @@
 
         <ion-row (click)="showPopover($event,product)" class="row-panier">
           <ion-col class="col-panier col-panier-txt" size="9">
-            Ajouter au panier
+          ACHETER
           </ion-col>
           <ion-col class="col-panier col-panier-color panier-icon" size="3">
             <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
@@ -268,4 +273,6 @@
       </ion-card>
     </div>
   </div>
+  <br/>
+  <br/>
 </ion-content>

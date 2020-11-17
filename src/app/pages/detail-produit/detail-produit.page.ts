@@ -1,8 +1,9 @@
+import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { Storage } from '@ionic/storage';
 import { async } from '@angular/core/testing';
 import { PanierService } from './../../services/panier/panier.service';
 import { StorageService } from './../../services/storage/storage.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController, PopoverController } from '@ionic/angular';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +32,9 @@ export class DetailProduitPage implements OnInit {
     private ProductService: ProductService,
     private panierService: PanierService,
     private storageService: StorageService,
-    private storage: Storage
+    private storage: Storage,   
+    private alertController: AlertController,
+    private popoverController : PopoverController
   ) { }
 
   async ngOnInit() {
@@ -96,16 +99,26 @@ export class DetailProduitPage implements OnInit {
   }
 
   addItem() {
-    this.itemQty += 1
+    if (this.userState){
+      this.itemQty += 1
+    }else {
+this.showAlertLogin();
+    }
+   
   }
 
   removeItem() {
+    if (this.userState){
     if (this.itemQty > 1) {
       this.itemQty -= 1;
     }
+  }else {
+      this.showAlertLogin();
+          }
   }
 
   addToCart() {
+    
     console.log("adding to cart");
     let product = [
       {
@@ -125,16 +138,17 @@ export class DetailProduitPage implements OnInit {
       })
     } else {
 
-      // this.storageService.saveCart(this.panier);
-      //addProductToCartFromStorage(product) 
+      this.showAlertLogin(); 
     }
 
   }
 
-
+  
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
   }
+
+
 
 
   addToCartWithVariation(id) {
@@ -157,11 +171,58 @@ export class DetailProduitPage implements OnInit {
         })
       })
     } else {
-
-      // this.storageService.saveCart(this.panier);
-      //addProductToCartFromStorage(product) 
+      this.showAlertLogin();
     }
 
   }
+
+async showAlertLogin() {
+
+  const alert = await this.alertController.create({
+    header: 'Vous devez vous connecter',
+    mode: 'ios',
+    message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+    buttons: [
+      {
+        text: 'ignorer',
+        role: 'cancel',
+        cssClass: 'btn-alert-ignorer',
+        handler: () => {
+          alert.dismiss();
+        }
+      },
+      {
+        text: 'connexion',
+        cssClass: 'btn-alert-connexion',
+        handler: () => {
+          this.router.navigateByUrl('/login');
+        }
+      },
+    ]
+  });
+  await alert.present();
+}
+
+
+async showPopoverPanier(event: MouseEvent, product) {
+  const popover = await this.popoverController.create({
+    component: PopoverCardProductPage,
+    componentProps: {
+      "id": product.id,
+      "product": product,
+    },
+    translucent: true
+  });
+  return popover.present();
+}
+
+showPopover(event: MouseEvent, product) {
+  if (this.userState) {
+    this.showPopoverPanier(event, product);
+  } else {
+    this.showAlertLogin();
+  }
+}
+
 
 }

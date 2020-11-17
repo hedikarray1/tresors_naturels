@@ -21,6 +21,7 @@
     <ion-tab-button tab="panier">
       <ion-icon name="cart-outline"></ion-icon>
       <ion-label>Panier</ion-label>
+      <ion-badge color="danger" *ngIf="panierNbr > 0">{{panierNbr}}</ion-badge>
     </ion-tab-button>
 
   </ion-tab-bar>

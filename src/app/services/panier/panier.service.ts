@@ -18,20 +18,20 @@ export class PanierService {
   }
 
   getCartFromServer(id) {
-
-    
-
       let params = {
         user_id: id
       };
       let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/cart", params);
       return this.http.get(myUrl);
-
-
-    
-
-
   }
+
+  getCartItemNbr(id) {
+    let params = {
+      user_id: id
+    };
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/cartItemNBR", params);
+    return this.http.get(myUrl);
+}
 
 
   emptyCartFromServer(id) {
@@ -63,76 +63,5 @@ export class PanierService {
     
   }
 
-
-
-  addProductToCartFromStorage(product1) {
-    let added = false;
-    let product = product1 ;
-
-    this.storage.get('cart-user').then((val) => {
-      console.log('cart-user', val);
-
-      let panier: any[] = val;
-      for (let p of panier) {
-        if (p.product_id === product.product_id) {
-          p.quantity += 1;
-          added = true;
-          break;
-        }
-      }
-      if (!added) {
-        product.quantity = 1;
-        panier.push(product);
-      }
-      this.storage.remove('cart-user');
-      this.storage.set('cart-user', panier);
-
-
-    });
-
-
-  }
-
-  decreaseProductFromCartFromStorage(product) {
-
-    this.storage.get('cart-user').then((val) => {
-      console.log('cart-user', val);
-      let panier: any[] = val;
-      let index = 0
-      for (let p of panier) {
-        if (p.product_id === product.product_id) {
-          p.quantity -= 1;
-          if (p.quantity == 0) {
-            panier.splice(index, 1);
-          }
-          break;
-        }
-        index++;
-      }
-      this.storage.remove('cart-user');
-      this.storage.set('cart-user', panier);
-
-    });
-  }
-
-  removeProductFromCartFromStorage(product) {
-    this.storage.get('cart-user').then((val) => {
-      console.log('cart-user', val);
-      let panier: any[] = val;
-      let index = 0
-      for (let p of panier) {
-        if (p.product_id === product.product_id) {
-
-          panier.splice(index, 1);
-          break;
-        }
-        index++;
-      }
-      this.storage.remove('cart-user');
-      this.storage.set('cart-user', panier);
-
-    });
-
-  }
 
 }

@@ -43,7 +43,7 @@
       </ion-item>
       <ion-item class="item-cart" *ngIf="product?.type == 'variable'">
       
-        <ion-label>
+       
           <div class="cart-input-container">
 
             <ion-button (click)="removeItem()" fill="clear" color="dark"[disabled]="itemQty<2" >
@@ -58,18 +58,18 @@
               <ion-icon name="add-circle-outline"></ion-icon>
             </ion-button>
 
-            <ion-button (click)="addToCartWithVariation(variationId)" class="button-save" [disabled]="variationId == 0" fill="outline" color="dark">
-            Ajouter au panier
+            <ion-button (click)="addToCartWithVariation(variationId)" [disabled]="variationId == 0" fill="outline" color="dark">
+          ACHETER
             </ion-button>
             
             
           </div>
-        </ion-label>
+       
       </ion-item>
 
       <ion-item class="item-cart" *ngIf="product?.type == 'simple'">
-        <ion-label>
-          <div class="cart-input-container">
+      
+        <div class="cart-input-container">
 
             <ion-button (click)="removeItem()" fill="clear" color="dark"[disabled]="itemQty<2" >
               <ion-icon name="remove-circle-outline"></ion-icon>
@@ -83,13 +83,13 @@
               <ion-icon name="add-circle-outline"></ion-icon>
             </ion-button>
 
-            <ion-button (click)="addToCart()" class="button-save" fill="outline" color="dark">
-            Ajouter au panier
+            <ion-button (click)="addToCart()"  fill="outline" color="dark">
+          ACHETER
             </ion-button>
             
             
           </div>
-        </ion-label>
+       
       </ion-item>
 
       
@@ -126,19 +126,30 @@
     </ion-card-content>
   </ion-card>
   <br/>
+  <div *ngIf="relatedProducts.length > 0 " class="slide-product-name">PRODUITS APPARENTÉS</div> 
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let productc of relatedProducts" class="slide-product" >
-      <ion-card class="slide-product-card" (click)="goToDetail(productc?.id)" >
-        <div class="slide-product-image-container">
+      <ion-card class="slide-product-card"  >
+        <div class="slide-product-image-container" (click)="goToDetail(productc?.id)">
           <img src="{{productc?.images[0]?.src}}" />
         </div>
-        <ion-card-content>
+        <div class="card-separator"></div>
+        <ion-card-content (click)="goToDetail(productc?.id)">
           <div class="slide-product-name">{{productc?.name}}</div>
           <div class="slide-product-category-container">
             <span class="slide-product-category" *ngFor="let category of productc?.categories"> {{category?.name?.replace(rep,'&')}},</span>
           </div>
           <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
         </ion-card-content>
+
+        <ion-row (click)="showPopover($event,product)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+          ACHETER
+          </ion-col>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
       </ion-card>
 
     </ion-slide>

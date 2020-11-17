@@ -7,22 +7,19 @@
  }
 
  ion-item {
-     margin: 4% 5%;
+     margin-right: 2%;
  }
 
  form {
-     width: 90%;
-   //  margin-top: 35%;
+    width: 100%;
  }
-/*
- ion-card-content {
-    height: 60%;
-    max-height: 60%;
+
+ion-card-content {
+    
+    padding: 0px !important;
 }
 
-*/
-ion-content {
-    --height: auto;
-    --max-height: 75%;
-    --min-height: 50%;
+ion-card-header {
+    font-size: 5vw;
+    font-weight: 700;
 }

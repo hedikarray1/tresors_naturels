@@ -27,7 +27,7 @@ import { IonicStorageModule } from '@ionic/storage';
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     PanierModalPageModule,
-    PopoverCardProductPageModule
+    PopoverCardProductPageModule,
   ],
   providers: [
     HttpClientModule,

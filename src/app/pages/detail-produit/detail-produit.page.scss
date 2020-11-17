@@ -175,3 +175,44 @@
    width: 100%;
  
  }
+
+ .cart-input-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+ }
+
+ 
+   //bar ajout panier
+.row-panier {
+   background: black;
+   padding: 0%;
+}
+
+.col-panier {
+  
+  
+    text-align: center;
+    font-size: 3vw;
+}
+
+.col-panier-txt {
+   padding: 4vw;
+   color : var(--menuhous);
+   
+}
+
+.panier-icon {
+   padding: 3vw 0vw;
+}
+
+.col-panier-color {
+   background: #afaeae;
+}
+  
+
+.card-separator {
+   border-bottom: 1px solid #e2dfdf;
+   margin: 0% 6%;
+}

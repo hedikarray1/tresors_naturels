@@ -6,7 +6,7 @@ import { StorageService } from './../../services/storage/storage.service';
 import { CategoryService } from './../../services/category/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { async } from '@angular/core/testing';
-import { LoadingController, ModalController, PopoverController } from '@ionic/angular';
+import { LoadingController, ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -32,7 +32,8 @@ export class AllProductsPage implements OnInit {
     private storageService: StorageService,
     private popoverController: PopoverController,
     private modalCtrl: ModalController,
-    private storage: Storage
+    private storage: Storage,
+    private alertController : AlertController
   ) { }
 
   async ngOnInit() {
@@ -107,15 +108,11 @@ export class AllProductsPage implements OnInit {
 
         })
       })
-    } else {
-
-      // this.storageService.saveCart(this.panier);
-      //addProductToCartFromStorage(product) 
     }
 
   }
 
-  async showPopover(event: MouseEvent, product) {
+  async showPopoverPanier(event: MouseEvent, product) {
     const popover = await this.popoverController.create({
       component: PopoverCardProductPage,
       componentProps: {
@@ -125,6 +122,42 @@ export class AllProductsPage implements OnInit {
       translucent: true
     });
     return popover.present();
+  }
+
+  showPopover(event: MouseEvent, product) {
+    if (this.userState) {
+      this.showPopoverPanier(event, product);
+    } else {
+      this.showAlertLogin();
+    }
+  }
+
+
+  async showAlertLogin() {
+
+    const alert = await this.alertController.create({
+      header: 'Vous devez vous connecter',
+      mode: 'ios',
+      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      buttons: [
+        {
+          text: 'ignorer',
+          role: 'cancel',
+          cssClass: 'btn-alert-ignorer',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'connexion',
+          cssClass: 'btn-alert-connexion',
+          handler: () => {
+            this.router.navigateByUrl('/login');
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
 
 
