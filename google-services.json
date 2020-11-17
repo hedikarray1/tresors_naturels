@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1023662903537",
-    "firebase_url": "https://site-tresor-7c14e.firebaseio.com",
-    "project_id": "site-tresor-7c14e",
-    "storage_bucket": "site-tresor-7c14e.appspot.com"
+    "project_number": "351940294522",
+    "firebase_url": "https://notificationtresor.firebaseio.com",
+    "project_id": "notificationtresor",
+    "storage_bucket": "notificationtresor.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1023662903537:android:08493d82a8fc6a2dc51950",
+        "mobilesdk_app_id": "1:351940294522:android:4f0ea57ff23ee751a148c3",
         "android_client_info": {
           "package_name": "com.societe2i.sitetresor2020"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1023662903537-olmddrg8kcmtbhfj04hu7t0ap4bondft.apps.googleusercontent.com",
+          "client_id": "351940294522-28lpptdnh64ukstgejm5kef1flqn2pqt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXMZR0FapqdzSK9rdpe-waDOjfMdFHOhY"
+          "current_key": "AIzaSyAGOIgNQVgemeb0yXz69Z8y-rPQoHQA6Rg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1023662903537-olmddrg8kcmtbhfj04hu7t0ap4bondft.apps.googleusercontent.com",
+              "client_id": "351940294522-28lpptdnh64ukstgejm5kef1flqn2pqt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

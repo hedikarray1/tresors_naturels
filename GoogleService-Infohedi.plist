@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>351940294522-04ci00mqqja6rtqmer0ee8fpt4dlt391.apps.googleusercontent.com</string>
+	<string>1023662903537-leb7f8ft9339sh7c93kjg2q73m0sb0qs.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.351940294522-04ci00mqqja6rtqmer0ee8fpt4dlt391</string>
+	<string>com.googleusercontent.apps.1023662903537-leb7f8ft9339sh7c93kjg2q73m0sb0qs</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBNHbfpNySH0HAQrcC6COiyx3Vt_Na40gY</string>
+	<string>AIzaSyA3DXKP25t93xemeV5nWufMIhEl9jZyZ14</string>
 	<key>GCM_SENDER_ID</key>
-	<string>351940294522</string>
+	<string>1023662903537</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.societe2i.sitetresor2020</string>
 	<key>PROJECT_ID</key>
-	<string>notificationtresor</string>
+	<string>site-tresor-7c14e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>notificationtresor.appspot.com</string>
+	<string>site-tresor-7c14e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:351940294522:ios:b226d055fe5af751a148c3</string>
+	<string>1:1023662903537:ios:3fd581be4b4178d5c51950</string>
 	<key>DATABASE_URL</key>
-	<string>https://notificationtresor.firebaseio.com</string>
+	<string>https://site-tresor-7c14e.firebaseio.com</string>
 </dict>
 </plist>

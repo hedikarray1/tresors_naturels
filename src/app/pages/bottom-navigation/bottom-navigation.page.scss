@@ -1,6 +1,7 @@
 
 ion-tab-button , ion-tab-bar , ion-tabs{
 	background: var(--tresorsBlack);
+
 }
 
 ion-icon {
@@ -25,4 +26,8 @@ ion-label {
 	ion-icon {
 		color: var(--menuhous);
 	  }
+  }
+
+  .add-shadow{
+box-shadow: 	1px 0px 6px 0px black;
   }

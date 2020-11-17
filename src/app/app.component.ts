@@ -1,8 +1,10 @@
 import { Storage } from '@ionic/storage';
 
-import { FCM } from '@ionic-native/fcm/ngx';
+//import { FCM } from '@ionic-native/fcm/ngx'
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { Router } from '@angular/router';
 import { PanierService } from './services/panier/panier.service';
+//import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
 import { PanierModalPage } from './pages/panier-modal/panier-modal.page';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform, AlertController } from '@ionic/angular';
@@ -24,17 +26,17 @@ export class AppComponent implements OnInit {
       icon: 'home'
     },
     {
-      title: 'Categories',
+      title: 'Catalogue',
       url: 'bottom-navigation/categories',
       icon: 'book'
     },
     {
-      title: 'Nos produits',
+      title: 'Boutique',
       url: 'bottom-navigation/all-products',
       icon: 'list'
     },
     {
-      title: 'Panier',
+      title: 'Mon Panier',
       url: 'bottom-navigation/panier',
       icon: 'cart'
     },
@@ -78,7 +80,7 @@ export class AppComponent implements OnInit {
       icon: 'person'
     },
     {
-      title: 'Deconnecter',
+      title: 'Déconnexion',
       url: 'bottom-navigation/contactez-nous',
       icon: 'log-out'
     },
@@ -93,7 +95,8 @@ export class AppComponent implements OnInit {
     private modalCtrl: ModalController,
     private storage: Storage,
     private router: Router,
-    private fcm: FCM,
+    //private fcm: FCM,
+    private firebaseX:FirebaseX,
     private AlertCTRL: AlertController
   ) {
     this.initializeApp();
@@ -114,7 +117,7 @@ export class AppComponent implements OnInit {
       });
 
 
-      this.fcm.getToken().then(async token => {
+     this.firebaseX.getToken().then(async token => {
 
 
 
@@ -128,7 +131,10 @@ export class AppComponent implements OnInit {
         // send token to the server
       });
 
-      this.fcm.onNotification().subscribe(data => {
+      this.firebaseX.onTokenRefresh()
+      .subscribe((token: string) => console.log(`Got a new token ${token}`));
+
+      this.firebaseX.onMessageReceived().subscribe(data => {
         console.log(data);
         if (data.wasTapped) {
           console.log('Received in background');

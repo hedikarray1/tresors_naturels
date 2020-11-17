@@ -1,9 +1,11 @@
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { min } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account',
@@ -16,14 +18,16 @@ export class AccountPage implements OnInit {
   livraisoninputs=true;
   facturationinputs=true;
   update_infosCard=false;
-
+  Points;
+form:FormGroup;
   livraisonTextButton="Modifier"
   facturationTextButton="Modifier"
   constructor(
     private UserService:UserService,
     private StorageService:StorageService,
     private modalCtrl: ModalController,
-    private storage : Storage
+    private storage : Storage,
+    private formBuilder:FormBuilder
     ) { }
 
     
@@ -41,6 +45,10 @@ async openCart() {
   
  User:any={};
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      points: new FormControl(this.Points,Validators.compose([Validators.min(30)]))
+     
+    });
   this.getUserData();
   }
   ionViewDidEnter(){
@@ -92,6 +100,10 @@ this.facturationTextButton="Sauvegarder"
       console.log('auth-user', val);
       this.UserService.getUserById(val.id).subscribe((data:any)=>{
         this.User=data;
+    let    metadataArray:any[]=[];
+    metadataArray=data.meta_data;
+    this.User.pointsData=metadataArray.filter(x=>x.key=="_acfw_loyalprog_user_total_points")[0];
+   // console.log("points: ",metadataArray.filter(x=>x.key=="_acfw_loyalprog_user_total_points"));
             });
     });
     

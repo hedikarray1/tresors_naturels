@@ -4,7 +4,7 @@ import { PopoverCardProductPage } from './../pages/popovers/popover-card-product
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from './../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ModalController, PopoverController } from '@ionic/angular';
+import { MenuController, ModalController, PopoverController, IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
   productsBelleSensuelle: any[];
   productsCoffrets: any[];
   rep = /&amp;/gi;
-
+  slideOptions={ slidesPerView: 'auto', zoom: false, grabCursor: true, speed:400,initialSlide:1 };
   constructor(
     private poductService: ProductService,
     private route: ActivatedRoute,
@@ -41,6 +41,10 @@ this.getSlidesNbr();
     this.getProductBelleSensuelle();
     this.getProductCoffret();
        this.getAllProducts();
+  }
+
+  ionSlidesDidLoad(slides:IonSlides){
+slides.startAutoplay();
   }
 
   ionViewDidEnter(){

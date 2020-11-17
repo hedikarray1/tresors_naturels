@@ -48,9 +48,9 @@
 <ion-content padding *ngIf="searchText == ''">
   <ion-slides
     class="slides"
-    [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
-  >
-    <ion-slide class="slide" *ngFor="let imgS of slidesPictures ">
+    [options]="slideOptions" pager="true" #slider (ionSlidesDidLoad)="ionSlidesDidLoad(slider)">
+  <!--  [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" --> 
+    <ion-slide  class="slide" *ngFor="let imgS of slidesPictures ">
       <ion-col class="slide-col">
         <img
           class="slide-img"
