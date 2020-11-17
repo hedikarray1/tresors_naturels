@@ -1,3 +1,4 @@
+import { PanierService } from './../../services/panier/panier.service';
 import { Storage } from '@ionic/storage';
 import { StorageService } from './../../services/storage/storage.service';
 import { async } from '@angular/core/testing';
@@ -22,8 +23,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private loadingController: LoadingController,
     private authService: AuthService,
-    private storageService: StorageService,
-    private storage: Storage
+    private storage: Storage,
+    private panierService: PanierService
   ) { }
 
   ngOnInit() {
@@ -42,20 +43,23 @@ export class LoginPage implements OnInit {
         console.log("succes", res);
 
         await loading.dismiss();
-     
+
         this.storage.remove('auth-token');
         this.storage.set('auth-token', res.token);
 
         let user = {
           id: res.user_id
         }
-        
+        await this.panierService.addToCartOnServer([], res.user_id).subscribe((res: any[]) => {
+          console.log("panier", res);
+        })
+
         this.storage.remove('auth-user');
         this.storage.set('auth-user', user);
-        
+
         this.storage.remove('user-state');
         this.storage.set('user-state', true);
-        
+
         this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
       }, async (res) => {
         await loading.dismiss();

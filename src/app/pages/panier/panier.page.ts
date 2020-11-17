@@ -1,3 +1,5 @@
+import { AlertController } from '@ionic/angular';
+import { async } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { StorageService } from './../../services/storage/storage.service';
@@ -18,8 +20,8 @@ export class PanierPage implements OnInit {
   constructor(
     private Router: Router,
     private panierService: PanierService,
-    private storageService: StorageService,
-    private storage: Storage
+    private storage: Storage,
+    private alertController: AlertController
   ) { }
 
   ionViewDidEnter() {
@@ -53,11 +55,7 @@ export class PanierPage implements OnInit {
           this.getTotal();
         })
       });
-    } else {
-      //  this.panier = this.panierService.getCartFromStorage();
-      this.getTotal();
-    }
-
+    } 
   }
 
   incrementCartItem(product) {
@@ -72,12 +70,7 @@ export class PanierPage implements OnInit {
           break;
         }
       }
-    } else {
-      this.panierService.addProductToCartFromStorage(product);
-      //  this.panier = this.panierService.getCartFromStorage();
-      this.totale += product.price;
-    }
-
+    } 
   }
 
   decrementCartItem(product) {
@@ -96,12 +89,7 @@ export class PanierPage implements OnInit {
         index++;
       }
 
-    } else {
-      this.panierService.decreaseProductFromCartFromStorage(product);
-      // this.panier = this.panierService.getCartFromStorage();
-      this.totale -= product.price;
-    }
-
+    } 
   }
 
   removeCartItem(product) {
@@ -116,12 +104,33 @@ export class PanierPage implements OnInit {
         }
         index++;
       }
-    } else {
-      this.totale -= product.total;
-      this.panierService.removeProductFromCartFromStorage(product);
-      //  this.panier = this.panierService.getCartFromStorage();
-    }
+    } 
+  }
 
+ async showAlertRemoveItem(){
+    const alert = await this.alertController.create({
+      header: 'Vous devez vous connecter',
+      mode: 'ios',
+      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      buttons: [
+        {
+          text: 'ignorer',
+          role: 'cancel',
+          cssClass: 'btn-alert-ignorer',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'connexion',
+          cssClass: 'btn-alert-connexion',
+          handler: () => {
+            
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
 
   getTotal() {
@@ -149,18 +158,7 @@ export class PanierPage implements OnInit {
           })
         })
       })
-      /*
-             this.panierService.addToCartOnServer(this.panier).subscribe((res: any[]) => {
-              console.log("panier", res);
-              this.panier = res['data'];
-          
-            })
-            */
-
-    } else {
-      this.storage.remove('cart-user');
-      this.storage.set('cart-user', this.panier);
-    }
+    } 
 
   }
 
@@ -169,4 +167,7 @@ export class PanierPage implements OnInit {
 
   }
 
+  goToLogin() {
+    this.Router.navigateByUrl('/login');
+  }
 }

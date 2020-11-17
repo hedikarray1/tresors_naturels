@@ -14,13 +14,19 @@
           </ion-item>
         </ion-menu-toggle>
 
-        <ion-menu-toggle auto-hide="false" >
+        <ion-menu-toggle auto-hide="false" *ngIf="userState">
           <ion-item (click)="logOut()" >
             <ion-icon slot="start" [ios]="'log-out-outline'" [md]="'log-out-outline'"></ion-icon>
             <ion-label>Deconnecter</ion-label>
           </ion-item>
         </ion-menu-toggle>
-
+        <ion-menu-toggle auto-hide="false" *ngIf="!userState">
+          <ion-item routerDirection="root"  routerLink="/login" lines="none"
+          detail="false"  >
+            <ion-icon slot="start" [ios]="'log-in-outline'" [md]="'log-in-outline'"></ion-icon>
+            <ion-label>Se connecter</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
        
       </ion-list>
       <!--

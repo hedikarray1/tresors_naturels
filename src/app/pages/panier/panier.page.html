@@ -14,7 +14,7 @@
     
   </ion-toolbar>
 </ion-header>
-<ion-content >
+<ion-content *ngIf='userState'>
 
 
     <ion-list>
@@ -67,5 +67,15 @@
       Commander
     </ion-button>
 
+
+</ion-content>
+
+<ion-content *ngIf='!userState'>
+  <div class="not-Connected-container">
+    <p class="not-Connected-title"><strong>Vous devez vous connecter</strong> </p>
+    <p class="not-Connected-subtitle">Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .</p>
+    <ion-button  color="dark" fill="outline" expand="block" (click)="goToLogin()">Se connecter</ion-button>
+
+  </div>
 
 </ion-content>

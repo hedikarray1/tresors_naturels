@@ -18,35 +18,39 @@
     <p class="category-name">{{category}}</p>
   </div>
 
-<div class="card-container" *ngFor="let product of products" >
-  <ion-card class="product-card" >
-  <!--
-    <ion-button class="icon-add-item" *ngIf="product?.type == 'simple'" (click)="showPopover($event,product)" fill="clear" color="dark">
-      
-      <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
-    </ion-button>
-    -->
-    <div class="product-image-container" (click)="goToDetail(product?.id)">
-      <img src="{{product?.images[0]?.src}}" />
+
+  <div class="card-flex-wrap">
+    <div class="card-container" *ngFor="let product of products ">
+      <ion-card class="product-card">
+        <div class="product-image-container" (click)="goToDetail(product?.id)">
+          <img src="{{product?.images[0]?.src}}" />
+        </div>
+        <div class="card-separator"></div>
+        <ion-card-content (click)="goToDetail(product?.id)">
+          <div class="product-name">{{product?.name}}</div>
+          <div class="product-category-container">
+            <span
+              class="product-category"
+              *ngFor="let category of product?.categories"
+            >
+              {{category?.name?.replace(rep,'&')}},</span
+            >
+          </div>
+          <div class="product-price" [innerHTML]="product?.price_html"></div>
+        </ion-card-content>
+
+        <ion-row (click)="showPopover($event,product)" class="row-panier">
+          <ion-col class="col-panier col-panier-txt" size="9">
+          ACHETER
+          </ion-col>
+          <ion-col class="col-panier col-panier-color panier-icon" size="3">
+            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </div>
-    <ion-card-content (click)="goToDetail(product?.id)">
-      <div class="product-name">{{product?.name}}</div>
-      <div class="product-category-container">
-        <span class="product-category" *ngFor="let category of product?.categories"> {{category?.name?.replace(rep,'&')}},</span>
-      </div>
-      <div class="product-price" [innerHTML]="product?.price_html"></div>
-    </ion-card-content>
-    
-    <ion-row (click)="showPopover($event,product)" class="row-panier">
-      <ion-col  class="col-panier col-panier-txt" size="9">
-      Ajouter au panier
-      </ion-col>
-      <ion-col  class="col-panier col-panier-color" size="3">
-          <ion-icon size="large" color="light"  name="cart-outline"></ion-icon>
-      </ion-col>
-    </ion-row>
-  </ion-card>
-</div>
+  </div>
+
 <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
   <ion-infinite-scroll-content loadingText="Charger plus produits...">
   </ion-infinite-scroll-content>
