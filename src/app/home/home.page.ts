@@ -197,8 +197,8 @@ export class HomePage implements OnInit {
       for (let i = 1; i <= this.slideNBR; i++) {
         this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_" + i + ".jpg");
       }
-    })
-  }
+  });
+}
 
 }
 
