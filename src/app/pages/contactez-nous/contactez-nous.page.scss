@@ -11,6 +11,8 @@
    font-size: 6vw;
    width: 100%;
    text-align: center;
+   color: #000;
+   font-family: Lato,sans-serif;
 }
 
 
@@ -43,4 +45,8 @@
   width: 28%;
     margin-left: 36%;
     position: inherit;
+}
+
+ion-button {
+  margin: 5%;
 }

@@ -216,3 +216,52 @@
    border-bottom: 1px solid #e2dfdf;
    margin: 0% 6%;
 }
+
+
+.container-out-of-stock{
+   background: #eceaeac7;
+   position: absolute;
+   display: block;
+   text-align: center;
+   width: 100%;
+   height: 100%;
+}
+
+.txt-out-of-stock {
+   background: #feeae7;
+   position: absolute;
+   height: 10vw;
+   width: 100%;
+   margin: 0%;
+   padding: 3vw;
+   right: 0;
+   top: 30%;
+}
+
+
+.container-out-of-stock-detail{
+   background: #eceaeac7;
+   position: absolute;
+   display: block;
+   text-align: center;
+   width : 100%;
+   display : flex ;
+   justify-content : center;
+}
+
+.container-out-of-stock-detail img {
+   width: 100%;
+   visibility: hidden;
+}
+
+
+.txt-out-of-stock-detail {
+   background: #feeae7;
+   position: absolute;
+   height: 10vw;
+   width: 100%;
+   margin: 0%;
+   padding: 3vw;
+   right: 0;
+   top: 40%;
+}

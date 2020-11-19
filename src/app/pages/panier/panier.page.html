@@ -40,7 +40,7 @@
           
         </ion-label>
 
-        <ion-button (click)="removeCartItem(p)" fill="clear" color="dark">
+        <ion-button (click)="showAlertRemoveItem(p)" fill="clear" color="dark">
           <ion-icon name="close" slot="end"></ion-icon>
         </ion-button>
          
@@ -63,7 +63,7 @@
     <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block" (click)="save()">
       Sauvgarder
     </ion-button>
-    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block" (click)="checkout()">
+    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block"  [disabled]="this.panier.length == 0" (click)="checkout()">
       Commander
     </ion-button>
 

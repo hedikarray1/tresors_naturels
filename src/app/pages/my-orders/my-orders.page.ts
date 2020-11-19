@@ -37,16 +37,18 @@ export class MyOrdersPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getUserdata();
+    
     });
-    this.getUserdata();
-  }
+  } 
 
   ionViewDidEnter() {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getUserdata();
     });
-    this.getUserdata();
+   
   }
 
   async getUserdata() {

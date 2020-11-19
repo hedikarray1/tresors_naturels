@@ -50,9 +50,6 @@ export class LoginPage implements OnInit {
         let user = {
           id: res.user_id
         }
-        await this.panierService.addToCartOnServer([], res.user_id).subscribe((res: any[]) => {
-          console.log("panier", res);
-        })
 
         this.storage.remove('auth-user');
         this.storage.set('auth-user', user);

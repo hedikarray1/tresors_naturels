@@ -29,8 +29,9 @@ export class PanierPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getPanier();
     });
-    this.getPanier();
+   
     console.log("userState", this.userState);
     console.log("panier", this.panier);
   }
@@ -40,8 +41,9 @@ export class PanierPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getPanier();
     });
-    this.getPanier();
+   
     console.log("userState", this.userState);
     console.log("panier", this.panier);
   }
@@ -52,7 +54,7 @@ export class PanierPage implements OnInit {
         console.log('auth-user', val);
         this.panierService.getCartFromServer(val.id).subscribe((res: any[]) => {
           this.panier = res['data'];
-          this.getTotal();
+          this.totale = res['subtotal'];
         })
       });
     } 
@@ -95,10 +97,10 @@ export class PanierPage implements OnInit {
   removeCartItem(product) {
     if (this.userState) {
 
-      let index = 0
+      let index = 0 ;
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
-          this.totale -= p.total;
+          this.totale -= p.subtotal;
           this.panier.splice(index, 1);
           break;
         }
@@ -107,14 +109,14 @@ export class PanierPage implements OnInit {
     } 
   }
 
- async showAlertRemoveItem(){
+ async showAlertRemoveItem(product){
     const alert = await this.alertController.create({
-      header: 'Vous devez vous connecter',
+      header: 'Supprimer produit du panier',
       mode: 'ios',
-      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      message: "Ete  vous sur de supprimer ce produit du paniner ?",
       buttons: [
         {
-          text: 'ignorer',
+          text: 'Non',
           role: 'cancel',
           cssClass: 'btn-alert-ignorer',
           handler: () => {
@@ -122,10 +124,10 @@ export class PanierPage implements OnInit {
           }
         },
         {
-          text: 'connexion',
+          text: 'Oui',
           cssClass: 'btn-alert-connexion',
           handler: () => {
-            
+            this.removeCartItem(product);
           }
         },
       ]
@@ -133,14 +135,6 @@ export class PanierPage implements OnInit {
     await alert.present();
   }
 
-  getTotal() {
-    this.totale = 0
-    for (let p of this.panier) {
-
-      this.totale += p.total;
-
-    }
-  }
 
 
 

@@ -50,7 +50,7 @@
     Sauvgarder panier
   </ion-button>
 
-  <ion-button class="button-save" expand="block" fill="outline" color="dark" value="block" (click)="checkout()">
+  <ion-button class="button-save" expand="block" fill="outline" color="dark" value="block" [disabled]="this.panier.length == 0" (click)="checkout()">
     Commander
   </ion-button>
 

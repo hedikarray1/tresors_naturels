@@ -49,7 +49,6 @@
       <ion-textarea formControlName="message" rows="5" (keyup)="adjustTextarea($event)" ></ion-textarea>
     </ion-item>
 
-    <ion-button type="submit" expand="block" [disabled]="!contactForm.valid">ENVOYER</ion-button>
-
-  </form>
+    <ion-button  type="submit" color="dark" fill="outline" expand="block" [disabled]="!contactForm.valid">ENVOYER</ion-button>
+    </form>
 </ion-content>

@@ -15,6 +15,7 @@ ion-content {
 
 .icon-close-search {
   margin-right: 1%;
+  margin-top: 2%;
 }
 //slides
 .slides .slide .slide-img {
@@ -270,4 +271,26 @@ ion-content {
   top: -3px;
   right: -3px;
   border-radius: 100%;
+}
+
+
+
+.container-out-of-stock{
+  background: #eceaeac7;
+  position: absolute;
+  display: block;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.txt-out-of-stock {
+  background: #feeae7;
+  position: absolute;
+  height: 10vw;
+  width: 100%;
+  margin: 0%;
+  padding: 3vw;
+  right: 0;
+  top: 30%;
 }

@@ -3,18 +3,24 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    
+
     <img class="img-header" src="../../../assets/logo/logo.png">
-   
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="datashow">
   <ion-card class="product-card">
-
+    <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock-detail">
+      <p class="txt-out-of-stock-detail">Rupture de stock</p>
+      <img src="{{product?.images[0]?.src}}" />
+    </div>
     <div class="product-image-container">
       <img src="{{product?.images[0]?.src}}" />
     </div>
+
+
+
 
     <ion-card-content>
 
@@ -29,70 +35,76 @@
         <label class="text-size"><strong>Catégory</strong> : </label>
 
         <div class="product-category-container">
-          <span class="product-category" *ngFor="let category of product?.categories"> {{category?.name?.replace(rep,'&')}},</span>
+          <span class="product-category" *ngFor="let category of product?.categories">
+            {{category?.name?.replace(rep,'&')}},</span>
         </div>
 
       </ion-card-header>
-      <ion-item *ngIf="product?.type == 'variable'">
-        <ion-label position="stacked">
-          {{product?.attributes[0]?.name}}
-        </ion-label>
-        <ion-select placeholder="choisir une option"   [(ngModel)]="variationId">
-          <ion-select-option *ngFor="let valop of variations" value="{{valop.id}}">{{valop.option}}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item class="item-cart" *ngIf="product?.type == 'variable'">
-      
-       
+      <div *ngIf="product?.stock_status=='instock'">
+        
+        <ion-item *ngIf="product?.type == 'variable'">
+          <ion-label position="stacked">
+            {{product?.attributes[0]?.name}}
+          </ion-label>
+          <ion-select placeholder="choisir une option" [(ngModel)]="variationId">
+            <ion-select-option *ngFor="let valop of variations" value="{{valop.id}}">{{valop.option}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="item-cart" *ngIf="product?.type == 'variable'">
+
+
           <div class="cart-input-container">
 
-            <ion-button (click)="removeItem()" fill="clear" color="dark"[disabled]="itemQty<2" >
+            <ion-button (click)="removeItem()" fill="clear" color="dark" [disabled]="itemQty<2">
               <ion-icon name="remove-circle-outline"></ion-icon>
             </ion-button>
 
             <ion-button fill="clear" color="dark">
-            {{itemQty}}
+              {{itemQty}}
             </ion-button>
 
             <ion-button (click)="addItem()" fill="clear" color="dark">
               <ion-icon name="add-circle-outline"></ion-icon>
             </ion-button>
 
-            <ion-button (click)="addToCartWithVariation(variationId)" [disabled]="variationId == 0" fill="outline" color="dark">
-          ACHETER
+            <ion-button (click)="addToCartWithVariation(variationId)" [disabled]="variationId == 0" fill="outline"
+              color="dark">
+              ACHETER
             </ion-button>
-            
-            
+
+
           </div>
-       
-      </ion-item>
 
-      <ion-item class="item-cart" *ngIf="product?.type == 'simple'">
-      
-        <div class="cart-input-container">
+        </ion-item>
 
-            <ion-button (click)="removeItem()" fill="clear" color="dark"[disabled]="itemQty<2" >
+        <ion-item class="item-cart" *ngIf="product?.type == 'simple'">
+
+          <div class="cart-input-container">
+
+            <ion-button (click)="removeItem()" fill="clear" color="dark" [disabled]="itemQty<2">
               <ion-icon name="remove-circle-outline"></ion-icon>
             </ion-button>
 
             <ion-button fill="clear" color="dark">
-            {{itemQty}}
+              {{itemQty}}
             </ion-button>
 
             <ion-button (click)="addItem()" fill="clear" color="dark">
               <ion-icon name="add-circle-outline"></ion-icon>
             </ion-button>
 
-            <ion-button (click)="addToCart()"  fill="outline" color="dark">
-          ACHETER
+            <ion-button (click)="addToCart()" fill="outline" color="dark">
+              ACHETER
             </ion-button>
-            
-            
-          </div>
-       
-      </ion-item>
 
-      
+
+          </div>
+
+        </ion-item>
+      </div>
+
       <ion-segment [(ngModel)]="segmentValue">
         <ion-segment-button value="description" *ngIf="product?.description != ''">
           <ion-label>Description</ion-label>
@@ -102,17 +114,7 @@
         </ion-segment-button>
       </ion-segment>
       <div *ngIf="segmentValue == 'information'">
-        <!--
-      <ul class="product-short_description" *ngIf="product?.short_description != ''">
-        <strong>Contenance</strong>
-        <li class="product-short_description" [innerHTML]="product?.short_description" ></li>
-      </ul>
 
-      <ul class="product-short_description">
-       <strong> {{product?.attributes[0]?.name}}</strong> 
-        <li class="product-short_description" *ngFor="let att of product?.attributes[0]?.options"> {{att}}</li>
-      </ul>
-      -->
 
         <ul class="product-short_description">
           <strong>Contenance</strong>
@@ -125,31 +127,65 @@
       <div *ngIf="segmentValue == 'description'" class="product-description" [innerHTML]="product?.description"></div>
     </ion-card-content>
   </ion-card>
-  <br/>
-  <div *ngIf="relatedProducts.length > 0 " class="slide-product-name">PRODUITS APPARENTÉS</div> 
+  <br />
+  <div *ngIf="relatedProducts.length > 0 " class="slide-product-name">PRODUITS APPARENTÉS</div>
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide *ngFor="let productc of relatedProducts" class="slide-product" >
-      <ion-card class="slide-product-card"  >
-        <div class="slide-product-image-container" (click)="goToDetail(productc?.id)">
-          <img src="{{productc?.images[0]?.src}}" />
-        </div>
-        <div class="card-separator"></div>
-        <ion-card-content (click)="goToDetail(productc?.id)">
-          <div class="slide-product-name">{{productc?.name}}</div>
-          <div class="slide-product-category-container">
-            <span class="slide-product-category" *ngFor="let category of productc?.categories"> {{category?.name?.replace(rep,'&')}},</span>
-          </div>
-          <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
-        </ion-card-content>
+    <ion-slide *ngFor="let productc of relatedProducts" class="slide-product">
+      <ion-card class="slide-product-card">
 
-        <ion-row (click)="showPopover($event,product)" class="row-panier">
-          <ion-col class="col-panier col-panier-txt" size="9">
-          ACHETER
-          </ion-col>
-          <ion-col class="col-panier col-panier-color panier-icon" size="3">
-            <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
-          </ion-col>
-        </ion-row>
+        <div *ngIf="productc?.stock_status=='outofstock'" class="container-out-of-stock">
+          <p class="txt-out-of-stock">Rupture de stock</p>
+        </div>
+
+        <div *ngIf="productc?.stock_status=='outofstock'" (click)="goToDetail(product?.id)">
+          <div class="slide-product-image-container">
+            <img src="{{productc?.images[0]?.src}}" />
+          </div>
+          <div class="card-separator"></div>
+          <ion-card-content>
+            <div class="slide-product-name">{{productc?.name}}</div>
+            <div class="slide-product-category-container">
+              <span class="slide-product-category" *ngFor="let category of productc?.categories">
+                {{category?.name?.replace(rep,'&')}},</span>
+            </div>
+            <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
+          </ion-card-content>
+
+          <ion-row class="row-panier">
+            <ion-col class="col-panier col-panier-txt" size="9">
+              ACHETER
+            </ion-col>
+            <ion-col class="col-panier col-panier-color panier-icon" size="3">
+              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </div>
+
+        <div *ngIf="productc?.stock_status=='instock'">
+          <div class="slide-product-image-container" (click)="goToDetail(productc?.id)">
+            <img src="{{productc?.images[0]?.src}}" />
+          </div>
+          <div class="card-separator"></div>
+          <ion-card-content (click)="goToDetail(productc?.id)">
+            <div class="slide-product-name">{{productc?.name}}</div>
+            <div class="slide-product-category-container">
+              <span class="slide-product-category" *ngFor="let category of productc?.categories">
+                {{category?.name?.replace(rep,'&')}},</span>
+            </div>
+            <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
+          </ion-card-content>
+
+          <ion-row (click)="showPopover($event,product)" class="row-panier">
+            <ion-col class="col-panier col-panier-txt" size="9">
+              ACHETER
+            </ion-col>
+            <ion-col class="col-panier col-panier-color panier-icon" size="3">
+              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </div>
+
+
       </ion-card>
 
     </ion-slide>
