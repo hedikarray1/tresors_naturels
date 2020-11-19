@@ -1,11 +1,9 @@
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
+
 import { Storage } from '@ionic/storage';
 
-//import { FCM } from '@ionic-native/fcm/ngx'
-import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { Router } from '@angular/router';
 import { PanierService } from './services/panier/panier.service';
-//import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
-import { PanierModalPage } from './pages/panier-modal/panier-modal.page';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -18,9 +16,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent implements OnInit {
 
-  public selectedIndex = 0;
+  
   panier: any[] = [];
   userState: boolean = false;
+  public selectedIndex = 0;
   public appPages = [
     {
       title: 'Accueil',
@@ -71,17 +70,10 @@ export class AppComponent implements OnInit {
       title: 'Contactez nous',
       url: 'bottom-navigation/contactez-nous',
       icon: 'mail'
-    },
-    {
-      title: 'All coupon',
-      url: 'coupon-modal',
-      icon: 'mail'
     }
   ];
 
   
-
-
 
   constructor(
     private platform: Platform,
@@ -162,7 +154,7 @@ export class AppComponent implements OnInit {
 
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-
+        this.panierService.addEmtyToCartOnServer(val.id);
     });
 
 

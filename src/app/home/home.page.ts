@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
   }
 
   ionSlidesDidLoad(slides:IonSlides){
-slides.startAutoplay();
+    slides.startAutoplay();
   }
 
  

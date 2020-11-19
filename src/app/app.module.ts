@@ -1,3 +1,4 @@
+import { OrderAddCouponModalPageModule } from './pages/order-add-coupon-modal/order-add-coupon-modal.module';
 import { PopoverCardProductPageModule } from './pages/popovers/popover-card-product/popover-card-product.module';
 import { PanierModalPageModule } from './pages/panier-modal/panier-modal.module';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +20,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -31,6 +33,8 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
     AppRoutingModule,
     PanierModalPageModule,
     PopoverCardProductPageModule,
+    OrderAddCouponModalPageModule,
+    
   ],
   providers: [
     HttpClientModule,

@@ -1,9 +1,13 @@
+import { async } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { OrderAddCouponModalPage } from './../order-add-coupon-modal/order-add-coupon-modal.page';
 import { Storage } from '@ionic/storage';
 import { UserService } from './../../services/user/user.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
 import { OrderService } from './../../services/order/order.service';
 import { Component, OnInit } from '@angular/core';
+import { ModalController, AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-order',
@@ -13,34 +17,67 @@ import { Component, OnInit } from '@angular/core';
 export class OrderPage implements OnInit {
 
   panier: any[] = [];
+
+  totalPanier = 0;
+  totalOrder = 0;
+  totalCoupon = 0;
+  totalLaivraison = 0;
+
+  showFacturation = true;
+  showLivraison = false;
+
+  segmentValue = 'Facturation';
+
   userState: boolean = false;
   billing: any = {};
   shipping: any = {};
   current_user: any = {};
   payment_methodes: any[] = [];
-  selectedpayment;
+  shipping_zones: any[] = [];
+  coupon_data: any[] = [];
+
+  selectedpayment: any;
+
+  selectedShippingMethod: any;
+  selectedzone;
   notes = "";
-  constructor(private UserService: UserService, private storage: Storage, private OrderService: OrderService, private PanierService: PanierService, private StorageService: StorageService) { }
+  constructor(
+    private UserService: UserService,
+    private storage: Storage,
+    private OrderService: OrderService,
+    private PanierService: PanierService,
+    private StorageService: StorageService,
+    private modalCtrl: ModalController,
+    private alertController: AlertController,
+    private router: Router,
+    private loadingController: LoadingController,
+  ) { }
 
   ngOnInit() {
 
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getPanier();
+
+      this.getShippinZones();
+
+      this.getUserdata();
     });
-    this.getPanier();
-    this.getPAymentmethodes();
-    this.getUserdata();
+
   }
+  /*
   ionViewDidEnter() {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
     });
     this.getPanier();
-    this.getPAymentmethodes();
+
+    this.getShippinZones();
+
     this.getUserdata();
-  }
+  }*/
   getUserdata() {
     if (this.userState) {
       //for online users
@@ -61,20 +98,25 @@ export class OrderPage implements OnInit {
     }
   }
 
-  getPAymentmethodes() {
-    this.OrderService.getAllPaymentMethods().subscribe((data: any[]) => { this.payment_methodes = data });
-
+  getPAymentmethodes(zone_id) {
+    this.OrderService.getAllPaymentMethods(zone_id).subscribe((data: any[]) => {
+      console.log('shipping methods : ', data)
+      this.payment_methodes = data;
+      this.selectedpayment = this.payment_methodes[0].id;
+    });
+  }
+  getShippinZones() {
+    this.OrderService.getAllShippingZone().subscribe((data: any[]) => {
+      console.log('shipping zones : ', data);
+      this.shipping_zones = data;
+      this.shipping_zones.splice(0, 1);
+      console.log('shipping zones after edit : ', this.shipping_zones);
+      this.selectedzone = this.shipping_zones[0].id;
+      this.getPAymentmethodes(this.shipping_zones[0].id);
+    });
   }
 
-  getPanierTotal() {
-    let totale = 0;
-    for (let p of this.panier) {
 
-      totale = totale + p.quantity * p.product_regular_price;
-
-    }
-    return totale;
-  }
 
   async getPanier() {
     if (this.userState) {
@@ -82,7 +124,8 @@ export class OrderPage implements OnInit {
         console.log('auth-user', val);
         this.PanierService.getCartFromServer(val.id).subscribe((res: any[]) => {
           this.panier = res['data'];
-          let lineItems: any[] = [];
+          this.totalPanier = parseFloat(res['subtotal']);
+
           this.panier.forEach(element => {
             element.subtotal = element.subtotal + "";
             element.total = element.total + "";
@@ -90,7 +133,7 @@ export class OrderPage implements OnInit {
         })
       })
     } else {
-      //  this.panier = this.PanierService.getCartFromStorage();
+
     }
   }
   doRefresh(event) {
@@ -109,19 +152,167 @@ export class OrderPage implements OnInit {
   }
   
 
-  createOrder() {
+  async createOrder() {
+    const loading = await this.loadingController.create();
+    await loading.present();
 
+    console.log('commander ***********************');
+    console.log('order user id', this.current_user.id);
+    console.log('order coupon', this.coupon_data);
 
-    this.OrderService.CreateOrder(this.billing,
+    console.log('order note', this.notes);
+    console.log('order item', this.panier);
+    console.log('order billing', this.billing);
+    console.log('order shippping', this.shipping);
+
+    let shippingMethod: any[] = [];
+    let shipping_line = {
+      "method_id": this.selectedShippingMethod.method_id,
+      "method_title": this.selectedShippingMethod.method_title,
+      "total": this.selectedShippingMethod.settings.cost.value
+    };
+    shippingMethod.push(shipping_line);
+
+    console.log('order shippingMethod ', shippingMethod);
+    this.OrderService.CreateOrder(
+      this.billing,
       this.shipping,
-      this.current_user.id, [], this.selectedpayment, this.payment_methodes[this.payment_methodes.findIndex(x => x.id === this.selectedpayment)].title, this.notes, "TND", this.payment_methodes, this.panier).subscribe((data: any) => {
-        console.log("payement", data);
+      this.current_user.id,
+      this.coupon_data,
+      this.notes,
+      "TND",
+      shippingMethod,
+      this.panier
+    ).subscribe(async (res: any) => {
+      console.log("succes", res);
+
+      await loading.dismiss();
+
+      const alert = await this.alertController.create({
+        header: "Commande passée avec succés",
+        mode: 'ios',
+        message: '',
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              alert.dismiss();
+              this.PanierService.emptyCartFromServer(this.current_user.id).subscribe((data: any) => {
+                console.log('data empty panier', data);
+                this.router.navigateByUrl('/bottom-navigation/my-orders', { replaceUrl: true });
+              })
+
+            }
+          },
+        ]
       });
+      await alert.present();
 
 
-    //this.OrderService.CreateOrder()
+    }, async (err) => {
+      console.log('erreur', err);
+      await loading.dismiss();
+      const alert = await this.alertController.create({
+        header: "Erreur lors de la commande",
+        mode: 'ios',
+        message: err.error.message,
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              alert.dismiss();
+            }
+          },
+        ]
+      });
+      await alert.present();
+    }
+    );
 
   }
+
+
+
+  selectZone() {
+
+    console.log('selected zone', this.selectedzone);
+    this.getPAymentmethodes(this.selectedzone);
+  }
+
+  selectMethod() {
+    // this.getTotalOrder();
+    console.log('selected shipping id', this.selectedpayment);
+
+    this.selectedShippingMethod = this.payment_methodes.filter(x => x.id == this.selectedpayment)[0];
+    console.log('selected shipping ', this.selectedShippingMethod);
+    if (this.selectedShippingMethod != undefined) {
+      if (this.selectedShippingMethod.settings.cost.value != '' || this.selectedShippingMethod?.settings.cost.value != null) {
+        //   this.selectedShippingMethod.settings.cost.value.replace('.',',');
+        this.totalLaivraison = parseFloat(this.selectedShippingMethod.settings.cost.value);
+      } else
+        this.totalLaivraison = 0;
+    }
+  }
+
+
+  async openAddCouponModal() {
+
+    let modal = await this.modalCtrl.create({
+      component: OrderAddCouponModalPage,
+      componentProps: {
+        coupons: this.coupon_data
+      },
+      cssClass: 'add-coupon-modal'
+    });
+    modal.onWillDismiss().then(async (data) => {
+
+      if (data['data'] != undefined) {
+
+        if (data['data'].amount > this.totalOrder) {
+          data['data'].amoun = parseFloat(data['data'].amount) - (parseFloat(data['data'].amount) - this.totalOrder)
+          this.coupon_data.push(data['data']);
+          console.log("modal return :", this.coupon_data);
+          this.totalCoupon = this.totalCoupon + parseFloat(data['data'].amount);
+        } else {
+          this.coupon_data.push(data['data']);
+          console.log("modal return :", this.coupon_data);
+
+          this.totalCoupon = this.totalCoupon + parseFloat(data['data'].amount);
+
+        }
+      }
+
+    });
+    modal.present();
+  }
+
+  hasValues(obj) {
+    return Object.values(obj).some(v => v !== null && typeof v !== "undefined");
+  }
+
+  suuprimerCoupon(i) {
+    this.coupon_data.splice(i, 1);
+    console.log(i);
+  }
+
+  getTotalOrder(): number {
+    this.totalOrder = this.totalPanier + this.totalLaivraison - this.totalCoupon;
+    if (this.totalOrder < 0){
+      return 0 ;
+    }else{
+      return this.totalOrder ;
+    }
+  }
+
+  showSegment() {
+    this.showFacturation = !this.showFacturation;
+    this.showLivraison = !this.showLivraison;
+  }
+
 
 
 }

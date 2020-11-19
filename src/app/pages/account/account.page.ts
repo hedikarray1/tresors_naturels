@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { min } from 'rxjs/operators';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -27,15 +28,27 @@ export class AccountPage implements OnInit {
   livraisonTextButton = "Modifier"
   facturationTextButton = "Modifier"
   selectedsegment="";
+  User: any = {};
+
+  userState: boolean = false;
+  
+  
   constructor(
     private UserService: UserService,
     private StorageService: StorageService,
     private modalCtrl: ModalController,
     private storage: Storage,
     private formBuilder: FormBuilder,
-    private orderService:OrderService
-  ) { }
-  User: any = {};
+    private orderService:OrderService,
+    private Router: Router,
+  ) {
+   
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
+   }
 
 
   async openCart() {
@@ -53,7 +66,11 @@ export class AccountPage implements OnInit {
 
   doRefresh(event) {
     console.log('Begin async operation');
-    this.getUserData();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
     
 
     this.form = this.formBuilder.group({
@@ -69,7 +86,11 @@ export class AccountPage implements OnInit {
 
 
   ngOnInit() {
-    this.getUserData();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
     
 
     this.form = this.formBuilder.group({
@@ -78,7 +99,11 @@ export class AccountPage implements OnInit {
     });
   }
   ionViewDidEnter() {
-    this.getUserData();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
     
     this.form = this.formBuilder.group({
       points: new FormControl("", Validators.compose([Validators.min(30),Validators.max(parseInt(this.User.pointsData+"")),Validators.required]))
@@ -237,5 +262,9 @@ this.updateUser();
     modal.present();
   }
 
+
+  goToLogin() {
+    this.Router.navigateByUrl('/login');
+  }
 
 }

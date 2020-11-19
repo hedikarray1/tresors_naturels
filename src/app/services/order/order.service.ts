@@ -30,12 +30,10 @@ export class OrderService {
       shipping: shipping,
       customer_id: customer_id,
       coupon_lines: coupon_lines,
-      payment_method_id: payment_method_id,
-      payment_method_title: payment_method_title,
       customer_note: customer_note,
       currency: currency,
       status: "processing",
-      //  shipping_lines:shipping_lines,
+      shipping_lines:shipping_lines,
       line_items: line_items
     };
     let url = environment.apiURL + "wc/v3/orders?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/orders", {});
@@ -165,5 +163,6 @@ export class OrderService {
       return data ;
     }));
   }
+
 }
 

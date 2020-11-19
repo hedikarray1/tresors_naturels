@@ -37,9 +37,10 @@ export class MyOrdersPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getUserdata();
+    
     });
-    this.getUserdata();
-  }
+  } 
 
 
   doRefresh(event) {
@@ -60,8 +61,9 @@ export class MyOrdersPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getUserdata();
     });
-    this.getUserdata();
+   
   }
 
   async getUserdata() {
@@ -109,5 +111,9 @@ export class MyOrdersPage implements OnInit {
     modal.onWillDismiss().then(() => {
     });
     modal.present();
+  }
+
+  goToLogin() {
+    this.router.navigateByUrl('/login');
   }
 }

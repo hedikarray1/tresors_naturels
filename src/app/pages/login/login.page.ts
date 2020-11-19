@@ -6,7 +6,7 @@ import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +24,10 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController,
     private authService: AuthService,
     private storage: Storage,
-    private panierService: PanierService
-  ) { }
+  
+  ) { 
+   
+  }
 
   ngOnInit() {
     this.credentiels = this.fb.group({
@@ -50,9 +52,6 @@ export class LoginPage implements OnInit {
         let user = {
           id: res.user_id
         }
-        await this.panierService.addToCartOnServer([], res.user_id).subscribe((res: any[]) => {
-          console.log("panier", res);
-        })
 
         this.storage.remove('auth-user');
         this.storage.set('auth-user', user);

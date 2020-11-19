@@ -62,6 +62,20 @@ export class PanierService {
 
     
   }
+  addEmtyToCartOnServer( id) {
+
+    let params = {
+      user_id: id,
+      products: []
+    };
+
+    let url1 = environment.apiURL + "wc/v3/addtocart" + "?" + this.WooCommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/addtocart", {});
+
+    return this.http.post(url1, params);
+
+
+  
+}
 
 
 }

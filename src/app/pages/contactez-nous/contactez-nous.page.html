@@ -4,7 +4,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <img class="img-header" src="../../../assets/logo/logo.png">
+    <ion-title class="ion-text-center">
+      <img style="width: 50%;" src="../../../assets/logo/logo2.png" />
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openCart()">
         <ion-icon slot="icon-only"  color="dark"  slot="end" name="cart-outline"></ion-icon>
@@ -49,7 +51,6 @@
       <ion-textarea formControlName="message" rows="5" (keyup)="adjustTextarea($event)" ></ion-textarea>
     </ion-item>
 
-    <ion-button type="submit" expand="block" [disabled]="!contactForm.valid">ENVOYER</ion-button>
-
-  </form>
+    <ion-button  type="submit" color="dark" fill="outline" expand="block" [disabled]="!contactForm.valid">ENVOYER</ion-button>
+    </form>
 </ion-content>

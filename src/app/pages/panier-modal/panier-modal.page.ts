@@ -28,25 +28,29 @@ export class PanierModalPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getPanier();
+      console.log('userState', this.userState);
+      console.log('panier', this.panier);
     });
 
-    this.getPanier();
-    console.log('userState', this.userState);
-    console.log('panier', this.panier);
+  
+   
   }
 
   ionViewDidEnter() {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getPanier();
     });
 
-    this.getPanier();
+  
     console.log('userState', this.userState);
     console.log('panier', this.panier);
   }
 
   async getPanier() {
+    this.panier =[];
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
@@ -144,9 +148,10 @@ export class PanierModalPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      this.getPanier();
     });
 
-    this.getPanier();
+  
     console.log('userState', this.userState);
     console.log('panier', this.panier);
     setTimeout(() => {

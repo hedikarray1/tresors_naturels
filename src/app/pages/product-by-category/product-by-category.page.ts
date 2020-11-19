@@ -68,6 +68,7 @@ loadMore(event) {
   this.page++;
 
   this.poductService.getProductsByCategory(this.idCategory,this.page).subscribe(res => {
+    console.log("category page :"+this.page , this.products);
     this.products = [...this.products, ...res];
     event.target.complete();
 

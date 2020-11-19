@@ -1,0 +1,22 @@
+<ion-content>
+
+  <div class="ion-text-end">
+      <ion-icon (click)="close()" class="icon-close" fill="clear"  slot="end" color="dark" name="close" slot="end"></ion-icon>
+  
+  </div>
+
+  <form class="form-coupon" (ngSubmit)="appliquerCodePromo()" [formGroup]="formCoupon">
+
+    <ion-item>
+      <ion-label position="floating" color="dark">Code promo</ion-label>
+      <ion-input type="text" formControlName="coupon" class="form-controll" required></ion-input>
+    </ion-item>
+
+
+    <ion-button type="submit" color="dark" fill="outline" expand="block" [disabled]="!formCoupon.valid">
+      Appliquer le code promo
+    </ion-button>
+  </form>
+ 
+
+</ion-content>

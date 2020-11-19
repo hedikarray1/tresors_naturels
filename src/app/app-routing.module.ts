@@ -82,9 +82,14 @@ const routes: Routes = [
   {
     path: 'my-order-details/:id',
     loadChildren: () => import('./pages/my-order-details/my-order-details.module').then( m => m.MyOrderDetailsPageModule)
-  },  {
+  },
+  {
     path: 'coupon-modal',
     loadChildren: () => import('./pages/coupon-modal/coupon-modal.module').then( m => m.CouponModalPageModule)
+  },
+  {
+    path: 'order-add-coupon-modal',
+    loadChildren: () => import('./pages/order-add-coupon-modal/order-add-coupon-modal.module').then( m => m.OrderAddCouponModalPageModule)
   },
 
 
