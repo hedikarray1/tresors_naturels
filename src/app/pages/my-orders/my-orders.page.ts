@@ -97,4 +97,8 @@ export class MyOrdersPage implements OnInit {
     });
     modal.present();
   }
+
+  goToLogin() {
+    this.router.navigateByUrl('/login');
+  }
 }

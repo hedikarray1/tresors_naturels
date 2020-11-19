@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
@@ -18,6 +19,8 @@ export class AccountPage implements OnInit {
   livraisoninputs = true;
   facturationinputs = true;
   update_infosCard = false;
+
+  userState: boolean = false;
   Points;
   form: FormGroup;
   livraisonTextButton = 'Modifier'
@@ -27,8 +30,15 @@ export class AccountPage implements OnInit {
     private StorageService: StorageService,
     private modalCtrl: ModalController,
     private storage: Storage,
+    private Router: Router,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
+   }
 
 
   async openCart() {
@@ -45,14 +55,25 @@ export class AccountPage implements OnInit {
 
   User: any = {};
   ngOnInit() {
+
+    
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
     this.form = this.formBuilder.group({
       points: new FormControl(this.Points, Validators.compose([Validators.min(30)]))
 
     });
-    this.getUserData();
+    
   }
   ionViewDidEnter() {
-    this.getUserData();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    });
 
   }
   displayHideFacturationCard() {
@@ -116,5 +137,9 @@ export class AccountPage implements OnInit {
       this.facturation = false;
       this.livraison = false;
     });
+  }
+
+  goToLogin() {
+    this.Router.navigateByUrl('/login');
   }
 }

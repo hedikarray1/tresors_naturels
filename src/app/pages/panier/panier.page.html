@@ -4,7 +4,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <img class="img-header" src="../../../assets/logo/logo.png">
+    <ion-title class="ion-text-center">
+      <img style="width: 50%;" src="../../../assets/logo/logo2.png" />
+    </ion-title>
    
     <ion-buttons slot="end">
       <ion-button >
@@ -14,7 +16,7 @@
     
   </ion-toolbar>
 </ion-header>
-<ion-content *ngIf='userState'>
+<ion-content *ngIf='userState && this.panier.length != 0'>
 
 
     <ion-list>
@@ -75,6 +77,16 @@
     <p class="not-Connected-title"><strong>Vous devez vous connecter</strong> </p>
     <p class="not-Connected-subtitle">Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .</p>
     <ion-button  color="dark" fill="outline" expand="block" (click)="goToLogin()">Se connecter</ion-button>
+
+  </div>
+
+</ion-content>
+
+<ion-content *ngIf='userState && this.panier.length == 0'>
+  <div class="not-Connected-container">
+    <p class="not-Connected-title"><strong>Votre panier est vide</strong> </p>
+    <p class="not-Connected-subtitle">Vous devez ajouter un produit au panier</p>
+    
 
   </div>
 

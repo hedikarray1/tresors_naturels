@@ -16,7 +16,6 @@ export class BottomNavigationPage implements OnInit {
 
   panierNbr: number = 0;
   userState: boolean = false;
- 
 
   constructor(
     private router: Router,
@@ -26,23 +25,23 @@ export class BottomNavigationPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-   
-      await this.storage.get('user-state').then(async (val) => {
-        console.log('user state', val);
-        this.userState = val;
-        await this.getPanierNbr();
-      });
-   
+
+    await this.storage.get('user-state').then(async (val) => {
+      console.log('user state', val);
+      this.userState = val;
+      await this.getPanierNbr();
+    });
+
   }
 
   async ionViewDidEnter() {
-  
-      await this.storage.get('user-state').then(async (val) => {
-        console.log('user state', val);
-        this.userState = val;
-        await this.getPanierNbr();
-      });
-    
+
+    await this.storage.get('user-state').then(async (val) => {
+      console.log('user state', val);
+      this.userState = val;
+      await this.getPanierNbr();
+    });
+
   }
 
 
@@ -89,4 +88,10 @@ export class BottomNavigationPage implements OnInit {
      node.addEventListener('animationend', handleAnimationEnd)
    }
  */
+
+
+  logOut() {
+    this.storage.clear();
+    this.router.navigateByUrl("login");
+  }
 }
