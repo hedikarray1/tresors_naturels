@@ -40,6 +40,20 @@ export class MyOrderDetailsPage implements OnInit {
     this.getOrder();
   }
 
+
+  
+  doRefresh(event) {
+    this.orderId = this.route.snapshot.paramMap.get('id');
+    this.getOrder();
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+  
+
+
   ionViewDidEnter() {
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.getOrder();

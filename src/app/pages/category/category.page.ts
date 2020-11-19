@@ -43,6 +43,17 @@ async openCart() {
  
   }
 
+
+ async doRefresh(event) {
+    console.log('Begin async operation');
+    await this.getCategory();
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
  async getCategory(){
    
     this.categoryService.getParentCategory().subscribe((data: any[]) => {

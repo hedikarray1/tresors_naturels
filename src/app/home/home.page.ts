@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
-    });
+   
 
     this.getSlidesNbr();
     this.getProductBelleAmbiance();
@@ -51,6 +51,7 @@ export class HomePage implements OnInit {
     this.getProductBelleSensuelle();
     this.getProductCoffret();
     this.getAllProducts();
+  });
   }
 
   ionSlidesDidLoad(slides:IonSlides){
@@ -59,12 +60,17 @@ slides.startAutoplay();
 
  
   ionViewDidEnter() {
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
+    
     this.getSlidesNbr();
     this.getProductBelleAmbiance();
     this.getProductBelleEnvolee();
     this.getProductBelleSensuelle();
     this.getProductCoffret();
     this.getAllProducts();
+  });
   }
 
   goToDetail(id) {

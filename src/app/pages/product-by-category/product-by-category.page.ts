@@ -40,7 +40,20 @@ export class ProductByCategoryPage implements OnInit {
     this.idCategory = this.route.snapshot.paramMap.get('id') ;
     this.getCategory()
   }
+  doRefresh(event) {
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
+    });
+    this.category = this.route.snapshot.paramMap.get('category') ;
+    this.idCategory = this.route.snapshot.paramMap.get('id') ;
+    this.getCategory()
+    setTimeout(() => {
 
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
   
  async getCategory(){
    

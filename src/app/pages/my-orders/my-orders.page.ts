@@ -41,6 +41,21 @@ export class MyOrdersPage implements OnInit {
     this.getUserdata();
   }
 
+
+  doRefresh(event) {
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+    this.getUserdata();
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+  
+
   ionViewDidEnter() {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);

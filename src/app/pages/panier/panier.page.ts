@@ -24,6 +24,26 @@ export class PanierPage implements OnInit {
     private alertController: AlertController
   ) { }
 
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+   
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+    this.getPanier();
+    console.log("userState", this.userState);
+    console.log("panier", this.panier);
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
+
+
   ionViewDidEnter() {
 
     this.storage.get('user-state').then((val) => {

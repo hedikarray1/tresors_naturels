@@ -59,6 +59,36 @@ export class DetailProduitPage implements OnInit {
     });
   }
 
+
+  
+ async doRefresh(event) {
+    
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+    const loading = await this.loadingController.create();
+    await loading.present();
+    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).subscribe((data: any) => {
+      console.log(data);
+      this.product = data;
+      this.setSegmentValue();
+      if (this.product.type == "variable") {
+        this.getVariation(this.product.variations);
+
+      }
+      this.datashow = true;
+      this.getRelated(this.product.related_ids)
+      loading.dismiss();
+    });
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+  
+
   async getVariation(variationsss) {
     console.log("variations");
     for (let v of variationsss) {

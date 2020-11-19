@@ -14,7 +14,9 @@
 </ion-header>
 
 <ion-content  class="card-background-page">
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 <div  *ngFor="let cat of categorys" >
 
   <ion-card class="product-card" (click)="goToProductByCategory(cat.name ,cat.id)"  [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0" >

@@ -14,6 +14,9 @@
 </ion-header>
 
 <ion-content fullscreen="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="card">
     <div class="header">
 
@@ -43,15 +46,23 @@
           <ion-button expand="full">modifier le mot de passe</ion-button>
         </ion-card-content>
       </ion-card>
-      <ion-segment value="call">
-        <ion-segment-button (click)="displayHideFacturationCard()" value="call">
+      <ion-button expand="block" fill="outline" color="dark" value="block" (click)="openCoupon()">mes coupons</ion-button>
+
+      <ion-segment value="{{selectedsegment}}">
+        <ion-segment-button (click)="displayHideFacturationCard()" value="facturation">
           <ion-label>Facturation</ion-label>
         </ion-segment-button>
-        <ion-segment-button (click)="displayHideLivraisonCard()" value="favorite">
+        <ion-segment-button (click)="displayHideLivraisonCard()" value="livraison">
           <ion-label>Livraison</ion-label>
         </ion-segment-button>
+        <ion-segment-button (click)="displayHidePointCard()" value="pointCard">
+          <ion-label>Mes points</ion-label>
+        </ion-segment-button>
       </ion-segment>
-      <ion-card *ngIf="facturation" id="facturation-card">
+    
+    </div>
+    <div *ngIf="facturation" id="facturation-card" class="card-body">
+    
         <ion-card-content>
           <ion-card-title>Informations de facturation</ion-card-title>
           <ion-item>
@@ -102,8 +113,10 @@
           <ion-button expand="block" fill="outline" color="dark" value="block" (click)="FacturationAction()">
             {{facturationTextButton}}</ion-button>
         </ion-card-content>
-      </ion-card>
-      <ion-card *ngIf="livraison" id="facturation-card">
+     
+      </div>
+      <div *ngIf="livraison" id="facturation-card"  class="card-body">
+    
         <ion-card-content>
           <ion-card-title>Informations de livraison</ion-card-title>
           <ion-item>
@@ -145,41 +158,46 @@
           <ion-button expand="block" fill="outline" color="dark" value="block" (click)="LivraisonAction()">
             {{livraisonTextButton}}</ion-button>
         </ion-card-content>
-      </ion-card>
-      <div class="card-body">
+   
+      </div>
+  <!--  <div class="card"> -->
+      <div *ngIf="cardPoint" class="card-body">
+
+        <h3 class="fidelite-title">
+          Points fidélité
+        </h3>
         <ion-card-content>
-          <ion-card-title>
-            Points fidélité
-          </ion-card-title>
           <p>Vous pouvez transformer vos points pour bénéficier des remises lors d'un achat. </p>
-          <p>Pour consulter le programme de points cliquez sur <a>en savoir plus </a></p>
+          <p>Pour consulter le programme de points cliquez sur <a
+              href="https://laboratoiretresorsnaturels.tn/programme-de-fidelite/">en savoir plus </a></p>
           <h2>Vous avez <span class="colored-points">{{User?.pointsData?.value}} points</span></h2>
           <div>
             <h3>Transformez vos points</h3>
             <div>
               <form [formGroup]="form">
 
-              <ion-item>
-                <ion-label position="floating">Points</ion-label>
-                  <ion-input formControlName="points" placeholder="Nombre de points à transformer"></ion-input>
+                <ion-item>
+                  <ion-label position="floating">Points</ion-label>
+                  <ion-input formControlName="points" max="{{User?.pointsData }}" placeholder="Nombre de points à transformer"></ion-input>
                 </ion-item>
-                  <div class="validation-errors">
+                <div class="validation-errors">
 
-                    <div class="error-message" *ngIf="form.controls['points'].hasError('min')">
-                      <span class="error ion-padding,small-font-size">
-                        vous devez transformer 30 points au minimum
-                      </span>
-                    </div>
-
+                  <div class="error-message" *ngIf="form.controls['points'].hasError('min')">
+                    <span class="error ion-padding,small-font-size">
+                      vous devez transformer 30 points au minimum
+                    </span>
                   </div>
-                </form>
-             
+
+                </div>
+              </form>
+
               <ion-item>
-                <ion-col size="7">
-                  <ion-label>{{form.value.points}}</ion-label>
-                </ion-col>
                 <ion-col size="5">
-                  <ion-button expand="block" fill="outline" color="dark" value="block">Transformer</ion-button>
+                  <ion-label><span *ngIf="form.valid">{{form.value.points}}  TND</span></ion-label>
+                </ion-col>
+                <ion-col size="7">
+                  <ion-button expand="block" fill="outline" [disabled]="!form.valid" (click)="CreateCoupon()"
+                    color="dark" value="block">Transformer</ion-button>
                 </ion-col>
 
               </ion-item>
@@ -187,10 +205,11 @@
           </div>
         </ion-card-content>
       </div>
+
       <br />
       <br />
       <br />
 
-    </div>
+   <!-- </div> -->
   </div>
 </ion-content>

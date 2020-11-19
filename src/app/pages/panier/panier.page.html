@@ -15,7 +15,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content *ngIf='userState'>
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
     <ion-list>
       <ion-item class="item-cart" *ngFor="let p of panier" class="ion-text-wrap">
@@ -71,6 +73,9 @@
 </ion-content>
 
 <ion-content *ngIf='!userState'>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="not-Connected-container">
     <p class="not-Connected-title"><strong>Vous devez vous connecter</strong> </p>
     <p class="not-Connected-subtitle">Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .</p>

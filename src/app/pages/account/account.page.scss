@@ -101,3 +101,13 @@ ion-chip {
  .small-font-size{
 font-size: 2vw;
  }
+ .fidelite-title{
+     text-align: center;
+ }
+
+ ion-segment{
+ion-segment-button{
+    --color-checked: #fab324;
+    font-size: 3vw;
+}
+ }

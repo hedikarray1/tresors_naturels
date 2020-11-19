@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mes coupons</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+<ion-list>
+  <ion-card *ngFor="let coup of MyCoupons" (click)="copyToClipBoard(coup?.code)">
+    <ion-img src="../../../../assets/images/tickets-background.png" class="card-img" ></ion-img>
+    <div [ngClass]="coup.used ? 'corner-ribbon-used' : 'corner-ribbon-not-used'">{{coup?.used_text}}</div>
+    <ion-card-title >Code coupon: {{coup?.code}}</ion-card-title>
+    <ion-card-subtitle >Réduction: {{coup?.amount}} TND</ion-card-subtitle>
+  </ion-card>
+</ion-list>
+</ion-content>

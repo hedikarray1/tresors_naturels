@@ -140,6 +140,21 @@ export class PanierModalPage implements OnInit {
     }
   }
 
+  doRefresh(event) {
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+
+    this.getPanier();
+    console.log('userState', this.userState);
+    console.log('panier', this.panier);
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
   checkout() {
     this.modalCtrl.dismiss();
     this.Router.navigateByUrl('order');

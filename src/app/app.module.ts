@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 //import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
 import { IonicStorageModule } from '@ionic/storage';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { IonicStorageModule } from '@ionic/storage';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    FirebaseX
+    FirebaseX,
+    Clipboard
    
   ],
   bootstrap: [AppComponent]

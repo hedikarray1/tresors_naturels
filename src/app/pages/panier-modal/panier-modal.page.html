@@ -1,5 +1,7 @@
 <ion-content>
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="ion-text-end">
     <ion-button (click)="close()" fill="clear" slot="end" color="dark">
       <ion-icon name="close" slot="end"></ion-icon>

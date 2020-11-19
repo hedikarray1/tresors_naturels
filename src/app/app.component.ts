@@ -72,25 +72,15 @@ export class AppComponent implements OnInit {
       url: 'bottom-navigation/contactez-nous',
       icon: 'mail'
     },
+    {
+      title: 'All coupon',
+      url: 'coupon-modal',
+      icon: 'mail'
+    }
   ];
 
+  
 
-<<<<<<< HEAD
-  public labels = [
-    {
-      title: 'Account',
-      url: 'bottom-navigation/account',
-      icon: 'person'
-    },
-    {
-      title: 'Déconnexion',
-      url: 'bottom-navigation/contactez-nous',
-      icon: 'log-out'
-    },
-
-  ];
-=======
->>>>>>> refs/remotes/origin/master
 
 
   constructor(
@@ -100,15 +90,10 @@ export class AppComponent implements OnInit {
     private modalCtrl: ModalController,
     private storage: Storage,
     private router: Router,
-<<<<<<< HEAD
     //private fcm: FCM,
     private firebaseX:FirebaseX,
-    private AlertCTRL: AlertController
-=======
-    private fcm: FCM,
     private AlertCTRL: AlertController,
     private panierService: PanierService
->>>>>>> refs/remotes/origin/master
   ) {
     this.initializeApp();
   }

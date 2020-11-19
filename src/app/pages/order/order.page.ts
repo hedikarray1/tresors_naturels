@@ -93,7 +93,21 @@ export class OrderPage implements OnInit {
       //  this.panier = this.PanierService.getCartFromStorage();
     }
   }
+  doRefresh(event) {
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+    this.getPanier();
+    this.getPAymentmethodes();
+    this.getUserdata();
+    setTimeout(() => {
 
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+  
 
   createOrder() {
 
