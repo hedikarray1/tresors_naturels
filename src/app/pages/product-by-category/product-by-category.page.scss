@@ -26,6 +26,12 @@
 .product-card {
    width: 100%;
    margin: 0%;
+   border: 1px solid #dad6d6;
+   box-shadow: 0 0 black;
+}
+
+ion-card-content {
+   padding: 5px 20px;
 }
 
 .category-name {
@@ -55,8 +61,10 @@
 .product-name {
    font-family: Lato-Regular;
    font-size: 4vw;
-   height: 11vw !important;
    text-align: center;
+   font-weight: 600;
+   height: 11vw !important;
+   color: black;
 }
 
 .product-category-container {
@@ -73,9 +81,9 @@
 
 .product-price {
    font-family: Cormorant-Medium;
-   font-size: 3vw;
-   text-align: center;
-   height: 8vw;
+    font-size: 3vw;
+    text-align: center;
+    height: 8vw;
 }
 
 .icon-add-item{
@@ -91,23 +99,24 @@
 .row-panier {
    background: black;
    padding: 0%;
+   width: 100%;
 }
 
 .col-panier {
   
-  
-    text-align: center;
-    font-size: 3vw;
+   text-align: center;
+    font-size: 4vw;
 }
 
 .col-panier-txt {
-   padding: 4vw;
-   color : var(--menuhous);
+   padding: 3.5vw;
+   color: var(--menuhous);
+   font-size: 4;
    
 }
 
 .panier-icon {
-   padding: 3vw 0vw;
+   padding: 4vw 0vw 0 0;
 }
 
 .col-panier-color {
