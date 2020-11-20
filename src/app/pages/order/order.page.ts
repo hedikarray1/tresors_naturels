@@ -51,7 +51,7 @@ export class OrderPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private loadingController: LoadingController,
-    private loadingCtrl:LoadingController
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -80,8 +80,8 @@ export class OrderPage implements OnInit {
 
       this.getUserdata();
     });
-    }
-  
+  }
+
   getUserdata() {
     if (this.userState) {
       //for online users
@@ -145,17 +145,17 @@ export class OrderPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
- 
-    this.getUserdata();
+
+      this.getUserdata();
     });
-    
+
     setTimeout(() => {
 
       console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }
-  
+
 
   async createOrder() {
     const loading = await this.loadingController.create();
@@ -179,31 +179,38 @@ export class OrderPage implements OnInit {
     shippingMethod.push(shipping_line);
 
     console.log('order shippingMethod ', shippingMethod);
+
+let couponSendData:any[]=[];
+this.coupon_data.forEach(element => {
+//  couponSendData.push({"code":element.code+"","amount":element.amount+""});
+});
+console.log("coupons send data",couponSendData);
+
     this.OrderService.CreateOrder(
       this.billing,
       this.shipping,
       this.current_user.id,
-      this.coupon_data,
+      couponSendData,
       this.notes,
       "TND",
       shippingMethod,
       this.panier
     ).then(async (res: any) => {
-      let coupnosToupdate:any[]=[];
+      let coupnosToupdate: any[] = [];
       console.log("succes", res);
-     /*   if(this.coupon_data.length>0){
-          this.coupon_data.forEach(element => {
-            let used:any[]=[];
-           used= element.used_by;
-           used.push(this.current_user.id+"");
-           element.used_by=used;
-           coupnosToupdate.push(element);
-          });
-          this.OrderService.updateCoupon(coupnosToupdate).then((data:any)=>{
-            console.log("updated used by in coupons");
-                       });
-            
-        }*/
+      /*   if(this.coupon_data.length>0){
+           this.coupon_data.forEach(element => {
+             let used:any[]=[];
+            used= element.used_by;
+            used.push(this.current_user.id+"");
+            element.used_by=used;
+            coupnosToupdate.push(element);
+           });
+           this.OrderService.updateCoupon(coupnosToupdate).then((data:any)=>{
+             console.log("updated used by in coupons");
+                        });
+             
+         }*/
       await loading.dismiss();
 
       const alert = await this.alertController.create({
@@ -216,7 +223,7 @@ export class OrderPage implements OnInit {
             text: "D'accord",
             cssClass: 'btn-alert-connexion',
             handler: () => {
-              
+
               this.PanierService.emptyCartFromServer(this.current_user.id).then((data: any) => {
                 console.log('data empty panier', data);
                 alert.dismiss();
@@ -320,10 +327,10 @@ export class OrderPage implements OnInit {
 
   getTotalOrder(): number {
     this.totalOrder = this.totalPanier + this.totalLaivraison - this.totalCoupon;
-    if (this.totalOrder < 0){
-      return 0 ;
-    }else{
-      return this.totalOrder ;
+    if (this.totalOrder < 0) {
+      return 0;
+    } else {
+      return this.totalOrder;
     }
   }
 

@@ -93,36 +93,30 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.storage.get('user-state').then((val) => {
-        console.log('user state', val);
-        if (val === true) {
+    
+       
           this.splashScreen.hide();
-          this.router.navigateByUrl("bottom-navigation");
+         // this.router.navigateByUrl("bottom-navigation");
 
-        } else {
-          this.splashScreen.hide();
-        }
-      });
+      
 
 
      this.firebaseX.getToken().then(async token => {
 
-
-
         console.log(token);
-        const alert = await this.AlertCTRL.create({
+       /* const alert = await this.AlertCTRL.create({
           header: 'FCM token',
           message: token + "",
           buttons: ['OK'],
-        });
+        });*/
        // await alert.present();
         // send token to the server
       });
 
       this.firebaseX.onTokenRefresh()
-      .then((token: string) => console.log(`Got a new token ${token}`));
+      .subscribe((token: string) => console.log(`Got a new token ${token}`));
 
-      this.firebaseX.onMessageReceived().then(data => {
+      this.firebaseX.onMessageReceived().subscribe(data => {
         console.log(data);
         if (data.wasTapped) {
           console.log('Received in background');
