@@ -190,7 +190,7 @@ console.log("coupons send data",couponSendData);
       this.billing,
       this.shipping,
       this.current_user.id,
-      couponSendData,
+     [],
       this.notes,
       "TND",
       shippingMethod,
