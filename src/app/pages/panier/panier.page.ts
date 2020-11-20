@@ -78,7 +78,7 @@ loaded=false;
         console.log('auth-user', val);
         this.panierService.getCartFromServer(val.id).then((res: any[]) => {
           this.panier = res['data'];
-          this.totale = res['subtotal'];
+          this.totale = parseFloat(res['subtotal']);
           this.loaded=true;
         })
       });
@@ -92,7 +92,7 @@ loaded=false;
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
           p.quantity += 1;
-          this.totale += p.price * 1;
+          this.totale += parseFloat(p.price);
           added = true;
           break;
         }
@@ -107,7 +107,7 @@ loaded=false;
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
           p.quantity -= 1;
-          this.totale -= p.price;
+          this.totale -= parseFloat(p.price);
           if (p.quantity == 0) {
             this.panier.splice(index, 1);
           }
@@ -125,7 +125,7 @@ loaded=false;
       let index = 0 ;
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
-          this.totale -= p.subtotal;
+          this.totale -= parseFloat(p.subtotal);
           this.panier.splice(index, 1);
           break;
         }

@@ -29,7 +29,7 @@
   text-align: center !important;
     position: fixed;
     /* display: contents; */
-    top: 10%;
+    top: 9%;
     left: 0;
     width: 100%;
 }
@@ -37,10 +37,11 @@
 .icon-header {
   margin: 0px !important;
   font-size: 8vw !important;
+  color: black;
 }
 
 .ion-title-header-center img{
-  width: 30%;
+  width: 28%;
 }
  
 .cart-modal {
@@ -50,6 +51,7 @@
   --border-radius: 10px;
   padding: 25px;
 }
+
 
  
 .add-coupon-modal {

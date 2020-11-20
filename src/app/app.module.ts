@@ -34,7 +34,6 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
     PanierModalPageModule,
     PopoverCardProductPageModule,
     OrderAddCouponModalPageModule,
-
     
   ],
   providers: [

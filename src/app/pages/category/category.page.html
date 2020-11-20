@@ -22,7 +22,7 @@
 <div  *ngFor="let cat of categorys" >
 
   <ion-card class="product-card" (click)="goToProductByCategory(cat.name ,cat.id)"  [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0" >
-    <ion-button class="icon-add-item"  fill="clear" color="dark">
+    <ion-button class="icon-add-item category-button-text"  fill="clear" color="dark">
       {{cat.name.replace(rep,'&')}}
     </ion-button>
     
@@ -31,7 +31,7 @@
 </ion-card>
 
 <ion-card class="product-card" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length >0">
-  <ion-button class="icon-add-item"  fill="clear" color="dark">
+  <ion-button class="icon-add-item category-button-text"  fill="clear" color="dark">
     {{cat.name.replace(rep,'&')}}
   </ion-button>
   

@@ -12,77 +12,105 @@ export class ProductService {
   totalProducts = null;
   pages: any;
 
-  constructor(private WooCommerceService:WoocommerceService,private http: HttpClient) { }
+  constructor(private WooCommerceService: WoocommerceService, private http: HttpClient) { }
 
 
-  
 
-  getAllProductsWooCommercePerPage(page =1){
+
+  getAllProductsWooCommercePerPage(page = 1) {
     let options = {
       observe: "response" as 'body'
     };
-    
-     let  params = {
+
+    let params = {
       per_page: '6',
-      page: ''+ page 
+      page: '' + page
     };
-    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
-   return this.http.get(myUrl,options).pipe(  map((res:any[])=>{
-    this.pages = res['headers'].get('x-wp-totalpages');
-    this.totalProducts = res['headers'].get('x-wp-total');
-    let data = res['body'];
-    return data ;
-   })).toPromise(); 
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options).pipe(map((res: any[]) => {
+      this.pages = res['headers'].get('x-wp-totalpages');
+      this.totalProducts = res['headers'].get('x-wp-total');
+      let data = res['body'];
+      return data;
+    })).toPromise();
   }
 
-  getAllProductsWooCommerce(count){
+  getAllProductsWooCommerce(count) {
 
-    
+
     let options = {
       observe: "response" as 'body'
     };
-    
-     let  params = {
-      per_page: ""+ count
+
+    let params = {
+      per_page: "" + count
     };
 
-    console.log("params recherche",params);
-    
-    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
-   return this.http.get(myUrl,options).pipe(  map((res:any[])=>{
-    this.pages = res['headers'].get('x-wp-totalpages');
-    this.totalProducts = res['headers'].get('x-wp-total');
-    let data = res['body'];
-    return data ;
-   })).toPromise();  
+    console.log("params recherche", params);
+
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options).pipe(map((res: any[]) => {
+      this.pages = res['headers'].get('x-wp-totalpages');
+      this.totalProducts = res['headers'].get('x-wp-total');
+      let data = res['body'];
+      return data;
+    })).toPromise();
   }
 
-  getproduct(id){
-    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/"+id,{});
+  getproduct(id) {
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/" + id, {});
     return this.http.get(myUrl).toPromise();
   }
 
-  getProductsByCategory(category,page =1){
+  getProductsByCategory(category, page = 1) {
     let options = {
       observe: "response" as 'body'
     };
-    
-     let  params = {
+
+    let params = {
       per_page: '6',
-      page: ''+ page ,
-      category : ''+ category
+      page: '' + page,
+      category: '' + category
     };
-    
-    let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",params);
-   return this.http.get(myUrl,options).pipe(  map((res:any[])=>{
-    this.pages = res['headers'].get('x-wp-totalpages');
-    this.totalProducts = res['headers'].get('x-wp-total');
-    let data = res['body'];
-    return data ;
-   })).toPromise(); 
+
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options).pipe(map((res: any[]) => {
+      this.pages = res['headers'].get('x-wp-totalpages');
+      this.totalProducts = res['headers'].get('x-wp-total');
+      let data = res['body'];
+      return data;
+    }));
   }
 
 
+  getHomeProductsByCategory(category) {
+    let options = {
+      observe: "response" as 'body'
+    };
 
-  
+    let params = {
+      
+      category: '' + category
+    };
+
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options).toPromise();
+
+  }
+
+  getHomeCoffretProductsByCategory(category) {
+    let options = {
+      observe: "response" as 'body'
+    };
+
+    let params = {
+      category :category,
+      exclude:4050
+    };
+
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options);
+
+  }
+
 }

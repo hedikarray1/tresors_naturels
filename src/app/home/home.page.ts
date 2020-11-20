@@ -14,17 +14,21 @@ import { MenuController, ModalController, PopoverController, IonSlides, AlertCon
 })
 export class HomePage implements OnInit {
 
+  produitVisage1 : any;
+  produitVisage2 : any;
+
+
   allProducts: any[];
   slideNBR: number = 0;
   slidesPictures: any[] = [];
   searchText: string = "";
   searchShow: boolean = false;
-  productsBelleAmbiance: any[];
-  productsBelleEnvolee: any[];
-  productsBelleSensuelle: any[];
+  productsParfumsAmbiance: any[];
+  productsVisageCreme: any[];
+  productsCheveuxShampoing: any[];
   productsCoffrets: any[];
   rep = /&amp;/gi;
-  slideOptions={ slidesPerView: 'auto', zoom: false, grabCursor: true, speed:400,initialSlide:1 };
+  slideOptions = { slidesPerView: 'auto', zoom: false, grabCursor: true, speed: 400, initialSlide: 1 };
   userState: boolean = false;
 
   constructor(
@@ -36,7 +40,7 @@ export class HomePage implements OnInit {
     private modalCtrl: ModalController,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingCtrl:LoadingController
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -44,78 +48,85 @@ export class HomePage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
-   
 
-    this.getSlidesNbr();
-    this.getProductBelleAmbiance();
-    this.getProductBelleEnvolee();
-    this.getProductBelleSensuelle();
-    this.getProductCoffret();
-    this.getAllProducts();
-  });
+
+      this.getSlidesNbr();
+      this.getProductParfumsAmbiance();
+      this.getProductVisageCreme();
+      this.getProductCheveuxShampoing();
+      this.getProductCoffret();
+      this.getAllProducts();
+    });
   }
 
-  ionSlidesDidLoad(slides:IonSlides){
+  ionSlidesDidLoad(slides: IonSlides) {
     slides.startAutoplay();
   }
 
- 
+
   ionViewDidEnter() {
     this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
-    
-    this.getSlidesNbr();
-    this.getProductBelleAmbiance();
-    this.getProductBelleEnvolee();
-    this.getProductBelleSensuelle();
-    this.getProductCoffret();
-    this.getAllProducts();
-  });
+
+      this.getSlidesNbr();
+      this.getProductParfumsAmbiance();
+      this.getProductVisageCreme();
+      this.getProductCheveuxShampoing();
+      this.getProductCoffret();
+      this.getAllProducts();
+    });
   }
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
   }
 
+  goToProductByCategory(category ,id){
+    this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
+  }
 
 
-
-  async getProductBelleAmbiance() {
+  async getProductParfumsAmbiance() {
     const id = '163';
-    this.poductService.getProductsByCategory(id).then((data: any[]) => {
+    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
 
-      this.productsBelleAmbiance = data;
-      console.log('productsBelleAmbiance :', data);
+      this.productsParfumsAmbiance = data['body'];
+      console.log('products Parfums Ambiance :', data);
     });
   }
 
 
-  async getProductBelleEnvolee() {
-    let id = "164";
-    this.poductService.getProductsByCategory(id).then((data: any[]) => {
+  async getProductVisageCreme() {
+    let id = "106";
+    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
 
-      this.productsBelleEnvolee = data;
-      console.log("productsBelleEnvolee :", data);
+      this.productsVisageCreme = data['body'];
+      console.log("products Visage Creme :", data);
     });
   }
 
-  async getProductBelleSensuelle() {
-    let id = "165";
-    this.poductService.getProductsByCategory(id).then((data: any[]) => {
+  async getProductCheveuxShampoing() {
+    let id = "100";
+    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
 
-      this.productsBelleSensuelle = data;
-      console.log("productsBelleSensuelle :", data);
+      this.productsCheveuxShampoing= data['body'];
+      console.log("products Cheveux Shampoing :", data);
     });
   }
 
   async getProductCoffret() {
-    let id = "116";
-    this.poductService.getProductsByCategory(id).then((data: any[]) => {
+   
+    this.poductService.getproduct(4359).then((data: any[]) => {
+      
+      this.produitVisage1= data;
+      
+    });
 
-      this.productsCoffrets = data;
-      console.log("productsCoffrets :", data);
+    this.poductService.getproduct(4038).then((data2: any[]) => {
+
+      this.produitVisage2= data2;
     });
   }
 
@@ -211,8 +222,9 @@ export class HomePage implements OnInit {
       for (let i = 1; i <= this.slideNBR; i++) {
         this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_" + i + ".jpg");
       }
-  });
-}
+    });
+  }
+
 
 
 

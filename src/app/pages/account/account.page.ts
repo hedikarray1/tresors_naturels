@@ -46,7 +46,6 @@ export class AccountPage implements OnInit {
   ) {
 
 
-
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;

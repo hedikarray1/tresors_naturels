@@ -70,7 +70,7 @@ export class ProductByCategoryPage implements OnInit {
   
  async getCategory(){
    
-  this.poductService.getProductsByCategory(this.idCategory).then((data: any[]) => {
+  this.poductService.getProductsByCategory(this.idCategory).subscribe((data: any[]) => {
     this.count = this.poductService.totalProducts;
     this.products = data;
      console.log("category :" , this.products);
@@ -80,7 +80,7 @@ export class ProductByCategoryPage implements OnInit {
 loadMore(event) {
   this.page++;
 
-  this.poductService.getProductsByCategory(this.idCategory,this.page).then(res => {
+  this.poductService.getProductsByCategory(this.idCategory,this.page).subscribe(res => {
     console.log("category page :"+this.page , this.products);
     this.products = [...this.products, ...res];
     event.target.complete();

@@ -65,8 +65,8 @@ async openCart() {
       this.categorys = data;
       for (let cat of this.categorys) {
     
-        this.categoryService.getSousCategory(cat.id).then((data: any[]) => {
-          cat.children = data ;
+        this.categoryService.getSousCategory(cat.id).then((data2: any[]) => {
+          cat.children = data2 ;
          });
          
        }

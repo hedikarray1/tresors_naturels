@@ -74,7 +74,7 @@ export class AllProductsPage implements OnInit {
 
   async getAllProducts() {
 
-    this.poductService.getAllProductsWooCommerce(this.count).then((data: any[]) => {
+    this.poductService.getAllProductsWooCommerce(100).then((data: any[]) => {
 
       this.allProducts = data;
       console.log("All product :", this.allProducts);
