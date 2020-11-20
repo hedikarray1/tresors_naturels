@@ -1,4 +1,3 @@
-import { LottieAnimationViewModule } from 'ng-lottie';
 import { CouponModalPage } from './../coupon-modal/coupon-modal.page';
 import { OrderService } from './../../services/order/order.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -8,8 +7,6 @@ import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { min } from 'rxjs/operators';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,7 +41,7 @@ export class AccountPage implements OnInit {
     private Router: Router,
   ) {
 
-       LottieAnimationViewModule.forRoot()
+    
 
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);

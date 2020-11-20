@@ -56,7 +56,8 @@ export class PanierModalPage implements OnInit {
         console.log('auth-user', val);
         this.panierService.getCartFromServer(val.id).subscribe((res: any[]) => {
           this.panier = res['data'];
-          this.getTotal();
+          this.totale = parseFloat(res['subtotal']);
+        
         });
       });
     } 
@@ -69,7 +70,7 @@ export class PanierModalPage implements OnInit {
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
           p.quantity += 1;
-          this.totale += p.price * 1;
+          this.totale +=parseFloat(p.price );
           added = true;
           break;
         }
@@ -87,7 +88,7 @@ export class PanierModalPage implements OnInit {
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
           p.quantity -= 1;
-          this.totale -= p.price;
+          this.totale -= parseFloat(p.price);
           if (p.quantity == 0) {
             this.panier.splice(index, 1);
           }
@@ -103,7 +104,7 @@ export class PanierModalPage implements OnInit {
       let index = 0;
       for (let p of this.panier) {
         if (p.product_id === product.product_id) {
-          this.totale -= p.total;
+          this.totale -= parseFloat(p.total);
           this.panier.splice(index, 1);
           break;
         }
@@ -111,15 +112,16 @@ export class PanierModalPage implements OnInit {
       }
     } 
   }
+  /*
   getTotal() {
     this.totale = 0
     for (let p of this.panier) {
 
-      this.totale += p.total;
+      this.totale += parseFloat(p.total);
 
     }
   }
-
+*/
   close() {
     this.modalCtrl.dismiss();
   }

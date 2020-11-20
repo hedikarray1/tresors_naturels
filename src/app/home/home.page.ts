@@ -5,7 +5,7 @@ import { PopoverCardProductPage } from './../pages/popovers/popover-card-product
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from './../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ModalController, PopoverController, IonSlides, AlertController } from '@ionic/angular';
+import { MenuController, ModalController, PopoverController, IonSlides, AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +24,7 @@ export class HomePage implements OnInit {
   productsBelleSensuelle: any[];
   productsCoffrets: any[];
   rep = /&amp;/gi;
-  slideOptions={ slidesPerView: 'auto', zoom: false, grabCursor: true, speed:400,initialSlide:1 };
+  slideOptions = { slidesPerView: 'auto', zoom: false, grabCursor: true, speed: 400, initialSlide: 1 };
   userState: boolean = false;
 
   constructor(
@@ -35,7 +35,8 @@ export class HomePage implements OnInit {
     private popoverController: PopoverController,
     private modalCtrl: ModalController,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -43,34 +44,35 @@ export class HomePage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
-   
 
-    this.getSlidesNbr();
-    this.getProductBelleAmbiance();
-    this.getProductBelleEnvolee();
-    this.getProductBelleSensuelle();
-    this.getProductCoffret();
-    this.getAllProducts();
-  });
+
+      this.getSlidesNbr();
+      this.getProductBelleAmbiance();
+      this.getProductBelleEnvolee();
+      this.getProductBelleSensuelle();
+      this.getProductCoffret();
+      this.getAllProducts();
+    });
   }
 
-  ionSlidesDidLoad(slides:IonSlides){
+  ionSlidesDidLoad(slides: IonSlides) {
     slides.startAutoplay();
   }
 
- 
+
   ionViewDidEnter() {
+    this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
-    
-    this.getSlidesNbr();
-    this.getProductBelleAmbiance();
-    this.getProductBelleEnvolee();
-    this.getProductBelleSensuelle();
-    this.getProductCoffret();
-    this.getAllProducts();
-  });
+
+      this.getSlidesNbr();
+      this.getProductBelleAmbiance();
+      this.getProductBelleEnvolee();
+      this.getProductBelleSensuelle();
+      this.getProductCoffret();
+      this.getAllProducts();
+    });
   }
 
   goToDetail(id) {
@@ -209,8 +211,23 @@ export class HomePage implements OnInit {
       for (let i = 1; i <= this.slideNBR; i++) {
         this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_" + i + ".jpg");
       }
-  });
-}
+    });
+  }
+
+  async presentLoadingCustom() {
+
+    let loading = await this.loadingCtrl.create({
+      spinner: null,
+      message: `
+      <img  src="../../../assets/Spinner.gif" />
+     `,duration:2000,
+     cssClass: 'custom-loading'
+    });
+
+
+    loading.present();
+
+  }
 
 }
 

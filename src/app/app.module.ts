@@ -18,7 +18,6 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 //import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
 import { IonicStorageModule } from '@ionic/storage';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { LottieAnimationViewModule } from 'ng-lottie';
 
 
 
@@ -35,8 +34,6 @@ import { LottieAnimationViewModule } from 'ng-lottie';
     PanierModalPageModule,
     PopoverCardProductPageModule,
     OrderAddCouponModalPageModule,
-        LottieAnimationViewModule.forRoot()
-
     
   ],
   providers: [
