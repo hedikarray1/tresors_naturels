@@ -32,7 +32,7 @@ export class ProductService {
     this.totalProducts = res['headers'].get('x-wp-total');
     let data = res['body'];
     return data ;
-   })); 
+   })).toPromise(); 
   }
 
   getAllProductsWooCommerce(count){
@@ -54,12 +54,12 @@ export class ProductService {
     this.totalProducts = res['headers'].get('x-wp-total');
     let data = res['body'];
     return data ;
-   })); 
+   })).toPromise();  
   }
 
   getproduct(id){
     let myUrl=this.WooCommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/"+id,{});
-    return this.http.get(myUrl);
+    return this.http.get(myUrl).toPromise();
   }
 
   getProductsByCategory(category,page =1){
@@ -79,7 +79,7 @@ export class ProductService {
     this.totalProducts = res['headers'].get('x-wp-total');
     let data = res['body'];
     return data ;
-   })); 
+   })).toPromise(); 
   }
 
 

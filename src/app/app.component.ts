@@ -115,14 +115,14 @@ export class AppComponent implements OnInit {
           message: token + "",
           buttons: ['OK'],
         });
-        await alert.present();
+       // await alert.present();
         // send token to the server
       });
 
       this.firebaseX.onTokenRefresh()
-      .subscribe((token: string) => console.log(`Got a new token ${token}`));
+      .then((token: string) => console.log(`Got a new token ${token}`));
 
-      this.firebaseX.onMessageReceived().subscribe(data => {
+      this.firebaseX.onMessageReceived().then(data => {
         console.log(data);
         if (data.wasTapped) {
           console.log('Received in background');

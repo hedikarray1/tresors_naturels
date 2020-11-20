@@ -16,7 +16,7 @@ export class UserService {
   getUserById(id) {
 
     let myUrl = this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/customers/" + id, {});
-    return this.http.get(myUrl);
+    return this.http.get(myUrl).toPromise(); 
   }
 
 
@@ -27,7 +27,7 @@ export class UserService {
     
     let url1=environment.apiURL+"wc/v3/customers/"+user.id+"?"+this.WoocommerceService.authenticateApiForPost("POST",environment.apiURL+"wc/v3/customers/"+user.id+"",{});
 
-    return this.http.post(url1,user);
+    return this.http.post(url1,user).toPromise(); 
   }
   
   createUser(user){
@@ -36,7 +36,7 @@ export class UserService {
     
     let url1=environment.apiURL+"wc/v3/customers"+"?"+this.WoocommerceService.authenticateApiForPost("POST",environment.apiURL+"wc/v3/customers",{});
 
-    return this.http.post(url1,user);
+    return this.http.post(url1,user).toPromise(); 
   }
 
 }

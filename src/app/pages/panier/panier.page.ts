@@ -1,4 +1,4 @@
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
@@ -21,7 +21,8 @@ loaded=false;
     private Router: Router,
     private panierService: PanierService,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingCtrl:LoadingController
   ) { }
 
 
@@ -46,7 +47,7 @@ loaded=false;
 
 
   ionViewDidEnter() {
-
+    this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -75,7 +76,7 @@ loaded=false;
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService.getCartFromServer(val.id).subscribe((res: any[]) => {
+        this.panierService.getCartFromServer(val.id).then((res: any[]) => {
           this.panier = res['data'];
           this.totale = res['subtotal'];
           this.loaded=true;
@@ -167,9 +168,9 @@ loaded=false;
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService.emptyCartFromServer(val.id).subscribe((res: any[]) => {
+        this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
           console.log("empty panier", res);
-          this.panierService.addToCartOnServer(this.panier, val.id).subscribe((res: any[]) => {
+          this.panierService.addToCartOnServer(this.panier, val.id).then((res: any[]) => {
             console.log("panier", res);
             this.panier = res['data'];
             //  this.modalCtrl.dismiss();
@@ -188,4 +189,16 @@ loaded=false;
   goToLogin() {
     this.Router.navigateByUrl('/login');
   }
+
+
+  async presentLoadingCustom() {
+    let loading = await this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+      duration: 5000,
+    });
+    loading.present();
+  }
+
 }

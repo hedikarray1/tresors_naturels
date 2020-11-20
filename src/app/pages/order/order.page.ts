@@ -51,6 +51,7 @@ export class OrderPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private loadingController: LoadingController,
+    private loadingCtrl:LoadingController
   ) { }
 
   ngOnInit() {
@@ -66,13 +67,27 @@ export class OrderPage implements OnInit {
     });
 
   }
+
+  ionViewDidEnter() {
+
+    this.presentLoadingCustom();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getPanier();
+
+      this.getShippinZones();
+
+      this.getUserdata();
+    });
+    }
   
   getUserdata() {
     if (this.userState) {
       //for online users
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.UserService.getUserById(val.id).subscribe((data: any) => {
+        this.UserService.getUserById(val.id).then((data: any) => {
           this.billing = data.billing;
           this.shipping = data.shipping;
           console.log("is online", data);
@@ -88,14 +103,14 @@ export class OrderPage implements OnInit {
   }
 
   getPAymentmethodes(zone_id) {
-    this.OrderService.getAllPaymentMethods(zone_id).subscribe((data: any[]) => {
+    this.OrderService.getAllPaymentMethods(zone_id).then((data: any[]) => {
       console.log('shipping methods : ', data)
       this.payment_methodes = data;
       this.selectedpayment = this.payment_methodes[0].id;
     });
   }
   getShippinZones() {
-    this.OrderService.getAllShippingZone().subscribe((data: any[]) => {
+    this.OrderService.getAllShippingZone().then((data: any[]) => {
       console.log('shipping zones : ', data);
       this.shipping_zones = data;
       this.shipping_zones.splice(0, 1);
@@ -111,7 +126,7 @@ export class OrderPage implements OnInit {
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.PanierService.getCartFromServer(val.id).subscribe((res: any[]) => {
+        this.PanierService.getCartFromServer(val.id).then((res: any[]) => {
           this.panier = res['data'];
           this.totalPanier = parseFloat(res['subtotal']);
 
@@ -173,9 +188,22 @@ export class OrderPage implements OnInit {
       "TND",
       shippingMethod,
       this.panier
-    ).subscribe(async (res: any) => {
+    ).then(async (res: any) => {
+      let coupnosToupdate:any[]=[];
       console.log("succes", res);
-
+     /*   if(this.coupon_data.length>0){
+          this.coupon_data.forEach(element => {
+            let used:any[]=[];
+           used= element.used_by;
+           used.push(this.current_user.id+"");
+           element.used_by=used;
+           coupnosToupdate.push(element);
+          });
+          this.OrderService.updateCoupon(coupnosToupdate).then((data:any)=>{
+            console.log("updated used by in coupons");
+                       });
+            
+        }*/
       await loading.dismiss();
 
       const alert = await this.alertController.create({
@@ -188,9 +216,10 @@ export class OrderPage implements OnInit {
             text: "D'accord",
             cssClass: 'btn-alert-connexion',
             handler: () => {
-              alert.dismiss();
-              this.PanierService.emptyCartFromServer(this.current_user.id).subscribe((data: any) => {
+              
+              this.PanierService.emptyCartFromServer(this.current_user.id).then((data: any) => {
                 console.log('data empty panier', data);
+                alert.dismiss();
                 this.router.navigateByUrl('/bottom-navigation/my-orders', { replaceUrl: true });
               })
 
@@ -303,6 +332,15 @@ export class OrderPage implements OnInit {
     this.showLivraison = !this.showLivraison;
   }
 
+  async presentLoadingCustom() {
+    let loading = await this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+      duration: 5000,
+    });
+    loading.present();
+  }
 
 
 }

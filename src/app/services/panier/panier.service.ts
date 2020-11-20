@@ -22,7 +22,7 @@ export class PanierService {
         user_id: id
       };
       let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/cart", params);
-      return this.http.get(myUrl);
+      return this.http.get(myUrl).toPromise(); 
   }
 
   getCartItemNbr(id) {
@@ -30,7 +30,7 @@ export class PanierService {
       user_id: id
     };
     let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/cartItemNBR", params);
-    return this.http.get(myUrl);
+    return this.http.get(myUrl).toPromise(); 
 }
 
 
@@ -42,7 +42,7 @@ export class PanierService {
         user_id: id
       };
       let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/emptyCart", params);
-      return this.http.get(myUrl);
+      return this.http.get(myUrl).toPromise(); 
 
     }
 
@@ -57,7 +57,7 @@ export class PanierService {
 
       let url1 = environment.apiURL + "wc/v3/addtocart" + "?" + this.WooCommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/addtocart", {});
 
-      return this.http.post(url1, params);
+      return this.http.post(url1, params).toPromise(); 
 
 
     
@@ -71,7 +71,7 @@ export class PanierService {
 
     let url1 = environment.apiURL + "wc/v3/addtocart" + "?" + this.WooCommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/addtocart", {});
 
-    return this.http.post(url1, params);
+    return this.http.post(url1, params).toPromise(); 
 
 
   

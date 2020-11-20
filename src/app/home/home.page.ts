@@ -5,7 +5,7 @@ import { PopoverCardProductPage } from './../pages/popovers/popover-card-product
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from './../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ModalController, PopoverController, IonSlides, AlertController } from '@ionic/angular';
+import { MenuController, ModalController, PopoverController, IonSlides, AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +35,8 @@ export class HomePage implements OnInit {
     private popoverController: PopoverController,
     private modalCtrl: ModalController,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingCtrl:LoadingController
   ) { }
 
   ngOnInit() {
@@ -60,6 +61,7 @@ export class HomePage implements OnInit {
 
  
   ionViewDidEnter() {
+    this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
@@ -82,7 +84,7 @@ export class HomePage implements OnInit {
 
   async getProductBelleAmbiance() {
     const id = '163';
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+    this.poductService.getProductsByCategory(id).then((data: any[]) => {
 
       this.productsBelleAmbiance = data;
       console.log('productsBelleAmbiance :', data);
@@ -92,7 +94,7 @@ export class HomePage implements OnInit {
 
   async getProductBelleEnvolee() {
     let id = "164";
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+    this.poductService.getProductsByCategory(id).then((data: any[]) => {
 
       this.productsBelleEnvolee = data;
       console.log("productsBelleEnvolee :", data);
@@ -101,7 +103,7 @@ export class HomePage implements OnInit {
 
   async getProductBelleSensuelle() {
     let id = "165";
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+    this.poductService.getProductsByCategory(id).then((data: any[]) => {
 
       this.productsBelleSensuelle = data;
       console.log("productsBelleSensuelle :", data);
@@ -110,7 +112,7 @@ export class HomePage implements OnInit {
 
   async getProductCoffret() {
     let id = "116";
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+    this.poductService.getProductsByCategory(id).then((data: any[]) => {
 
       this.productsCoffrets = data;
       console.log("productsCoffrets :", data);
@@ -193,7 +195,7 @@ export class HomePage implements OnInit {
 
   getAllProducts() {
 
-    this.poductService.getAllProductsWooCommerce('100').subscribe((data: any[]) => {
+    this.poductService.getAllProductsWooCommerce('100').then((data: any[]) => {
 
       this.allProducts = data;
       console.log("All product :", this.allProducts);
@@ -202,7 +204,7 @@ export class HomePage implements OnInit {
 
   getSlidesNbr() {
     console.log('get slide nbr enter');
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").subscribe((res: any) => {
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").toPromise().then((res: any) => {
       this.slideNBR = res.number;
       console.log("response get slides", res);
       this.slidesPictures = [];
@@ -210,6 +212,18 @@ export class HomePage implements OnInit {
         this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_" + i + ".jpg");
       }
   });
+}
+
+
+
+async presentLoadingCustom() {
+  let loading = await this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    duration: 5000,
+  });
+  loading.present();
 }
 
 }

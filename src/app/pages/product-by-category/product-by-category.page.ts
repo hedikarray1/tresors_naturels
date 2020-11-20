@@ -4,7 +4,7 @@ import { PopoverCardProductPage } from './../popovers/popover-card-product/popov
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, PopoverController, AlertController } from '@ionic/angular';
+import { ModalController, PopoverController, AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-by-category',
@@ -28,8 +28,21 @@ export class ProductByCategoryPage implements OnInit {
     private router : Router,
     private modalCtrl: ModalController,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loadingCtrl:LoadingController
   ) { }
+
+  ionViewDidEnter() {
+
+    this.presentLoadingCustom();
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
+    });
+    this.category = this.route.snapshot.paramMap.get('category') ;
+    this.idCategory = this.route.snapshot.paramMap.get('id') ;
+    this.getCategory()
+    }
 
   ngOnInit() {
     this.storage.get('user-state').then((val) => {
@@ -57,7 +70,7 @@ export class ProductByCategoryPage implements OnInit {
   
  async getCategory(){
    
-  this.poductService.getProductsByCategory(this.idCategory).subscribe((data: any[]) => {
+  this.poductService.getProductsByCategory(this.idCategory).then((data: any[]) => {
     this.count = this.poductService.totalProducts;
     this.products = data;
      console.log("category :" , this.products);
@@ -67,7 +80,7 @@ export class ProductByCategoryPage implements OnInit {
 loadMore(event) {
   this.page++;
 
-  this.poductService.getProductsByCategory(this.idCategory,this.page).subscribe(res => {
+  this.poductService.getProductsByCategory(this.idCategory,this.page).then(res => {
     console.log("category page :"+this.page , this.products);
     this.products = [...this.products, ...res];
     event.target.complete();
@@ -143,6 +156,16 @@ async openCart() {
   modal.onWillDismiss().then(() => {
   });
   modal.present();
+}
+
+async presentLoadingCustom() {
+  let loading = await this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    duration: 5000,
+  });
+  loading.present();
 }
 
 }

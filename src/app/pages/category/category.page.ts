@@ -24,7 +24,11 @@ export class CategoryPage implements OnInit {
     private modalCtrl: ModalController
     ) { }
 
-    
+   async ionViewDidEnter() {
+
+      this.presentLoadingCustom();
+      await this.getCategory();
+    }
 
 async openCart() {
  
@@ -56,12 +60,12 @@ async openCart() {
 
  async getCategory(){
    
-    this.categoryService.getParentCategory().subscribe((data: any[]) => {
+    this.categoryService.getParentCategory().then((data: any[]) => {
      
       this.categorys = data;
       for (let cat of this.categorys) {
     
-        this.categoryService.getSousCategory(cat.id).subscribe((data: any[]) => {
+        this.categoryService.getSousCategory(cat.id).then((data: any[]) => {
           cat.children = data ;
          });
          
@@ -93,6 +97,16 @@ isCategoryShown(category) {
 
 goToProductByCategory(category ,id){
   this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
+}
+
+async presentLoadingCustom() {
+  let loading = await this.loadingController.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    duration: 5000,
+  });
+  loading.present();
 }
 
 }

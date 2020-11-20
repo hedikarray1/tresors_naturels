@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { AccountPageRoutingModule } from './account-routing.module';
 
 import { AccountPage } from './account.page';
-import { LottieAnimationViewModule } from 'ng-lottie';
 
 
 @NgModule({
@@ -18,7 +17,6 @@ import { LottieAnimationViewModule } from 'ng-lottie';
     AccountPageRoutingModule,
     CustomFormsModule,
     ReactiveFormsModule,
-    LottieAnimationViewModule.forRoot()
 
   ],
   declarations: [AccountPage]

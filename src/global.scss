@@ -25,7 +25,23 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+.ion-title-header-center {
+  text-align: center !important;
+    position: fixed;
+    /* display: contents; */
+    top: 10%;
+    left: 0;
+    width: 100%;
+}
 
+.icon-header {
+  margin: 0px !important;
+  font-size: 8vw !important;
+}
+
+.ion-title-header-center img{
+  width: 30%;
+}
  
 .cart-modal {
   --height: auto;

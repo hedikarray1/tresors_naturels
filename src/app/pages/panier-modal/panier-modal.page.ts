@@ -54,7 +54,7 @@ export class PanierModalPage implements OnInit {
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService.getCartFromServer(val.id).subscribe((res: any[]) => {
+        this.panierService.getCartFromServer(val.id).then((res: any[]) => {
           this.panier = res['data'];
           this.getTotal();
         });
@@ -130,11 +130,11 @@ export class PanierModalPage implements OnInit {
         console.log('auth-user', val);
         this.panierService
           .emptyCartFromServer(val.id)
-          .subscribe((res: any[]) => {
+          .then((res: any[]) => {
             console.log('empty panier', res);
             this.panierService
               .addToCartOnServer(this.panier, val.id)
-              .subscribe((res: any[]) => {
+              .then((res: any[]) => {
                 console.log('panier', res);
                 this.panier = res['data'];
                 this.modalCtrl.dismiss();

@@ -45,7 +45,7 @@ export class OrderAddCouponModalPage implements OnInit {
   async getCoupon(code) {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.orderService.getCoupon(code).subscribe(async (data: any[]) => {
+    this.orderService.getCoupon(code).then(async (data: any[]) => {
       console.log('coupon info: ', data);
       await loading.dismiss();
       if (data.length == 0) {

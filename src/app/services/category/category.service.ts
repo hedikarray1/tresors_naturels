@@ -15,9 +15,9 @@ export class CategoryService {
 
   getCategoryBySlug(slug:string){
     let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",{"slug":slug});
-   return this.http.get(myUrl);
+   return this.http.get(myUrl).toPromise(); 
   }
-
+/*
   getCategoriesWithProducts(){
     let options = {
       observe: "response" as "body",
@@ -47,7 +47,7 @@ export class CategoryService {
 
           return prods;
         }));
-        a.subscribe((data:any[])=>{
+        a.then((data:any[])=>{
           cat.products=data;
         });
       }
@@ -55,9 +55,10 @@ export class CategoryService {
    })
    );
   }
+  */
   getAllCategory(){
     let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",{});
-   return this.http.get(myUrl);
+   return this.http.get(myUrl).toPromise(); 
   }
 
   getParentCategory(){
@@ -67,7 +68,7 @@ export class CategoryService {
       "order" : "desc" 
     }
     let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
-   return this.http.get(myUrl);
+   return this.http.get(myUrl).toPromise(); 
   }
 
   getSousCategory(id){
@@ -75,12 +76,12 @@ export class CategoryService {
       "parent" : id
     }
     let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
-   return this.http.get(myUrl);
+   return this.http.get(myUrl).toPromise(); 
   }
 
   getCategory(id){
     let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories/"+id,{});
-   return this.http.get(myUrl);
+   return this.http.get(myUrl).toPromise(); 
   }
 
 }

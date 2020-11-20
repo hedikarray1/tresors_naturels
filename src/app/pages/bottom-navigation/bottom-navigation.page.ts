@@ -50,7 +50,7 @@ export class BottomNavigationPage implements OnInit {
     if (this.userState) {
       await this.storage.get('auth-user').then(async (val) => {
         console.log('auth-user', val);
-        await this.panierService.getCartItemNbr(val.id).subscribe((res: any[]) => {
+        await this.panierService.getCartItemNbr(val.id).then((res: any[]) => {
           console.log('panier item nbr', res['data']);
           this.panierNbr = res['data'];
 

@@ -3,7 +3,13 @@
 
 /** Ionic CSS Variables **/
 :root {
-
+  ion-loading.custom-loading {
+    .loading-wrapper {
+      background: transparent !important;
+      box-shadow: none !important;
+      width: 35%;
+    }
+  }
    /** menu **/
    --menuhous: #f3c975;
    --menuhous-rgb: rgb(243, 201, 117);
