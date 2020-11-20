@@ -12,20 +12,20 @@ export class OrderService {
   totalcoupon = null;
 
   constructor(private http: HttpClient, private WoocommerceService: WoocommerceService) { }
-
-  CreateOrder(billing: any,
+  CreateOrder(
+    billing: any,
     shipping: any,
     customer_id,
-    coupon_lines,
-    payment_method_id: string,
-    payment_method_title: string,
+    coupon_lines :any[],
     customer_note: string,
     currency: string,
     shipping_lines: any[],
-    line_items) {
+    line_items : any[]) {
 
 
     let params = {
+      payment_method: "cod",
+      payment_method_title: "Paiement à la livraison",
       billing: billing,
       shipping: shipping,
       customer_id: customer_id,
@@ -41,6 +41,7 @@ export class OrderService {
   }
 
 
+
   getMyOrderDetails(id) {
 
     return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders/" + id, {}), {});
@@ -54,9 +55,14 @@ export class OrderService {
 
   }
 
-  getAllPaymentMethods() {
+  getAllPaymentMethods(zone_id) {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping_methods", {}), {});
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones/" + zone_id + "/methods", {}));
+  }
+
+  getAllShippingZone() {
+
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones", {}));
   }
 
   generateCoupon(code, amount, userid) {
@@ -164,5 +170,12 @@ export class OrderService {
     }));
   }
 
+  getCoupon(code) {
+
+    let params = { code: code };
+
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params));
+
+  }
 }
 

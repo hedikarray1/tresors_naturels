@@ -1,3 +1,4 @@
+import { LottieAnimationViewModule } from 'ng-lottie';
 import { CouponModalPage } from './../coupon-modal/coupon-modal.page';
 import { OrderService } from './../../services/order/order.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -42,13 +43,30 @@ export class AccountPage implements OnInit {
     private orderService:OrderService,
     private Router: Router,
   ) {
-   
+
+       LottieAnimationViewModule.forRoot()
+
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
     });
    }
+
+   selectedAnimation: any = "interactive";
+   animations: any;
+   interactive = false;
+   anim: any;
+   animationSpeed: number = 1;
+ 
+   
+  interactiveAnimationOption = {
+    loop: true,
+    prerender: false,
+    autoplay: true,
+    autoloadSegments: false,
+    path: '../../../assets/35812-timer-progress-animation.json'
+  }
 
 
   async openCart() {

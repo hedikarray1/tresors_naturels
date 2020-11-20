@@ -66,18 +66,7 @@ export class OrderPage implements OnInit {
     });
 
   }
-  /*
-  ionViewDidEnter() {
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-    });
-    this.getPanier();
-
-    this.getShippinZones();
-
-    this.getUserdata();
-  }*/
+  
   getUserdata() {
     if (this.userState) {
       //for online users
@@ -140,10 +129,11 @@ export class OrderPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
-    });
-    this.getPanier();
-    this.getPAymentmethodes();
+      this.getPanier();
+ 
     this.getUserdata();
+    });
+    
     setTimeout(() => {
 
       console.log('Async operation has ended');

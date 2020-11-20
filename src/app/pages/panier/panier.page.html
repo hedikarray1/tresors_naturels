@@ -16,7 +16,7 @@
     
   </ion-toolbar>
 </ion-header>
-<ion-content *ngIf='userState && panier.length != 0  || !loaded' >
+<ion-content *ngIf='(userState && panier.length != 0  )|| (userState &&  !loaded )' >
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
