@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http : HttpClient) { }
 
   login(credentials) {
-    return this.http.post(environment.apiURL + 'jwt-auth/v1/token', credentials);
+    return this.http.post(environment.apiURL + 'jwt-auth/v1/token', credentials).toPromise(); ;
   }
   logout(){
 

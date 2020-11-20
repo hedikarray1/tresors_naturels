@@ -116,6 +116,7 @@ ion-content {
   font-family: Cormorant-Medium;
   font-size: 4vw;
   text-align: center;
+  height: 8vw;
 }
 
 //bar ajout panier
@@ -221,6 +222,7 @@ ion-content {
     font-family: Cormorant-Medium;
     font-size: 3vw;
     text-align: center;
+    height: 8vw;
   }
 
   .icon-add-item {
@@ -303,3 +305,55 @@ ion-slides {
   width: 35% !important;
     padding: 0px !important;
 }
+
+.category-slides-img {
+  width: 100%;
+}
+
+.category-container-slides {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  
+  justify-content: space-between;
+  padding: 2% 5%;
+  }
+
+  .category-slides-title {
+  font-family: Lato, sans-serif;
+  font-size: 5vw;
+  color: black;
+  text-transform: uppercase;
+  text-align: start;
+  margin: 0;
+  min-inline-size: max-content;
+}
+
+.category-slides-viewAll{
+  text-transform: uppercase;
+  font-family: Lato, sans-serif;
+  font-size: 3vw;
+  color: #f3c975;
+  text-align: end;
+  height: 5vw;
+  padding-top: 1vw;
+  margin: 0;
+  width: inherit;
+
+  border-bottom: 2px solid black;
+  
+}
+
+.category-card {
+  width: 100%;
+  margin: 1% 0px;
+  border-radius: 0;
+}
+
+
+.icon-add-item{
+  position:absolute;
+  top: 30% ;
+  right:0;
+  }

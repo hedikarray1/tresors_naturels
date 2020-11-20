@@ -10,77 +10,78 @@ import { Injectable } from '@angular/core';
 })
 export class CategoryService {
 
-  constructor(private WoocommerceService:WoocommerceService,private http:HttpClient,private http1:HttpClient) { }
+  constructor(private WoocommerceService: WoocommerceService, private http: HttpClient, private http1: HttpClient) { }
 
 
-  getCategoryBySlug(slug:string){
-    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",{"slug":slug});
-   return this.http.get(myUrl);
+  getCategoryBySlug(slug: string) {
+    let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories", { "slug": slug });
+    return this.http.get(myUrl).toPromise();
   }
-
-  getCategoriesWithProducts(){
-    let options = {
-      observe: "response" as "body",
-      
-    }
-    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",options);
-   return this.http.get(myUrl).pipe(
-     map((res:any[])=>{
-
-      let categories:any[];
-      categories=res;
-    
-      for( let cat of categories){
-        let myUrl1=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",options);
-      let a=  this.http1.get(myUrl1).pipe(map( (data:any[])=>{
-          let prods:any[];
-          console.log("in function");
-          console.log("products",data);
-          for(let p of data){
-          
-            let c:any[]=p.categories;
-            if(c.find(e=>{e.id===cat.id})!=null){
-              prods.push(p);
-            }
-            
-          }
-
-          return prods;
-        }));
-        a.subscribe((data:any[])=>{
-          cat.products=data;
-        });
+  /*
+    getCategoriesWithProducts(){
+      let options = {
+        observe: "response" as "body",
+        
       }
-      return categories;
-   })
-   );
-  }
-  getAllCategory(){
-    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",{});
-   return this.http.get(myUrl);
-  }
-
-  getParentCategory(){
-    let params = {
-      "parent" : 0,
-      "hide_empty" : true,
-      "order" : "desc" 
+      let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",options);
+     return this.http.get(myUrl).pipe(
+       map((res:any[])=>{
+  
+        let categories:any[];
+        categories=res;
+      
+        for( let cat of categories){
+          let myUrl1=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products",options);
+        let a=  this.http1.get(myUrl1).pipe(map( (data:any[])=>{
+            let prods:any[];
+            console.log("in function");
+            console.log("products",data);
+            for(let p of data){
+            
+              let c:any[]=p.categories;
+              if(c.find(e=>{e.id===cat.id})!=null){
+                prods.push(p);
+              }
+              
+            }
+  
+            return prods;
+          }));
+          a.then((data:any[])=>{
+            cat.products=data;
+          });
+        }
+        return categories;
+     })
+     );
     }
-    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
-   return this.http.get(myUrl);
+    */
+  getAllCategory() {
+    let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories", {});
+    return this.http.get(myUrl).toPromise();
   }
 
-  getSousCategory(id){
+  getParentCategory() {
     let params = {
-      "parent" : id
+      "parent": 0,
+      "hide_empty": true,
+      "order": "desc"
     }
-    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories",params);
-   return this.http.get(myUrl);
+    let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories", params);
+    return this.http.get(myUrl).toPromise();
   }
 
-  getCategory(id){
-    let myUrl=this.WoocommerceService.authenticateApi('GET',environment.apiURL+"wc/v3/products/categories/"+id,{});
-   return this.http.get(myUrl);
+  getSousCategory(id) {
+    let params = {
+      "parent": id
+    }
+    let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories", params);
+    return this.http.get(myUrl).toPromise();
+  }
+
+  getCategory(id) {
+    let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories/" + id, {});
+    return this.http.get(myUrl).toPromise();
   }
 
 }

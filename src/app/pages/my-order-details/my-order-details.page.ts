@@ -60,11 +60,11 @@ export class MyOrderDetailsPage implements OnInit {
   }
   getOrder() {
     let lineItems: any[] = [];
-    this.OrderService.getMyOrderDetails(this.orderId).subscribe((data: any) => {
+    this.OrderService.getMyOrderDetails(this.orderId).then((data: any) => {
       this.Order = data;
       lineItems = data.line_items
       lineItems.forEach(element => {
-        this.ProductService.getproduct(element.product_id).subscribe((data1: any) => {
+        this.ProductService.getproduct(element.product_id).then((data1: any) => {
           element.product = data1;
         });
       });

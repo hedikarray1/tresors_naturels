@@ -26,7 +26,8 @@ export class DetailProduitPage implements OnInit {
   rep = /&amp;/gi;
 
   constructor(
-    private loadingController: LoadingController,
+   
+  private loadingCtrl:LoadingController,
     private route: ActivatedRoute,
     private router: Router,
     private ProductService: ProductService,
@@ -43,9 +44,8 @@ export class DetailProduitPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
     });
-    const loading = await this.loadingController.create();
-    await loading.present();
-    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).subscribe((data: any) => {
+  
+    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).then((data: any) => {
       console.log(data);
       this.product = data;
       this.setSegmentValue();
@@ -55,11 +55,32 @@ export class DetailProduitPage implements OnInit {
       }
       this.datashow = true;
       this.getRelated(this.product.related_ids)
-      loading.dismiss();
+    
     });
   }
 
+  ionViewDidEnter() {
 
+    this.presentLoadingCustom();
+
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+  
+    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).then((data: any) => {
+      console.log(data);
+      this.product = data;
+      this.setSegmentValue();
+      if (this.product.type == "variable") {
+        this.getVariation(this.product.variations);
+
+      }
+      this.datashow = true;
+      this.getRelated(this.product.related_ids)
+    
+    });
+    }
   
  async doRefresh(event) {
     
@@ -67,9 +88,8 @@ export class DetailProduitPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
     });
-    const loading = await this.loadingController.create();
-    await loading.present();
-    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).subscribe((data: any) => {
+   
+    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).then((data: any) => {
       console.log(data);
       this.product = data;
       this.setSegmentValue();
@@ -79,7 +99,7 @@ export class DetailProduitPage implements OnInit {
       }
       this.datashow = true;
       this.getRelated(this.product.related_ids)
-      loading.dismiss();
+  
     });
     setTimeout(() => {
 
@@ -92,7 +112,7 @@ export class DetailProduitPage implements OnInit {
   async getVariation(variationsss) {
     console.log("variations");
     for (let v of variationsss) {
-      await this.ProductService.getproduct(v).subscribe((data: any) => {
+      await this.ProductService.getproduct(v).then((data: any) => {
         console.log(data);
         let vv = {
           option: data?.attributes[0]?.option,
@@ -107,7 +127,7 @@ export class DetailProduitPage implements OnInit {
   async getRelated(relatedss) {
     console.log("related product ");
     for (let r of relatedss) {
-      await this.ProductService.getproduct(r).subscribe((data: any) => {
+      await this.ProductService.getproduct(r).then((data: any) => {
         console.log(data);
 
         this.relatedProducts.push(data);
@@ -161,8 +181,24 @@ this.showAlertLogin();
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService.addToCartOnServer(product, val.id).subscribe((res: any[]) => {
+        this.panierService.addToCartOnServer(product, val.id).then(async (res: any[]) => {
           console.log("panier", res);
+          const alert = await this.alertController.create({
+            header: "Produit ajouté au panier",
+            mode: 'ios',
+            message: "",
+            buttons: [
+  
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                }
+              },
+            ]
+          });
+          await alert.present();
 
         })
       })
@@ -195,9 +231,24 @@ this.showAlertLogin();
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService.addToCartOnServer(product, val.id).subscribe((res: any[]) => {
+        this.panierService.addToCartOnServer(product, val.id).then(async (res: any[]) => {
           console.log("panier", res);
-
+          const alert = await this.alertController.create({
+            header: "Produit ajouté au panier",
+            mode: 'ios',
+            message: "",
+            buttons: [
+  
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                }
+              },
+            ]
+          });
+          await alert.present();
         })
       })
     } else {
@@ -252,6 +303,16 @@ showPopover(event: MouseEvent, product) {
   } else {
     this.showAlertLogin();
   }
+}
+
+async presentLoadingCustom() {
+  let loading = await this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    duration: 5000,
+  });
+  loading.present();
 }
 
 

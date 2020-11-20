@@ -141,7 +141,7 @@ export class RegisterPage implements OnInit {
     console.log(this.register1Form.value);
     const loading = await this.loadingController.create();
     await loading.present();
-    this.userService.createUser(this.register1Form.value).subscribe(
+    this.userService.createUser(this.register1Form.value).then(
 
       async (data: any) => {
 
@@ -177,7 +177,7 @@ export class RegisterPage implements OnInit {
     this.userRegistred.shipping = this.shippingForm.value;
     const loading = await this.loadingController.create();
     await loading.present();
-    this.userService.updateUser(this.userRegistred).subscribe(
+    this.userService.updateUser(this.userRegistred).then(
 
       async (data: any) => {
 

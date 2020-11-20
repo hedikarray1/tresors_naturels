@@ -33,7 +33,8 @@ export class AllProductsPage implements OnInit {
     private popoverController: PopoverController,
     private modalCtrl: ModalController,
     private storage: Storage,
-    private alertController : AlertController
+    private alertController : AlertController,
+    private loadingCtrl:LoadingController
   ) { }
 
   async ngOnInit() {
@@ -47,10 +48,20 @@ export class AllProductsPage implements OnInit {
 
   }
 
+  ionViewDidEnter() {
+    this.presentLoadingCustom();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+
+     this.getAllProductsPerPage();
+  }
+
 
   async getAllProductsPerPage() {
 
-    await this.poductService.getAllProductsWooCommercePerPage().subscribe((data: any[]) => {
+    await this.poductService.getAllProductsWooCommercePerPage().then((data: any[]) => {
       this.count = this.poductService.totalProducts;
       this.products = data;
       console.log("product per page :", this.products);
@@ -63,7 +74,7 @@ export class AllProductsPage implements OnInit {
 
   async getAllProducts() {
 
-    this.poductService.getAllProductsWooCommerce(this.count).subscribe((data: any[]) => {
+    this.poductService.getAllProductsWooCommerce(100).then((data: any[]) => {
 
       this.allProducts = data;
       console.log("All product :", this.allProducts);
@@ -73,7 +84,7 @@ export class AllProductsPage implements OnInit {
   loadMore(event) {
     this.page++;
 
-    this.poductService.getAllProductsWooCommercePerPage(this.page).subscribe(res => {
+    this.poductService.getAllProductsWooCommercePerPage(this.page).then(res => {
       this.products = [...this.products, ...res];
 
       event.target.complete();
@@ -103,7 +114,7 @@ export class AllProductsPage implements OnInit {
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService.addToCartOnServer(product, val.id).subscribe((res: any[]) => {
+        this.panierService.addToCartOnServer(product, val.id).then((res: any[]) => {
           console.log("panier", res);
 
         })
@@ -172,6 +183,17 @@ export class AllProductsPage implements OnInit {
     });
     modal.present();
   }
+
+  async presentLoadingCustom() {
+    let loading = await this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+      duration: 5000,
+    });
+    loading.present();
+  }
+
 
 
 }

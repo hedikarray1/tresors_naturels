@@ -34,8 +34,8 @@ export class CouponModalPage implements OnInit {
     this.allCoupons = [];
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-      this.orderService.getCountMyCoupons().subscribe((data1: any[]) => {
-        this.orderService.getAllMyCoupons(this.orderService.totalcoupon).subscribe((data2: any[]) => {
+      this.orderService.getCountMyCoupons().then((data1: any[]) => {
+        this.orderService.getAllMyCoupons(this.orderService.totalcoupon).then((data2: any[]) => {
           console.log('data all coupon', data2);
           this.MyCoupons = [];
           this.allCoupons = [];

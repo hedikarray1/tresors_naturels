@@ -30,7 +30,7 @@
 
 .icon-add-item{
   position:absolute;
-  top: 30px ;
+  top: 50px ;
   right:0;
   }
 
@@ -67,4 +67,14 @@ ion-card-content {
   padding: 0px 10px;
 }
 
+}
+
+.category-button-text {
+  font-family: Lato, sans-serif;
+  font-size: 4.5vw;
+  color: black;
+  text-align: start;
+  text-transform: uppercase;
+  margin: 0;
+  min-inline-size: max-content;
 }

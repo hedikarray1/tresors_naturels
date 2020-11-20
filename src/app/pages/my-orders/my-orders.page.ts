@@ -5,7 +5,7 @@ import { UserService } from './../../services/user/user.service';
 import { OrderService } from './../../services/order/order.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-orders',
@@ -31,7 +31,13 @@ export class MyOrdersPage implements OnInit {
     "failed": { title: "échec", color: "danger" },
     "trash": { title: "En corbeille", color: "danger" }
   }
-  constructor(private router: Router, private modalCtrl: ModalController, private storage: Storage, private StorageService: StorageService, private OrderService: OrderService, private UserService: UserService) { }
+  constructor(private router: Router, 
+    private modalCtrl: ModalController, 
+    private storage: Storage,
+     private OrderService: OrderService, 
+     private UserService: UserService,
+     private loadingCtrl:LoadingController
+     ) { }
 
   ngOnInit() {
     this.storage.get('user-state').then((val) => {
@@ -58,6 +64,7 @@ export class MyOrdersPage implements OnInit {
   
 
   ionViewDidEnter() {
+    this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -72,7 +79,7 @@ export class MyOrdersPage implements OnInit {
 
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.UserService.getUserById(val.id).subscribe((data: any) => {
+        this.UserService.getUserById(val.id).then((data: any) => {
           this.billing = data.billing;
           this.shipping = data.shipping;
           console.log("is online", data);
@@ -90,7 +97,7 @@ export class MyOrdersPage implements OnInit {
   }
 
   getOrders() {
-    this.OrderService.getMyOrders(this.current_user.id).subscribe((data: any[]) => {
+    this.OrderService.getMyOrders(this.current_user.id).then((data: any[]) => {
       this.orders = data;
     });
   }
@@ -116,4 +123,15 @@ export class MyOrdersPage implements OnInit {
   goToLogin() {
     this.router.navigateByUrl('/login');
   }
+
+  async presentLoadingCustom() {
+    let loading = await this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+      duration: 5000,
+    });
+    loading.present();
+  }
+
 }

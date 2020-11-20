@@ -37,32 +37,32 @@ export class OrderService {
       line_items: line_items
     };
     let url = environment.apiURL + "wc/v3/orders?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/orders", {});
-    return this.http.post(url, params);
+    return this.http.post(url, params).toPromise(); 
   }
 
 
 
   getMyOrderDetails(id) {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders/" + id, {}), {});
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders/" + id, {}), {}).toPromise(); 
 
   }
 
   getMyOrders(id) {
 
     let params = { customer: id };
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders", params), {});
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders", params), {}).toPromise(); 
 
   }
 
   getAllPaymentMethods(zone_id) {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones/" + zone_id + "/methods", {}));
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones/" + zone_id + "/methods", {})).toPromise(); 
   }
 
   getAllShippingZone() {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones", {}));
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones", {})).toPromise(); 
   }
 
   generateCoupon(code, amount, userid) {
@@ -138,8 +138,18 @@ export class OrderService {
         }]
     }
     let url = environment.apiURL + "wc/v3/coupons?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/coupons", {});
-    return this.http.post(url, params);
+    return this.http.post(url, params).toPromise(); 
   }
+
+
+
+  updateCoupon(coupons:any) {
+ let  params={update: coupons}
+    let url = environment.apiURL + "wc/v3/coupons/batch?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/coupons", {});
+    return this.http.post(url, params).toPromise(); 
+  }
+
+
 
   getCountMyCoupons(){
     let options = {
@@ -151,7 +161,7 @@ export class OrderService {
       this.totalcoupon = res['headers'].get('x-wp-total');
       let data = res['body'];
       return data ;
-    }));
+    })).toPromise(); 
   }
 
   
@@ -167,14 +177,14 @@ export class OrderService {
       this.totalcoupon = res['headers'].get('x-wp-total');
       let data = res['body'];
       return data ;
-    }));
+    })).toPromise(); 
   }
 
   getCoupon(code) {
 
     let params = { code: code };
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params));
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params)).toPromise(); 
 
   }
 }

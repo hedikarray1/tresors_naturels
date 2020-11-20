@@ -14,14 +14,18 @@ import { MenuController, ModalController, PopoverController, IonSlides, AlertCon
 })
 export class HomePage implements OnInit {
 
+  produitVisage1 : any;
+  produitVisage2 : any;
+
+
   allProducts: any[];
   slideNBR: number = 0;
   slidesPictures: any[] = [];
   searchText: string = "";
   searchShow: boolean = false;
-  productsBelleAmbiance: any[];
-  productsBelleEnvolee: any[];
-  productsBelleSensuelle: any[];
+  productsParfumsAmbiance: any[];
+  productsVisageCreme: any[];
+  productsCheveuxShampoing: any[];
   productsCoffrets: any[];
   rep = /&amp;/gi;
   slideOptions = { slidesPerView: 'auto', zoom: false, grabCursor: true, speed: 400, initialSlide: 1 };
@@ -47,9 +51,9 @@ export class HomePage implements OnInit {
 
 
       this.getSlidesNbr();
-      this.getProductBelleAmbiance();
-      this.getProductBelleEnvolee();
-      this.getProductBelleSensuelle();
+      this.getProductParfumsAmbiance();
+      this.getProductVisageCreme();
+      this.getProductCheveuxShampoing();
       this.getProductCoffret();
       this.getAllProducts();
     });
@@ -67,9 +71,9 @@ export class HomePage implements OnInit {
       this.userState = val;
 
       this.getSlidesNbr();
-      this.getProductBelleAmbiance();
-      this.getProductBelleEnvolee();
-      this.getProductBelleSensuelle();
+      this.getProductParfumsAmbiance();
+      this.getProductVisageCreme();
+      this.getProductCheveuxShampoing();
       this.getProductCoffret();
       this.getAllProducts();
     });
@@ -79,43 +83,50 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl('detail-produit/' + id);
   }
 
+  goToProductByCategory(category ,id){
+    this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
+  }
 
 
-
-  async getProductBelleAmbiance() {
+  async getProductParfumsAmbiance() {
     const id = '163';
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
 
-      this.productsBelleAmbiance = data;
-      console.log('productsBelleAmbiance :', data);
+      this.productsParfumsAmbiance = data['body'];
+      console.log('products Parfums Ambiance :', data);
     });
   }
 
 
-  async getProductBelleEnvolee() {
-    let id = "164";
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+  async getProductVisageCreme() {
+    let id = "106";
+    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
 
-      this.productsBelleEnvolee = data;
-      console.log("productsBelleEnvolee :", data);
+      this.productsVisageCreme = data['body'];
+      console.log("products Visage Creme :", data);
     });
   }
 
-  async getProductBelleSensuelle() {
-    let id = "165";
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+  async getProductCheveuxShampoing() {
+    let id = "100";
+    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
 
-      this.productsBelleSensuelle = data;
-      console.log("productsBelleSensuelle :", data);
+      this.productsCheveuxShampoing= data['body'];
+      console.log("products Cheveux Shampoing :", data);
     });
   }
 
   async getProductCoffret() {
-    let id = "116";
-    this.poductService.getProductsByCategory(id).subscribe((data: any[]) => {
+   
+    this.poductService.getproduct(4359).then((data: any[]) => {
+      
+      this.produitVisage1= data;
+      
+    });
 
-      this.productsCoffrets = data;
-      console.log("productsCoffrets :", data);
+    this.poductService.getproduct(4038).then((data2: any[]) => {
+
+      this.produitVisage2= data2;
     });
   }
 
@@ -195,7 +206,7 @@ export class HomePage implements OnInit {
 
   getAllProducts() {
 
-    this.poductService.getAllProductsWooCommerce('100').subscribe((data: any[]) => {
+    this.poductService.getAllProductsWooCommerce('100').then((data: any[]) => {
 
       this.allProducts = data;
       console.log("All product :", this.allProducts);
@@ -204,7 +215,7 @@ export class HomePage implements OnInit {
 
   getSlidesNbr() {
     console.log('get slide nbr enter');
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").subscribe((res: any) => {
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").toPromise().then((res: any) => {
       this.slideNBR = res.number;
       console.log("response get slides", res);
       this.slidesPictures = [];
@@ -214,20 +225,18 @@ export class HomePage implements OnInit {
     });
   }
 
-  async presentLoadingCustom() {
-
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      message: `
-      <img  src="../../../assets/Spinner.gif" />
-     `,duration:2000,
-     cssClass: 'custom-loading'
-    });
 
 
-    loading.present();
 
-  }
+async presentLoadingCustom() {
+  let loading = await this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    duration: 5000,
+  });
+  loading.present();
+}
 
 }
 

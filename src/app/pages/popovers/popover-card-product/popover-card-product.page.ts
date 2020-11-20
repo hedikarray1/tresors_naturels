@@ -55,7 +55,7 @@ export class PopoverCardProductPage implements OnInit {
       
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-      this.panierService.addToCartOnServer(product,val.id).subscribe((res: any[]) => {
+      this.panierService.addToCartOnServer(product,val.id).then((res: any[]) => {
         console.log("panier", res);
 
       })

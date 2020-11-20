@@ -4,12 +4,12 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-    <ion-title class="ion-text-center">
-      <img style="width: 50%;" src="../../../assets/logo/logo2.png" />
+      <ion-title class="ion-title-header-center">
+      <img  src="../../../assets/logo/logo2.png" />
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openCart()">
-        <ion-icon slot="icon-only"  color="dark"  slot="end" name="cart-outline"></ion-icon>
+        <ion-icon slot="icon-only" class="icon-header"  color="dark"  slot="end" name="cart-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -22,7 +22,7 @@
 <div  *ngFor="let cat of categorys" >
 
   <ion-card class="product-card" (click)="goToProductByCategory(cat.name ,cat.id)"  [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0" >
-    <ion-button class="icon-add-item"  fill="clear" color="dark">
+    <ion-button class="icon-add-item category-button-text"  fill="clear" color="dark">
       {{cat.name.replace(rep,'&')}}
     </ion-button>
     
@@ -31,7 +31,7 @@
 </ion-card>
 
 <ion-card class="product-card" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length >0">
-  <ion-button class="icon-add-item"  fill="clear" color="dark">
+  <ion-button class="icon-add-item category-button-text"  fill="clear" color="dark">
     {{cat.name.replace(rep,'&')}}
   </ion-button>
   
