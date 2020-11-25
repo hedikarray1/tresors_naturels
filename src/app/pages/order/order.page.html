@@ -53,11 +53,11 @@
 
   <ion-card>
     <ion-card-header> EXPÉDITION ZONE </ion-card-header>
-    <ion-radio-group mode="ios" [(ngModel)]="selectedzone" [(value)]="selectedzone" (ionChange)="selectZone()">
+    <ion-radio-group mode="ios" [(ngModel)]="selectedzone"  (ngModelChange)="selectZone()">
 
-      <ion-item *ngFor="let zone of shipping_zones; let i = index ">
+      <ion-item *ngFor="let zone of shipping_zones ">
         <ion-label class="label-size">{{zone.name}}</ion-label>
-        <ion-radio slot="start" value="{{zone.id}}"></ion-radio>
+        <ion-radio  slot="start" value="{{zone.id}}"></ion-radio>
 
       </ion-item>
     </ion-radio-group>
@@ -71,16 +71,16 @@
   </ion-card>
   <ion-card>
     <ion-card-header> EXPÉDITION </ion-card-header>
-    <ion-radio-group mode="ios" [(ngModel)]="selectedpayment" [(value)]="selectedpayment"  (ionChange)="selectMethod()">
+    <ion-radio-group mode="ios" [(ngModel)]="selectedpayment"   (ngModelChange)="selectMethod()">
 
-      <ion-item *ngFor="let payment of payment_methodes ; let i = index">
+      <ion-item *ngFor="let payment of payment_methodes">
         <ion-label class="label-size">
           {{payment.title}}
           <p *ngIf="payment.settings.cost.value != ''">
             {{payment.settings.cost.value}} TND
           </p>
         </ion-label>
-        <ion-radio slot="start" value="{{payment.id}}"></ion-radio>
+        <ion-radio   slot="start" value="{{payment.id}}"></ion-radio>
       </ion-item>
     </ion-radio-group>
     <!--

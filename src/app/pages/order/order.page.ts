@@ -27,7 +27,8 @@ export class OrderPage implements OnInit {
   showLivraison = false;
 
   segmentValue = 'Facturation';
-
+  userConnecte: any;
+  feeLines: any[] = [];
   userState: boolean = false;
   billing: any = {};
   shipping: any = {};
@@ -55,14 +56,14 @@ export class OrderPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    console.log('res parse floart', parseFloat('hedi'));
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
 
       this.getShippinZones();
-
+      this.getPAymentmethodes(1);
       this.getUserdata();
     });
 
@@ -77,6 +78,7 @@ export class OrderPage implements OnInit {
       this.getPanier();
 
       this.getShippinZones();
+      this.getPAymentmethodes(1);
 
       this.getUserdata();
     });
@@ -104,7 +106,7 @@ export class OrderPage implements OnInit {
 
   getPAymentmethodes(zone_id) {
     this.OrderService.getAllPaymentMethods(zone_id).then((data: any[]) => {
-      console.log('shipping methods : ', data)
+      console.log('shipping methods : ', data);
       this.payment_methodes = data;
       this.selectedpayment = this.payment_methodes[0].id;
     });
@@ -116,7 +118,7 @@ export class OrderPage implements OnInit {
       this.shipping_zones.splice(0, 1);
       console.log('shipping zones after edit : ', this.shipping_zones);
       this.selectedzone = this.shipping_zones[0].id;
-      this.getPAymentmethodes(this.shipping_zones[0].id);
+
     });
   }
 
@@ -180,37 +182,26 @@ export class OrderPage implements OnInit {
 
     console.log('order shippingMethod ', shippingMethod);
 
-let couponSendData:any[]=[];
-this.coupon_data.forEach(element => {
-//  couponSendData.push({"code":element.code+"","amount":element.amount+""});
-});
-console.log("coupons send data",couponSendData);
+    let couponSendData: any[] = [];
+    this.coupon_data.forEach(element => {
+      //  couponSendData.push({"code":element.code+"","amount":element.amount+""});
+    });
+    console.log("coupons send data", couponSendData);
 
     this.OrderService.CreateOrder(
       this.billing,
       this.shipping,
       this.current_user.id,
-      couponSendData,
+      this.coupon_data,
       this.notes,
       "TND",
       shippingMethod,
-      this.panier
+      this.panier,
+      this.feeLines
     ).then(async (res: any) => {
-      let coupnosToupdate: any[] = [];
+
       console.log("succes", res);
-      /*   if(this.coupon_data.length>0){
-           this.coupon_data.forEach(element => {
-             let used:any[]=[];
-            used= element.used_by;
-            used.push(this.current_user.id+"");
-            element.used_by=used;
-            coupnosToupdate.push(element);
-           });
-           this.OrderService.updateCoupon(coupnosToupdate).then((data:any)=>{
-             console.log("updated used by in coupons");
-                        });
-             
-         }*/
+
       await loading.dismiss();
 
       const alert = await this.alertController.create({
@@ -270,17 +261,24 @@ console.log("coupons send data",couponSendData);
   }
 
   selectMethod() {
-    // this.getTotalOrder();
-    console.log('selected shipping id', this.selectedpayment);
 
-    this.selectedShippingMethod = this.payment_methodes.filter(x => x.id == this.selectedpayment)[0];
+    console.log('selected shipping id', this.selectedpayment);
+    console.log('payment_methodes', this.payment_methodes);
+
+    this.selectedShippingMethod = this.payment_methodes.find(x => parseInt(x.id) === parseInt(this.selectedpayment));
+
+    console.log('selected shipping with find ', this.payment_methodes.find(x => parseInt(x.id) === parseInt(this.selectedpayment)));
     console.log('selected shipping ', this.selectedShippingMethod);
-    if (this.selectedShippingMethod != undefined) {
-      if (this.selectedShippingMethod.settings.cost.value != '' || this.selectedShippingMethod?.settings.cost.value != null) {
-        //   this.selectedShippingMethod.settings.cost.value.replace('.',',');
-        this.totalLaivraison = parseFloat(this.selectedShippingMethod.settings.cost.value);
-      } else
+    this.totalLaivraison = parseFloat(this.selectedShippingMethod.settings.cost.value) || 0;
+    console.log('total livraison : ', this.totalLaivraison);
+    if (this.selectedShippingMethod !== undefined) {
+      if (this.selectedShippingMethod.settings.cost.value !== '' && this.selectedShippingMethod?.settings.cost.value !== null) {
+
+        this.totalLaivraison = parseFloat(this.selectedShippingMethod.settings.cost.value) || 0;
+      } else {
         this.totalLaivraison = 0;
+      }
+
     }
   }
 
@@ -297,23 +295,38 @@ console.log("coupons send data",couponSendData);
     modal.onWillDismiss().then(async (data) => {
 
       if (data['data'] != undefined) {
+        data['data'].amount = parseFloat(data['data'].amount);
 
-        if (data['data'].amount > this.totalOrder) {
-          data['data'].amoun = parseFloat(data['data'].amount) - (parseFloat(data['data'].amount) - this.totalOrder)
-          this.coupon_data.push(data['data']);
-          console.log("modal return :", this.coupon_data);
-          this.totalCoupon = this.totalCoupon + parseFloat(data['data'].amount);
-        } else {
-          this.coupon_data.push(data['data']);
-          console.log("modal return :", this.coupon_data);
 
-          this.totalCoupon = this.totalCoupon + parseFloat(data['data'].amount);
+        if (parseFloat(data['data'].amount) < this.totalPanier) {
+          this.totalCoupon = parseFloat(data['data'].amount);
 
+        } else if (parseFloat(data['data'].amount) >= this.totalPanier) {
+
+          this.totalCoupon = this.totalPanier;
+          data['data'].amount = this.totalPanier;
         }
+
+
+        delete data['data'].id;
+        this.coupon_data = [];
+        this.coupon_data.push(data['data']);
+        console.log("modal return :", this.coupon_data);
+        this.feeLines = [];
+        let fl = {
+          "name": "reduction coupon",
+          "total": (- this.totalCoupon) + ""
+        }
+        this.feeLines.push(fl);
+
+
+
       }
 
     });
     modal.present();
+
+
   }
 
   hasValues(obj) {
@@ -321,17 +334,18 @@ console.log("coupons send data",couponSendData);
   }
 
   suuprimerCoupon(i) {
-    this.coupon_data.splice(i, 1);
-    console.log(i);
+
+    this.totalCoupon = 0;
+    this.coupon_data = [];
+    this.feeLines = [];
+
   }
 
   getTotalOrder(): number {
     this.totalOrder = this.totalPanier + this.totalLaivraison - this.totalCoupon;
-    if (this.totalOrder < 0) {
-      return 0;
-    } else {
-      return this.totalOrder;
-    }
+
+    return this.totalOrder;
+
   }
 
   showSegment() {

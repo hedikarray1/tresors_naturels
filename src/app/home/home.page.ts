@@ -121,12 +121,13 @@ export class HomePage implements OnInit {
     this.poductService.getproduct(4359).then((data: any[]) => {
       
       this.produitVisage1= data;
-      
+      console.log('produitVisage1',this.produitVisage1);
     });
 
     this.poductService.getproduct(4038).then((data2: any[]) => {
 
       this.produitVisage2= data2;
+      console.log('produitVisage2',this.produitVisage2);
     });
   }
 

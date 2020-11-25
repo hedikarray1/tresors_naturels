@@ -20,7 +20,9 @@ export class OrderService {
     customer_note: string,
     currency: string,
     shipping_lines: any[],
-    line_items : any[]) {
+    line_items : any[],
+    fee_lines : any[]
+    ) {
 
 
     let params = {
@@ -34,9 +36,10 @@ export class OrderService {
       currency: currency,
       status: "processing",
       shipping_lines:shipping_lines,
-      line_items: line_items
+      line_items: line_items,
+      fee_lines : fee_lines
     };
-    let url = environment.apiURL + "wc/v3/orders?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/orders", {});
+    let url = environment.apiURL + "wc/v2/orders?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v2/orders", {});
     return this.http.post(url, params).toPromise(); 
   }
 
