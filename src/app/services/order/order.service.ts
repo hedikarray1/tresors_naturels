@@ -70,9 +70,8 @@ export class OrderService {
       "code": code,
       "amount": amount,
 
-      "individual_use": true,
-      "date_expires": "2021-11-17T00:00:00",
-      "date_expires_gmt": "2021-11-16T23:00:00",
+      "individual_use": false,
+   
       "usage_limit": 1,
       "usage_limit_per_user": null,
       "limit_usage_to_x_items": null,

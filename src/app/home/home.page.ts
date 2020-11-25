@@ -231,8 +231,8 @@ export class HomePage implements OnInit {
 async presentLoadingCustom() {
   let loading = await this.loadingCtrl.create({
     spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    cssClass: 'custom-loading-timer',
+    message: `<ion-img src="../../../assets/gif/timer.gif"  style="background: transparent !important;"/>`,
     duration: 5000,
   });
   loading.present();

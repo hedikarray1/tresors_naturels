@@ -16,13 +16,22 @@ export class BottomNavigationPage implements OnInit {
 
   panierNbr: number = 0;
   userState: boolean = false;
+  mySubscription: Subscription
 
   constructor(
     private router: Router,
     private modalCtrl: ModalController,
     private panierService: PanierService,
     private storage: Storage
-  ) { }
+  ) {
+
+    
+//realtime badge
+this.mySubscription= interval(1000).subscribe((x =>{
+  console.log("real time panier nbr: ");
+ this.getPanierNbr();
+}));
+   }
 
   async ngOnInit() {
 
@@ -46,7 +55,7 @@ export class BottomNavigationPage implements OnInit {
 
 
 
-  async getPanierNbr() {
+  public async getPanierNbr() {
     if (this.userState) {
       await this.storage.get('auth-user').then(async (val) => {
         console.log('auth-user', val);
