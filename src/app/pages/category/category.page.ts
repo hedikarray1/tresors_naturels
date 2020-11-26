@@ -16,17 +16,26 @@ export class CategoryPage implements OnInit {
   categorys : any[];
   shownCategory : any;
    rep = /&amp;/gi;
-
+loading;
   constructor(
     private loadingController : LoadingController,
     private router : Router,
     private categoryService : CategoryService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private loadingCtrl:LoadingController
     ) { }
 
    async ionViewDidEnter() {
-
-      this.presentLoadingCustom();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+  load.present();
+    });
+     // this.presentLoadingCustom();
       await this.getCategory();
     }
 
@@ -66,6 +75,10 @@ async openCart() {
       for (let cat of this.categorys) {
     
         this.categoryService.getSousCategory(cat.id).then((data2: any[]) => {
+        
+        this.loading.then((load)=>{
+load.dismiss();
+        });
           cat.children = data2 ;
          });
          

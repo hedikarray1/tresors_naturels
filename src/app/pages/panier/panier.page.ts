@@ -17,6 +17,7 @@ export class PanierPage implements OnInit {
   userState: boolean = false;
   totale: number = 0;
 loaded=false;
+loading;
   constructor(
     private Router: Router,
     private panierService: PanierService,
@@ -47,7 +48,16 @@ loaded=false;
 
 
   ionViewDidEnter() {
-    this.presentLoadingCustom();
+    //this.presentLoadingCustom();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+  load.present();
+    });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -80,6 +90,9 @@ loaded=false;
           this.panier = res['data'];
           this.totale = parseFloat(res['subtotal']);
           this.loaded=true;
+          this.loading.then((load)=>{
+load.dismiss();
+          });
         })
       });
     } 

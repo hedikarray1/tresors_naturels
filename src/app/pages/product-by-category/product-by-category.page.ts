@@ -20,7 +20,7 @@ export class ProductByCategoryPage implements OnInit {
   count = null;
   rep = /&amp;/gi;
   userState: boolean = false;
-
+loading;
   constructor(
     private poductService : ProductService,
     private route: ActivatedRoute,
@@ -34,7 +34,16 @@ export class ProductByCategoryPage implements OnInit {
 
   ionViewDidEnter() {
 
-    this.presentLoadingCustom();
+ //   this.presentLoadingCustom();
+ this.loading =  this.loadingCtrl.create({
+  spinner: null,
+  cssClass: 'custom-loading',
+  message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+ 
+});
+this.loading.then((load)=>{
+load.present();
+});
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
@@ -74,6 +83,9 @@ export class ProductByCategoryPage implements OnInit {
     this.count = this.poductService.totalProducts;
     this.products = data;
      console.log("category :" , this.products);
+     this.loading.then((load)=>{
+load.dismiss();
+     });
   });
 }
 
