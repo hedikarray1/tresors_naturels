@@ -67,7 +67,6 @@ export class HomePage implements OnInit {
 
 
   ionViewDidEnter() {
-    this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
@@ -186,28 +185,6 @@ export class HomePage implements OnInit {
 
 
 
-<<<<<<< HEAD
-async presentLoadingCustom() {
-  let loading = await this.loadingCtrl.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-    duration: 5000,
-  });
-  loading.present();
-}
-=======
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading-timer',
-      message: `<ion-img src="../../../assets/gif/timer.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
-    });
-    loading.present();
-  }
-
-
   getHomeJson() {
     this.homePageJson = [];
     console.log('get home json start');
@@ -230,7 +207,6 @@ async presentLoadingCustom() {
     });
     console.log('get home json end');
   }
->>>>>>> refs/remotes/origin/master
 
 }
 
