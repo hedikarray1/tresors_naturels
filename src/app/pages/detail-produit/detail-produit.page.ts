@@ -63,7 +63,7 @@ loading;
     this.loading =  this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+      message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
      
     });
     this.loading.then((load)=>{
@@ -313,16 +313,6 @@ showPopover(event: MouseEvent, product) {
   } else {
     this.showAlertLogin();
   }
-}
-
-async presentLoadingCustom() {
-  let loading = await this.loadingCtrl.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-    duration: 5000,
-  });
-  loading.present();
 }
 
 

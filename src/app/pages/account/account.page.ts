@@ -183,7 +183,7 @@ oneCatch=false;
     this.loading =  this.loadingCtrl.create({
     spinner: null,
     cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
    
   });
   this.loading.then((load)=>{
@@ -482,14 +482,6 @@ load.present();
     this.Router.navigateByUrl('/login');
   }
 
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-     
-    });
-    loading.present();
-  }
+ 
 
 }
