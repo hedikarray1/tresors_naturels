@@ -10,6 +10,40 @@
       width: 35%;
     }
   }
+
+  ion-loading.custom-loading-internet {
+    .loading-wrapper {
+      height: 27%;
+      width: 50%;
+      background: white !important;
+      
+
+    }
+    h4{
+      text-align: center;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    ion-img{
+      width: 50%;
+    margin-left: 25%;
+    }
+  }
+
+  ion-loading.custom-loading-timer {
+    .loading-wrapper {
+      background: transparent !important;
+      box-shadow: none !important;
+      width: 80%;
+      
+
+    }
+  
+    ion-img{
+      width: 100%;
+    }
+  }
+
+
    /** menu **/
    --menuhous: #f3c975;
    --menuhous-rgb: rgb(243, 201, 117);

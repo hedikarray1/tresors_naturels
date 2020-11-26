@@ -1,3 +1,4 @@
+import { CategoryService } from './../services/category/category.service';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { PanierModalPage } from './../pages/panier-modal/panier-modal.page';
@@ -14,20 +15,23 @@ import { MenuController, ModalController, PopoverController, IonSlides, AlertCon
 })
 export class HomePage implements OnInit {
 
-  produitVisage1 : any;
-  produitVisage2 : any;
 
 
-  allProducts: any[];
+
+  allProducts: any[] = [];
+  homePageJson: any[] = [];
+
   slideNBR: number = 0;
+
   slidesPictures: any[] = [];
+
   searchText: string = "";
   searchShow: boolean = false;
-  productsParfumsAmbiance: any[];
-  productsVisageCreme: any[];
-  productsCheveuxShampoing: any[];
-  productsCoffrets: any[];
+
+
+
   rep = /&amp;/gi;
+
   slideOptions = { slidesPerView: 'auto', zoom: false, grabCursor: true, speed: 400, initialSlide: 1 };
   userState: boolean = false;
 
@@ -40,7 +44,8 @@ export class HomePage implements OnInit {
     private modalCtrl: ModalController,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit() {
@@ -51,11 +56,8 @@ export class HomePage implements OnInit {
 
 
       this.getSlidesNbr();
-      this.getProductParfumsAmbiance();
-      this.getProductVisageCreme();
-      this.getProductCheveuxShampoing();
-      this.getProductCoffret();
-      this.getAllProducts();
+      this.getHomeJson();
+  //    this.getAllProducts();
     });
   }
 
@@ -71,65 +73,20 @@ export class HomePage implements OnInit {
       this.userState = val;
 
       this.getSlidesNbr();
-      this.getProductParfumsAmbiance();
-      this.getProductVisageCreme();
-      this.getProductCheveuxShampoing();
-      this.getProductCoffret();
-      this.getAllProducts();
+      this.getHomeJson();
+     // this.getAllProducts();
     });
   }
+
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
   }
 
-  goToProductByCategory(category ,id){
-    this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
+  goToProductByCategory(category, id) {
+    this.router.navigateByUrl('bottom-navigation/product-by-category/' + category + "/" + id);
   }
 
-
-  async getProductParfumsAmbiance() {
-    const id = '163';
-    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
-
-      this.productsParfumsAmbiance = data['body'];
-      console.log('products Parfums Ambiance :', data);
-    });
-  }
-
-
-  async getProductVisageCreme() {
-    let id = "106";
-    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
-
-      this.productsVisageCreme = data['body'];
-      console.log("products Visage Creme :", data);
-    });
-  }
-
-  async getProductCheveuxShampoing() {
-    let id = "100";
-    this.poductService.getHomeProductsByCategory(id).then((data: any[]) => {
-
-      this.productsCheveuxShampoing= data['body'];
-      console.log("products Cheveux Shampoing :", data);
-    });
-  }
-
-  async getProductCoffret() {
-   
-    this.poductService.getproduct(4359).then((data: any[]) => {
-      
-      this.produitVisage1= data;
-      console.log('produitVisage1',this.produitVisage1);
-    });
-
-    this.poductService.getproduct(4038).then((data2: any[]) => {
-
-      this.produitVisage2= data2;
-      console.log('produitVisage2',this.produitVisage2);
-    });
-  }
 
   openCustom() {
     this.menu.enable(true, 'content');
@@ -229,15 +186,39 @@ export class HomePage implements OnInit {
 
 
 
-async presentLoadingCustom() {
-  let loading = await this.loadingCtrl.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-    duration: 5000,
-  });
-  loading.present();
-}
+  async presentLoadingCustom() {
+    let loading = await this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading-timer',
+      message: `<ion-img src="../../../assets/gif/timer.gif"  style="background: transparent !important;"/>`,
+      duration: 5000,
+    });
+    loading.present();
+  }
+
+
+  getHomeJson() {
+    this.homePageJson = [];
+    console.log('get home json start');
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/homePage.json").toPromise().then((res: any) => {
+      this.homePageJson = res;
+      this.homePageJson.forEach(element => {
+        if (element.type === "category") {
+
+          this.categoryService.getCategory(element.category.id).then((dataCategory: any) => {
+            element.category_object = dataCategory;
+          });
+
+          this.poductService.getProductsWithPrams(element.procduct).then((dataProducts: any[]) => {
+              element.product_array = dataProducts['body'] ;
+          });
+        }
+      });
+      this.homePageJson = this.homePageJson.slice().sort((a, b) => a.level - b.level);
+      console.log('home json : ',this.homePageJson) ;
+    });
+    console.log('get home json end');
+  }
 
 }
 

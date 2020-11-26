@@ -113,4 +113,15 @@ export class ProductService {
 
   }
 
+
+  getProductsWithPrams(params) {
+    let options = {
+      observe: "response" as 'body'
+    };
+
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options).toPromise();
+
+  }
+
 }

@@ -4,8 +4,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     
-      <ion-title class="ion-title-header-center">
-      <img  src="../../../assets/logo/logo2.png" />
+    <ion-title class="ion-title-header-center">
+      <img src="../../../assets/logo/logo2.png" />
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openCart()">
@@ -26,7 +26,7 @@
       {{cat.name.replace(rep,'&')}}
     </ion-button>
     
-      <img src="{{cat?.image?.src}}">
+      <ion-img src="{{cat?.image?.src}}"></ion-img>
     
 </ion-card>
 
@@ -35,7 +35,7 @@
     {{cat.name.replace(rep,'&')}}
   </ion-button>
   
-    <img src="{{cat?.image?.src}}">
+    <ion-img src="{{cat?.image?.src}}"></ion-img>
     <ion-card-content *ngIf="isCategoryShown(cat.name)">
      
         <ion-item class="item-accordion" *ngFor="let subCat of cat.children"

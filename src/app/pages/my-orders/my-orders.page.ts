@@ -21,6 +21,7 @@ export class MyOrdersPage implements OnInit {
   current_user: any;
   payment_methodes: any[];
   orders: any[] = [];
+  not_empty=true;
   status = {
     "pending": { title: "en attente", color: "warning" },
     "processing": { title: "en cours", color: "secondary" },
@@ -99,6 +100,12 @@ export class MyOrdersPage implements OnInit {
   getOrders() {
     this.OrderService.getMyOrders(this.current_user.id).then((data: any[]) => {
       this.orders = data;
+      if(this.orders.length>0){
+        this.not_empty=true;
+      }else{
+        this.not_empty=false;
+
+      }
     });
   }
 

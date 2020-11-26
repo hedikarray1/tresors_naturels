@@ -83,11 +83,11 @@ export class AccountPage implements OnInit {
       this.getUserData();
     });
 
-
+/*
     this.form = this.formBuilder.group({
       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
 
-    });
+    });*/
     setTimeout(() => {
 
       console.log('Async operation has ended');
@@ -103,11 +103,11 @@ export class AccountPage implements OnInit {
       this.getUserData();
     });
 
-
+/*
     this.form = this.formBuilder.group({
       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
 
-    });
+    });*/
   }
   ionViewDidEnter() {
     this.presentLoadingCustom();
@@ -117,10 +117,10 @@ export class AccountPage implements OnInit {
       this.getUserData();
     });
 
-    this.form = this.formBuilder.group({
+   /* this.form = this.formBuilder.group({
       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
     });
-
+*/
   }
   displayHideFacturationCard() {
     this.livraison = false;
@@ -196,6 +196,12 @@ export class AccountPage implements OnInit {
         metadataArray = data.meta_data;
         this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
         // console.log("points: ",metadataArray.filter(x=>x.key=="_acfw_loyalprog_user_total_points"));
+
+        this.form = this.formBuilder.group({
+          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
+    
+        });
+        
       });
     });
 

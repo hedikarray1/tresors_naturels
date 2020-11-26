@@ -1,3 +1,6 @@
+import { BottomNavigationPage } from './pages/bottom-navigation/bottom-navigation.page';
+import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
+import { NoInternetPage } from './pages/no-internet/no-internet.page';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 
 import { Storage } from '@ionic/storage';
@@ -5,7 +8,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { PanierService } from './services/panier/panier.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform, AlertController } from '@ionic/angular';
+import { ModalController, Platform, AlertController, LoadingController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -73,9 +76,22 @@ export class AppComponent implements OnInit {
     }
   ];
 
-  
+ 
 
-  constructor(
+public goneOffline=false;
+
+
+
+
+
+ public  modal =  this.modalCtrl.create({
+    component: NoInternetPage,
+    cssClass: 'no-connection-modal'
+  });
+ 
+ 
+
+   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -85,10 +101,55 @@ export class AppComponent implements OnInit {
     //private fcm: FCM,
     private firebaseX:FirebaseX,
     private AlertCTRL: AlertController,
-    private panierService: PanierService
-  ) {
+    private panierService: PanierService,
+    private loadingCtrl:LoadingController ,
+    ) {
+    
     this.initializeApp();
+
+
+
+    //check offline or online
+    window.addEventListener('offline', () => {
+      //Do task when no internet connection
+      this.modal =  this.modalCtrl.create({
+        component: NoInternetPage,
+        cssClass: 'no-connection-modal'
+      });
+      this.modal.then((mod)=>{
+mod.present();
+      });
+this.goneOffline=true;
+      });
+
+      window.addEventListener('online', () => {
+        //Do task when internet connection returns
+        console.log("online");
+
+        if(this.goneOffline){
+          this.goneOffline=false;
+
+          this.modal.then((mod)=>{
+            mod.dismiss();
+                  });
+            
+                  this.modal =  this.modalCtrl.create({
+                    component: InternetEstablishedPage,
+                    cssClass: 'no-connection-modal'
+                  });
+                  this.modal.then((mod)=>{
+            mod.present();
+                  });
+            
+          
+        }
+          
+        });
   }
+ 
+
+
+  
 
   initializeApp() {
     this.platform.ready().then(() => {

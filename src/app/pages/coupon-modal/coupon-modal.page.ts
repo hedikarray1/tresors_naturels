@@ -1,3 +1,4 @@
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 
 import { Storage } from '@ionic/storage';
@@ -18,7 +19,7 @@ export class CouponModalPage implements OnInit {
 
   constructor(private storage: Storage,
     private orderService: OrderService,
-  //  private clipboard: Clipboard,
+   private clipboard: Clipboard,
     public toastController: ToastController) { }
 
   ngOnInit() {
@@ -64,13 +65,13 @@ export class CouponModalPage implements OnInit {
   }
 
  async copyToClipBoard(code){
-  /*  this.clipboard.copy(code);
+    this.clipboard.copy(code);
    const toast=await this.toastController.create({
     message: 'Le code du coupon est copié avec succés',
     duration: 2000
   });
   toast.present();
-*/
+
   }
 
 

@@ -16,13 +16,13 @@ export class OrderService {
     billing: any,
     shipping: any,
     customer_id,
-    coupon_lines :any[],
+    coupon_lines: any[],
     customer_note: string,
     currency: string,
     shipping_lines: any[],
-    line_items : any[],
-    fee_lines : any[]
-    ) {
+    line_items: any[],
+    fee_lines: any[]
+  ) {
 
 
     let params = {
@@ -35,37 +35,37 @@ export class OrderService {
       customer_note: customer_note,
       currency: currency,
       status: "processing",
-      shipping_lines:shipping_lines,
+      shipping_lines: shipping_lines,
       line_items: line_items,
-      fee_lines : fee_lines
+      fee_lines: fee_lines
     };
     let url = environment.apiURL + "wc/v2/orders?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v2/orders", {});
-    return this.http.post(url, params).toPromise(); 
+    return this.http.post(url, params).toPromise();
   }
 
 
 
   getMyOrderDetails(id) {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders/" + id, {}), {}).toPromise(); 
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders/" + id, {}), {}).toPromise();
 
   }
 
   getMyOrders(id) {
 
     let params = { customer: id };
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders", params), {}).toPromise(); 
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/orders", params), {}).toPromise();
 
   }
 
   getAllPaymentMethods(zone_id) {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones/" + zone_id + "/methods", {})).toPromise(); 
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones/" + zone_id + "/methods", {})).toPromise();
   }
 
   getAllShippingZone() {
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones", {})).toPromise(); 
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones", {})).toPromise();
   }
 
   generateCoupon(code, amount, userid) {
@@ -73,9 +73,8 @@ export class OrderService {
       "code": code,
       "amount": amount,
 
-      "individual_use": true,
-      "date_expires": "2021-11-17T00:00:00",
-      "date_expires_gmt": "2021-11-16T23:00:00",
+      "individual_use": false,
+
       "usage_limit": 1,
       "usage_limit_per_user": null,
       "limit_usage_to_x_items": null,
@@ -85,51 +84,51 @@ export class OrderService {
         {
           "key": "_acfw_excluded_coupons",
           "value": []
-      },
-      {
+        },
+        {
           "key": "_acfw_schedule_start",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_schedule_end",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_schedule_start_error_msg",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_schedule_expire_error_msg",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_reset_usage_limit_period",
           "value": "none"
-      },
-      {
+        },
+        {
           "key": "_acfw_disable_url_coupon",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_code_url_override",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_success_message",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_after_redirect_url",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_enable_role_restriction",
           "value": ""
-      },
-      {
+        },
+        {
           "key": "_acfw_usage_limit_reset_time",
           "value": ""
-      },
+        },
         {
           "key": "_acfw_loyalty_program_user",
           "value": userid
@@ -141,53 +140,53 @@ export class OrderService {
         }]
     }
     let url = environment.apiURL + "wc/v3/coupons?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/coupons", {});
-    return this.http.post(url, params).toPromise(); 
+    return this.http.post(url, params).toPromise();
   }
 
 
 
-  updateCoupon(coupons:any) {
- let  params={update: coupons}
+  updateCoupon(coupons: any) {
+    let params = { update: coupons }
     let url = environment.apiURL + "wc/v3/coupons/batch?" + this.WoocommerceService.authenticateApiForPost("POST", environment.apiURL + "wc/v3/coupons", {});
-    return this.http.post(url, params).toPromise(); 
+    return this.http.post(url, params).toPromise();
   }
 
 
 
-  getCountMyCoupons(){
+  getCountMyCoupons() {
     let options = {
       observe: "response" as 'body'
     };
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", {}), options).pipe(  map((res:any[])=>{
-     
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", {}), options).pipe(map((res: any[]) => {
+
       this.totalcoupon = res['headers'].get('x-wp-total');
       let data = res['body'];
-      return data ;
-    })).toPromise(); 
+      return data;
+    })).toPromise();
   }
 
-  
-  getAllMyCoupons(nbr){
+
+  getAllMyCoupons(nbr) {
     let options = {
       observe: "response" as 'body'
     };
-    let  params = {
+    let params = {
       per_page: nbr
     };
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params), options).pipe(  map((res:any[])=>{
-     
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params), options).pipe(map((res: any[]) => {
+
       this.totalcoupon = res['headers'].get('x-wp-total');
       let data = res['body'];
-      return data ;
-    })).toPromise(); 
+      return data;
+    })).toPromise();
   }
 
   getCoupon(code) {
 
     let params = { code: code };
 
-    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params)).toPromise(); 
+    return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params)).toPromise();
 
   }
 }

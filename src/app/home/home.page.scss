@@ -350,3 +350,25 @@ ion-slides {
   top: 30% ;
   right:0;
   }
+
+
+
+  /****************** pub *****************************/
+  .pub_double_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    ion-img {
+      width: 49%;
+    }
+  }
+
+  .pub_single_container {
+    width: 100%;
+    margin: 0;
+    ion-img {
+      width: 100%;
+    }
+  }
