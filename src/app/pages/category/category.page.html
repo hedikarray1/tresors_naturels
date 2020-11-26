@@ -26,7 +26,7 @@
       {{cat.name.replace(rep,'&')}}
     </ion-button>
     
-      <img src="{{cat?.image?.src}}">
+      <ion-img src="{{cat?.image?.src}}"></ion-img>
     
 </ion-card>
 
@@ -35,7 +35,7 @@
     {{cat.name.replace(rep,'&')}}
   </ion-button>
   
-    <img src="{{cat?.image?.src}}">
+    <ion-img src="{{cat?.image?.src}}"></ion-img>
     <ion-card-content *ngIf="isCategoryShown(cat.name)">
      
         <ion-item class="item-accordion" *ngFor="let subCat of cat.children"

@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { async } from '@angular/core/testing';
 import { OrderService } from './../../services/order/order.service';
@@ -15,6 +16,7 @@ export class OrderAddCouponModalPage implements OnInit {
 
   coupon_data: any = {};
   formCoupon: FormGroup;
+  currentUser: any = {};
 
 
   constructor(
@@ -23,11 +25,16 @@ export class OrderAddCouponModalPage implements OnInit {
     private loadingController: LoadingController,
     private fb: FormBuilder,
     private alertController: AlertController,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
     this.formCoupon = this.fb.group({
       coupon: ['', [Validators.required]],
+    });
+    this.storage.get('auth-user').then((val) => {
+      console.log('auth-user', val);
+      this.currentUser = val;
     });
 
 
@@ -66,13 +73,18 @@ export class OrderAddCouponModalPage implements OnInit {
         });
         await alert.present();
       } else {
-        if (this.checkCouponExist(data[0].id)) {
+        let used = false;
+        data[0].used_by.forEach(element2 => {
+          if (element2 == this.currentUser.id) {
+            used = true;
+          }
+        });
+        if (used) {
           const alert = await this.alertController.create({
-            header: "Code promo est déja utilisé",
+            header: "Vous avez déja utilisé ce code de promotion ",
             mode: 'ios',
             message: "",
             buttons: [
-
               {
                 text: "D'accord",
                 cssClass: 'btn-alert-connexion',
@@ -84,9 +96,59 @@ export class OrderAddCouponModalPage implements OnInit {
           });
           await alert.present();
         } else {
-          this.coupon_data = data[0];
-          this.modalCtrl.dismiss(this.coupon_data);
+          if (this.coupons.length > 0) {
+
+            const alert = await this.alertController.create({
+              header: "Vous avez déja utilisé un code promo . Voulez vous le remplacer ?",
+              mode: 'ios',
+              message: "",
+              buttons: [
+                {
+                  text: 'Non',
+                  role: 'cancel',
+                  cssClass: 'btn-alert-ignorer',
+                  handler: () => {
+                    alert.dismiss();
+                  }
+                },
+                {
+                  text: 'Oui',
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    this.coupon_data = data[0];
+                    this.modalCtrl.dismiss(this.coupon_data);
+                  }
+                },
+              ]
+            });
+            await alert.present();
+
+          } else {
+            
+              if (parseInt(data[0].usage_count + "") >= parseInt(data[0].usage_limit + "")) {
+              const alert = await this.alertController.create({
+                header: "le code de promotion a atteint sa limite d'utilisation",
+                mode: 'ios',
+                message: "",
+                buttons: [
+                  {
+                    text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  },
+                ]
+              });
+              await alert.present();
+            }else {
+              this.coupon_data = data[0];
+              this.modalCtrl.dismiss(this.coupon_data);
+            }
+          }
         }
+
+
 
       }
 
@@ -123,6 +185,11 @@ export class OrderAddCouponModalPage implements OnInit {
   }
 
 
+  checkCouponSpecialExist(): boolean {
+
+    return this.coupons.some(r => r.usage_limit === null);
+
+  }
 
 
 

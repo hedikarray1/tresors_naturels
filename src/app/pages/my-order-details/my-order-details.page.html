@@ -34,7 +34,36 @@
    
 
      <ion-item>
-      <ion-label><ion-icon name="card-outline" slot="start"></ion-icon>Prix total: {{Order?.total}} {{Order.currency}}</ion-label>
+
+   
+      <ion-grid>
+        
+        <ion-row>
+          <ion-col size="6"> Sous-Total : </ion-col>
+          <ion-col size="6" class="ion-text-end"> {{totalitem}} {{Order?.currency}} </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let fee of Order?.fee_lines">
+          <ion-col size="7"> Reduction code promo  </ion-col>
+          <ion-col size="5" class="ion-text-end">
+             {{fee?.total}} {{Order?.currency}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6"> Frais de livraison : </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            {{Order?.shipping_total}} {{Order?.currency}}
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6"> Total : </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            {{Order?.total}} {{Order.currency}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
 
 

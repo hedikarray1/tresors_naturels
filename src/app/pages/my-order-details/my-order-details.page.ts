@@ -34,14 +34,15 @@ export class MyOrderDetailsPage implements OnInit {
   Order: any = {}
   facturationitem = true;
   livraisonitem = false;
-  
+
+  totalitem = 0;
   ngOnInit() {
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.getOrder();
   }
 
 
-  
+
   doRefresh(event) {
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.getOrder();
@@ -51,7 +52,7 @@ export class MyOrderDetailsPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
-  
+
 
 
   ionViewDidEnter() {
@@ -60,16 +61,20 @@ export class MyOrderDetailsPage implements OnInit {
   }
   getOrder() {
     let lineItems: any[] = [];
+  
     this.OrderService.getMyOrderDetails(this.orderId).then((data: any) => {
       this.Order = data;
-      lineItems = data.line_items
+      lineItems = data.line_items ;
+      this.totalitem = 0 ;
       lineItems.forEach(element => {
+        this.totalitem =  this.totalitem + parseFloat(element.total) ;
         this.ProductService.getproduct(element.product_id).then((data1: any) => {
           element.product = data1;
         });
       });
       this.Order.line_items = lineItems;
       this.Order.date_created = new Date(this.Order.date_created);
+      console.log('order detail ', this.Order);
     });
   }
 
@@ -85,5 +90,6 @@ export class MyOrderDetailsPage implements OnInit {
       this.livraisonitem = true;
     }
   }
+
 
 }
