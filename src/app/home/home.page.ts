@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
 
       this.getSlidesNbr();
       this.getHomeJson();
-  //    this.getAllProducts();
+     this.getAllProducts();
     });
   }
 
@@ -74,7 +74,7 @@ export class HomePage implements OnInit {
 
       this.getSlidesNbr();
       this.getHomeJson();
-     // this.getAllProducts();
+      this.getAllProducts();
     });
   }
 
@@ -85,6 +85,15 @@ export class HomePage implements OnInit {
 
   goToProductByCategory(category, id) {
     this.router.navigateByUrl('bottom-navigation/product-by-category/' + category + "/" + id);
+  }
+
+  goToPub(type, id,name) {
+    if (type === 'category'){
+      this.router.navigateByUrl('bottom-navigation/product-by-category/' + name + "/" + id);
+    }
+    if (type === 'produit'){
+      this.router.navigateByUrl('detail-produit/' + id);
+    }
   }
 
 
@@ -109,7 +118,12 @@ export class HomePage implements OnInit {
 
   showPopover(event: MouseEvent, product) {
     if (this.userState) {
-      this.showPopoverPanier(event, product);
+         if (product.type === 'variable'){
+      this.goToDetail(product.id);
+         }else{
+          this.showPopoverPanier(event, product);
+         }
+     
     } else {
       this.showAlertLogin();
     }

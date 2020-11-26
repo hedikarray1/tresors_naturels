@@ -20,7 +20,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="searchText"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="searchText" placeholder="Recherche"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -40,14 +40,7 @@
           <div class="card-separator"></div>
           <ion-card-content >
             <div class="product-name">{{product?.name}}</div>
-            <div class="product-category-container">
-              <span
-                class="product-category"
-                *ngFor="let category of product?.categories"
-              >
-                {{category?.name?.replace(rep,'&')}},</span
-              >
-            </div>
+           
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
   
@@ -68,14 +61,7 @@
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(product?.id)">
             <div class="product-name">{{product?.name}}</div>
-            <div class="product-category-container">
-              <span
-                class="product-category"
-                *ngFor="let category of product?.categories"
-              >
-                {{category?.name?.replace(rep,'&')}},</span
-              >
-            </div>
+           
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
   
@@ -115,14 +101,7 @@
           <div class="card-separator"></div>
           <ion-card-content>
             <div class="product-name">{{product?.name}}</div>
-            <div class="product-category-container">
-              <span
-                class="product-category"
-                *ngFor="let category of product?.categories"
-              >
-                {{category?.name}},</span
-              >
-            </div>
+            
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
   
@@ -143,14 +122,7 @@
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(product?.id)">
             <div class="product-name">{{product?.name}}</div>
-            <div class="product-category-container">
-              <span
-                class="product-category"
-                *ngFor="let category of product?.categories"
-              >
-                {{category?.name}},</span
-              >
-            </div>
+          
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
   

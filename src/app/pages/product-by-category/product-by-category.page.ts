@@ -123,7 +123,11 @@ async showPopoverPanier(event: MouseEvent,product) {
 
 showPopover(event: MouseEvent, product) {
   if (this.userState) {
-    this.showPopoverPanier(event, product);
+    if (product.type === 'variable') {
+      this.goToDetail(product.id);
+    } else {
+      this.showPopoverPanier(event, product);
+    }
   } else {
     this.showAlertLogin();
   }

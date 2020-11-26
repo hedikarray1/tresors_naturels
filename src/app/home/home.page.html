@@ -22,7 +22,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar *ngIf="searchShow">
-    <ion-searchbar [(ngModel)]="searchText"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="searchText" placeholder="Recherche"></ion-searchbar>
 
     <ion-icon (click)="showSearch()" slot="icon-only" color="dark" slot="end" name="close-outline"
       class="icon-close-search"></ion-icon>
@@ -62,13 +62,13 @@
     <!-- show category with product-->
     <div *ngIf="homeItem.type === 'category' ">
       <ion-card class="category-card">
-        <ion-button class="icon-add-item category-slides-btn" fill="clear" color="dark">
+        <ion-button *ngIf="homeItem.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn" fill="clear" color="dark">
           {{homeItem.category.name}}
         </ion-button>
         <ion-img class="category-slides-img" src="{{homeItem.category_object?.image?.src}}"> </ion-img>
         <div class="category-container-slides">
           <div class="category-slides-title"> {{homeItem.sub_category.name}}</div>
-          <div class="category-slides-viewAll" (click)="goToProductByCategory('Parfums', homeItem.category.id)">VOIR
+          <div class="category-slides-viewAll" (click)="goToProductByCategory(homeItem.category.name, homeItem.category.id)">VOIR
             PLUS</div>
         </div>
       </ion-card>
@@ -130,13 +130,13 @@
     </div>
 
     <!-- show pub single -->
-    <div class="pub_single_container" *ngIf="homeItem.type === 'pub_single' ">
-      <ion-img src="{{homeItem.images[0]?.src}}"></ion-img>
+    <div class="pub_single_container" *ngIf="homeItem.type === 'pub_single' " >
+      <ion-img src="{{homeItem.images[0]?.src}}" (click)=" goToPub(homeItem.images[0]?.type, homeItem.images[0]?.id,homeItem.images[0]?.name)"></ion-img>
     </div>
 
     <!-- show pub double -->
-    <div class="pub_double_container" *ngIf="homeItem.type === 'pub_double' ">
-      <ion-img *ngFor="let imgPub of homeItem.images" src="{{imgPub?.src}}"></ion-img>
+    <div class="pub_double_container" *ngIf="homeItem.type === 'pub_double' "  >
+      <ion-img *ngFor="let imgPub of homeItem.images" src="{{imgPub?.src}}" (click)=" goToPub(imgPub?.type, imgPub?.id,imgPub?.name)"></ion-img>
     </div>
 
     <br />
@@ -162,10 +162,7 @@
           <div class="card-separator"></div>
           <ion-card-content>
             <div class="product-name">{{product?.name}}</div>
-            <div class="product-category-container">
-              <span class="product-category" *ngFor="let category of product?.categories">
-                {{category?.name}},</span>
-            </div>
+           
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
 
@@ -186,10 +183,7 @@
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(product?.id)">
             <div class="product-name">{{product?.name}}</div>
-            <div class="product-category-container">
-              <span class="product-category" *ngFor="let category of product?.categories">
-                {{category?.name}},</span>
-            </div>
+           
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
 

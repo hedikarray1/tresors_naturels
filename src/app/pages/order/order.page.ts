@@ -19,6 +19,7 @@ export class OrderPage implements OnInit {
   panier: any[] = [];
 
   totalPanier = 0;
+  pointsGain = 0;
   totalOrder = 0;
   totalCoupon = 0;
   totalLaivraison = 0;
@@ -131,7 +132,8 @@ export class OrderPage implements OnInit {
         this.PanierService.getCartFromServer(val.id).then((res: any[]) => {
           this.panier = res['data'];
           this.totalPanier = parseFloat(res['subtotal']);
-
+          this.pointsGain = this.totalPanier / 10;
+          this.pointsGain = parseInt(this.pointsGain +"");
           this.panier.forEach(element => {
             element.subtotal = element.subtotal + "";
             element.total = element.total + "";

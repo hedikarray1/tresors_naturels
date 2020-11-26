@@ -16,28 +16,32 @@ export class PanierPage implements OnInit {
   panier: any[] = [];
   userState: boolean = false;
   totale: number = 0;
-loaded=false;
-loading;
+  loaded = false;
+  panierModifier = false;
+  loading;
+
   constructor(
     private Router: Router,
     private panierService: PanierService,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingCtrl:LoadingController
+    private loadingController: LoadingController,
   ) { }
 
 
   doRefresh(event) {
-    console.log('Begin async operation');
    
+    this.panierModifier = false;
+    this.totale = 0;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+      
       this.getPanier();
       console.log("userState", this.userState);
-      console.log("panier", this.panier);
+    
     });
-  
+
     setTimeout(() => {
 
       console.log('Async operation has ended');
@@ -49,109 +53,105 @@ loading;
 
   ionViewDidEnter() {
     //this.presentLoadingCustom();
-    this.loading =  this.loadingCtrl.create({
+    this.panierModifier = false;
+    this.totale = 0;
+    this.loading = this.loadingController.create({
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-     
+
     });
-    this.loading.then((load)=>{
-  load.present();
+    this.loading.then((load) => {
+      load.present();
     });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
     });
-   
+
     console.log("userState", this.userState);
-    console.log("panier", this.panier);
+   
   }
 
   ngOnInit() {
-
+    this.totale = 0;
+    this.panierModifier = false;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
     });
-   
+
     console.log("userState", this.userState);
-    console.log("panier", this.panier);
+   
   }
 
   async getPanier() {
-    this.loaded=false;
-    this.panier= [];
+    this.loaded = false;
+    this.panier = [];
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.getCartFromServer(val.id).then((res: any[]) => {
+         
           this.panier = res['data'];
+          console.log('panier : ',this.panier);
           this.totale = parseFloat(res['subtotal']);
-          this.loaded=true;
-          this.loading.then((load)=>{
-load.dismiss();
+          this.loaded = true;
+          this.loading.then((load) => {
+            load.dismiss();
           });
         })
       });
-    } 
+    }
   }
 
   incrementCartItem(product) {
     if (this.userState) {
-      let added = false;
+      this.panierModifier = true;
+      let index = this.panier.findIndex(x => x.product_id === product.product_id);
+      console.log('index', index);
+      this.panier[index].quantity += 1;
+      this.totale += parseFloat(this.panier[index].price);
 
-      for (let p of this.panier) {
-        if (p.product_id === product.product_id) {
-          p.quantity += 1;
-          this.totale += parseFloat(p.price);
-          added = true;
-          break;
-        }
-      }
-    } 
+    }
   }
 
   decrementCartItem(product) {
     if (this.userState) {
 
-      let index = 0
-      for (let p of this.panier) {
-        if (p.product_id === product.product_id) {
-          p.quantity -= 1;
-          this.totale -= parseFloat(p.price);
-          if (p.quantity == 0) {
-            this.panier.splice(index, 1);
-          }
-          break;
-        }
-        index++;
+      this.panierModifier = true;
+      let index = this.panier.findIndex(x => x.product_id === product.product_id);
+      console.log('index', index);
+
+      if (this.panier[index].quantity === 1) {
+        this.showAlertRemoveItem(this.panier[index]);
+      } else {
+        this.panier[index].quantity -= 1;
+        this.totale -= parseFloat(this.panier[index].price);
       }
 
-    } 
+    }
   }
 
   removeCartItem(product) {
     if (this.userState) {
-
-      let index = 0 ;
-      for (let p of this.panier) {
-        if (p.product_id === product.product_id) {
-          this.totale -= parseFloat(p.subtotal);
-          this.panier.splice(index, 1);
-          break;
-        }
-        index++;
-      }
-    } 
+      console.log("panier before remove :", this.panier);
+      let index = this.panier.findIndex(x => x.product_id === product.product_id);
+      console.log('index', index);
+      this.totale -= parseFloat(this.panier[index].subtotal);
+      this.panier.splice(index, 1);
+      console.log("panier after remove :", this.panier);
+      this.save();
+    }
   }
 
- async showAlertRemoveItem(product){
+  async showAlertRemoveItem(product) {
     const alert = await this.alertController.create({
       header: 'Supprimer produit du panier',
       mode: 'ios',
-      message: "Ete  vous sur de supprimer ce produit du paniner ?",
+      message: "Ête vous sur de supprimer ce produit du paniner ?",
       buttons: [
         {
           text: 'Non',
@@ -179,24 +179,96 @@ load.dismiss();
   async save() {
     console.log("saving");
     if (this.userState) {
+      const loading = await this.loadingController.create();
+      await loading.present();
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
           console.log("empty panier", res);
-          this.panierService.addToCartOnServer(this.panier, val.id).then((res: any[]) => {
-            console.log("panier", res);
-            this.panier = res['data'];
-            //  this.modalCtrl.dismiss();
+          this.panierService.addToCartOnServer(this.panier, val.id).then(async (res2: any[]) => {
+           
+            this.panier = res2['data'];
+            console.log("panier after save", this.panier );
+            await loading.dismiss();
+
+            this.panierModifier = false;
+            const alert = await this.alertController.create({
+              header: "Panier sauvegardé",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                  }
+                },
+              ]
+            });
+            await alert.present();
           })
         })
       })
-    } 
+    }
 
   }
 
-  checkout() {
-    this.Router.navigateByUrl('order');
+  async saveAndCheckout() {
+    console.log("saving");
+    if (this.userState) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
+          console.log("empty panier", res);
+          this.panierService.addToCartOnServer(this.panier, val.id).then(async (res2: any[]) => {
+           
+            this.panier = res2['data'];
+            console.log("panier after save", this.panier );
+            await loading.dismiss();
+            this.panierModifier = false;
+              this.Router.navigateByUrl('order');
+           
+          })
+        })
+      })
+    }
 
+  }
+
+  async checkout() {
+   
+    if (this.panierModifier) {
+      const alert = await this.alertController.create({
+        header: 'Vous avez modifié votre panier',
+        mode: 'ios',
+        message: "Voulez vous sauvgarder votre panier ?",
+        buttons: [
+          {
+            text: 'Non',
+            role: 'cancel',
+            cssClass: 'btn-alert-ignorer',
+            handler: () => {
+              alert.dismiss();
+              this.Router.navigateByUrl('order');
+            }
+          },
+          {
+            text: 'Oui',
+            cssClass: 'btn-alert-connexion',
+            handler: async () => {
+              this.saveAndCheckout();
+            }
+          },
+        ]
+      });
+      await alert.present();
+    } else {
+      this.Router.navigateByUrl('order');
+    }
   }
 
   goToLogin() {
@@ -205,7 +277,7 @@ load.dismiss();
 
 
   async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
+    let loading = await this.loadingController.create({
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,

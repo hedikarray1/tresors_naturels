@@ -19,7 +19,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent implements OnInit {
 
-  
+
   panier: any[] = [];
   userState: boolean = false;
   public selectedIndex = 0;
@@ -76,22 +76,22 @@ export class AppComponent implements OnInit {
     }
   ];
 
- 
-
-public goneOffline=false;
 
 
+  public goneOffline = false;
 
 
 
- public  modal =  this.modalCtrl.create({
+
+
+  public modal = this.modalCtrl.create({
     component: NoInternetPage,
     cssClass: 'no-connection-modal'
   });
- 
- 
 
-   constructor(
+
+
+  constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -99,12 +99,12 @@ public goneOffline=false;
     private storage: Storage,
     private router: Router,
     //private fcm: FCM,
-    private firebaseX:FirebaseX,
+    private firebaseX: FirebaseX,
     private AlertCTRL: AlertController,
     private panierService: PanierService,
-    private loadingCtrl:LoadingController ,
-    ) {
-    
+    private loadingCtrl: LoadingController,
+  ) {
+
     this.initializeApp();
 
 
@@ -112,70 +112,70 @@ public goneOffline=false;
     //check offline or online
     window.addEventListener('offline', () => {
       //Do task when no internet connection
-      this.modal =  this.modalCtrl.create({
+      this.modal = this.modalCtrl.create({
         component: NoInternetPage,
         cssClass: 'no-connection-modal'
       });
-      this.modal.then((mod)=>{
-mod.present();
+      this.modal.then((mod) => {
+        mod.present();
       });
-this.goneOffline=true;
-      });
+      this.goneOffline = true;
+    });
 
-      window.addEventListener('online', () => {
-        //Do task when internet connection returns
-        console.log("online");
+    window.addEventListener('online', () => {
+      //Do task when internet connection returns
+      console.log("online");
 
-        if(this.goneOffline){
-          this.goneOffline=false;
+      if (this.goneOffline) {
+        this.goneOffline = false;
 
-          this.modal.then((mod)=>{
-            mod.dismiss();
-                  });
-            
-                  this.modal =  this.modalCtrl.create({
-                    component: InternetEstablishedPage,
-                    cssClass: 'no-connection-modal'
-                  });
-                  this.modal.then((mod)=>{
-            mod.present();
-                  });
-            
-          
-        }
-          
+        this.modal.then((mod) => {
+          mod.dismiss();
         });
+
+        this.modal = this.modalCtrl.create({
+          component: InternetEstablishedPage,
+          cssClass: 'no-connection-modal'
+        });
+        this.modal.then((mod) => {
+          mod.present();
+        });
+
+
+      }
+
+    });
   }
- 
 
 
-  
+
+
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-    
-       
-          this.splashScreen.hide();
-         // this.router.navigateByUrl("bottom-navigation");
-
-      
 
 
-     this.firebaseX.getToken().then(async token => {
+      this.splashScreen.hide();
+      // this.router.navigateByUrl("bottom-navigation");
+
+
+
+
+      this.firebaseX.getToken().then(async token => {
 
         console.log(token);
-       /* const alert = await this.AlertCTRL.create({
-          header: 'FCM token',
-          message: token + "",
-          buttons: ['OK'],
-        });*/
-       // await alert.present();
+        /* const alert = await this.AlertCTRL.create({
+           header: 'FCM token',
+           message: token + "",
+           buttons: ['OK'],
+         });*/
+        // await alert.present();
         // send token to the server
       });
 
       this.firebaseX.onTokenRefresh()
-      .subscribe((token: string) => console.log(`Got a new token ${token}`));
+        .subscribe((token: string) => console.log(`Got a new token ${token}`));
 
       this.firebaseX.onMessageReceived().subscribe(data => {
         console.log(data);
@@ -191,7 +191,7 @@ this.goneOffline=true;
   }
 
   ngOnInit() {
-    
+
     const path = window.location.pathname.split('bottom-navigation/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
@@ -209,7 +209,7 @@ this.goneOffline=true;
 
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-        this.panierService.addEmtyToCartOnServer(val.id);
+      this.panierService.addEmtyToCartOnServer(val.id);
     });
 
 

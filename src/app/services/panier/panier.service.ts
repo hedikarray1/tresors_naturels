@@ -62,6 +62,7 @@ export class PanierService {
 
     
   }
+  
   addEmtyToCartOnServer( id) {
 
     let params = {
@@ -73,8 +74,6 @@ export class PanierService {
 
     return this.http.post(url1, params).toPromise(); 
 
-
-  
 }
 
 

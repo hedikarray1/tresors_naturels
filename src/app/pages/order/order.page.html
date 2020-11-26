@@ -83,20 +83,10 @@
         <ion-radio   slot="start" value="{{payment.id}}"></ion-radio>
       </ion-item>
     </ion-radio-group>
-    <!--
-    <ion-item>
-      <ion-select mode="ios" [(ngModel)]="selectedpayment" (ionChange)="selectMethod()" okText="Ok"
-        cancelText="Annuler">
-        <ion-select-option *ngFor="let payment of payment_methodes" value="{{payment.id}}">{{payment.title}}
-          <p *ngIf="payment.settings.cost.value != ''">
-            {{payment.settings.cost.value}} TND
-          </p>
-          {{payment.settings.cost.value}}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
--->
+   
   </ion-card>
+
+ 
   <ion-card>
     <ion-button expand="block" fill="outline" color="dark" value="block" (click)="openAddCouponModal()">
       Ajouter code promo
@@ -117,6 +107,10 @@
       </ion-item>
     </ion-item-group>
 
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header> Vous allez gagner {{pointsGain}} points avec cette commande. </ion-card-header>
   </ion-card>
 
   <ion-card>

@@ -182,13 +182,19 @@
 
                 <ion-item>
                   <ion-label position="floating">Points</ion-label>
-                  <ion-input formControlName="points"  placeholder="Nombre de points à transformer"></ion-input>
+                  <ion-input formControlName="points" type="number" placeholder="Nombre de points à transformer"></ion-input>
                 </ion-item>
                 <div class="validation-errors">
 
                   <div class="error-message" *ngIf="form.controls['points'].hasError('min')">
                     <span class="error ion-padding,small-font-size">
-                      vous devez transformer 30 points au minimum
+                      vous devez transformer 30 points au minimum.
+                    </span>
+                  </div>
+
+                  <div class="error-message" *ngIf="form.controls['points'].hasError('max')">
+                    <span class="error ion-padding,small-font-size">
+                      vous ne pouvez  transformer que {{User?.pointsData?.value}} points.
                     </span>
                   </div>
 

@@ -16,6 +16,7 @@
     
   </ion-toolbar>
 </ion-header>
+
 <ion-content *ngIf='(userState && panier.length != 0  )|| (userState &&  !loaded )' >
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -64,10 +65,10 @@
       </ion-item>
     </ion-list>
 
-    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block" (click)="save()">
+    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block" [disabled]=" !panierModifier" (click)="save()">
       Sauvgarder
     </ion-button>
-    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block"  [disabled]="this.panier.length == 0" (click)="checkout()">
+    <ion-button class="button-save" expand="block" fill="outline" color="dark"  value="block"  [disabled]="panier.length == 0" (click)="checkout()">
       Commander
     </ion-button>
 
