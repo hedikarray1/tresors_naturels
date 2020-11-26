@@ -24,7 +24,7 @@ export class DetailProduitPage implements OnInit {
   userState: boolean = false;
   product: any;
   rep = /&amp;/gi;
-
+loading;
   constructor(
    
   private loadingCtrl:LoadingController,
@@ -60,8 +60,16 @@ export class DetailProduitPage implements OnInit {
   }
 
   ionViewDidEnter() {
-
-    this.presentLoadingCustom();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+  load.present();
+    });
+    //this.presentLoadingCustom();
 
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
@@ -77,7 +85,7 @@ export class DetailProduitPage implements OnInit {
 
       }
       this.datashow = true;
-      this.getRelated(this.product.related_ids)
+      this.getRelated(this.product.related_ids);
     
     });
     }
@@ -129,7 +137,9 @@ export class DetailProduitPage implements OnInit {
     for (let r of relatedss) {
       await this.ProductService.getproduct(r).then((data: any) => {
         console.log(data);
-
+            this.loading.then((load)=>{
+load.dismiss();
+            });
         this.relatedProducts.push(data);
       });
     }

@@ -6,7 +6,7 @@ import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, LoadingController, ToastController } from '@ionic/angular';
+import { ModalController, LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { min } from 'rxjs/operators';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { Router } from '@angular/router';
@@ -31,8 +31,8 @@ export class AccountPage implements OnInit {
   User: any = {};
 
   userState: boolean = false;
-
-
+oneCatch=false;
+ loading;
   constructor(
     private UserService: UserService,
     private StorageService: StorageService,
@@ -42,7 +42,8 @@ export class AccountPage implements OnInit {
     private orderService: OrderService,
     private Router: Router,
     private loadingCtrl: LoadingController,
-   private toastController : ToastController
+   private toastController : ToastController, 
+   private alertController:AlertController
   ) {
 
 
@@ -50,7 +51,30 @@ export class AccountPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    });
+    }).catch(async (reason)=>{
+      if(this.oneCatch)
+      {
+
+      }else{
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors du chargement de la page",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      }
+     });
   }
 
   selectedAnimation: any = "interactive";
@@ -81,8 +105,30 @@ export class AccountPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    });
+    }).catch(async (reason)=>{
+      if(this.oneCatch)
+      {
 
+      }else{
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors du chargement de la page",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      }
+     });
 /*
     this.form = this.formBuilder.group({
       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
@@ -101,7 +147,30 @@ export class AccountPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    });
+    }).catch(async (reason)=>{
+      if(this.oneCatch)
+      {
+
+      }else{
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors du chargement de la page",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      }
+     });
 
 /*
     this.form = this.formBuilder.group({
@@ -110,13 +179,44 @@ export class AccountPage implements OnInit {
     });*/
   }
   ionViewDidEnter() {
-    this.presentLoadingCustom();
+   // this.presentLoadingCustom();
+    this.loading =  this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+   
+  });
+  this.loading.then((load)=>{
+load.present();
+  });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    });
+    }).catch(async (reason)=>{
+      if(this.oneCatch)
+      {
 
+      }else{
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors du chargement de la page",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      }
+     });
    /* this.form = this.formBuilder.group({
       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
     });
@@ -201,9 +301,60 @@ export class AccountPage implements OnInit {
           points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
     
         });
-        
+        this.loading.then((load)=>{
+          load.dismiss();
+            });
+      }).catch(async (reason)=>{
+        this.loading.then((load)=>{
+          load.dismiss();
+            });
+       if(this.oneCatch)
+       {
+
+       }else{
+         this.oneCatch=true
+        const alert =await  this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await  alert.present();
+       }
       });
-    });
+    }).catch(async (reason)=>{
+      if(this.oneCatch)
+      {
+
+      }else{
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors du chargement de la page",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      }
+     });
 
   }
 
@@ -213,7 +364,27 @@ export class AccountPage implements OnInit {
       this.User = data;
       this.facturation = false;
       this.livraison = false;
-    });
+    }).catch(async (reason)=>{
+    
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors de la mise à jour des données de l'utilisateur",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      
+     });
   }
 
   CreateCoupon() {
@@ -239,7 +410,27 @@ export class AccountPage implements OnInit {
       });
       toast.present();
       this.openCoupon();
-    });
+    }).catch(async (reason)=>{
+    
+        this.oneCatch=true
+       const alert =await  this.alertController.create({
+         header: "Erreur lors de la génération du coupon",
+         mode: 'ios',
+         message: "",
+         buttons: [
+
+           {
+             text: "D'accord",
+             cssClass: 'btn-alert-connexion',
+             handler: () => {
+               alert.dismiss();
+             }
+           },
+         ]
+       });
+       await  alert.present();
+      
+     });
 
   }
 
@@ -296,7 +487,7 @@ export class AccountPage implements OnInit {
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
+     
     });
     loading.present();
   }

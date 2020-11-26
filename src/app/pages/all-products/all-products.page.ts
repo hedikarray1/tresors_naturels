@@ -23,6 +23,7 @@ export class AllProductsPage implements OnInit {
   searchText: string = "";
   userState: boolean = false;
   rep = /&amp;/gi;
+  loading;
 
   constructor(
     private poductService: ProductService,
@@ -49,7 +50,17 @@ export class AllProductsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.presentLoadingCustom();
+
+   // this.presentLoadingCustom();
+   this.loading =  this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+   
+  });
+  this.loading.then((load)=>{
+load.present();
+  });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -75,7 +86,9 @@ export class AllProductsPage implements OnInit {
   async getAllProducts() {
 
     this.poductService.getAllProductsWooCommerce(100).then((data: any[]) => {
-
+this.loading.then((load)=>{
+load.dismiss();
+});
       this.allProducts = data;
       console.log("All product :", this.allProducts);
     });
