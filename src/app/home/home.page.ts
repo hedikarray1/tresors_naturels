@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
 
   slideOptions = { slidesPerView: 'auto', zoom: false, grabCursor: true, speed: 400, initialSlide: 1 };
   userState: boolean = false;
-
+ loading;
   constructor(
     private poductService: ProductService,
     private router: Router,
@@ -67,7 +67,15 @@ export class HomePage implements OnInit {
 
 
   ionViewDidEnter() {
-    this.presentLoadingCustom();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
@@ -200,21 +208,13 @@ export class HomePage implements OnInit {
 
 
 
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading-timer',
-      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
-    });
-    loading.present();
-  }
-
 
   getHomeJson() {
     this.homePageJson = [];
     console.log('get home json start');
     this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/homePage.json").toPromise().then((res: any) => {
+
+    
       this.homePageJson = res;
       this.homePageJson.forEach(element => {
         if (element.type === "category") {
@@ -229,6 +229,9 @@ export class HomePage implements OnInit {
         }
       });
       this.homePageJson = this.homePageJson.slice().sort((a, b) => a.level - b.level);
+      this.loading.then((load) => {
+        load.dismiss();
+      });
       console.log('home json : ',this.homePageJson) ;
     });
     console.log('get home json end');

@@ -14,7 +14,7 @@
     <preference name="ScrollEnabled" value="false" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="SplashScreenDelay" value="5000" />
+    <preference name="SplashScreenDelay" value="2000" />
     <preference name="FadeSplashScreenDuration" value="1000" />
     <preference name="SplashScreen" value="screen" />
     <preference name="ShowSplashScreen" value="true" />
@@ -52,9 +52,7 @@
         <resource-file src="res/drawable-xhdpi/fcm_push_icon.png" target="platforms/android/res/drawable-xhdpi/fcm_push_icon.png" />
         <resource-file src="res/drawable-xxhdpi/fcm_push_icon.png" target="platforms/android/res/drawable-xxhdpi/fcm_push_icon.png" />
         <resource-file src="res/drawable-xxxhdpi/fcm_push_icon.png" target="platforms/android/res/drawable-xxxhdpi/fcm_push_icon.png" />
-        <config-file mode="merge" parent="/manifest/application/" target="app/src/main/AndroidManifest.xml">
-            <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/fcm_push_icon" />
-        </config-file>
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/fcm_push_icon" />
     </platform>
     <platform name="ios">
         <resource-file src="GoogleService-Info.plist" target="GoogleService-Info.plist" />
