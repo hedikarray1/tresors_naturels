@@ -204,7 +204,7 @@ export class HomePage implements OnInit {
     let loading = await this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading-timer',
-      message: `<ion-img src="../../../assets/gif/timer.gif"  style="background: transparent !important;"/>`,
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
       duration: 5000,
     });
     loading.present();

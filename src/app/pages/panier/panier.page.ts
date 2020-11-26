@@ -58,8 +58,8 @@ export class PanierPage implements OnInit {
     this.loading = this.loadingController.create({
       spinner: null,
       cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-
+      message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
+     
     });
     this.loading.then((load) => {
       load.present();
@@ -275,15 +275,5 @@ export class PanierPage implements OnInit {
     this.Router.navigateByUrl('/login');
   }
 
-
-  async presentLoadingCustom() {
-    let loading = await this.loadingController.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
-    });
-    loading.present();
-  }
 
 }

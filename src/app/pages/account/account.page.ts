@@ -176,16 +176,16 @@ export class AccountPage implements OnInit {
         });*/
   }
   ionViewDidEnter() {
-    // this.presentLoadingCustom();
-    this.loading = this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-
-    });
-    this.loading.then((load) => {
-      load.present();
-    });
+   // this.presentLoadingCustom();
+    this.loading =  this.loadingCtrl.create({
+    spinner: null,
+    cssClass: 'custom-loading',
+    message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
+   
+  });
+  this.loading.then((load)=>{
+load.present();
+  });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -476,14 +476,6 @@ export class AccountPage implements OnInit {
     this.Router.navigateByUrl('/login');
   }
 
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-
-    });
-    loading.present();
-  }
+ 
 
 }
