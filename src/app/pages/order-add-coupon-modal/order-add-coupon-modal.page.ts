@@ -17,12 +17,12 @@ export class OrderAddCouponModalPage implements OnInit {
   coupon_data: any = {};
   formCoupon: FormGroup;
   currentUser: any = {};
-
+  loading;
 
   constructor(
     private modalCtrl: ModalController,
     private orderService: OrderService,
-    private loadingController: LoadingController,
+    private loadingCtrl: LoadingController,
     private fb: FormBuilder,
     private alertController: AlertController,
     private storage: Storage
@@ -50,11 +50,20 @@ export class OrderAddCouponModalPage implements OnInit {
 
 
   async getCoupon(code) {
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
     this.orderService.getCoupon(code).then(async (data: any[]) => {
       console.log('coupon info: ', data);
-      await loading.dismiss();
+      this.loading.then((load)=>{
+        load.dismiss();
+              });
       if (data.length == 0) {
         const alert = await this.alertController.create({
           header: "Code promo n'existe pas",
@@ -155,7 +164,9 @@ export class OrderAddCouponModalPage implements OnInit {
 
 
     }, async (res) => {
-      await loading.dismiss();
+      this.loading.then((load)=>{
+        load.dismiss();
+              });
 
       console.log("error", res);
       const alert = await this.alertController.create({

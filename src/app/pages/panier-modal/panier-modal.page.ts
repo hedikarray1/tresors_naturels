@@ -18,6 +18,8 @@ export class PanierModalPage implements OnInit {
   loaded = false;
   panierModifier = false;
   loading;
+  oneCatch = false;
+
 
   constructor(
     private panierService: PanierService,
@@ -26,7 +28,7 @@ export class PanierModalPage implements OnInit {
     private Router: Router,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingCtrl : LoadingController
   ) { }
 
   ngOnInit() {
@@ -45,6 +47,15 @@ export class PanierModalPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
     this.totale = 0;
     this.panierModifier = false;
     this.storage.get('user-state').then((val) => {
@@ -70,6 +81,30 @@ export class PanierModalPage implements OnInit {
           this.loading.then((load) => {
             load.dismiss();
           });
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
         });
       });
     }
@@ -153,8 +188,15 @@ export class PanierModalPage implements OnInit {
   async save() {
     console.log("saving");
     if (this.userState) {
-      const loading = await this.loadingController.create();
-      await loading.present();
+      this.loading =  this.loadingCtrl.create({
+        spinner: null,
+        cssClass: 'custom-loading',
+        message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+       
+      });
+      this.loading.then((load)=>{
+        load.present();
+          });
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
@@ -163,7 +205,10 @@ export class PanierModalPage implements OnInit {
 
             this.panier = res2['data'];
             console.log("panier after save", this.panier);
-            await loading.dismiss();
+            this.loading.then((load)=>{
+              load.dismiss();
+                    });
+              
 
             this.panierModifier = false;
             const alert = await this.alertController.create({
@@ -192,8 +237,15 @@ export class PanierModalPage implements OnInit {
   async saveAndCheckout() {
     console.log("saving");
     if (this.userState) {
-      const loading = await this.loadingController.create();
-      await loading.present();
+      this.loading =  this.loadingCtrl.create({
+        spinner: null,
+        cssClass: 'custom-loading',
+        message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+       
+      });
+      this.loading.then((load)=>{
+        load.present();
+          });
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
@@ -202,7 +254,10 @@ export class PanierModalPage implements OnInit {
 
             this.panier = res2['data'];
             console.log("panier after save", this.panier);
-            await loading.dismiss();
+            this.loading.then((load)=>{
+              load.dismiss();
+                    });
+              
             this.panierModifier = false;
             this.modalCtrl.dismiss();
             this.Router.navigateByUrl('order');

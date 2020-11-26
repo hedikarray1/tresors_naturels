@@ -67,6 +67,7 @@ export class AccountPage implements OnInit {
               cssClass: 'btn-alert-connexion',
               handler: () => {
                 alert.dismiss();
+                this.oneCatch = false;
               }
             },
           ]
@@ -120,6 +121,7 @@ export class AccountPage implements OnInit {
               cssClass: 'btn-alert-connexion',
               handler: () => {
                 alert.dismiss();
+                this.oneCatch = false;
               }
             },
           ]
@@ -161,6 +163,7 @@ export class AccountPage implements OnInit {
               cssClass: 'btn-alert-connexion',
               handler: () => {
                 alert.dismiss();
+                this.oneCatch = false;
               }
             },
           ]
@@ -176,16 +179,16 @@ export class AccountPage implements OnInit {
         });*/
   }
   ionViewDidEnter() {
-   // this.presentLoadingCustom();
+    // this.presentLoadingCustom();
     this.loading =  this.loadingCtrl.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-   
-  });
-  this.loading.then((load)=>{
-load.present();
-  });
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -206,6 +209,7 @@ load.present();
               cssClass: 'btn-alert-connexion',
               handler: () => {
                 alert.dismiss();
+                this.oneCatch = false;
               }
             },
           ]
@@ -292,7 +296,7 @@ load.present();
         metadataArray = data.meta_data;
         this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
         // console.log("points: ",metadataArray.filter(x=>x.key=="_acfw_loyalprog_user_total_points"));
-        console.log('points : ',this.User.pointsData);
+        console.log('points : ', this.User.pointsData);
         this.form = this.formBuilder.group({
           points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
 
@@ -319,6 +323,7 @@ load.present();
                 cssClass: 'btn-alert-connexion',
                 handler: () => {
                   alert.dismiss();
+                  this.oneCatch = false;
                 }
               },
             ]
@@ -342,6 +347,7 @@ load.present();
               cssClass: 'btn-alert-connexion',
               handler: () => {
                 alert.dismiss();
+                this.oneCatch = false;
               }
             },
           ]
@@ -372,6 +378,7 @@ load.present();
             cssClass: 'btn-alert-connexion',
             handler: () => {
               alert.dismiss();
+              this.oneCatch = false;
             }
           },
         ]
@@ -417,6 +424,7 @@ load.present();
             text: "D'accord",
             cssClass: 'btn-alert-connexion',
             handler: () => {
+              this.oneCatch = false;
               alert.dismiss();
             }
           },
@@ -476,6 +484,6 @@ load.present();
     this.Router.navigateByUrl('/login');
   }
 
- 
+
 
 }

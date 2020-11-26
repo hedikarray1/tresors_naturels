@@ -2,7 +2,7 @@ import { Storage } from '@ionic/storage';
 import { ProductService } from './../../services/product/product.service';
 import { OrderService } from './../../services/order/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -17,7 +17,9 @@ export class MyOrderDetailsPage implements OnInit {
     private ProductService: ProductService,
     private storage: Storage,
     private router: Router,
-    private OrderService: OrderService
+    private OrderService: OrderService,
+    private alertController: AlertController,
+    private loadingCtrl:LoadingController
   ) { }
 
   status = {
@@ -34,6 +36,8 @@ export class MyOrderDetailsPage implements OnInit {
   Order: any = {}
   facturationitem = true;
   livraisonitem = false;
+  loading;
+  oneCatch = false;
 
   totalitem = 0;
   ngOnInit() {
@@ -56,6 +60,15 @@ export class MyOrderDetailsPage implements OnInit {
 
 
   ionViewDidEnter() {
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.getOrder();
   }
@@ -70,12 +83,62 @@ export class MyOrderDetailsPage implements OnInit {
         this.totalitem =  this.totalitem + parseFloat(element.total) ;
         this.ProductService.getproduct(element.product_id).then((data1: any) => {
           element.product = data1;
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
         });
+    
       });
       this.Order.line_items = lineItems;
       this.Order.date_created = new Date(this.Order.date_created);
       console.log('order detail ', this.Order);
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
+
   }
 
 

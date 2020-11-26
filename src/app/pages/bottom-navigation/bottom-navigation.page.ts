@@ -27,10 +27,12 @@ export class BottomNavigationPage implements OnInit {
 
     
 //realtime badge
+/*
 this.mySubscription= interval(1000).subscribe((x =>{
 //  console.log("real time panier nbr: ");
  this.getPanierNbr();
 }));
+*/
    }
 
   async ngOnInit() {

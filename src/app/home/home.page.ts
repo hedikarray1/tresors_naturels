@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
   searchText: string = "";
   searchShow: boolean = false;
 
+  oneCatch = false;
 
 
   rep = /&amp;/gi;
@@ -190,6 +191,29 @@ export class HomePage implements OnInit {
 
       this.allProducts = data;
       console.log("All product :", this.allProducts);
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                this.oneCatch = false;
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
   }
 
@@ -201,6 +225,29 @@ export class HomePage implements OnInit {
       this.slidesPictures = [];
       for (let i = 1; i <= this.slideNBR; i++) {
         this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_" + i + ".jpg");
+      }
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                this.oneCatch = false;
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
       }
     });
   }
@@ -216,23 +263,96 @@ export class HomePage implements OnInit {
 
     
       this.homePageJson = res;
+      this.homePageJson = this.homePageJson.slice().sort((a, b) => a.level - b.level);
+      let i = 0
       this.homePageJson.forEach(element => {
         if (element.type === "category") {
 
           this.categoryService.getCategory(element.category.id).then((dataCategory: any) => {
             element.category_object = dataCategory;
+          }).catch(async (reason) => {
+            if (this.oneCatch) {
+      
+            } else {
+              this.oneCatch = true
+              const alert = await this.alertController.create({
+                header: "Erreur lors du chargement de la page",
+                mode: 'ios',
+                message: "",
+                buttons: [
+      
+                  {
+                    text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+                      this.oneCatch = false;
+                      alert.dismiss();
+                    }
+                  },
+                ]
+              });
+              await alert.present();
+            }
           });
 
           this.poductService.getProductsWithPrams(element.procduct).then((dataProducts: any[]) => {
               element.product_array = dataProducts['body'] ;
+              if (this.homePageJson.length== i+1){
+                this.loading.then((load) => {
+                  load.dismiss();
+                });
+              }
+          }).catch(async (reason) => {
+            if (this.oneCatch) {
+      
+            } else {
+              this.oneCatch = true
+              const alert = await this.alertController.create({
+                header: "Erreur lors du chargement de la page",
+                mode: 'ios',
+                message: "",
+                buttons: [
+      
+                  {
+                    text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+                      this.oneCatch = false;
+                      alert.dismiss();
+                    }
+                  },
+                ]
+              });
+              await alert.present();
+            }
           });
         }
-      });
-      this.homePageJson = this.homePageJson.slice().sort((a, b) => a.level - b.level);
-      this.loading.then((load) => {
-        load.dismiss();
+        i++;
       });
       console.log('home json : ',this.homePageJson) ;
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                this.oneCatch = false;
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
     console.log('get home json end');
   }

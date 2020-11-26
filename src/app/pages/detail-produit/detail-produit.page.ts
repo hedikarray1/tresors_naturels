@@ -25,6 +25,8 @@ export class DetailProduitPage implements OnInit {
   product: any;
   rep = /&amp;/gi;
 loading;
+
+oneCatch = false;
   constructor(
    
   private loadingCtrl:LoadingController,
@@ -56,6 +58,30 @@ loading;
       this.datashow = true;
       this.getRelated(this.product.related_ids)
     
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
   }
 
@@ -63,12 +89,12 @@ loading;
     this.loading =  this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
      
     });
     this.loading.then((load)=>{
-  load.present();
-    });
+      load.present();
+        });
     //this.presentLoadingCustom();
 
     this.storage.get('user-state').then((val) => {
@@ -127,6 +153,30 @@ loading;
           id: v
         }
         this.variations.push(vv);
+      }).catch(async (reason) => {
+        if (this.oneCatch) {
+  
+        } else {
+          this.oneCatch = true
+          const alert = await this.alertController.create({
+            header: "Erreur lors du chargement de la page",
+            mode: 'ios',
+            message: "",
+            buttons: [
+  
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                  this.oneCatch = false;
+  
+                }
+              },
+            ]
+          });
+          await alert.present();
+        }
       });
     }
     console.log("variation table :", this.variations);
@@ -141,6 +191,30 @@ loading;
 load.dismiss();
             });
         this.relatedProducts.push(data);
+      }).catch(async (reason) => {
+        if (this.oneCatch) {
+  
+        } else {
+          this.oneCatch = true
+          const alert = await this.alertController.create({
+            header: "Erreur lors du chargement de la page",
+            mode: 'ios',
+            message: "",
+            buttons: [
+  
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                  this.oneCatch = false;
+  
+                }
+              },
+            ]
+          });
+          await alert.present();
+        }
       });
     }
     console.log("ralated product :", this.relatedProducts);

@@ -19,13 +19,14 @@ export class PanierPage implements OnInit {
   loaded = false;
   panierModifier = false;
   loading;
+  oneCatch = false;
 
   constructor(
     private Router: Router,
     private panierService: PanierService,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingController: LoadingController,
+    private loadingCtrl: LoadingController,
   ) { }
 
 
@@ -55,15 +56,15 @@ export class PanierPage implements OnInit {
     //this.presentLoadingCustom();
     this.panierModifier = false;
     this.totale = 0;
-    this.loading = this.loadingController.create({
+    this.loading =  this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
      
     });
-    this.loading.then((load) => {
+    this.loading.then((load)=>{
       load.present();
-    });
+        });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -102,7 +103,31 @@ export class PanierPage implements OnInit {
           this.loading.then((load) => {
             load.dismiss();
           });
-        })
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
+        });
       });
     }
   }
@@ -179,8 +204,15 @@ export class PanierPage implements OnInit {
   async save() {
     console.log("saving");
     if (this.userState) {
-      const loading = await this.loadingController.create();
-      await loading.present();
+      this.loading =  this.loadingCtrl.create({
+        spinner: null,
+        cssClass: 'custom-loading',
+        message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+       
+      });
+      this.loading.then((load)=>{
+        load.present();
+          });
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
@@ -189,7 +221,10 @@ export class PanierPage implements OnInit {
            
             this.panier = res2['data'];
             console.log("panier after save", this.panier );
-            await loading.dismiss();
+            this.loading.then((load)=>{
+              load.dismiss();
+                    });
+              
 
             this.panierModifier = false;
             const alert = await this.alertController.create({
@@ -218,8 +253,15 @@ export class PanierPage implements OnInit {
   async saveAndCheckout() {
     console.log("saving");
     if (this.userState) {
-      const loading = await this.loadingController.create();
-      await loading.present();
+      this.loading =  this.loadingCtrl.create({
+        spinner: null,
+        cssClass: 'custom-loading',
+        message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+       
+      });
+      this.loading.then((load)=>{
+        load.present();
+          });
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
@@ -228,7 +270,10 @@ export class PanierPage implements OnInit {
            
             this.panier = res2['data'];
             console.log("panier after save", this.panier );
-            await loading.dismiss();
+            this.loading.then((load)=>{
+              load.dismiss();
+                    });
+              
             this.panierModifier = false;
               this.Router.navigateByUrl('order');
            
