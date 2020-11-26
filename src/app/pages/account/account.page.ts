@@ -31,8 +31,8 @@ export class AccountPage implements OnInit {
   User: any = {};
 
   userState: boolean = false;
-oneCatch=false;
- loading;
+  oneCatch = false;
+  loading;
   constructor(
     private UserService: UserService,
     private StorageService: StorageService,
@@ -42,8 +42,8 @@ oneCatch=false;
     private orderService: OrderService,
     private Router: Router,
     private loadingCtrl: LoadingController,
-   private toastController : ToastController, 
-   private alertController:AlertController
+    private toastController: ToastController,
+    private alertController: AlertController
   ) {
 
 
@@ -51,30 +51,29 @@ oneCatch=false;
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    }).catch(async (reason)=>{
-      if(this.oneCatch)
-      {
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
 
-      }else{
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors du chargement de la page",
-         mode: 'ios',
-         message: "",
-         buttons: [
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
 
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
       }
-     });
+    });
   }
 
   selectedAnimation: any = "interactive";
@@ -105,35 +104,34 @@ oneCatch=false;
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    }).catch(async (reason)=>{
-      if(this.oneCatch)
-      {
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
 
-      }else{
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors du chargement de la page",
-         mode: 'ios',
-         message: "",
-         buttons: [
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
 
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
       }
-     });
-/*
-    this.form = this.formBuilder.group({
-      points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
-
-    });*/
+    });
+    /*
+        this.form = this.formBuilder.group({
+          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
+    
+        });*/
     setTimeout(() => {
 
       console.log('Async operation has ended');
@@ -147,36 +145,35 @@ oneCatch=false;
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    }).catch(async (reason)=>{
-      if(this.oneCatch)
-      {
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
 
-      }else{
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors du chargement de la page",
-         mode: 'ios',
-         message: "",
-         buttons: [
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
 
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
       }
-     });
+    });
 
-/*
-    this.form = this.formBuilder.group({
-      points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
-
-    });*/
+    /*
+        this.form = this.formBuilder.group({
+          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
+    
+        });*/
   }
   ionViewDidEnter() {
    // this.presentLoadingCustom();
@@ -193,34 +190,33 @@ load.present();
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-    }).catch(async (reason)=>{
-      if(this.oneCatch)
-      {
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
 
-      }else{
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors du chargement de la page",
-         mode: 'ios',
-         message: "",
-         buttons: [
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
 
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
       }
-     });
-   /* this.form = this.formBuilder.group({
-      points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
     });
-*/
+    /* this.form = this.formBuilder.group({
+       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
+     });
+ */
   }
   displayHideFacturationCard() {
     this.livraison = false;
@@ -296,24 +292,46 @@ load.present();
         metadataArray = data.meta_data;
         this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
         // console.log("points: ",metadataArray.filter(x=>x.key=="_acfw_loyalprog_user_total_points"));
-
+        console.log('points : ',this.User.pointsData);
         this.form = this.formBuilder.group({
-          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
-    
-        });
-        this.loading.then((load)=>{
-          load.dismiss();
-            });
-      }).catch(async (reason)=>{
-        this.loading.then((load)=>{
-          load.dismiss();
-            });
-       if(this.oneCatch)
-       {
+          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
 
-       }else{
-         this.oneCatch=true
-        const alert =await  this.alertController.create({
+        });
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+      }).catch(async (reason) => {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        if (this.oneCatch) {
+
+        } else {
+          this.oneCatch = true
+          const alert = await this.alertController.create({
+            header: "Erreur lors du chargement de la page",
+            mode: 'ios',
+            message: "",
+            buttons: [
+
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                }
+              },
+            ]
+          });
+          await alert.present();
+        }
+      });
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
           message: "",
@@ -328,33 +346,9 @@ load.present();
             },
           ]
         });
-        await  alert.present();
-       }
-      });
-    }).catch(async (reason)=>{
-      if(this.oneCatch)
-      {
-
-      }else{
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors du chargement de la page",
-         mode: 'ios',
-         message: "",
-         buttons: [
-
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
+        await alert.present();
       }
-     });
+    });
 
   }
 
@@ -364,27 +358,27 @@ load.present();
       this.User = data;
       this.facturation = false;
       this.livraison = false;
-    }).catch(async (reason)=>{
-    
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors de la mise à jour des données de l'utilisateur",
-         mode: 'ios',
-         message: "",
-         buttons: [
+    }).catch(async (reason) => {
 
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
-      
-     });
+      this.oneCatch = true
+      const alert = await this.alertController.create({
+        header: "Erreur lors de la mise à jour des données de l'utilisateur",
+        mode: 'ios',
+        message: "",
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              alert.dismiss();
+            }
+          },
+        ]
+      });
+      await alert.present();
+
+    });
   }
 
   CreateCoupon() {
@@ -404,33 +398,33 @@ load.present();
         }
       });
       this.updateUser();
-      const toast=await this.toastController.create({
+      const toast = await this.toastController.create({
         message: 'Le coupon a été créé avec succés',
         duration: 2000
       });
       toast.present();
       this.openCoupon();
-    }).catch(async (reason)=>{
-    
-        this.oneCatch=true
-       const alert =await  this.alertController.create({
-         header: "Erreur lors de la génération du coupon",
-         mode: 'ios',
-         message: "",
-         buttons: [
+    }).catch(async (reason) => {
 
-           {
-             text: "D'accord",
-             cssClass: 'btn-alert-connexion',
-             handler: () => {
-               alert.dismiss();
-             }
-           },
-         ]
-       });
-       await  alert.present();
-      
-     });
+      this.oneCatch = true
+      const alert = await this.alertController.create({
+        header: "Erreur lors de la génération du coupon",
+        mode: 'ios',
+        message: "",
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              alert.dismiss();
+            }
+          },
+        ]
+      });
+      await alert.present();
+
+    });
 
   }
 

@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf='(userState && panier.length != 0  )|| (userState &&  !loaded )' >
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -57,5 +57,42 @@
   </ion-button>
 
 
+
+</ion-content>
+
+
+<ion-content *ngIf='!userState'>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="ion-text-end">
+    <ion-button (click)="close()" fill="clear" slot="end" color="dark">
+      <ion-icon name="close" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+  <div class="not-Connected-container">
+    <p class="not-Connected-title"><strong>Vous devez vous connecter</strong> </p>
+    <p class="not-Connected-subtitle">Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .</p>
+    <ion-button  color="dark" fill="outline" expand="block" (click)="goToLogin()">Se connecter</ion-button>
+
+  </div>
+
+</ion-content>
+
+<ion-content *ngIf='userState && panier.length == 0 && loaded'>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="ion-text-end">
+    <ion-button (click)="close()" fill="clear" slot="end" color="dark">
+      <ion-icon name="close" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+  <div class="not-Connected-container">
+    <p class="not-Connected-title"><strong>Votre panier est vide</strong> </p>
+    <p class="not-Connected-subtitle">Vous devez ajouter un produit au panier</p>
+    
+
+  </div>
 
 </ion-content>

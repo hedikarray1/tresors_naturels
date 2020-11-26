@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button text=""></ion-back-button>
     </ion-buttons>
 
     <ion-title class="ion-title-header-center">
@@ -36,7 +36,7 @@
           <div class="product-price" [innerHTML]="product?.price_html"></div>
         </div>
         <br />
-        <label class="text-size"><strong>Catégory</strong> : </label>
+        <label class="text-size"><strong>Catégories</strong> : </label>
 
         <div class="product-category-container">
           <span class="product-category" *ngFor="let category of product?.categories">
@@ -148,10 +148,7 @@
           <div class="card-separator"></div>
           <ion-card-content>
             <div class="slide-product-name">{{productc?.name}}</div>
-            <div class="slide-product-category-container">
-              <span class="slide-product-category" *ngFor="let category of productc?.categories">
-                {{category?.name?.replace(rep,'&')}},</span>
-            </div>
+           
             <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
           </ion-card-content>
 
@@ -172,10 +169,7 @@
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(productc?.id)">
             <div class="slide-product-name">{{productc?.name}}</div>
-            <div class="slide-product-category-container">
-              <span class="slide-product-category" *ngFor="let category of productc?.categories">
-                {{category?.name?.replace(rep,'&')}},</span>
-            </div>
+          
             <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
           </ion-card-content>
 
@@ -194,4 +188,5 @@
 
     </ion-slide>
   </ion-slides>
+  <br/>
 </ion-content>

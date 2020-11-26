@@ -34,8 +34,8 @@ export class AllProductsPage implements OnInit {
     private popoverController: PopoverController,
     private modalCtrl: ModalController,
     private storage: Storage,
-    private alertController : AlertController,
-    private loadingCtrl:LoadingController
+    private alertController: AlertController,
+    private loadingCtrl: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -66,7 +66,7 @@ load.present();
       this.userState = val;
     });
 
-     this.getAllProductsPerPage();
+    this.getAllProductsPerPage();
   }
 
 
@@ -86,9 +86,9 @@ load.present();
   async getAllProducts() {
 
     this.poductService.getAllProductsWooCommerce(100).then((data: any[]) => {
-this.loading.then((load)=>{
-load.dismiss();
-});
+      this.loading.then((load) => {
+        load.dismiss();
+      });
       this.allProducts = data;
       console.log("All product :", this.allProducts);
     });
@@ -150,7 +150,11 @@ load.dismiss();
 
   showPopover(event: MouseEvent, product) {
     if (this.userState) {
-      this.showPopoverPanier(event, product);
+      if (product.type === 'variable') {
+        this.goToDetail(product.id);
+      } else {
+        this.showPopoverPanier(event, product);
+      }
     } else {
       this.showAlertLogin();
     }

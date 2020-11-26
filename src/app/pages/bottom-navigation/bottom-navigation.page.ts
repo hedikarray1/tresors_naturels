@@ -28,7 +28,7 @@ export class BottomNavigationPage implements OnInit {
     
 //realtime badge
 this.mySubscription= interval(1000).subscribe((x =>{
-  console.log("real time panier nbr: ");
+//  console.log("real time panier nbr: ");
  this.getPanierNbr();
 }));
    }
@@ -58,9 +58,9 @@ this.mySubscription= interval(1000).subscribe((x =>{
   public async getPanierNbr() {
     if (this.userState) {
       await this.storage.get('auth-user').then(async (val) => {
-        console.log('auth-user', val);
+      //  console.log('auth-user', val);
         await this.panierService.getCartItemNbr(val.id).then((res: any[]) => {
-          console.log('panier item nbr', res['data']);
+        //  console.log('panier item nbr', res['data']);
           this.panierNbr = res['data'];
 
         })

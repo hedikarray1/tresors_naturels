@@ -27,6 +27,7 @@ export class CategoryService {
     let params = {
       "parent": 0,
       "hide_empty": true,
+      "exclude": ["168"],
       "order": "desc"
     }
     let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories", params);

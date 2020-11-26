@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -15,155 +15,260 @@ export class PanierModalPage implements OnInit {
   panier: any[] = [];
   userState: boolean = false;
   totale: number = 0;
+  loaded = false;
+  panierModifier = false;
+  loading;
 
   constructor(
     private panierService: PanierService,
     private modalCtrl: ModalController,
     private storageService: StorageService,
     private Router: Router,
-    private storage: Storage
-  ) {}
+    private storage: Storage,
+    private alertController: AlertController,
+    private loadingController: LoadingController
+  ) { }
 
   ngOnInit() {
+    this.totale = 0;
+    this.panierModifier = false;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
       console.log('userState', this.userState);
-      console.log('panier', this.panier);
+
     });
 
-  
-   
+
+
   }
 
   ionViewDidEnter() {
+    this.totale = 0;
+    this.panierModifier = false;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
     });
 
-  
-    console.log('userState', this.userState);
-    console.log('panier', this.panier);
+
   }
 
   async getPanier() {
-    this.panier =[];
+    this.panier = [];
+    this.loaded = false;
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.getCartFromServer(val.id).then((res: any[]) => {
           this.panier = res['data'];
+          console.log('panier : ', this.panier);
           this.totale = parseFloat(res['subtotal']);
-        
+          this.loaded = true;
+          this.loading.then((load) => {
+            load.dismiss();
+          });
         });
       });
-    } 
-  }
-
-  decreaseCartItem(product) {
-    if (this.userState) {
-      let added = false;
-
-      for (let p of this.panier) {
-        if (p.product_id === product.product_id) {
-          p.quantity += 1;
-          this.totale +=parseFloat(p.price );
-          added = true;
-          break;
-        }
-      }
-      if (!added) {
-        product.quantity = 1;
-        this.panier.push(product);
-      }
     }
   }
 
-  increaseCartItem(product) {
+  incrementCartItem(product) {
     if (this.userState) {
-      let index = 0;
-      for (let p of this.panier) {
-        if (p.product_id === product.product_id) {
-          p.quantity -= 1;
-          this.totale -= parseFloat(p.price);
-          if (p.quantity == 0) {
-            this.panier.splice(index, 1);
-          }
-          break;
-        }
-        index++;
+      this.panierModifier = true;
+      let index = this.panier.findIndex(x => x.product_id === product.product_id);
+      console.log('index', index);
+      this.panier[index].quantity += 1;
+      this.totale += parseFloat(this.panier[index].price);
+
+    }
+  }
+
+  decrementCartItem(product) {
+    if (this.userState) {
+
+      this.panierModifier = true;
+      let index = this.panier.findIndex(x => x.product_id === product.product_id);
+      console.log('index', index);
+
+      if (this.panier[index].quantity === 1) {
+        this.showAlertRemoveItem(this.panier[index]);
+      } else {
+        this.panier[index].quantity -= 1;
+        this.totale -= parseFloat(this.panier[index].price);
       }
-    } 
+
+    }
   }
 
   removeCartItem(product) {
     if (this.userState) {
-      let index = 0;
-      for (let p of this.panier) {
-        if (p.product_id === product.product_id) {
-          this.totale -= parseFloat(p.total);
-          this.panier.splice(index, 1);
-          break;
-        }
-        index++;
-      }
-    } 
-  }
-  /*
-  getTotal() {
-    this.totale = 0
-    for (let p of this.panier) {
-
-      this.totale += parseFloat(p.total);
-
+      console.log("panier before remove :", this.panier);
+      let index = this.panier.findIndex(x => x.product_id === product.product_id);
+      console.log('index', index);
+      this.totale -= parseFloat(this.panier[index].subtotal);
+      this.panier.splice(index, 1);
+      console.log("panier after remove :", this.panier);
+      this.save();
     }
   }
-*/
+
+  async showAlertRemoveItem(product) {
+    const alert = await this.alertController.create({
+      header: 'Supprimer produit du panier',
+      mode: 'ios',
+      message: "Ête vous sur de supprimer ce produit du paniner ?",
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+          cssClass: 'btn-alert-ignorer',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'Oui',
+          cssClass: 'btn-alert-connexion',
+          handler: () => {
+            this.removeCartItem(product);
+          }
+        },
+      ]
+    });
+    await alert.present();
+  }
+
   close() {
     this.modalCtrl.dismiss();
   }
 
+
+
+
+
+
   async save() {
+    console.log("saving");
     if (this.userState) {
+      const loading = await this.loadingController.create();
+      await loading.present();
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
-        this.panierService
-          .emptyCartFromServer(val.id)
-          .then((res: any[]) => {
-            console.log('empty panier', res);
-            this.panierService
-              .addToCartOnServer(this.panier, val.id)
-              .then((res: any[]) => {
-                console.log('panier', res);
-                this.panier = res['data'];
-                this.modalCtrl.dismiss();
-              });
-          });
-      });
+        this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
+          console.log("empty panier", res);
+          this.panierService.addToCartOnServer(this.panier, val.id).then(async (res2: any[]) => {
+
+            this.panier = res2['data'];
+            console.log("panier after save", this.panier);
+            await loading.dismiss();
+
+            this.panierModifier = false;
+            const alert = await this.alertController.create({
+              header: "Panier sauvegardé",
+              mode: 'ios',
+              message: "",
+              buttons: [
+
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          })
+        })
+      })
     }
+
+  }
+
+  async saveAndCheckout() {
+    console.log("saving");
+    if (this.userState) {
+      const loading = await this.loadingController.create();
+      await loading.present();
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.panierService.emptyCartFromServer(val.id).then((res: any[]) => {
+          console.log("empty panier", res);
+          this.panierService.addToCartOnServer(this.panier, val.id).then(async (res2: any[]) => {
+
+            this.panier = res2['data'];
+            console.log("panier after save", this.panier);
+            await loading.dismiss();
+            this.panierModifier = false;
+            this.modalCtrl.dismiss();
+            this.Router.navigateByUrl('order');
+
+          })
+        })
+      })
+    }
+
   }
 
   doRefresh(event) {
+    this.panierModifier = false;
+    this.totale = 0;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
       this.getPanier();
+
+
     });
 
-  
-    console.log('userState', this.userState);
-    console.log('panier', this.panier);
+
+
     setTimeout(() => {
 
       console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }
-  checkout() {
+
+  async checkout() {
+
+    if (this.panierModifier) {
+      const alert = await this.alertController.create({
+        header: 'Vous avez modifié votre panier',
+        mode: 'ios',
+        message: "Voulez vous sauvgarder votre panier ?",
+        buttons: [
+          {
+            text: 'Non',
+            role: 'cancel',
+            cssClass: 'btn-alert-ignorer',
+            handler: () => {
+              alert.dismiss();
+              this.Router.navigateByUrl('order');
+            }
+          },
+          {
+            text: 'Oui',
+            cssClass: 'btn-alert-connexion',
+            handler: async () => {
+              this.saveAndCheckout();
+            }
+          },
+        ]
+      });
+      await alert.present();
+    } else {
+      this.modalCtrl.dismiss();
+      this.Router.navigateByUrl('order');
+    }
+  }
+
+  goToLogin() {
     this.modalCtrl.dismiss();
-    this.Router.navigateByUrl('order');
+    this.Router.navigateByUrl('/login');
   }
 }
