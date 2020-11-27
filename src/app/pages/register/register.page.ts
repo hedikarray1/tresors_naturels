@@ -18,7 +18,7 @@ export class RegisterPage implements OnInit {
   //register2Form: FormGroup;
 
   userRegistred: any = {};
-
+loading;
   passwordType: string = 'password';
   passwordIcon: string = 'eye-off';
 
@@ -62,7 +62,8 @@ export class RegisterPage implements OnInit {
     private fb: FormBuilder,
     private alertController: AlertController,
     private router: Router,
-    private loadingController: LoadingController,
+   
+    private loadingCtrl: LoadingController,
     private storage: Storage,
   ) { }
 
@@ -139,21 +140,35 @@ export class RegisterPage implements OnInit {
   async createuser() {
 
     console.log(this.register1Form.value);
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
+
     this.userService.createUser(this.register1Form.value).then(
 
       async (data: any) => {
 
         console.log("response register ", data);
-        await loading.dismiss();
+        this.loading.then((load)=>{
+          load.dismiss();
+                });
+          
 
         this.userRegistred = data;
         this.swipeNext();
 
       }, async (err) => {
         console.log("error", err);
-        await loading.dismiss();
+        this.loading.then((load)=>{
+          load.dismiss();
+                });
+          
 
         const alert = await this.alertController.create({
           header: 'Erreur lors de la creation de compte',
@@ -175,14 +190,24 @@ export class RegisterPage implements OnInit {
     this.billingForm.value.phone =   this.billingForm.value.phone +'';
     this.userRegistred.billing = this.billingForm.value;
     this.userRegistred.shipping = this.shippingForm.value;
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
+
     this.userService.updateUser(this.userRegistred).then(
 
       async (data: any) => {
 
         console.log("response register ", data)
-        await loading.dismiss();
+        this.loading.then((load)=>{
+          load.dismiss();
+                });
 
         this.storage.remove('auth-user');
         this.storage.set('auth-user', data);
@@ -194,7 +219,9 @@ export class RegisterPage implements OnInit {
 
       }, async (err) => {
         console.log("error", err);
-        await loading.dismiss();
+        this.loading.then((load)=>{
+          load.dismiss();
+                });
         err.error.message.replace('billing','Facturation');
         err.error.message.replace('shipping','Livraison');
         if (err.error.data.params.billing){

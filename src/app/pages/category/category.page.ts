@@ -2,7 +2,7 @@ import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { async } from '@angular/core/testing';
 import { CategoryService } from './../../services/category/category.service';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { LoadingController, ModalController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { MbscListviewOptions , mobiscroll} from '@mobiscroll/angular';
 
@@ -17,24 +17,28 @@ export class CategoryPage implements OnInit {
   shownCategory : any;
    rep = /&amp;/gi;
 loading;
+oneCatch = false;
+
+
   constructor(
     private loadingController : LoadingController,
     private router : Router,
     private categoryService : CategoryService,
     private modalCtrl: ModalController,
-    private loadingCtrl:LoadingController
+    private loadingCtrl:LoadingController,
+    private alertController: AlertController
     ) { }
 
    async ionViewDidEnter() {
     this.loading =  this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
      
     });
     this.loading.then((load)=>{
-  load.present();
-    });
+      load.present();
+        });
      // this.presentLoadingCustom();
       await this.getCategory();
     }
@@ -80,12 +84,60 @@ async openCart() {
 load.dismiss();
         });
           cat.children = data2 ;
-         });
+         }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
+        });
          
        }
         
  
        console.log("category :" , this.categorys);
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
   }
 
@@ -112,14 +164,5 @@ goToProductByCategory(category ,id){
   this.router.navigateByUrl('bottom-navigation/product-by-category/'+category+"/"+id);
 }
 
-async presentLoadingCustom() {
-  let loading = await this.loadingController.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
-    duration: 5000,
-  });
-  loading.present();
-}
 
 }

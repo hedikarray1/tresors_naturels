@@ -31,7 +31,7 @@
 }
 
 ion-card-content {
-   padding: 5px 20px;
+   padding: 2px 5px 5px;
 }
 
 .category-name {
@@ -59,12 +59,12 @@ ion-card-content {
 }
 
 .product-name {
-   font-family: Lato-Regular;
+   font-family: 'Cormorant-SemiBoldItalic';
    font-size: 4vw;
+   font-weight: bolder;
+   color: #262626;
+   height: 13vw !important;
    text-align: center;
-   font-weight: 600;
-   height: 11vw !important;
-   color: black;
 }
 
 .product-category-container {
@@ -81,9 +81,11 @@ ion-card-content {
 
 .product-price {
    font-family: Cormorant-Medium;
-    font-size: 3vw;
-    text-align: center;
-    height: 8vw;
+   font-size: 3.5vw;
+   text-decoration: initial;
+   font-weight: 600;
+   text-align: center;
+   height: 11vw;
 }
 
 .icon-add-item{

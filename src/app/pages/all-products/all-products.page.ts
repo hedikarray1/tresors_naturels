@@ -24,6 +24,7 @@ export class AllProductsPage implements OnInit {
   userState: boolean = false;
   rep = /&amp;/gi;
   loading;
+  oneCatch = false;
 
   constructor(
     private poductService: ProductService,
@@ -42,7 +43,32 @@ export class AllProductsPage implements OnInit {
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
+
 
     await this.getAllProductsPerPage();
 
@@ -51,20 +77,43 @@ export class AllProductsPage implements OnInit {
 
   ionViewDidEnter() {
 
-   // this.presentLoadingCustom();
-   this.loading =  this.loadingCtrl.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
-   
-  });
-  this.loading.then((load)=>{
-load.present();
-  });
+    this.loading = this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+
+    });
+    this.loading.then((load) => {
+      load.present();
+    });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
+
 
     this.getAllProductsPerPage();
   }
@@ -78,20 +127,69 @@ load.present();
       console.log("product per page :", this.products);
       console.log("page : " + this.page + "/" + this.poductService.pages);
       console.log("nbr all  product", this.count);
+      this.loading.then((load) => {
+        load.dismiss();
+      });
       this.getAllProducts();
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
+
   }
 
 
   async getAllProducts() {
 
     this.poductService.getAllProductsWooCommerce(100).then((data: any[]) => {
-      this.loading.then((load) => {
-        load.dismiss();
-      });
+      
       this.allProducts = data;
       console.log("All product :", this.allProducts);
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
+
   }
 
   loadMore(event) {
@@ -107,7 +205,31 @@ load.present();
       if (this.page == this.poductService.pages) {
         event.target.disabled = true;
       }
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
+
   }
 
   goToDetail(id) {
@@ -130,8 +252,56 @@ load.present();
         this.panierService.addToCartOnServer(product, val.id).then((res: any[]) => {
           console.log("panier", res);
 
-        })
-      })
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors de l'ajout du produit dans le panier ",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
+        });
+    
+      }).catch(async (reason) => {
+        if (this.oneCatch) {
+  
+        } else {
+          this.oneCatch = true
+          const alert = await this.alertController.create({
+            header: "Erreur lors du chargement de la page",
+            mode: 'ios',
+            message: "",
+            buttons: [
+  
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                  this.oneCatch = false;
+                }
+              },
+            ]
+          });
+          await alert.present();
+        }
+      });
+  
     }
 
   }
@@ -201,15 +371,6 @@ load.present();
     modal.present();
   }
 
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
-    });
-    loading.present();
-  }
 
 
 

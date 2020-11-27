@@ -37,8 +37,9 @@ export class OrderPage implements OnInit {
   payment_methodes: any[] = [];
   shipping_zones: any[] = [];
   coupon_data: any[] = [];
-
+  loading;
   selectedpayment: any;
+  oneCatch = false;
 
   selectedShippingMethod: any;
   selectedzone;
@@ -71,8 +72,17 @@ export class OrderPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
 
-    this.presentLoadingCustom();
+  
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -95,6 +105,33 @@ export class OrderPage implements OnInit {
           this.shipping = data.shipping;
           console.log("is online", data);
           this.current_user = data;
+          this.loading.then((load)=>{
+            load.dismiss();
+                  });
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
         });
       });
 
@@ -110,6 +147,30 @@ export class OrderPage implements OnInit {
       console.log('shipping methods : ', data);
       this.payment_methodes = data;
       this.selectedpayment = this.payment_methodes[0].id;
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
   }
   getShippinZones() {
@@ -120,6 +181,30 @@ export class OrderPage implements OnInit {
       console.log('shipping zones after edit : ', this.shipping_zones);
       this.selectedzone = this.shipping_zones[0].id;
 
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
   }
 
@@ -138,7 +223,31 @@ export class OrderPage implements OnInit {
             element.subtotal = element.subtotal + "";
             element.total = element.total + "";
           });
-        })
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
+        });
       })
     } else {
 
@@ -162,9 +271,15 @@ export class OrderPage implements OnInit {
 
 
   async createOrder() {
-    const loading = await this.loadingController.create();
-    await loading.present();
-
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
     console.log('commander ***********************');
     console.log('order user id', this.current_user.id);
     console.log('order coupon', this.coupon_data);
@@ -204,7 +319,10 @@ export class OrderPage implements OnInit {
 
       console.log("succes", res);
 
-      await loading.dismiss();
+      this.loading.then((load)=>{
+        load.dismiss();
+              });
+        
 
       const alert = await this.alertController.create({
         header: "Commande passée avec succés",
@@ -232,7 +350,10 @@ export class OrderPage implements OnInit {
 
     }, async (err) => {
       console.log('erreur', err);
-      await loading.dismiss();
+      this.loading.then((load)=>{
+        load.dismiss();
+              });
+        
       const alert = await this.alertController.create({
         header: "Erreur lors de la commande",
         mode: 'ios',
@@ -355,15 +476,6 @@ export class OrderPage implements OnInit {
     this.showLivraison = !this.showLivraison;
   }
 
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
-    });
-    loading.present();
-  }
 
 
 }

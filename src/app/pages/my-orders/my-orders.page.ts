@@ -5,7 +5,7 @@ import { UserService } from './../../services/user/user.service';
 import { OrderService } from './../../services/order/order.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController, LoadingController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-orders',
@@ -18,6 +18,9 @@ export class MyOrdersPage implements OnInit {
   userState: boolean = false;
   billing: any;
   shipping: any;
+
+  oneCatch = false;
+
   current_user: any;
   payment_methodes: any[];
   orders: any[] = [];
@@ -38,6 +41,7 @@ export class MyOrdersPage implements OnInit {
     private storage: Storage,
      private OrderService: OrderService, 
      private UserService: UserService,
+     private alertController: AlertController,
      private loadingCtrl:LoadingController
      ) { }
 
@@ -70,12 +74,12 @@ export class MyOrdersPage implements OnInit {
   this.loading =  this.loadingCtrl.create({
     spinner: null,
     cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
+    message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
    
   });
   this.loading.then((load)=>{
-load.present();
-  });
+    load.present();
+      });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -96,6 +100,30 @@ load.present();
           console.log("is online", data);
           this.current_user = data;
           this.getOrders();
+        }).catch(async (reason) => {
+          if (this.oneCatch) {
+    
+          } else {
+            this.oneCatch = true
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+    
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+    
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
         });
       });
     
@@ -120,6 +148,30 @@ load.present();
       this.loading.then((load)=>{
 load.dismiss();
       });
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
     });
   }
 
@@ -145,14 +197,5 @@ load.dismiss();
     this.router.navigateByUrl('/login');
   }
 
-  async presentLoadingCustom() {
-    let loading = await this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/Spinner1.gif"  style="background: transparent !important;"/>`,
-      duration: 5000,
-    });
-    loading.present();
-  }
 
 }

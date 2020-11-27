@@ -12,54 +12,57 @@ import { ModalController, PopoverController, AlertController, LoadingController 
   styleUrls: ['./product-by-category.page.scss'],
 })
 export class ProductByCategoryPage implements OnInit {
-  
-  products : any[];
-  category : any;
-  idCategory : any;
+
+  products: any[];
+  category: any;
+  idCategory: any;
   page = 1;
   count = null;
   rep = /&amp;/gi;
+
+  oneCatch = false;
+
   userState: boolean = false;
-loading;
+  loading;
   constructor(
-    private poductService : ProductService,
+    private poductService: ProductService,
     private route: ActivatedRoute,
-    private popoverController : PopoverController,
-    private router : Router,
+    private popoverController: PopoverController,
+    private router: Router,
     private modalCtrl: ModalController,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingCtrl:LoadingController
+    private loadingCtrl: LoadingController
   ) { }
 
   ionViewDidEnter() {
 
- //   this.presentLoadingCustom();
- this.loading =  this.loadingCtrl.create({
-  spinner: null,
-  cssClass: 'custom-loading',
-  message: `<ion-img src="../../../assets/gif/gif_loading_03.gif"  style="background: transparent !important;"/>`,
- 
-});
-this.loading.then((load)=>{
-load.present();
-});
+    //   this.presentLoadingCustom();
+    this.loading = this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+
+    });
+    this.loading.then((load) => {
+      load.present();
+    });
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
     });
-    this.category = this.route.snapshot.paramMap.get('category') ;
-    this.idCategory = this.route.snapshot.paramMap.get('id') ;
+    this.category = this.route.snapshot.paramMap.get('category');
+    this.idCategory = this.route.snapshot.paramMap.get('id');
     this.getCategory()
-    }
+  }
 
   ngOnInit() {
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
     });
-    this.category = this.route.snapshot.paramMap.get('category') ;
-    this.idCategory = this.route.snapshot.paramMap.get('id') ;
+    this.category = this.route.snapshot.paramMap.get('category');
+    this.idCategory = this.route.snapshot.paramMap.get('id');
     this.getCategory()
   }
   doRefresh(event) {
@@ -67,8 +70,8 @@ load.present();
       console.log('user state', val);
       this.userState = val;
     });
-    this.category = this.route.snapshot.paramMap.get('category') ;
-    this.idCategory = this.route.snapshot.paramMap.get('id') ;
+    this.category = this.route.snapshot.paramMap.get('category');
+    this.idCategory = this.route.snapshot.paramMap.get('id');
     this.getCategory()
     setTimeout(() => {
 
@@ -76,102 +79,102 @@ load.present();
       event.target.complete();
     }, 2000);
   }
-  
- async getCategory(){
-   
-  this.poductService.getProductsByCategory(this.idCategory).subscribe((data: any[]) => {
-    this.count = this.poductService.totalProducts;
-    this.products = data;
-     console.log("category :" , this.products);
-     this.loading.then((load)=>{
-load.dismiss();
-     });
-  });
-}
 
-loadMore(event) {
-  this.page++;
+  async getCategory() {
 
-  this.poductService.getProductsByCategory(this.idCategory,this.page).subscribe(res => {
-    console.log("category page :"+this.page , this.products);
-    this.products = [...this.products, ...res];
-    event.target.complete();
-
-    // Disable infinite loading when maximum reached
-    if (this.page == this.poductService.pages) {
-      event.target.disabled = true;
-    }
-  });
-}
-
-goToDetail(id) {
-  this.router.navigateByUrl('detail-produit/' + id);
-}
-
-
-async showPopoverPanier(event: MouseEvent,product) {
-  const popover = await this.popoverController.create({
-    component: PopoverCardProductPage,
-    componentProps: {
-      "id": product.id,
-      "product": product,
-      },
-    translucent: true
-  });
-  return popover.present();
-}
-
-showPopover(event: MouseEvent, product) {
-  if (this.userState) {
-    if (product.type === 'variable') {
-      this.goToDetail(product.id);
-    } else {
-      this.showPopoverPanier(event, product);
-    }
-  } else {
-    this.showAlertLogin();
+    this.poductService.getProductsByCategory(this.idCategory).subscribe((data: any[]) => {
+      this.count = this.poductService.totalProducts;
+      this.products = data;
+      console.log("category :", this.products);
+      this.loading.then((load) => {
+        load.dismiss();
+      });
+    });
   }
-}
+
+  loadMore(event) {
+    this.page++;
+
+    this.poductService.getProductsByCategory(this.idCategory, this.page).subscribe(res => {
+      console.log("category page :" + this.page, this.products);
+      this.products = [...this.products, ...res];
+      event.target.complete();
+
+      // Disable infinite loading when maximum reached
+      if (this.page == this.poductService.pages) {
+        event.target.disabled = true;
+      }
+    });
+  }
+
+  goToDetail(id) {
+    this.router.navigateByUrl('detail-produit/' + id);
+  }
 
 
-async showAlertLogin() {
-
-  const alert = await this.alertController.create({
-    header: 'Vous devez vous connecter',
-    mode: 'ios',
-    message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
-    buttons: [
-      {
-        text: 'ignorer',
-        role: 'cancel',
-        cssClass: 'btn-alert-ignorer',
-        handler: () => {
-          alert.dismiss();
-        }
+  async showPopoverPanier(event: MouseEvent, product) {
+    const popover = await this.popoverController.create({
+      component: PopoverCardProductPage,
+      componentProps: {
+        "id": product.id,
+        "product": product,
       },
-      {
-        text: 'connexion',
-        cssClass: 'btn-alert-connexion',
-        handler: () => {
-          this.router.navigateByUrl('/login');
-        }
-      },
-    ]
-  });
-  await alert.present();
-}
+      translucent: true
+    });
+    return popover.present();
+  }
+
+  showPopover(event: MouseEvent, product) {
+    if (this.userState) {
+      if (product.type === 'variable') {
+        this.goToDetail(product.id);
+      } else {
+        this.showPopoverPanier(event, product);
+      }
+    } else {
+      this.showAlertLogin();
+    }
+  }
 
 
-async openCart() {
- 
- 
-  let modal = await this.modalCtrl.create({
-    component: PanierModalPage,
-    cssClass: 'cart-modal'
-  });
-  modal.onWillDismiss().then(() => {
-  });
-  modal.present();
-}
+  async showAlertLogin() {
+
+    const alert = await this.alertController.create({
+      header: 'Vous devez vous connecter',
+      mode: 'ios',
+      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      buttons: [
+        {
+          text: 'ignorer',
+          role: 'cancel',
+          cssClass: 'btn-alert-ignorer',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'connexion',
+          cssClass: 'btn-alert-connexion',
+          handler: () => {
+            this.router.navigateByUrl('/login');
+          }
+        },
+      ]
+    });
+    await alert.present();
+  }
+
+
+  async openCart() {
+
+
+    let modal = await this.modalCtrl.create({
+      component: PanierModalPage,
+      cssClass: 'cart-modal'
+    });
+    modal.onWillDismiss().then(() => {
+    });
+    modal.present();
+  }
 
 }

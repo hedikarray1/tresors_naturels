@@ -16,12 +16,12 @@ import { AlertController, LoadingController, MenuController } from '@ionic/angul
 export class LoginPage implements OnInit {
 
   credentiels: FormGroup;
-
+loading;
   constructor(
     private fb: FormBuilder,
     private alertController: AlertController,
     private router: Router,
-    private loadingController: LoadingController,
+    private loadingCtrl: LoadingController,
     private authService: AuthService,
     private storage: Storage,
   
@@ -37,14 +37,24 @@ export class LoginPage implements OnInit {
   }
 
   async login() {
-    const loading = await this.loadingController.create();
-    await loading.present();
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
+    });
+    this.loading.then((load)=>{
+      load.present();
+        });
 
     this.authService.login(this.credentiels.value).then(
       async (res: any) => {
         console.log("succes", res);
 
-        await loading.dismiss();
+        this.loading.then((load)=>{
+          load.dismiss();
+                });
+          
 
         this.storage.remove('auth-token');
         this.storage.set('auth-token', res.token);
@@ -61,7 +71,10 @@ export class LoginPage implements OnInit {
 
         this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
       }, async (res) => {
-        await loading.dismiss();
+        this.loading.then((load)=>{
+          load.dismiss();
+                });
+          
         console.log("error", res);
         const alert = await this.alertController.create({
           header: 'Connexion échoué',
