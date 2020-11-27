@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './../../../services/globalVarService/global-var-service.service';
 import { Storage } from '@ionic/storage';
 import { PanierService } from './../../../services/panier/panier.service';
 import { StorageService } from './../../../services/storage/storage.service';
@@ -21,7 +22,8 @@ export class PopoverCardProductPage implements OnInit {
     private panierService: PanierService,
     private storageService: StorageService,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private GLobalVarService:GlobalVarServiceService
   ) { }
 
   ngOnInit() {
@@ -58,6 +60,11 @@ export class PopoverCardProductPage implements OnInit {
         console.log('auth-user', val);
         this.panierService.addToCartOnServer(product, val.id).then((res: any[]) => {
           console.log("panier", res);
+          this.panierService.getCartItemNbr(val.id).then((d1)=>{
+            this.GLobalVarService.publishSomeData({
+              PanierNbr: d1["data"]
+          });
+        });
 
         })
       });

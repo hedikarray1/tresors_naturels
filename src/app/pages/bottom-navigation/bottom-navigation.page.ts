@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { async } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { PanierService } from './../../services/panier/panier.service';
@@ -22,25 +23,28 @@ export class BottomNavigationPage implements OnInit {
     private router: Router,
     private modalCtrl: ModalController,
     private panierService: PanierService,
-    private storage: Storage
+    private storage: Storage,
+    private GLobalVarService:GlobalVarServiceService
   ) {
 
+    this.GLobalVarService.getObservable().subscribe((data) => {
+    //  console.log('Data received', data);
+    this.panierNbr=data.PanierNbr;
+  });
     
-//realtime badge
-/*
-this.mySubscription= interval(1000).subscribe((x =>{
-//  console.log("real time panier nbr: ");
- this.getPanierNbr();
-}));
-*/
-   }
+}
+   
 
   async ngOnInit() {
 
     await this.storage.get('user-state').then(async (val) => {
       console.log('user state', val);
       this.userState = val;
-      await this.getPanierNbr();
+      this.panierService.getCartItemNbr(val.id).then((d1)=>{
+        this.GLobalVarService.publishSomeData({
+          PanierNbr: d1["data"]
+      });
+    });
     });
 
   }

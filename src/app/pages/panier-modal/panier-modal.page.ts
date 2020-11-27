@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
@@ -28,7 +29,8 @@ export class PanierModalPage implements OnInit {
     private Router: Router,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingCtrl : LoadingController
+    private loadingCtrl : LoadingController,
+    private GLobalVarService:GlobalVarServiceService
   ) { }
 
   ngOnInit() {
@@ -226,6 +228,12 @@ export class PanierModalPage implements OnInit {
                 },
               ]
             });
+            this.panierService.getCartItemNbr(val.id).then((d1)=>{
+              this.GLobalVarService.publishSomeData({
+                PanierNbr: d1["data"]
+            });
+          });
+  
             await alert.present();
           })
         })
@@ -257,7 +265,12 @@ export class PanierModalPage implements OnInit {
             this.loading.then((load)=>{
               load.dismiss();
                     });
-              
+                    this.panierService.getCartItemNbr(val.id).then((d1)=>{
+                      this.GLobalVarService.publishSomeData({
+                        PanierNbr: d1["data"]
+                    });
+                  });
+          
             this.panierModifier = false;
             this.modalCtrl.dismiss();
             this.Router.navigateByUrl('order');

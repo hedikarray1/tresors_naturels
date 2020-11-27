@@ -1,3 +1,4 @@
+import { Network } from '@ionic-native/network/ngx';
 import { BottomNavigationPage } from './pages/bottom-navigation/bottom-navigation.page';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
 import { NoInternetPage } from './pages/no-internet/no-internet.page';
@@ -103,13 +104,72 @@ export class AppComponent implements OnInit {
     private AlertCTRL: AlertController,
     private panierService: PanierService,
     private loadingCtrl: LoadingController,
+    private network:Network
   ) {
 
     this.initializeApp();
+/*
+// watch network for a disconnection mobile
+let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+  console.log('network was disconnected :-(');
+ 
+  //Do task when no internet connection
+  this.modal = this.modalCtrl.create({
+    component: NoInternetPage,
+    cssClass: 'no-connection-modal'
+  });
+  this.modal.then((mod) => {
+    mod.present();
+  });
+  this.goneOffline = true;
 
 
+  
+});
 
-    //check offline or online
+// stop disconnect watch
+disconnectSubscription.unsubscribe();
+*/
+/*
+// watch network for a connection mobile
+let connectSubscription = this.network.onConnect().subscribe(() => {
+  console.log('network connected!');
+  // We just got a connection but we need to wait briefly
+   // before we determine the connection type. Might need to wait.
+  // prior to doing any api requests as well.
+
+  
+  setTimeout(() => {
+    if (this.network.type === 'wifi') {
+     
+      if (this.goneOffline) {
+        this.goneOffline = false;
+
+        this.modal.then((mod) => {
+          mod.dismiss();
+        });
+
+        this.modal = this.modalCtrl.create({
+          component: InternetEstablishedPage,
+          cssClass: 'no-connection-modal'
+        });
+        this.modal.then((mod) => {
+          mod.present();
+        });
+
+
+      }
+    
+    }
+  }, 3000);
+});
+
+// stop connect watch
+connectSubscription.unsubscribe();
+
+*/
+
+    //check offline or online for web
     window.addEventListener('offline', () => {
       //Do task when no internet connection
       this.modal = this.modalCtrl.create({

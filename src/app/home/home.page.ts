@@ -198,9 +198,12 @@ export class HomePage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
+          header: "Erreur lors du chargement de la page 1",
           mode: 'ios',
           message: "",
           buttons: [
@@ -239,9 +242,12 @@ export class HomePage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
+          header: "Erreur lors du chargement de la page 2",
           mode: 'ios',
           message: "",
           buttons: [
@@ -319,13 +325,15 @@ export class HomePage implements OnInit {
         console.log('forech home json element ', index);
         if (element.type === "category") {
 
-
           this.categoryService.getCategory(element.category.id).then((dataCategory: any) => {
             element.category_object = dataCategory;
           }, (reason: any) => {
             if (this.oneCatch) {
 
             } else {
+              this.loading.then((load)=>{
+                load.dismiss();
+                                });
               this.oneCatch = true
               console.log("error get category ", reason);
               const alert = this.alertController.create({
@@ -362,6 +370,9 @@ export class HomePage implements OnInit {
             if (this.oneCatch) {
 
             } else {
+              this.loading.then((load)=>{
+                load.dismiss();
+                                });
               this.oneCatch = true
               console.log("error get produit ", reason);
               const alert = this.alertController.create({
@@ -392,6 +403,11 @@ export class HomePage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
+      
         this.oneCatch = true
         console.log("error get home json", reason);
         const alert = this.alertController.create({
@@ -415,6 +431,7 @@ export class HomePage implements OnInit {
     }
     )
     console.log('get home json end');
+    
   }
 
 }
