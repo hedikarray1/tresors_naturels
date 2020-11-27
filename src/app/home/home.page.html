@@ -35,9 +35,9 @@
   <ion-slides class="slides" [options]="slideOptions" pager="true" #slider
     (ionSlidesDidLoad)="ionSlidesDidLoad(slider)">
     <!--  [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" -->
-    <ion-slide class="slide" *ngFor="let imgS of slidesPictures ">
-      <ion-col class="slide-col">
-        <img class="slide-img" src="{{imgS}}" />
+    <ion-slide class="slide" *ngFor="let sldP of slidesPictures ">
+      <ion-col class="slide-col" (click)="goToPub(sldP?.type, sldP?.id, sldP?.name)" >
+        <img class="slide-img" src="{{sldP?.src}}" />
       </ion-col>
     </ion-slide>
   </ion-slides>
@@ -46,35 +46,25 @@
   <div class="category">UNE MARQUE UNE HISTOIRE</div>
   <div class="subcategory">Cosmétiques sains & naturels</div>
   <br />
-<!--
-  <div class="pub_double_container">
-    <ion-img src="http://localhost/offre.png"></ion-img>
-    <ion-img src="http://localhost/selection.png"></ion-img>
-  </div>
-  <br />
-  <div class="pub_single_container">
-    <ion-img src="http://localhost/pub1.jpg"></ion-img>
-  </div>
-  <br />
--->
-  <div *ngFor="let homeItem of homePageJson">
+
+  <div *ngFor="let homeItem1 of homePageJson">
 
     <!-- show category with product-->
-    <div *ngIf="homeItem.type === 'category' ">
+    <div *ngIf="homeItem1.type === 'category' ">
       <ion-card class="category-card">
-        <ion-button *ngIf="homeItem.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn" fill="clear" color="dark">
-          {{homeItem.category.name}}
+        <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn" fill="clear" color="dark">
+          {{homeItem1.category.name}}
         </ion-button>
-        <ion-img class="category-slides-img" src="{{homeItem.category_object?.image?.src}}"> </ion-img>
+        <ion-img class="category-slides-img" src="{{homeItem1.category_object?.image?.src}}"> </ion-img>
         <div class="category-container-slides">
-          <div class="category-slides-title"> {{homeItem.sub_category.name}}</div>
-          <div class="category-slides-viewAll" (click)="goToProductByCategory(homeItem.category.name, homeItem.category.id)">VOIR
+          <div class="category-slides-title"> {{homeItem1.sub_category.name}}</div>
+          <div class="category-slides-viewAll" (click)="goToProductByCategory(homeItem1.category.name, homeItem1.category.id)">VOIR
             PLUS</div>
         </div>
       </ion-card>
 
       <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-        <ion-slide *ngFor="let product of homeItem.product_array" class="slide-product">
+        <ion-slide *ngFor="let product of homeItem1.product_array" class="slide-product">
           <ion-card class="product-card">
 
             <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock">
@@ -125,18 +115,20 @@
 
 
           </ion-card>
+
+
         </ion-slide>
       </ion-slides>
     </div>
 
     <!-- show pub single -->
-    <div class="pub_single_container" *ngIf="homeItem.type === 'pub_single' " >
-      <ion-img src="{{homeItem.images[0]?.src}}" (click)=" goToPub(homeItem.images[0]?.type, homeItem.images[0]?.id,homeItem.images[0]?.name)"></ion-img>
+    <div class="pub_single_container" *ngIf="homeItem1.type === 'pub_single' " >
+      <ion-img src="{{homeItem1.images[0]?.src}}" (click)=" goToPub(homeItem1.images[0]?.type, homeItem1.images[0]?.id,homeItem1.images[0]?.name)"></ion-img>
     </div>
 
     <!-- show pub double -->
-    <div class="pub_double_container" *ngIf="homeItem.type === 'pub_double' "  >
-      <ion-img *ngFor="let imgPub of homeItem.images" src="{{imgPub?.src}}" (click)=" goToPub(imgPub?.type, imgPub?.id,imgPub?.name)"></ion-img>
+    <div class="pub_double_container" *ngIf="homeItem1.type === 'pub_double' "  >
+      <ion-img *ngFor="let imgPub of homeItem1.images" src="{{imgPub?.src}}" (click)=" goToPub(imgPub?.type, imgPub?.id,imgPub?.name)"></ion-img>
     </div>
 
     <br />

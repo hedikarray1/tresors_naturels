@@ -25,6 +25,7 @@ export class AllProductsPage implements OnInit {
   rep = /&amp;/gi;
   loading;
   oneCatch = false;
+  pageAllProducts = 1;
 
   constructor(
     private poductService: ProductService,
@@ -70,7 +71,6 @@ export class AllProductsPage implements OnInit {
     });
 
 
-    await this.getAllProductsPerPage();
 
 
   }
@@ -159,12 +159,18 @@ export class AllProductsPage implements OnInit {
   }
 
 
-  async getAllProducts() {
+  getAllProducts() {
 
-    this.poductService.getAllProductsWooCommerce(100).then((data: any[]) => {
-      
+    this.poductService.getAllProductsWooCommerce2().then((data: any[]) => {
+      this.pageAllProducts = 1;
+      console.log("all product :", this.poductService.totalProducts);
       this.allProducts = data;
+      if (this.pageAllProducts < this.poductService.pages) {
+        this.pageAllProducts++;
+        this.getAllProducts2(this.pageAllProducts);
+      }
       console.log("All product :", this.allProducts);
+
     }).catch(async (reason) => {
       if (this.oneCatch) {
 
@@ -180,8 +186,8 @@ export class AllProductsPage implements OnInit {
               text: "D'accord",
               cssClass: 'btn-alert-connexion',
               handler: () => {
-                alert.dismiss();
                 this.oneCatch = false;
+                alert.dismiss();
               }
             },
           ]
@@ -189,7 +195,47 @@ export class AllProductsPage implements OnInit {
         await alert.present();
       }
     });
+  }
 
+  getAllProducts2(page) {
+
+    this.poductService.getAllProductsWooCommerce2(page).then((data: any[]) => {
+      console.log("product page " + this.pageAllProducts + " :", data);
+
+      if (this.allProducts.length <= this.poductService.totalProducts) {
+        this.allProducts = [...this.allProducts, ...data];
+      }
+      if (this.pageAllProducts < this.poductService.pages) {
+        this.pageAllProducts++;
+        this.getAllProducts2(this.pageAllProducts);
+      }
+
+      console.log("All product page " + this.pageAllProducts + " : ", this.allProducts);
+
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.oneCatch = true
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                this.oneCatch = false;
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
+    });
   }
 
   loadMore(event) {
@@ -236,75 +282,6 @@ export class AllProductsPage implements OnInit {
     this.router.navigateByUrl('detail-produit/' + id);
   }
 
-  addToCart(p) {
-    console.log("adding to cart");
-    let product = [
-      {
-        "product_id": p.id,
-        "variation_id": 0,
-        "quantity": 1
-      }
-    ]
-    console.log("saving");
-    if (this.userState) {
-      this.storage.get('auth-user').then((val) => {
-        console.log('auth-user', val);
-        this.panierService.addToCartOnServer(product, val.id).then((res: any[]) => {
-          console.log("panier", res);
-
-        }).catch(async (reason) => {
-          if (this.oneCatch) {
-    
-          } else {
-            this.oneCatch = true
-            const alert = await this.alertController.create({
-              header: "Erreur lors de l'ajout du produit dans le panier ",
-              mode: 'ios',
-              message: "",
-              buttons: [
-    
-                {
-                  text: "D'accord",
-                  cssClass: 'btn-alert-connexion',
-                  handler: () => {
-                    alert.dismiss();
-                    this.oneCatch = false
-                  }
-                },
-              ]
-            });
-            await alert.present();
-          }
-        });
-    
-      }).catch(async (reason) => {
-        if (this.oneCatch) {
-  
-        } else {
-          this.oneCatch = true
-          const alert = await this.alertController.create({
-            header: "Erreur lors du chargement de la page",
-            mode: 'ios',
-            message: "",
-            buttons: [
-  
-              {
-                text: "D'accord",
-                cssClass: 'btn-alert-connexion',
-                handler: () => {
-                  alert.dismiss();
-                  this.oneCatch = false;
-                }
-              },
-            ]
-          });
-          await alert.present();
-        }
-      });
-  
-    }
-
-  }
 
   async showPopoverPanier(event: MouseEvent, product) {
     const popover = await this.popoverController.create({

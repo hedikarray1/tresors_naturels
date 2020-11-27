@@ -46,6 +46,7 @@ export class WoocommerceService {
   }
 
 
+
   authenticateApiForPost(method,url,params) {
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     this.nonce ='';

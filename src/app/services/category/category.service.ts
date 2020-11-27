@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { WoocommerceService } from './../woocommerce.service';
 import { Injectable } from '@angular/core';
+import { param } from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,14 @@ export class CategoryService {
 
   getCategory(id) {
     let myUrl = this.WoocommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/categories/" + id, {});
+    return this.http.get(myUrl).toPromise();
+  }
+
+  getCategoryHome(include) {
+    let params = {
+      "include": include
+    }
+    let myUrl = this.WoocommerceService.authenticateApiForPost('GET', environment.apiURL + "wc/v3/products/categories",params );
     return this.http.get(myUrl).toPromise();
   }
 

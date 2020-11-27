@@ -57,6 +57,29 @@ export class ProductService {
     })).toPromise();
   }
 
+  getAllProductsWooCommerce2(page = 1) {
+
+
+    let options = {
+      observe: "response" as 'body'
+    };
+
+    let params = {
+      per_page: '100',
+      page: '' + page
+    };
+
+    console.log("params recherche", params);
+
+    let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products", params);
+    return this.http.get(myUrl, options).pipe(map((res: any[]) => {
+      this.pages = res['headers'].get('x-wp-totalpages');
+      this.totalProducts = res['headers'].get('x-wp-total');
+      let data = res['body'];
+      return data;
+    })).toPromise();
+  }
+
   getproduct(id) {
     let myUrl = this.WooCommerceService.authenticateApi('GET', environment.apiURL + "wc/v3/products/" + id, {});
     return this.http.get(myUrl).toPromise();
