@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { Storage } from '@ionic/storage';
 import { async } from '@angular/core/testing';
@@ -37,7 +38,9 @@ oneCatch = false;
     private storageService: StorageService,
     private storage: Storage,   
     private alertController: AlertController,
-    private popoverController : PopoverController
+    private popoverController : PopoverController,
+    private GLobalVarService:GlobalVarServiceService
+
   ) { }
 
   async ngOnInit() {
@@ -282,10 +285,17 @@ this.showAlertLogin();
               },
             ]
           });
+         
           await alert.present();
 
-        })
-      })
+          this.panierService.getCartItemNbr(val.id).then((d1)=>{
+            this.GLobalVarService.publishSomeData({
+              PanierNbr: d1["data"]
+          });
+        });
+
+        });
+      });
     } else {
 
       this.showAlertLogin(); 
@@ -332,6 +342,12 @@ this.showAlertLogin();
               },
             ]
           });
+          this.panierService.getCartItemNbr(val.id).then((d1)=>{
+            this.GLobalVarService.publishSomeData({
+              PanierNbr: d1["data"]
+          });
+        });
+
           await alert.present();
         })
       })

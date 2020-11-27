@@ -18,6 +18,7 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 //import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
 import { IonicStorageModule } from '@ionic/storage';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 
 
@@ -42,7 +43,8 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FirebaseX,
-    Clipboard
+    Clipboard,
+    Network
    
   ],
   bootstrap: [AppComponent]

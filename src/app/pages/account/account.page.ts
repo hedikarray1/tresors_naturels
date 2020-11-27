@@ -55,6 +55,9 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -109,6 +112,9 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -151,6 +157,9 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -197,6 +206,9 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -311,6 +323,9 @@ export class AccountPage implements OnInit {
         if (this.oneCatch) {
 
         } else {
+          this.loading.then((load)=>{
+            load.dismiss();
+                            });
           this.oneCatch = true
           const alert = await this.alertController.create({
             header: "Erreur lors du chargement de la page",
@@ -335,6 +350,9 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",

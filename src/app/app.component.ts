@@ -108,7 +108,7 @@ export class AppComponent implements OnInit {
   ) {
 
     this.initializeApp();
-
+/*
 // watch network for a disconnection mobile
 let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
   console.log('network was disconnected :-(');
@@ -129,8 +129,8 @@ let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
 
 // stop disconnect watch
 disconnectSubscription.unsubscribe();
-
-
+*/
+/*
 // watch network for a connection mobile
 let connectSubscription = this.network.onConnect().subscribe(() => {
   console.log('network connected!');
@@ -167,7 +167,7 @@ let connectSubscription = this.network.onConnect().subscribe(() => {
 // stop connect watch
 connectSubscription.unsubscribe();
 
-
+*/
 
     //check offline or online for web
     window.addEventListener('offline', () => {

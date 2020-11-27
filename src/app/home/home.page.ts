@@ -195,9 +195,12 @@ export class HomePage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
+          header: "Erreur lors du chargement de la page 1",
           mode: 'ios',
           message: "",
           buttons: [
@@ -230,9 +233,12 @@ export class HomePage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
         this.oneCatch = true
         const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
+          header: "Erreur lors du chargement de la page 2",
           mode: 'ios',
           message: "",
           buttons: [
@@ -259,11 +265,12 @@ export class HomePage implements OnInit {
   getHomeJson() {
     this.homePageJson = [];
     console.log('get home json start');
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/homePage.json").toPromise().then((res: any) => {
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/homePage.json").toPromise().then((res: any[]) => {
 
     
       this.homePageJson = res;
       this.homePageJson = this.homePageJson.slice().sort((a, b) => a.level - b.level);
+   
       let i = 0
       this.homePageJson.forEach(element => {
         if (element.type === "category") {
@@ -274,9 +281,12 @@ export class HomePage implements OnInit {
             if (this.oneCatch) {
       
             } else {
+              this.loading.then((load)=>{
+                load.dismiss();
+                                });
               this.oneCatch = true
               const alert = await this.alertController.create({
-                header: "Erreur lors du chargement de la page",
+                header: "Erreur lors du chargement de la page 3",
                 mode: 'ios',
                 message: "",
                 buttons: [
@@ -295,18 +305,23 @@ export class HomePage implements OnInit {
             }
           });
 
-          this.poductService.getProductsWithPrams(element.procduct).then((dataProducts: any[]) => {
+          this.poductService.getProductsWithPrams(element.product).then((dataProducts: any[]) => {
               element.product_array = dataProducts['body'] ;
-              if (this.homePageJson.length/2 <= i+1){
-               
+              if (this.homePageJson.length <= i+1){
+                this.loading.then((load) => {
+                  load.dismiss();
+                });
               }
           }).catch(async (reason) => {
             if (this.oneCatch) {
       
             } else {
+              this.loading.then((load)=>{
+                load.dismiss();
+                                });
               this.oneCatch = true
               const alert = await this.alertController.create({
-                header: "Erreur lors du chargement de la page",
+                header: "Erreur lors du chargement de la page 4",
                 mode: 'ios',
                 message: "",
                 buttons: [
@@ -328,16 +343,19 @@ export class HomePage implements OnInit {
         i++;
       });
       console.log('home json : ',this.homePageJson) ;
-      this.loading.then((load) => {
-        load.dismiss();
-      });
-    }).catch(async (reason) => {
+     //loading was here
+     
+    },(error:any)=>{
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load)=>{
+          load.dismiss();
+                          });
+        console.log("raison 5: ",error);
         this.oneCatch = true
-        const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
+        const alert =  this.alertController.create({
+          header: "Erreur lors du chargement de la page 5",
           mode: 'ios',
           message: "",
           buttons: [
@@ -347,15 +365,17 @@ export class HomePage implements OnInit {
               cssClass: 'btn-alert-connexion',
               handler: () => {
                 this.oneCatch = false;
-                alert.dismiss();
+                alert.then((al)=>{al.dismiss()});
+               
               }
             },
           ]
         });
-        await alert.present();
+         alert.then((al)=>{al.present()});
       }
     });
     console.log('get home json end');
+    
   }
 
 }
