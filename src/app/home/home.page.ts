@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { PanierModalPage } from './../pages/panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../pages/popovers/popover-card-product/popover-card-product.page';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { ProductService } from './../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuController, ModalController, PopoverController, IonSlides, AlertController, LoadingController } from '@ionic/angular';
@@ -61,6 +61,33 @@ export class HomePage implements OnInit {
 
   ionSlidesDidLoad(slides: IonSlides) {
     slides.startAutoplay();
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.loading = this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+
+    });
+    this.loading.then((load) => {
+      load.present();
+    });
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
+
+      this.getSlidesNbr();
+      this.getHomeJson();
+      this.getAllProducts();
+    });
+
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 
 

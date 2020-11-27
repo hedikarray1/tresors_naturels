@@ -1,7 +1,6 @@
 import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { Storage } from '@ionic/storage';
-import { async } from '@angular/core/testing';
 import { PanierService } from './../../services/panier/panier.service';
 import { StorageService } from './../../services/storage/storage.service';
 import { LoadingController, AlertController, PopoverController } from '@ionic/angular';
@@ -66,6 +65,9 @@ oneCatch = false;
 
       } else {
         this.oneCatch = true
+        this.loading.then((load)=>{
+          load.dismiss();
+                      });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -160,6 +162,9 @@ oneCatch = false;
         if (this.oneCatch) {
   
         } else {
+          this.loading.then((load)=>{
+            load.dismiss();
+                        });
           this.oneCatch = true
           const alert = await this.alertController.create({
             header: "Erreur lors du chargement de la page",

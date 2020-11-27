@@ -11,7 +11,28 @@
  }
 
  form {
-    width: 100%;
+    width: 80%;
+    margin: auto;
+    
+ }
+
+ .row-register-btn {
+     margin-top: 3%;
+ }
+
+ .container-logo-register {
+    margin-top: 15%;
+    margin-bottom: 10%;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+     img {
+        width: 55%;
+   
+    align-self: center;
+     }
  }
 
 ion-card-content {

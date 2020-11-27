@@ -1,7 +1,6 @@
 import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { async } from '@angular/core/testing';
 import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
 import { LoadingController, ModalController, AlertController } from '@ionic/angular';
@@ -88,6 +87,9 @@ export class PanierModalPage implements OnInit {
     
           } else {
             this.oneCatch = true
+            this.loading.then((load)=>{
+              load.dismiss();
+                          });
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',

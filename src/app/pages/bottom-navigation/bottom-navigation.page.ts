@@ -1,12 +1,11 @@
 import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
-import { async } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { PanierService } from './../../services/panier/panier.service';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { interval, Subscription } from 'rxjs';
+import {  Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bottom-navigation',
@@ -83,27 +82,11 @@ export class BottomNavigationPage implements OnInit {
       cssClass: 'cart-modal'
     });
     modal.onWillDismiss().then(() => {
-      //   this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
-      //  this.animateCSS('bounceInLeft');
+     
     });
     modal.present();
   }
-  /*
-   animateCSS(animationName, keepAnimated = false) {
-     const node = this.fab.nativeElement;
-     node.classList.add('animated', animationName)
-     
-     //https://github.com/daneden/animate.css
-     function handleAnimationEnd() {
-       if (!keepAnimated) {
-         node.classList.remove('animated', animationName);
-       }
-       node.removeEventListener('animationend', handleAnimationEnd)
-     }
-     node.addEventListener('animationend', handleAnimationEnd)
-   }
- */
-
+ 
 
   logOut() {
     this.storage.clear();

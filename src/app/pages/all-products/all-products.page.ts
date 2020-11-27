@@ -3,9 +3,7 @@ import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { PanierService } from './../../services/panier/panier.service';
 import { StorageService } from './../../services/storage/storage.service';
-import { CategoryService } from './../../services/category/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { async } from '@angular/core/testing';
 import { LoadingController, ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
@@ -49,6 +47,9 @@ export class AllProductsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -94,6 +95,10 @@ export class AllProductsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -136,6 +141,9 @@ export class AllProductsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -175,6 +183,9 @@ export class AllProductsPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -216,6 +227,9 @@ export class AllProductsPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -255,6 +269,9 @@ export class AllProductsPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",

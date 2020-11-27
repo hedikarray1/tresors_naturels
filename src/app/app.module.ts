@@ -13,9 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-//import { FCM } from '@ionic-native/fcm/ngx'
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
-//import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
 import { IonicStorageModule } from '@ionic/storage';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Network } from '@ionic-native/network/ngx';

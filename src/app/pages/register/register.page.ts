@@ -13,12 +13,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 export class RegisterPage implements OnInit {
 
   register1Form: FormGroup;
-  shippingForm: FormGroup;
-  billingForm: FormGroup;
   //register2Form: FormGroup;
 
   userRegistred: any = {};
-loading;
+  loading;
   passwordType: string = 'password';
   passwordIcon: string = 'eye-off';
 
@@ -62,21 +60,13 @@ loading;
     private fb: FormBuilder,
     private alertController: AlertController,
     private router: Router,
-   
     private loadingCtrl: LoadingController,
-    private storage: Storage,
+    private storage: Storage
   ) { }
 
-  ngAfterViewInit() {
-    this.slides.lockSwipes(true);
-  }
-
-  ionViewDidLoad(){
-    this.slides.lockSwipes(true);
-  }
 
   ngOnInit() {
-    
+
     this.register1Form = this.fb.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -108,31 +98,6 @@ loading;
       }
     );
 
-    this.billingForm = this.fb.group({
-      first_name: new FormControl(''),
-      last_name: new FormControl(''),
-      company: new FormControl(''),
-      address_1: new FormControl(''),
-      address_2: new FormControl(''),
-      city: new FormControl(''),
-      postcode: new FormControl(''),
-      country: new FormControl(''),
-      email: new FormControl(''),
-      phone: new FormControl(''),
-    });
-
-
-    this.shippingForm = this.fb.group({
-      first_name: new FormControl(''),
-      last_name: new FormControl(''),
-      company: new FormControl(''),
-      address_1: new FormControl(''),
-      address_2: new FormControl(''),
-      city: new FormControl(''),
-      postcode: new FormControl(''),
-      country: new FormControl(''),
-    });
-
 
   }
 
@@ -140,35 +105,41 @@ loading;
   async createuser() {
 
     console.log(this.register1Form.value);
-    this.loading =  this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-     
+
     });
-    this.loading.then((load)=>{
+    this.loading.then((load) => {
       load.present();
-        });
+    });
 
     this.userService.createUser(this.register1Form.value).then(
 
       async (data: any) => {
 
         console.log("response register ", data);
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                });
-          
+        });
+
 
         this.userRegistred = data;
-        this.swipeNext();
+        this.storage.remove('auth-user');
+        this.storage.set('auth-user', this.userRegistred);
+
+        this.storage.remove('user-state');
+        this.storage.set('user-state', true);
+
+        this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
 
       }, async (err) => {
         console.log("error", err);
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                });
-          
+        });
+
 
         const alert = await this.alertController.create({
           header: 'Erreur lors de la creation de compte',
@@ -184,85 +155,6 @@ loading;
     );
   }
 
-  async updateUser() {
-    console.log(this.shippingForm.value);
-    console.log(this.billingForm.value);
-    this.billingForm.value.phone =   this.billingForm.value.phone +'';
-    this.userRegistred.billing = this.billingForm.value;
-    this.userRegistred.shipping = this.shippingForm.value;
-    this.loading =  this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-     
-    });
-    this.loading.then((load)=>{
-      load.present();
-        });
-
-    this.userService.updateUser(this.userRegistred).then(
-
-      async (data: any) => {
-
-        console.log("response register ", data)
-        this.loading.then((load)=>{
-          load.dismiss();
-                });
-
-        this.storage.remove('auth-user');
-        this.storage.set('auth-user', data);
-
-        this.storage.remove('user-state');
-        this.storage.set('user-state', true);
-
-        this.router.navigateByUrl('/bottom-navigation');
-
-      }, async (err) => {
-        console.log("error", err);
-        this.loading.then((load)=>{
-          load.dismiss();
-                });
-        err.error.message.replace('billing','Facturation');
-        err.error.message.replace('shipping','Livraison');
-        if (err.error.data.params.billing){
-          const alert = await this.alertController.create({
-            header: 'Erreur lors de la creation de compte',
-            message: "<p>"+err.error.message.replace('billing','Facturation') +"</p>"+ "<p>"+err.error.data.params.billing +"</p>"   ,
-            buttons: [{
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-            }],
-          });
-          await alert.present();
-        }
-       else if (err.error.data.params.shipping){
-          const alert = await this.alertController.create({
-            header: 'Erreur lors de la creation de compte',
-            message: "<p>"+err.error.message.replace('shipping','Livraison') +"</p>"+  "<p>"+err.error.data.params.shipping +"</p>"  ,
-            buttons: [{
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-            }],
-          });
-          await alert.present();
-        }else {
-          const alert = await this.alertController.create({
-            header: 'Erreur lors de la creation de compte',
-            message: err.error.message ,
-            buttons: [{
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-            }],
-          });
-          await alert.present();
-        }
-        
-      
-      }
-
-    );
-
-  }
 
   matchingPasswords(passwordKey: string, confirmPasswordKey: string) {
 
@@ -278,18 +170,6 @@ loading;
     }
   }
 
-
-
-  swipeNext() {
-    this.slides.lockSwipes(false);
-    this.slides.slideNext();
-    this.slides.lockSwipes(true);
-  }
-  swipePrev() {
-    this.slides.lockSwipes(false);
-    this.slides.slidePrev();
-    this.slides.lockSwipes(true);
-  }
 
 
   hideShowPassword() {

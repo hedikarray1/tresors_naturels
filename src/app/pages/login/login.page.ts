@@ -1,12 +1,9 @@
-import { PanierService } from './../../services/panier/panier.service';
 import { Storage } from '@ionic/storage';
-import { StorageService } from './../../services/storage/storage.service';
-import { async } from '@angular/core/testing';
 import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, MenuController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +21,7 @@ loading;
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private storage: Storage,
-  
   ) { 
-   
   }
 
   ngOnInit() {

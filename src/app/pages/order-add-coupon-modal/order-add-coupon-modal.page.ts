@@ -1,6 +1,5 @@
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { async } from '@angular/core/testing';
 import { OrderService } from './../../services/order/order.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, LoadingController, AlertController } from '@ionic/angular';

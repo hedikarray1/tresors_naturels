@@ -118,6 +118,9 @@ export class MyOrderDetailsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load)=>{
+          load.dismiss();
+                      });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
