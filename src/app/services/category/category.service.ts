@@ -4,8 +4,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { WoocommerceService } from './../woocommerce.service';
 import { Injectable } from '@angular/core';
-import { param } from 'jquery';
-
 @Injectable({
   providedIn: 'root'
 })
