@@ -7,8 +7,6 @@ import { StorageService } from './../../services/storage/storage.service';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, LoadingController, ToastController, AlertController } from '@ionic/angular';
-import { min } from 'rxjs/operators';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { Router } from '@angular/router';
 
 @Component({
@@ -55,10 +53,11 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                          });
+        });
         this.oneCatch = true
+        console.log("error get user state", reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -103,6 +102,15 @@ export class AccountPage implements OnInit {
 
 
   doRefresh(event) {
+    this.loading = this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+
+    });
+    this.loading.then((load) => {
+      load.present();
+    });
     console.log('Begin async operation');
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
@@ -112,10 +120,11 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                          });
+        });
         this.oneCatch = true
+        console.log("error get user state", reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -135,11 +144,7 @@ export class AccountPage implements OnInit {
         await alert.present();
       }
     });
-    /*
-        this.form = this.formBuilder.group({
-          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
-    
-        });*/
+
     setTimeout(() => {
 
       console.log('Async operation has ended');
@@ -149,55 +154,15 @@ export class AccountPage implements OnInit {
 
 
   ngOnInit() {
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-      this.getUserData();
-    }).catch(async (reason) => {
-      if (this.oneCatch) {
-
-      } else {
-        this.loading.then((load)=>{
-          load.dismiss();
-                          });
-        this.oneCatch = true
-        const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
-          mode: 'ios',
-          message: "",
-          buttons: [
-
-            {
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-              handler: () => {
-                alert.dismiss();
-                this.oneCatch = false;
-              }
-            },
-          ]
-        });
-        await alert.present();
-      }
-    });
-
-    /*
-        this.form = this.formBuilder.group({
-          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
-    
-        });*/
-  }
-  ionViewDidEnter() {
-    // this.presentLoadingCustom();
-    this.loading =  this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-     
+
     });
-    this.loading.then((load)=>{
+    this.loading.then((load) => {
       load.present();
-        });
+    });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -206,10 +171,11 @@ export class AccountPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                          });
+        });
         this.oneCatch = true
+        console.log("error get user state", reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -229,10 +195,44 @@ export class AccountPage implements OnInit {
         await alert.present();
       }
     });
-    /* this.form = this.formBuilder.group({
-       points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData + "")), Validators.required]))
-     });
- */
+ 
+  }
+  ionViewDidEnter() {
+    // this.presentLoadingCustom();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserData();
+    }).catch(async (reason) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        this.oneCatch = true
+        console.log("error get user state", reason);
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+              }
+            },
+          ]
+        });
+        await alert.present();
+      }
+    });
+ 
+
   }
   displayHideFacturationCard() {
     this.livraison = false;
@@ -299,7 +299,7 @@ export class AccountPage implements OnInit {
 
   getUserData() {
     this.User = {};
-
+if ( this.userState ){
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
       this.UserService.getUserById(val.id).then((data: any) => {
@@ -307,7 +307,15 @@ export class AccountPage implements OnInit {
         let metadataArray: any[] = [];
         metadataArray = data.meta_data;
         this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
-        // console.log("points: ",metadataArray.filter(x=>x.key=="_acfw_loyalprog_user_total_points"));
+
+        console.log('user connecte : ', this.User);
+
+        if (this.User.pointsData === undefined) {
+          this.User.pointsData = {
+            value: 0
+          }
+        }
+
         console.log('points : ', this.User.pointsData);
         this.form = this.formBuilder.group({
           points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
@@ -323,10 +331,11 @@ export class AccountPage implements OnInit {
         if (this.oneCatch) {
 
         } else {
-          this.loading.then((load)=>{
+          this.loading.then((load) => {
             load.dismiss();
-                            });
+          });
           this.oneCatch = true
+          console.log("error getUserById", reason);
           const alert = await this.alertController.create({
             header: "Erreur lors du chargement de la page",
             mode: 'ios',
@@ -346,34 +355,13 @@ export class AccountPage implements OnInit {
           await alert.present();
         }
       });
-    }).catch(async (reason) => {
-      if (this.oneCatch) {
-
-      } else {
-        this.loading.then((load)=>{
-          load.dismiss();
-                          });
-        this.oneCatch = true
-        const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
-          mode: 'ios',
-          message: "",
-          buttons: [
-
-            {
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-              handler: () => {
-                alert.dismiss();
-                this.oneCatch = false;
-              }
-            },
-          ]
-        });
-        await alert.present();
-      }
     });
-
+}else {
+  this.loading.then((load) => {
+    load.dismiss();
+  });
+}
+  
   }
 
   updateUser() {
@@ -383,8 +371,9 @@ export class AccountPage implements OnInit {
       this.facturation = false;
       this.livraison = false;
     }).catch(async (reason) => {
-
+     
       this.oneCatch = true
+      console.log("error updateUser", reason);
       const alert = await this.alertController.create({
         header: "Erreur lors de la mise à jour des données de l'utilisateur",
         mode: 'ios',
@@ -432,6 +421,7 @@ export class AccountPage implements OnInit {
     }).catch(async (reason) => {
 
       this.oneCatch = true
+      console.log("error generateCoupon", reason);
       const alert = await this.alertController.create({
         header: "Erreur lors de la génération du coupon",
         mode: 'ios',

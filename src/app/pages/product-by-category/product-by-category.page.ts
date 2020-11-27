@@ -38,6 +38,10 @@ export class ProductByCategoryPage implements OnInit {
   ionViewDidEnter() {
 
     //   this.presentLoadingCustom();
+    
+  }
+
+  ngOnInit() {
     this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
@@ -55,16 +59,7 @@ export class ProductByCategoryPage implements OnInit {
     this.idCategory = this.route.snapshot.paramMap.get('id');
     this.getCategory()
   }
-
-  ngOnInit() {
-    this.storage.get('user-state').then((val) => {
-      console.log('user state', val);
-      this.userState = val;
-    });
-    this.category = this.route.snapshot.paramMap.get('category');
-    this.idCategory = this.route.snapshot.paramMap.get('id');
-    this.getCategory()
-  }
+  
   doRefresh(event) {
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);

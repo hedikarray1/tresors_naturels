@@ -1,5 +1,4 @@
 import { Network } from '@ionic-native/network/ngx';
-import { BottomNavigationPage } from './pages/bottom-navigation/bottom-navigation.page';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
 import { NoInternetPage } from './pages/no-internet/no-internet.page';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';

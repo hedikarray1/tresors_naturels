@@ -24,3 +24,12 @@ font-family: 'Cormorant-SemiBoldItalic';
 text-align: center;
 }
 
+.btn-internet-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+ion-button {
+    margin: 0% 30%;
+}

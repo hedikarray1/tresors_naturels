@@ -3,9 +3,7 @@ import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
 import { PanierService } from './../../services/panier/panier.service';
 import { StorageService } from './../../services/storage/storage.service';
-import { CategoryService } from './../../services/category/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { async } from '@angular/core/testing';
 import { LoadingController, ModalController, PopoverController, AlertController } from '@ionic/angular';
 import { ProductService } from './../../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
@@ -41,42 +39,6 @@ export class AllProductsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-    }).catch(async (reason) => {
-      if (this.oneCatch) {
-
-      } else {
-        this.oneCatch = true
-        const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page",
-          mode: 'ios',
-          message: "",
-          buttons: [
-
-            {
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-              handler: () => {
-                alert.dismiss();
-                this.oneCatch = false;
-
-              }
-            },
-          ]
-        });
-        await alert.present();
-      }
-    });
-
-
-
-
-  }
-
-  ionViewDidEnter() {
-
     this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
@@ -94,6 +56,10 @@ export class AllProductsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -116,6 +82,14 @@ export class AllProductsPage implements OnInit {
 
 
     this.getAllProductsPerPage();
+
+
+
+  }
+
+  ionViewDidEnter() {
+
+
   }
 
 
@@ -136,6 +110,9 @@ export class AllProductsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -175,6 +152,9 @@ export class AllProductsPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -216,6 +196,9 @@ export class AllProductsPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -255,6 +238,9 @@ export class AllProductsPage implements OnInit {
       if (this.oneCatch) {
 
       } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         this.oneCatch = true
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",

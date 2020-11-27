@@ -1,9 +1,7 @@
 import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { AlertController, LoadingController } from '@ionic/angular';
-import { async } from '@angular/core/testing';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -56,6 +54,11 @@ export class PanierPage implements OnInit {
 
   ionViewDidEnter() {
     //this.presentLoadingCustom();
+    
+   
+  }
+
+  ngOnInit() {
     this.panierModifier = false;
     this.totale = 0;
     this.loading =  this.loadingCtrl.create({
@@ -67,19 +70,6 @@ export class PanierPage implements OnInit {
     this.loading.then((load)=>{
       load.present();
         });
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-      this.getPanier();
-    });
-
-    console.log("userState", this.userState);
-   
-  }
-
-  ngOnInit() {
-    this.totale = 0;
-    this.panierModifier = false;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -109,6 +99,9 @@ export class PanierPage implements OnInit {
           if (this.oneCatch) {
     
           } else {
+            this.loading.then((load) => {
+              load.dismiss();
+            });
             this.oneCatch = true
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
@@ -130,6 +123,10 @@ export class PanierPage implements OnInit {
             await alert.present();
           }
         });
+      });
+    }else{
+      this.loading.then((load) => {
+        load.dismiss();
       });
     }
   }

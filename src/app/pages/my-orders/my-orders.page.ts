@@ -46,12 +46,20 @@ export class MyOrdersPage implements OnInit {
      ) { }
 
   ngOnInit() {
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-      this.getUserdata();
-    
+    this.loading =  this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+     
     });
+    this.loading.then((load)=>{
+      load.present();
+        });
+      this.storage.get('user-state').then((val) => {
+        console.log('user-state', val);
+        this.userState = val;
+        this.getUserdata();
+      });
   } 
 
 
@@ -71,20 +79,7 @@ export class MyOrdersPage implements OnInit {
 
   ionViewDidEnter() {
   //  this.presentLoadingCustom();
-  this.loading =  this.loadingCtrl.create({
-    spinner: null,
-    cssClass: 'custom-loading',
-    message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-   
-  });
-  this.loading.then((load)=>{
-    load.present();
-      });
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-      this.getUserdata();
-    });
+  
    
   }
 
@@ -105,6 +100,9 @@ export class MyOrdersPage implements OnInit {
     
           } else {
             this.oneCatch = true
+            this.loading.then((load)=>{
+              load.dismiss();
+                          });
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',
@@ -153,6 +151,9 @@ load.dismiss();
 
       } else {
         this.oneCatch = true
+        this.loading.then((load)=>{
+          load.dismiss();
+                      });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',

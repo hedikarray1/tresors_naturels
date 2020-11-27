@@ -1,4 +1,3 @@
-import { async } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { OrderAddCouponModalPage } from './../order-add-coupon-modal/order-add-coupon-modal.page';
 import { Storage } from '@ionic/storage';
@@ -113,6 +112,9 @@ export class OrderPage implements OnInit {
     
           } else {
             this.oneCatch = true
+            this.loading.then((load)=>{
+              load.dismiss();
+                          });
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',
@@ -152,6 +154,9 @@ export class OrderPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load)=>{
+          load.dismiss();
+                      });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -186,6 +191,9 @@ export class OrderPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load)=>{
+          load.dismiss();
+                      });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -228,6 +236,9 @@ export class OrderPage implements OnInit {
     
           } else {
             this.oneCatch = true
+            this.loading.then((load)=>{
+              load.dismiss();
+                          });
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',

@@ -1,5 +1,4 @@
 import { Storage } from '@ionic/storage';
-import { StorageService } from './../storage/storage.service';
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { WoocommerceService } from './../woocommerce.service';
