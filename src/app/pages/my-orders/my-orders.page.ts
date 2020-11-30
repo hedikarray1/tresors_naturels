@@ -98,6 +98,9 @@ export class MyOrdersPage implements OnInit {
           console.log("is online", data);
           this.current_user = data;
           this.getOrders();
+          this.loading.then((load) => {
+            load.dismiss();
+          });
         }).catch(async (reason) => {
           if (this.oneCatch) {
 
@@ -130,7 +133,9 @@ export class MyOrdersPage implements OnInit {
 
     } else {
       console.log("is not online");
-
+      this.loading.then((load) => {
+        load.dismiss();
+      });
       this.current_user = { id: 0 };
     }
 
