@@ -24,7 +24,7 @@ export class MyOrdersPage implements OnInit {
   current_user: any;
   payment_methodes: any[];
   orders: any[] = [];
-  not_empty=true;
+  not_empty = true;
   loading;
   status = {
     "pending": { title: "en attente", color: "warning" },
@@ -36,31 +36,31 @@ export class MyOrdersPage implements OnInit {
     "failed": { title: "échec", color: "danger" },
     "trash": { title: "En corbeille", color: "danger" }
   }
-  constructor(private router: Router, 
-    private modalCtrl: ModalController, 
+  constructor(private router: Router,
+    private modalCtrl: ModalController,
     private storage: Storage,
-     private OrderService: OrderService, 
-     private UserService: UserService,
-     private alertController: AlertController,
-     private loadingCtrl:LoadingController
-     ) { }
+    private OrderService: OrderService,
+    private UserService: UserService,
+    private alertController: AlertController,
+    private loadingCtrl: LoadingController
+  ) { }
 
   ngOnInit() {
-    this.loading =  this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-     
+
     });
-    this.loading.then((load)=>{
+    this.loading.then((load) => {
       load.present();
-        });
-      this.storage.get('user-state').then((val) => {
-        console.log('user-state', val);
-        this.userState = val;
-        this.getUserdata();
-      });
-  } 
+    });
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getUserdata();
+    });
+  }
 
 
   doRefresh(event) {
@@ -75,12 +75,15 @@ export class MyOrdersPage implements OnInit {
       event.target.complete();
     }, 2000);
   }
-  
+
 
   ionViewDidEnter() {
-  //  this.presentLoadingCustom();
-  
-   
+    //  this.presentLoadingCustom();
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+    });
+
   }
 
   async getUserdata() {
@@ -97,25 +100,25 @@ export class MyOrdersPage implements OnInit {
           this.getOrders();
         }).catch(async (reason) => {
           if (this.oneCatch) {
-    
+
           } else {
             this.oneCatch = true
-            this.loading.then((load)=>{
+            this.loading.then((load) => {
               load.dismiss();
-                          });
+            });
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',
               message: "",
               buttons: [
-    
+
                 {
                   text: "D'accord",
                   cssClass: 'btn-alert-connexion',
                   handler: () => {
                     alert.dismiss();
                     this.oneCatch = false;
-    
+
                   }
                 },
               ]
@@ -124,7 +127,7 @@ export class MyOrdersPage implements OnInit {
           }
         });
       });
-    
+
     } else {
       console.log("is not online");
 
@@ -136,24 +139,24 @@ export class MyOrdersPage implements OnInit {
   getOrders() {
     this.OrderService.getMyOrders(this.current_user.id).then((data: any[]) => {
       this.orders = data;
-      if(this.orders.length>0){
-        this.not_empty=true;
-      }else{
-        this.not_empty=false;
+      if (this.orders.length > 0) {
+        this.not_empty = true;
+      } else {
+        this.not_empty = false;
 
       }
 
-      this.loading.then((load)=>{
-load.dismiss();
+      this.loading.then((load) => {
+        load.dismiss();
       });
     }).catch(async (reason) => {
       if (this.oneCatch) {
 
       } else {
         this.oneCatch = true
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                      });
+        });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',

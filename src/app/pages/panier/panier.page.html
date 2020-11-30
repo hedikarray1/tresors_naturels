@@ -8,16 +8,12 @@
       <img src="../../../assets/logo/logo2.png" />
     </ion-title>
    
-    <ion-buttons slot="end">
-      <ion-button >
-        <ion-icon slot="icon-only"  color="dark"  slot="end"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    
     
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf='(userState && panier.length != 0  )|| (userState &&  !loaded )' >
+<ion-content *ngIf='(userState && panier.length != 0  )' >
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -75,7 +71,7 @@
 
 </ion-content>
 
-<ion-content *ngIf='!userState'>
+<ion-content class="bachground-content" *ngIf='!userState'>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -88,7 +84,7 @@
 
 </ion-content>
 
-<ion-content *ngIf='userState && panier.length == 0 && loaded'>
+<ion-content class="bachground-content" *ngIf='userState && panier.length == 0'>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

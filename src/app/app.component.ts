@@ -103,71 +103,31 @@ export class AppComponent implements OnInit {
     private AlertCTRL: AlertController,
     private panierService: PanierService,
     private loadingCtrl: LoadingController,
-    private network:Network
+    private network: Network
   ) {
 
     this.initializeApp();
-/*
-// watch network for a disconnection mobile
-let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-  console.log('network was disconnected :-(');
- 
-  //Do task when no internet connection
-  this.modal = this.modalCtrl.create({
-    component: NoInternetPage,
-    cssClass: 'no-connection-modal'
-  });
-  this.modal.then((mod) => {
-    mod.present();
-  });
-  this.goneOffline = true;
 
+    this.firebaseX.getToken().then(async token => {
+      console.log(token);
 
-  
-});
+    });
 
-// stop disconnect watch
-disconnectSubscription.unsubscribe();
-*/
-/*
-// watch network for a connection mobile
-let connectSubscription = this.network.onConnect().subscribe(() => {
-  console.log('network connected!');
-  // We just got a connection but we need to wait briefly
-   // before we determine the connection type. Might need to wait.
-  // prior to doing any api requests as well.
+    this.firebaseX.onTokenRefresh()
+      .subscribe((token: string) => console.log(`Got a new token ${token}`));
 
-  
-  setTimeout(() => {
-    if (this.network.type === 'wifi') {
-     
-      if (this.goneOffline) {
-        this.goneOffline = false;
+    this.firebaseX.onMessageReceived().subscribe(data => {
+      console.log(data);
+      if (data.wasTapped) {
+        console.log('Received in background');
 
-        this.modal.then((mod) => {
-          mod.dismiss();
-        });
+      } else {
 
-        this.modal = this.modalCtrl.create({
-          component: InternetEstablishedPage,
-          cssClass: 'no-connection-modal'
-        });
-        this.modal.then((mod) => {
-          mod.present();
-        });
+        console.log('Received in foreground');
 
 
       }
-    
-    }
-  }, 3000);
-});
-
-// stop connect watch
-connectSubscription.unsubscribe();
-
-*/
-
+    });
     //check offline or online for web
     window.addEventListener('offline', () => {
       //Do task when no internet connection
@@ -206,49 +166,10 @@ connectSubscription.unsubscribe();
     });
   }
 
-
-
-
-
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-
-
       this.splashScreen.hide();
-      // this.router.navigateByUrl("bottom-navigation");
-
-
-
-
-      this.firebaseX.getToken().then(async token => {
-
-        console.log(token);
-        /* const alert = await this.AlertCTRL.create({
-           header: 'FCM token',
-           message: token + "",
-           buttons: ['OK'],
-         });*/
-        // await alert.present();
-        // send token to the server
-      });
-
-      this.firebaseX.onTokenRefresh()
-        .subscribe((token: string) => console.log(`Got a new token ${token}`));
-
-      this.firebaseX.onMessageReceived().subscribe(data => {
-        console.log(data);
-        if (data.wasTapped) {
-          console.log('Received in background');
-
-        } else {
-
-          console.log('Received in foreground');
-
-          
-        }
-      });
-
     });
   }
 

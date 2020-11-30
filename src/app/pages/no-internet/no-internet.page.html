@@ -1,8 +1,12 @@
-
 <ion-content>
   <h4 class="internet-h4">Vous êtes passé hors ligne</h4>
 
-<ion-img class="internet-animation" src="../../../assets/gif/no-internet-connection-1.gif"></ion-img>
-<p class="p-text"> Veillez vérifier votre connection internet</p>
-<ion-img class="tresor-logo" src="../../../assets/logo/logo2.png"></ion-img>
+  <ion-img class="internet-animation" src="../../../assets/gif/no-internet-connection-1.gif"></ion-img>
+  <p class="p-text"> Veillez vérifier votre connection internet</p>
+  <div class="btn-internet-container">
+    <ion-button expand="fill" fill="outline" color="dark" value="block" (click)="close()">
+      D'accord
+    </ion-button>
+  </div>
+  <ion-img class="tresor-logo" src="../../../assets/logo/logo2.png"></ion-img>
 </ion-content>

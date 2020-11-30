@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PanierService } from './../../services/panier/panier.service';
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-panier',
   templateUrl: './panier.page.html',
@@ -15,7 +16,7 @@ export class PanierPage implements OnInit {
   panier: any[] = [];
   userState: boolean = false;
   totale: number = 0;
-  loaded = false;
+
   panierModifier = false;
   loading;
   oneCatch = false;
@@ -33,6 +34,7 @@ export class PanierPage implements OnInit {
   doRefresh(event) {
    
     this.panierModifier = false;
+    this.panier=[];
     this.totale = 0;
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
@@ -81,7 +83,7 @@ export class PanierPage implements OnInit {
   }
 
   async getPanier() {
-    this.loaded = false;
+   
     this.panier = [];
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
@@ -91,7 +93,7 @@ export class PanierPage implements OnInit {
           this.panier = res['data'];
           console.log('panier : ',this.panier);
           this.totale = parseFloat(res['subtotal']);
-          this.loaded = true;
+         
           this.loading.then((load) => {
             load.dismiss();
           });
@@ -136,8 +138,10 @@ export class PanierPage implements OnInit {
       this.panierModifier = true;
       let index = this.panier.findIndex(x => x.product_id === product.product_id);
       console.log('index', index);
+      let p =this.panier[index].total /  this.panier[index].quantity;
+      this.panier[index].total = this.panier[index].total +p;
       this.panier[index].quantity += 1;
-      this.totale += parseFloat(this.panier[index].price);
+      this.totale += p;
 
     }
   }
@@ -152,8 +156,10 @@ export class PanierPage implements OnInit {
       if (this.panier[index].quantity === 1) {
         this.showAlertRemoveItem(this.panier[index]);
       } else {
+        let p =this.panier[index].total /  this.panier[index].quantity;
+        this.panier[index].total = this.panier[index].total -p;
         this.panier[index].quantity -= 1;
-        this.totale -= parseFloat(this.panier[index].price);
+        this.totale -= p;
       }
 
     }
