@@ -68,39 +68,52 @@ export class ProductByCategoryPage implements OnInit {
     this.category = this.route.snapshot.paramMap.get('category');
     this.idCategory = this.route.snapshot.paramMap.get('id');
     this.getCategory()
-    setTimeout(() => {
-
-      console.log('Async operation has ended');
+  
       event.target.complete();
-    }, 2000);
+   
   }
 
   async getCategory() {
-
-    this.poductService.getProductsByCategory(this.idCategory).subscribe((data: any[]) => {
-      this.count = this.poductService.totalProducts;
+    this.products = [];
+    this.poductService.getProductByCategoryCustom(this.idCategory).then((data: any[]) => {
+      
       this.products = data;
       console.log("category :", this.products);
       this.loading.then((load) => {
         load.dismiss();
       });
-    });
-  }
+    }).catch(async (reason) => {
+      console.log("error ", reason);
+      if (this.oneCatch) {
 
-  loadMore(event) {
-    this.page++;
+      } else {
+        this.oneCatch = true
 
-    this.poductService.getProductsByCategory(this.idCategory, this.page).subscribe(res => {
-      console.log("category page :" + this.page, this.products);
-      this.products = [...this.products, ...res];
-      event.target.complete();
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        const alert = await this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
 
-      // Disable infinite loading when maximum reached
-      if (this.page == this.poductService.pages) {
-        event.target.disabled = true;
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+
+              }
+            },
+          ]
+        });
+        await alert.present();
       }
     });
   }
+
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
@@ -159,17 +172,5 @@ export class ProductByCategoryPage implements OnInit {
     await alert.present();
   }
 
-
-  async openCart() {
-
-
-    let modal = await this.modalCtrl.create({
-      component: PanierModalPage,
-      cssClass: 'cart-modal'
-    });
-    modal.onWillDismiss().then(() => {
-    });
-    modal.present();
-  }
 
 }

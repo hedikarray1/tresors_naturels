@@ -29,7 +29,7 @@ export class CategoryPage implements OnInit {
   ) { }
 
   async ionViewDidEnter() {
- 
+
   }
 
   async openCart() {
@@ -63,58 +63,19 @@ export class CategoryPage implements OnInit {
   async doRefresh(event) {
     console.log('Begin async operation');
     await this.getCategory();
-    setTimeout(() => {
 
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
+    event.target.complete();
+
   }
 
   async getCategory() {
 
-    this.categoryService.getParentCategory().then((data: any[]) => {
+    this.categoryService.getCatalogueCustom().then((data: any[]) => {
 
       this.categorys = data;
-      for (let cat of this.categorys) {
-
-        this.categoryService.getSousCategory(cat.id).then((data2: any[]) => {
-
-          this.loading.then((load) => {
-            load.dismiss();
-          });
-          cat.children = data2;
-        }).catch(async (reason) => {
-          if (this.oneCatch) {
-
-          } else {
-            this.loading.then((load) => {
-              load.dismiss();
-            });
-            this.oneCatch = true
-            const alert = await this.alertController.create({
-              header: "Erreur lors du chargement de la page",
-              mode: 'ios',
-              message: "",
-              buttons: [
-
-                {
-                  text: "D'accord",
-                  cssClass: 'btn-alert-connexion',
-                  handler: () => {
-                    alert.dismiss();
-                    this.oneCatch = false;
-
-                  }
-                },
-              ]
-            });
-            await alert.present();
-          }
-        });
-
-      }
-
-
+      this.loading.then((load) => {
+        load.dismiss();
+      });
       console.log("category :", this.categorys);
     }).catch(async (reason) => {
       if (this.oneCatch) {
@@ -145,12 +106,6 @@ export class CategoryPage implements OnInit {
       }
     });
   }
-
-  listviewSettings: MbscListviewOptions = {
-    swipe: false,
-    enhance: true
-  };
-
 
 
   showCategory(category) {

@@ -279,8 +279,9 @@ export class HomePage implements OnInit {
         console.log('forech home json element ', index);
         if (element.type === "category") {
 
-          this.categoryService.getCategory(element.category.id).then((dataCategory: any) => {
+          this.categoryService.getCategoryByIdCustom(element.category.id).then((dataCategory: any) => {
             element.category_object = dataCategory;
+
           }, (reason: any) => {
             if (this.oneCatch) {
 
@@ -310,8 +311,9 @@ export class HomePage implements OnInit {
             }
           });
 
-          this.poductService.getProductsWithPrams(element.product).then((dataProducts: any[]) => {
-            element.product_array = dataProducts['body'];
+          this.poductService.getProductByCategoryCustom(element.category.id).then((dataProducts: any[]) => {
+            element.product_array = dataProducts ;
+            
             if (this.homePageJson.length <= index + 1) {
               console.log('get home json object end');
               console.log('home json with object: ', this.homePageJson);

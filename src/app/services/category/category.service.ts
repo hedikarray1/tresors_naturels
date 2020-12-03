@@ -53,4 +53,16 @@ export class CategoryService {
     return this.http.get(myUrl).toPromise();
   }
 
+//custom category 
+  getCatalogueCustom(){
+    return this.http.get(environment.apiCustomURL+"category/all_category.php").toPromise();
+  }
+
+  getCategoryByIdCustom(id) {
+    let params ={
+      "id" : id
+    }
+    return this.http.post(environment.apiCustomURL+"category/category_by_id.php",params).toPromise();
+  }
+
 }

@@ -56,7 +56,7 @@
 </ion-content>
 
 
-<ion-content  class="bachground-content" *ngIf='userState && not_empty==false '>
+<ion-content   *ngIf='userState && not_empty==false '>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -69,7 +69,7 @@
 
 </ion-content>
 
-<ion-content  class="bachground-content" *ngIf='!userState'>
+<ion-content   *ngIf='!userState'>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

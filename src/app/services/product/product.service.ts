@@ -147,6 +147,7 @@ export class ProductService {
 
   }
 
+  // custom product api
 
   getAllproductCustom() {
     return this.http.get(environment.apiCustomURL+"product/all_products.php").toPromise();
@@ -157,5 +158,12 @@ export class ProductService {
       "id" : id
     }
     return this.http.post(environment.apiCustomURL+"product/product_details.php",params).toPromise();
+  }
+
+  getProductByCategoryCustom(id) {
+    let params ={
+      "id" : id
+    }
+    return this.http.post(environment.apiCustomURL+"product/products_by_category.php",params).toPromise();
   }
 }
