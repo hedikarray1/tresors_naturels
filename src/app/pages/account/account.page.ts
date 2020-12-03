@@ -368,7 +368,19 @@ export class AccountPage implements OnInit {
   updateUser() {
 
     this.UserService.updateUser(this.User).then((data: any) => {
+     
       this.User = data;
+      let metadataArray: any[] = [];
+      metadataArray = data.meta_data;
+      this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+
+      console.log('user connecte : ', this.User);
+
+      if (this.User.pointsData === undefined) {
+        this.User.pointsData = {
+          value: 0
+        }
+      }
       this.facturation = false;
       this.livraison = false;
     }).catch(async (reason) => {
@@ -398,13 +410,25 @@ export class AccountPage implements OnInit {
 
   CreateCoupon() {
     let code: string = this.generateCouponCode();
+    //add loading
+    this.loading = this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+
+    });
+    this.loading.then((load) => {
+      load.present();
+    });
+
+
     this.orderService.generateCoupon(code, parseInt(this.form.value.points), this.User.id).then(async (data: any) => {
       console.log(data);
-      this.form.value.points = "" ;
+     // this.form.value.points = "" ;
       this.User.meta_data.forEach(element => {
         if (element.key == "_acfw_loyalprog_user_total_points") {
           console.log("element de points avant", element.value);
-          console.log("operation: ", (parseFloat(this.User.pointsData) - parseFloat(this.form.value.points)) + "");
+          console.log("operation: ", (parseFloat(this.User.pointsData.value) - parseFloat(this.form.value.points)) + "");
           console.log("parametres: user points:", this.User.pointsData, " points dans form", parseFloat(this.form.value.points));
           element.value = (parseFloat(this.User.pointsData.value) - parseFloat(this.form.value.points)) + "";
           console.log("element de points", element);
@@ -413,15 +437,48 @@ export class AccountPage implements OnInit {
           console.log("user after coupon", this.User);
         }
       });
+      this.form.reset() ;
       this.updateUser();
-      const toast = await this.toastController.create({
+      
+     /* const toast = await this.toastController.create({
         message: 'Le coupon a été créé avec succés',
         duration: 2000
       });
       toast.present();
-      this.openCoupon();
-    }).catch(async (reason) => {
+      */
+    //  this.openCoupon();
 
+      //fin loading
+this.loading.then((load5)=>{
+  load5.dismiss();
+})
+      
+      //affichage succés
+      const alert = await this.alertController.create({
+        header: "Coupon créé averc succès",
+        mode: 'ios',
+        message: "",
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              this.oneCatch = false;
+              alert.dismiss();
+            }
+          },
+        ]
+      });
+      await alert.present();
+
+
+
+    }).catch(async (reason) => {
+      this.loading.then((load5)=>{
+        load5.dismiss();
+      })
+          
       this.oneCatch = true
       console.log("error generateCoupon", reason);
       const alert = await this.alertController.create({

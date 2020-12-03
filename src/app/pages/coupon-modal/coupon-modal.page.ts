@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { OrderService } from './../../services/order/order.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { element } from 'protractor';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class CouponModalPage implements OnInit {
     this.getCoupons();
   }
 
-  getCoupons() {
+  getCoupons1() {
     this.MyCoupons = [];
     this.allCoupons = [];
     this.storage.get('auth-user').then((val) => {
@@ -63,6 +64,29 @@ export class CouponModalPage implements OnInit {
 
     });
   }
+
+getCoupons(){
+  this.MyCoupons=[];
+  this.storage.get('auth-user').then((val) => {
+    console.log('auth-user', val);
+  this.orderService.getCountMyCouponsCustom(val.id).then((data:any[])=>{
+    this.MyCoupons=data;
+    this.MyCoupons.forEach((element)=>{
+    
+if(parseInt(element.usage_count)<parseInt(element.usage_limit))
+{
+  element.used=false;
+  element.used_text="disponible";
+}else{
+  element.used=true;
+  element.used_text="utilisé";
+}
+    });
+
+  });
+  });
+}
+
 
  async copyToClipBoard(code){
     this.clipboard.copy(code);
