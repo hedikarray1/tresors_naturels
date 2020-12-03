@@ -166,6 +166,14 @@ export class OrderService {
     })).toPromise();
   }
 
+  
+  getCountMyCouponsCustom(id) {
+    let params = {
+      id: id
+    };
+
+    return this.http.post("",params).toPromise();
+  }
 
   getAllMyCoupons(nbr) {
     let options = {
