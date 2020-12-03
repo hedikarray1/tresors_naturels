@@ -71,7 +71,7 @@ export class OrderService {
   generateCoupon(code, amount, userid) {
     let params = {
       "code": code,
-      "amount": amount,
+      "amount": amount +"",
 
       "individual_use": false,
 

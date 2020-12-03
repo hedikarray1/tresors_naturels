@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { PanierModalPage } from './../pages/panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../pages/popovers/popover-card-product/popover-card-product.page';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ProductService } from './../services/product/product.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuController, ModalController, PopoverController, IonSlides, AlertController, LoadingController } from '@ionic/angular';
@@ -16,7 +16,6 @@ import { MenuController, ModalController, PopoverController, IonSlides, AlertCon
 export class HomePage implements OnInit {
 
 
-  pageAllProducts = 1;
 
   allProducts: any[] = [];
   homePageJson: any[] = [];
@@ -36,13 +35,12 @@ export class HomePage implements OnInit {
   slideOptions = { slidesPerView: 'auto', zoom: false, grabCursor: true, speed: 400, initialSlide: 1 };
   userState: boolean = false;
   loading;
+
   constructor(
     private poductService: ProductService,
     private router: Router,
-    private menu: MenuController,
     private http: HttpClient,
     private popoverController: PopoverController,
-    private modalCtrl: ModalController,
     private storage: Storage,
     private alertController: AlertController,
     private loadingCtrl: LoadingController,
@@ -75,35 +73,35 @@ export class HomePage implements OnInit {
   }
 
   doRefresh(event) {
-    console.log('Begin async operation');
-    this.loading = this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+    this.allProducts = [];
+    this.homePageJson = []
 
+    console.log('Begin async operation');
+ 
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
+      this.getSlidesNbr();
+      this.getHomeJson();
+      this.getAllProducts();
+      event.target.complete();
     });
-    this.loading.then((load) => {
-      load.present();
-    });
+  }
+  doRefresh2(event) {
+    this.allProducts = [];
+  
+    
+    console.log('Begin async operation');
+  
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
 
-      this.getSlidesNbr();
-      this.getHomeJson();
+  
       this.getAllProducts();
-    });
-
-    setTimeout(() => {
-
-      console.log('Async operation has ended');
       event.target.complete();
-    }, 2000);
+    });
   }
-
-
-
-
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
@@ -123,10 +121,6 @@ export class HomePage implements OnInit {
   }
 
 
-  openCustom() {
-    this.menu.enable(true, 'content');
-    this.menu.open('content');
-  }
 
 
 
@@ -184,17 +178,6 @@ export class HomePage implements OnInit {
   }
 
 
-  async openCart() {
-    //  this.animateCSS('bounceOutLeft', true);
-
-    let modal = await this.modalCtrl.create({
-      component: PanierModalPage,
-      cssClass: 'cart-modal'
-    });
-    modal.onWillDismiss().then(() => {
-    });
-    modal.present();
-  }
 
   showSearch() {
     this.searchText = '';
@@ -203,25 +186,24 @@ export class HomePage implements OnInit {
 
 
   getAllProducts() {
-    this.allProducts =[];
-    this.poductService.getAllProductsWooCommerce2().then((data: any[]) => {
-      this.pageAllProducts = 1;
-      console.log("all product :", this.poductService.totalProducts);
+    this.allProducts = [];
+    this.poductService.getAllproductCustom().then((data: any[]) => {
       this.allProducts = data;
-      if (this.pageAllProducts < this.poductService.pages) {
-        this.pageAllProducts++;
-        this.getAllProducts2(this.pageAllProducts);
-      }
+      /* this.loading.then((load)=>{
+         load.dismiss();
+                         });
+                         */
       console.log("All product :", this.allProducts);
 
     }).catch(async (reason) => {
       if (this.oneCatch) {
 
       } else {
-        this.loading.then((load)=>{
+        this.loading.then((load) => {
           load.dismiss();
-                          });
+        });
         this.oneCatch = true
+        console.log('error', reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page 1",
           mode: 'ios',
@@ -243,49 +225,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  getAllProducts2(page) {
-   
-    this.poductService.getAllProductsWooCommerce2(page).then((data: any[]) => {
-      console.log("product page " + this.pageAllProducts + " :", data);
-      if ( this.allProducts.length <= this.poductService.totalProducts ){
-        this.allProducts = [...this.allProducts, ...data];
-      }
-     
-      if (this.pageAllProducts < this.poductService.pages) {
-        this.pageAllProducts++;
-        this.getAllProducts2(this.pageAllProducts);
-      }
-
-      console.log("All product page " + this.pageAllProducts + " : ", this.allProducts);
-
-    }).catch(async (reason) => {
-      if (this.oneCatch) {
-
-      } else {
-        this.loading.then((load)=>{
-          load.dismiss();
-                          });
-        this.oneCatch = true
-        const alert = await this.alertController.create({
-          header: "Erreur lors du chargement de la page 2",
-          mode: 'ios',
-          message: "",
-          buttons: [
-
-            {
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-              handler: () => {
-                this.oneCatch = false;
-                alert.dismiss();
-              }
-            },
-          ]
-        });
-        await alert.present();
-      }
-    });
-  }
 
   getSlidesNbr() {
     console.log('get slide nbr enter');
@@ -293,12 +232,7 @@ export class HomePage implements OnInit {
       this.slidesPictures = [];
       this.slidesPictures = res;
       console.log("get slide array :", this.slidesPictures);
-      /*      this.slideNBR = res.number;
-            console.log("response get slides", res);
-            this.slidesPictures = [];
-            for (let i = 1; i <= this.slideNBR; i++) {
-              this.slidesPictures.push("https://laboratoiretresorsnaturels.tn/static_pictures/slide_home_" + i + ".jpg");
-            }*/
+
     }, (reason) => {
 
       if (this.oneCatch) {
@@ -351,9 +285,9 @@ export class HomePage implements OnInit {
             if (this.oneCatch) {
 
             } else {
-              this.loading.then((load)=>{
+              this.loading.then((load) => {
                 load.dismiss();
-                                });
+              });
               this.oneCatch = true
               console.log("error get category ", reason);
               const alert = this.alertController.create({
@@ -390,9 +324,9 @@ export class HomePage implements OnInit {
             if (this.oneCatch) {
 
             } else {
-              this.loading.then((load)=>{
+              this.loading.then((load) => {
                 load.dismiss();
-                                });
+              });
               this.oneCatch = true
               console.log("error get produit ", reason);
               const alert = this.alertController.create({
@@ -423,11 +357,11 @@ export class HomePage implements OnInit {
       if (this.oneCatch) {
 
       } else {
-        
-        this.loading.then((load)=>{
+
+        this.loading.then((load) => {
           load.dismiss();
-                          });
-      
+        });
+
         this.oneCatch = true
         console.log("error get home json", reason);
         const alert = this.alertController.create({
@@ -451,7 +385,7 @@ export class HomePage implements OnInit {
     }
     )
     console.log('get home json end');
-    
+
   }
 
 }

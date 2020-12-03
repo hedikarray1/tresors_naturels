@@ -138,6 +138,11 @@
 
 
 <ion-content class="content-all-product" *ngIf="searchText != ''">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh2($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="card-flex-wrap">
     <div class="card-container" *ngFor="let product of allProducts |filter:searchText">
       <ion-card class="product-card">

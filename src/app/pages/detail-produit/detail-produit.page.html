@@ -131,62 +131,6 @@
       <div *ngIf="segmentValue == 'description'" class="product-description" [innerHTML]="product?.description"></div>
     </ion-card-content>
   </ion-card>
-  <br />
-  <div *ngIf="relatedProducts.length > 0 " class="slide-product-name">PRODUITS APPARENTÉS</div>
-  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
-    <ion-slide *ngFor="let productc of relatedProducts" class="slide-product">
-      <ion-card class="slide-product-card">
+  
 
-        <div *ngIf="productc?.stock_status=='outofstock'" class="container-out-of-stock">
-          <p class="txt-out-of-stock">Rupture de stock</p>
-        </div>
-
-        <div *ngIf="productc?.stock_status=='outofstock'" (click)="goToDetail(product?.id)">
-          <div class="slide-product-image-container">
-            <img src="{{productc?.images[0]?.src}}" />
-          </div>
-          <div class="card-separator"></div>
-          <ion-card-content>
-            <div class="slide-product-name">{{productc?.name}}</div>
-           
-            <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
-          </ion-card-content>
-
-          <ion-row class="row-panier">
-            <ion-col class="col-panier col-panier-txt" size="9">
-              ACHETER
-            </ion-col>
-            <ion-col class="col-panier col-panier-color panier-icon" size="3">
-              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </div>
-
-        <div *ngIf="productc?.stock_status=='instock'">
-          <div class="slide-product-image-container" (click)="goToDetail(productc?.id)">
-            <img src="{{productc?.images[0]?.src}}" />
-          </div>
-          <div class="card-separator"></div>
-          <ion-card-content (click)="goToDetail(productc?.id)">
-            <div class="slide-product-name">{{productc?.name}}</div>
-          
-            <div class="slide-product-price" [innerHTML]="productc?.price_html"></div>
-          </ion-card-content>
-
-          <ion-row (click)="showPopover($event,product)" class="row-panier">
-            <ion-col class="col-panier col-panier-txt" size="9">
-              ACHETER
-            </ion-col>
-            <ion-col class="col-panier col-panier-color panier-icon" size="3">
-              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </div>
-
-
-      </ion-card>
-
-    </ion-slide>
-  </ion-slides>
-  <br/>
 </ion-content>

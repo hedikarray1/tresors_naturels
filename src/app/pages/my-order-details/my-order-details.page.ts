@@ -88,6 +88,9 @@ export class MyOrderDetailsPage implements OnInit {
     
           } else {
             this.oneCatch = true
+            this.loading.then((load)=>{
+              load.dismiss();
+                          });
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',
@@ -112,6 +115,9 @@ export class MyOrderDetailsPage implements OnInit {
       });
       this.Order.line_items = lineItems;
       this.Order.date_created = new Date(this.Order.date_created);
+      this.loading.then((load)=>{
+        load.dismiss();
+                    });
       console.log('order detail ', this.Order);
     }).catch(async (reason) => {
       if (this.oneCatch) {
