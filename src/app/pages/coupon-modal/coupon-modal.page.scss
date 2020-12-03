@@ -59,3 +59,32 @@ ion-title{
   width: 100%;
   font-size: 8vw;
 }
+
+
+//coupon vidde
+
+.coupon-vide-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 9%;
+}
+
+.coupon-vide-title {
+  width: 100%;
+  font-family: Lato-Regular;
+  font-size: 6vw;
+  margin-bottom: 10%;
+  text-align: center;
+}
+
+.coupon-vide-subtitle {
+  width: 100%;
+  font-family: Lato-Regular;
+  font-size: 4vw;
+  text-align: center;
+  margin-bottom: 10%;
+}

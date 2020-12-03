@@ -8,7 +8,13 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-<ion-list>
+
+  <div *ngIf="MyCoupons.length == 0 &&  loaded "  class="coupon-vide-container">
+    <p class="coupon-vide-title"><strong>Vous n'avez aucun coupon</strong> </p>
+    <p class="coupon-vide-subtitle">Vous devez génerer un coupon</p>
+  </div>
+
+<ion-list *ngIf="MyCoupons.length != 0 ">
   <ion-card *ngFor="let coup of MyCoupons" (click)="copyToClipBoard(coup?.code)">
     <ion-img src="../../../../assets/images/tickets-background.png" class="card-img" ></ion-img>
     <div [ngClass]="coup.used ? 'corner-ribbon-used' : 'corner-ribbon-not-used'">{{coup?.used_text}}</div>
