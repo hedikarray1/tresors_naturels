@@ -24,50 +24,65 @@ export class DetailProduitPage implements OnInit {
   userState: boolean = false;
   product: any;
   rep = /&amp;/gi;
-loading;
+  loading;
 
-oneCatch = false;
+  oneCatch = false;
   constructor(
-   
-  private loadingCtrl:LoadingController,
+
+    private loadingCtrl: LoadingController,
     private route: ActivatedRoute,
     private router: Router,
     private ProductService: ProductService,
     private panierService: PanierService,
     private storageService: StorageService,
-    private storage: Storage,   
+    private storage: Storage,
     private alertController: AlertController,
-    private popoverController : PopoverController,
-    private GLobalVarService:GlobalVarServiceService
+    private popoverController: PopoverController,
+    private GLobalVarService: GlobalVarServiceService
 
   ) { }
 
   async ngOnInit() {
+    this.loading = this.loadingCtrl.create({
+      spinner: null,
+      cssClass: 'custom-loading',
+      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
 
+    });
+    this.loading.then((load) => {
+      load.present();
+    });
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
     });
-  
-    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).then((data: any) => {
+
+    this.getProductById();
+  }
+
+  getProductById() {
+
+    this.ProductService.getProductCustom(this.route.snapshot.paramMap.get('id')).then((data: any) => {
       console.log(data);
       this.product = data;
       this.setSegmentValue();
       if (this.product.type == "variable") {
         this.getVariation(this.product.variations);
-
       }
       this.datashow = true;
-      this.getRelated(this.product.related_ids)
-    
+      this.loading.then((load) => {
+        load.dismiss();
+      });
     }).catch(async (reason) => {
+      console.log("error ", reason);
       if (this.oneCatch) {
 
       } else {
         this.oneCatch = true
-        this.loading.then((load)=>{
+
+        this.loading.then((load) => {
           load.dismiss();
-                      });
+        });
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -90,66 +105,23 @@ oneCatch = false;
     });
   }
 
-  ionViewDidEnter() {
-    this.loading =  this.loadingCtrl.create({
-      spinner: null,
-      cssClass: 'custom-loading',
-      message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-     
-    });
-    this.loading.then((load)=>{
-      load.present();
-        });
-    //this.presentLoadingCustom();
+  async doRefresh(event) {
 
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
     });
-  
-    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).then((data: any) => {
-      console.log(data);
-      this.product = data;
-      this.setSegmentValue();
-      if (this.product.type == "variable") {
-        this.getVariation(this.product.variations);
 
-      }
-      this.datashow = true;
-      this.getRelated(this.product.related_ids);
+    this.getProductById();
     
-    });
-    }
-  
- async doRefresh(event) {
-    
-    this.storage.get('user-state').then((val) => {
-      console.log('user-state', val);
-      this.userState = val;
-    });
-   
-    this.ProductService.getproduct(this.route.snapshot.paramMap.get('id')).then((data: any) => {
-      console.log(data);
-      this.product = data;
-      this.setSegmentValue();
-      if (this.product.type == "variable") {
-        this.getVariation(this.product.variations);
-
-      }
-      this.datashow = true;
-      this.getRelated(this.product.related_ids)
-  
-    });
-    setTimeout(() => {
-
-      console.log('Async operation has ended');
       event.target.complete();
-    }, 2000);
-  }
   
+  }
+
 
   async getVariation(variationsss) {
     console.log("variations");
+    this.variations = [];
     for (let v of variationsss) {
       await this.ProductService.getproduct(v).then((data: any) => {
         console.log(data);
@@ -157,28 +129,33 @@ oneCatch = false;
           option: data?.attributes[0]?.option,
           id: v
         }
-        this.variations.push(vv);
+        let index = this.variations.findIndex(x => x.id === v);
+        console.log("variation index", index);
+        if (index == -1) {
+          this.variations.push(vv);
+        }
+
       }).catch(async (reason) => {
         if (this.oneCatch) {
-  
+
         } else {
-          this.loading.then((load)=>{
+          this.loading.then((load) => {
             load.dismiss();
-                        });
+          });
           this.oneCatch = true
           const alert = await this.alertController.create({
             header: "Erreur lors du chargement de la page",
             mode: 'ios',
             message: "",
             buttons: [
-  
+
               {
                 text: "D'accord",
                 cssClass: 'btn-alert-connexion',
                 handler: () => {
                   alert.dismiss();
                   this.oneCatch = false;
-  
+
                 }
               },
             ]
@@ -190,43 +167,6 @@ oneCatch = false;
     console.log("variation table :", this.variations);
   }
 
-  async getRelated(relatedss) {
-    console.log("related product ");
-    for (let r of relatedss) {
-      await this.ProductService.getproduct(r).then((data: any) => {
-        console.log(data);
-            this.loading.then((load)=>{
-load.dismiss();
-            });
-        this.relatedProducts.push(data);
-      }).catch(async (reason) => {
-        if (this.oneCatch) {
-  
-        } else {
-          this.oneCatch = true
-          const alert = await this.alertController.create({
-            header: "Erreur lors du chargement de la page",
-            mode: 'ios',
-            message: "",
-            buttons: [
-  
-              {
-                text: "D'accord",
-                cssClass: 'btn-alert-connexion',
-                handler: () => {
-                  alert.dismiss();
-                  this.oneCatch = false;
-  
-                }
-              },
-            ]
-          });
-          await alert.present();
-        }
-      });
-    }
-    console.log("ralated product :", this.relatedProducts);
-  }
 
 
   setSegmentValue() {
@@ -241,26 +181,26 @@ load.dismiss();
   }
 
   addItem() {
-    if (this.userState){
+    if (this.userState) {
       this.itemQty += 1
-    }else {
-this.showAlertLogin();
+    } else {
+      this.showAlertLogin();
     }
-   
+
   }
 
   removeItem() {
-    if (this.userState){
-    if (this.itemQty > 1) {
-      this.itemQty -= 1;
-    }
-  }else {
+    if (this.userState) {
+      if (this.itemQty > 1) {
+        this.itemQty -= 1;
+      }
+    } else {
       this.showAlertLogin();
-          }
+    }
   }
 
   addToCart() {
-    
+
     console.log("adding to cart");
     let product = [
       {
@@ -280,7 +220,7 @@ this.showAlertLogin();
             mode: 'ios',
             message: "",
             buttons: [
-  
+
               {
                 text: "D'accord",
                 cssClass: 'btn-alert-connexion',
@@ -290,25 +230,25 @@ this.showAlertLogin();
               },
             ]
           });
-         
+
           await alert.present();
 
-          this.panierService.getCartItemNbr(val.id).then((d1)=>{
+          this.panierService.getCartItemNbr(val.id).then((d1) => {
             this.GLobalVarService.publishSomeData({
               PanierNbr: d1["data"]
+            });
           });
-        });
 
         });
       });
     } else {
 
-      this.showAlertLogin(); 
+      this.showAlertLogin();
     }
 
   }
 
-  
+
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
   }
@@ -337,7 +277,7 @@ this.showAlertLogin();
             mode: 'ios',
             message: "",
             buttons: [
-  
+
               {
                 text: "D'accord",
                 cssClass: 'btn-alert-connexion',
@@ -347,11 +287,11 @@ this.showAlertLogin();
               },
             ]
           });
-          this.panierService.getCartItemNbr(val.id).then((d1)=>{
+          this.panierService.getCartItemNbr(val.id).then((d1) => {
             this.GLobalVarService.publishSomeData({
               PanierNbr: d1["data"]
+            });
           });
-        });
 
           await alert.present();
         })
@@ -362,53 +302,52 @@ this.showAlertLogin();
 
   }
 
-async showAlertLogin() {
+  async showAlertLogin() {
 
-  const alert = await this.alertController.create({
-    header: 'Vous devez vous connecter',
-    mode: 'ios',
-    message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
-    buttons: [
-      {
-        text: 'ignorer',
-        role: 'cancel',
-        cssClass: 'btn-alert-ignorer',
-        handler: () => {
-          alert.dismiss();
-        }
-      },
-      {
-        text: 'connexion',
-        cssClass: 'btn-alert-connexion',
-        handler: () => {
-          this.router.navigateByUrl('/login');
-        }
-      },
-    ]
-  });
-  await alert.present();
-}
-
-
-async showPopoverPanier(event: MouseEvent, product) {
-  const popover = await this.popoverController.create({
-    component: PopoverCardProductPage,
-    componentProps: {
-      "id": product.id,
-      "product": product,
-    },
-    translucent: true
-  });
-  return popover.present();
-}
-
-showPopover(event: MouseEvent, product) {
-  if (this.userState) {
-    this.showPopoverPanier(event, product);
-  } else {
-    this.showAlertLogin();
+    const alert = await this.alertController.create({
+      header: 'Vous devez vous connecter',
+      mode: 'ios',
+      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      buttons: [
+        {
+          text: 'ignorer',
+          role: 'cancel',
+          cssClass: 'btn-alert-ignorer',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'connexion',
+          cssClass: 'btn-alert-connexion',
+          handler: () => {
+            this.router.navigateByUrl('/login');
+          }
+        },
+      ]
+    });
+    await alert.present();
   }
-}
+
+  async showPopoverPanier(event: MouseEvent, product) {
+    const popover = await this.popoverController.create({
+      component: PopoverCardProductPage,
+      componentProps: {
+        "id": product.id,
+        "product": product,
+      },
+      translucent: true
+    });
+    return popover.present();
+  }
+
+  showPopover(event: MouseEvent, product) {
+    if (this.userState) {
+      this.showPopoverPanier(event, product);
+    } else {
+      this.showAlertLogin();
+    }
+  }
 
 
 }

@@ -116,6 +116,7 @@ export class AccountPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
+      event.target.complete();
     }).catch(async (reason) => {
       if (this.oneCatch) {
 
@@ -124,6 +125,7 @@ export class AccountPage implements OnInit {
           load.dismiss();
         });
         this.oneCatch = true
+        event.target.complete();
         console.log("error get user state", reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
@@ -145,11 +147,9 @@ export class AccountPage implements OnInit {
       }
     });
 
-    setTimeout(() => {
-
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
+  
+     
+ 
   }
 
 
@@ -195,8 +195,9 @@ export class AccountPage implements OnInit {
         await alert.present();
       }
     });
- 
+
   }
+
   ionViewDidEnter() {
     // this.presentLoadingCustom();
     this.storage.get('user-state').then((val) => {
@@ -231,7 +232,7 @@ export class AccountPage implements OnInit {
         await alert.present();
       }
     });
- 
+
 
   }
   displayHideFacturationCard() {
@@ -299,69 +300,69 @@ export class AccountPage implements OnInit {
 
   getUserData() {
     this.User = {};
-if ( this.userState ){
-    this.storage.get('auth-user').then((val) => {
-      console.log('auth-user', val);
-      this.UserService.getUserById(val.id).then((data: any) => {
-        this.User = data;
-        let metadataArray: any[] = [];
-        metadataArray = data.meta_data;
-        this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+    if (this.userState) {
+      this.storage.get('auth-user').then((val) => {
+        console.log('auth-user', val);
+        this.UserService.getUserByIdCustom(val.id).then((data: any) => {
+          this.User = data;
+          let metadataArray: any[] = [];
+          metadataArray = data.meta_data;
+          this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
 
-        console.log('user connecte : ', this.User);
+          console.log('user connecte : ', this.User);
 
-        if (this.User.pointsData === undefined) {
-          this.User.pointsData = {
-            value: 0
+          if (this.User.pointsData === undefined) {
+            this.User.pointsData = {
+              value: 0
+            }
           }
-        }
 
-        console.log('points : ', this.User.pointsData);
-        this.form = this.formBuilder.group({
-          points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
+          console.log('points : ', this.User.pointsData);
+          this.form = this.formBuilder.group({
+            points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
 
-        });
-        this.loading.then((load) => {
-          load.dismiss();
-        });
-      }).catch(async (reason) => {
-        this.loading.then((load) => {
-          load.dismiss();
-        });
-        if (this.oneCatch) {
-
-        } else {
+          });
           this.loading.then((load) => {
             load.dismiss();
           });
-          this.oneCatch = true
-          console.log("error getUserById", reason);
-          const alert = await this.alertController.create({
-            header: "Erreur lors du chargement de la page",
-            mode: 'ios',
-            message: "",
-            buttons: [
-
-              {
-                text: "D'accord",
-                cssClass: 'btn-alert-connexion',
-                handler: () => {
-                  alert.dismiss();
-                  this.oneCatch = false;
-                }
-              },
-            ]
+        }).catch(async (reason) => {
+          this.loading.then((load) => {
+            load.dismiss();
           });
-          await alert.present();
-        }
+          if (this.oneCatch) {
+
+          } else {
+            this.loading.then((load) => {
+              load.dismiss();
+            });
+            this.oneCatch = true
+            console.log("error getUserById", reason);
+            const alert = await this.alertController.create({
+              header: "Erreur lors du chargement de la page",
+              mode: 'ios',
+              message: "",
+              buttons: [
+
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                    this.oneCatch = false;
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }
+        });
       });
-    });
-}else {
-  this.loading.then((load) => {
-    load.dismiss();
-  });
-}
-  
+    } else {
+      this.loading.then((load) => {
+        load.dismiss();
+      });
+    }
+
   }
 
   updateUser() {
@@ -371,7 +372,7 @@ if ( this.userState ){
       this.facturation = false;
       this.livraison = false;
     }).catch(async (reason) => {
-     
+
       this.oneCatch = true
       console.log("error updateUser", reason);
       const alert = await this.alertController.create({
@@ -397,8 +398,9 @@ if ( this.userState ){
 
   CreateCoupon() {
     let code: string = this.generateCouponCode();
-    this.orderService.generateCoupon(code, this.form.value.points, this.User.id).then(async (data: any) => {
+    this.orderService.generateCoupon(code, parseInt(this.form.value.points), this.User.id).then(async (data: any) => {
       console.log(data);
+      this.form.value.points = "" ;
       this.User.meta_data.forEach(element => {
         if (element.key == "_acfw_loyalprog_user_total_points") {
           console.log("element de points avant", element.value);

@@ -7,126 +7,69 @@
     <ion-title class="ion-title-header-center">
       <img src="../../../assets/logo/logo2.png" />
     </ion-title>
-   
+
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar [(ngModel)]="searchText" placeholder="Recherche"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="searchText == ''">
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="card-flex-wrap">
-    <div class="card-container" *ngFor="let product of products ">
+    <div class="card-container" *ngFor="let product of allProducts |filter:searchText">
       <ion-card class="product-card">
-        
-        <div *ngIf="product?.stock_status=='outofstock'"  class="container-out-of-stock">
+
+        <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock">
           <p class="txt-out-of-stock">Rupture de stock</p>
-         </div>
+        </div>
 
-         <div *ngIf="product?.stock_status=='outofstock'"  (click)="goToDetail(product?.id)">
-          <div class="product-image-container" >
-            <img src="{{product?.images[0]?.src}}" />
-          </div>
-          <div class="card-separator"></div>
-          <ion-card-content >
-            <div class="product-name">{{product?.name}}</div>
-           
-            <div class="product-price" [innerHTML]="product?.price_html"></div>
-          </ion-card-content>
-  
-          <ion-row  class="row-panier">
-            <ion-col class="col-panier col-panier-txt" size="9">
-            ACHETER
-            </ion-col>
-            <ion-col class="col-panier col-panier-color panier-icon" size="3">
-              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-         </div>
-
-         <div *ngIf="product?.stock_status=='instock'" >
-          <div class="product-image-container" (click)="goToDetail(product?.id)">
-            <img src="{{product?.images[0]?.src}}" />
-          </div>
-          <div class="card-separator"></div>
-          <ion-card-content (click)="goToDetail(product?.id)">
-            <div class="product-name">{{product?.name}}</div>
-           
-            <div class="product-price" [innerHTML]="product?.price_html"></div>
-          </ion-card-content>
-  
-          <ion-row (click)="showPopover($event,product)" class="row-panier">
-            <ion-col class="col-panier col-panier-txt" size="9">
-            ACHETER
-            </ion-col>
-            <ion-col class="col-panier col-panier-color panier-icon" size="3">
-              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
-            </ion-col>
-          </ion-row>
-         </div>
-       
-      </ion-card>
-    </div>
-  </div>
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
-    <ion-infinite-scroll-content loadingText="Charger plus produits...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-</ion-content>
-
-<ion-content *ngIf="searchText != ''">
-  <div class="card-flex-wrap">
-    <div
-      class="card-container"
-      *ngFor="let product of allProducts |filter:searchText"
-    >
-      <ion-card class="product-card">
-        <div *ngIf="product?.stock_status=='outofstock'"  class="container-out-of-stock">
-          <p class="txt-out-of-stock">Rupture de stock</p>
-         </div>
-         <div *ngIf="product?.stock_status=='outofstock'"  (click)="goToDetail(product?.id)">
-          <div class="product-image-container" >
+        <div *ngIf="product?.stock_status=='outofstock'" (click)="goToDetail(product?.id)">
+          <div class="product-image-container">
             <img src="{{product?.images[0]?.src}}" />
           </div>
           <div class="card-separator"></div>
           <ion-card-content>
             <div class="product-name">{{product?.name}}</div>
-            
+
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
-  
-          <ion-row  class="row-panier">
+
+          <ion-row class="row-panier">
             <ion-col class="col-panier col-panier-txt" size="9">
-            ACHETER
+              ACHETER
             </ion-col>
             <ion-col class="col-panier col-panier-color panier-icon" size="3">
               <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
             </ion-col>
           </ion-row>
-         </div>
-         <div *ngIf="product?.stock_status=='instock'" >
+        </div>
 
+        <div *ngIf="product?.stock_status=='instock'">
           <div class="product-image-container" (click)="goToDetail(product?.id)">
             <img src="{{product?.images[0]?.src}}" />
           </div>
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(product?.id)">
             <div class="product-name">{{product?.name}}</div>
-          
+
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
-  
+
           <ion-row (click)="showPopover($event,product)" class="row-panier">
             <ion-col class="col-panier col-panier-txt" size="9">
-            ACHETER
+              ACHETER
             </ion-col>
             <ion-col class="col-panier col-panier-color panier-icon" size="3">
               <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
             </ion-col>
           </ion-row>
-         </div>
-      
+        </div>
+
       </ion-card>
     </div>
   </div>
+
 </ion-content>

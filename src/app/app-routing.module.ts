@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'bottom-navigation',
+    redirectTo: 'bottom-navigation/home',
     pathMatch: 'full'
   },
   {
@@ -90,7 +90,8 @@ const routes: Routes = [
   {
     path: 'order-add-coupon-modal',
     loadChildren: () => import('./pages/order-add-coupon-modal/order-add-coupon-modal.module').then( m => m.OrderAddCouponModalPageModule)
-  },  {
+  },
+  {
     path: 'no-internet',
     loadChildren: () => import('./pages/no-internet/no-internet.module').then( m => m.NoInternetPageModule)
   },

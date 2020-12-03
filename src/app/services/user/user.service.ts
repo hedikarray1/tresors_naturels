@@ -19,6 +19,13 @@ export class UserService {
     return this.http.get(myUrl).toPromise(); 
   }
 
+  getUserByIdCustom(id) {
+
+    let params ={
+      "id" : id
+    }
+    return this.http.post(environment.apiCustomURL+"user/current_user.php",params).toPromise();
+  }
 
 
   updateUser(user){

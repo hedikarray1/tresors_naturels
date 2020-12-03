@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -14,10 +15,14 @@ export class ContactezNousPage implements OnInit {
 
   constructor(
     private fb : FormBuilder,
-    private modalCtrl: ModalController  
-  ) { }
+    private modalCtrl: ModalController,
+    private http:HttpClient  
+  ) { 
+   
+  }
 
   ngOnInit() {
+    this.testCPU();
     this.contactForm = this.fb.group({
       nom :['' , [Validators.required]],
       email :['' , [Validators.required]],
@@ -50,5 +55,20 @@ async openCart() {
    
     return;
 }
+
+testCPU(){
+  let i=0;
+  let j =0;
+  for(i=0;i<100;i++){
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/all_products.php").toPromise().then((data)=>{
+console.log("req"+i);
+j++ ;
+console.log('data '+j,data);
+    },(err)=> {
+      console.log('error ',err);
+    })
+  }
+}
+
 
 }
