@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
         console.log('Received in background');
 
       } else {
-
+        
         console.log('Received in foreground');
 
 
