@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController, IonSlides, LoadingController, MenuController } from '@ionic/angular';
@@ -62,6 +63,7 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private storage: Storage,
+    private GLobalVarService:GlobalVarServiceService,
     public menuCtrl: MenuController
   ) { 
     this.menuCtrl.enable(false);
@@ -139,6 +141,10 @@ export class RegisterPage implements OnInit {
 
         this.storage.remove('user-state');
         this.storage.set('user-state', true);
+
+        this.GLobalVarService.publishSomeDataUserState({
+          UserState: true
+      });
 
         this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
 

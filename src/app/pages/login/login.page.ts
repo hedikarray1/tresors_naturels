@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { Storage } from '@ionic/storage';
 import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -23,6 +24,7 @@ loading;
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private storage: Storage,
+    private GLobalVarService:GlobalVarServiceService,
     public menuCtrl: MenuController
   ) { 
     this.menuCtrl.enable(false);
@@ -72,6 +74,10 @@ loading;
 
         this.storage.remove('user-state');
         this.storage.set('user-state', true);
+
+        this.GLobalVarService.publishSomeDataUserState({
+          UserState: true
+      });
 
         this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
       }, async (res) => {

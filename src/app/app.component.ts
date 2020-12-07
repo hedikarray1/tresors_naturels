@@ -1,3 +1,4 @@
+import { GlobalVarServiceService } from './services/globalVarService/global-var-service.service';
 import { AppUpdate } from '@ionic-native/app-update/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
@@ -101,14 +102,15 @@ export class AppComponent implements OnInit {
     private modalCtrl: ModalController,
     private storage: Storage,
     private router: Router,
-    //private fcm: FCM,
     private firebaseX: FirebaseX,
-    private AlertCTRL: AlertController,
-    private panierService: PanierService,
-    private loadingCtrl: LoadingController,
-    private network: Network,
+    private GLobalVarService:GlobalVarServiceService,
     private appUpdate: AppUpdate
   ) {
+
+    this.GLobalVarService.getObservableUserState().subscribe((data) => {
+      //  console.log('Data received', data);
+      this.userState = data.UserState;
+    });
 
     this.initializeApp();
 
@@ -201,8 +203,9 @@ this.appUpdate.checkAppUpdate(updateUrl).then(update => {
       console.log('user state', val);
       this.userState = val;
     });
-    this.storage.get('auth-user').then((val) => {
-      console.log('auth-user', val);
+    this.GLobalVarService.getObservableUserState().subscribe((data) => {
+      //  console.log('Data received', data);
+      this.userState = data.UserState;
     });
 
 
