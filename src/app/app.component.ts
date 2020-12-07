@@ -11,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform, AlertController, LoadingController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AppUpdate } from '@ionic-native/app-update/ngx';
 
 @Component({
   selector: 'app-root',
@@ -104,7 +105,8 @@ export class AppComponent implements OnInit {
     private AlertCTRL: AlertController,
     private panierService: PanierService,
     private loadingCtrl: LoadingController,
-    private network: Network
+    private network: Network,
+    private appUpdate: AppUpdate
   ) {
 
     this.initializeApp();
@@ -169,6 +171,15 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+//check for app updates
+const updateUrl = 'https://laboratoiretresorsnaturels.tn/tresors_back/updates/app_update.xml';
+this.appUpdate.checkAppUpdate(updateUrl).then(update => {
+  alert("Update Status:  "+update.msg);
+}).catch(error=>{
+  alert("Error: "+error.msg);
+});
+
     });
   }
 
