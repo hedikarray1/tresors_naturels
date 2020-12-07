@@ -14,7 +14,9 @@
  
   <ion-item>
     <ion-label position="floating" color="dark">Mot de passe</ion-label>
-    <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
+    <ion-input [type]="passwordType" formControlName="password" clearOnEdit="false" class="form-controll" required></ion-input>
+    <ion-icon slot="end" size="small" item-end [name]="passwordIcon" class="passwordIcon"
+    (click)='hideShowPassword()'></ion-icon>
   </ion-item>
   
   <ion-button  type="submit" color="dark" fill="outline" expand="block" [disabled]="!credentiels.valid">Se connecter</ion-button>

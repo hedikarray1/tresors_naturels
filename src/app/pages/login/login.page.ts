@@ -13,6 +13,8 @@ import { AlertController, LoadingController, MenuController } from '@ionic/angul
 export class LoginPage implements OnInit {
 
   credentiels: FormGroup;
+  passwordType: string = 'password';
+  passwordIcon: string = 'eye-off';
 loading;
   constructor(
     private fb: FormBuilder,
@@ -100,4 +102,8 @@ loading;
     this.router.navigateByUrl('/register', { replaceUrl: true });
   }
 
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+  }
 }
