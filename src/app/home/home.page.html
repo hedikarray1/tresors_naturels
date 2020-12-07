@@ -172,6 +172,10 @@
           <p class="txt-out-of-stock">Rupture de stock</p>
         </div>
 
+        <div class="container-txt-promo" *ngIf="product?.promotion == 'promo'">
+          <p class="txt-promo">Promo</p>
+        </div>
+
         <div *ngIf="product?.stock_status=='outofstock'" (click)="goToDetail(product?.id)">
           <div class="product-image-container">
             <img src="{{product?.images[0]?.src}}" />
@@ -180,7 +184,16 @@
           <ion-card-content>
             <div class="product-name">{{product?.name}}</div>
 
-            <div class="product-price" [innerHTML]="product?.price_html"></div>
+            <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
+              <div class="product-price" [innerHTML]="product?.price_html"></div>
+            </div>
+
+
+            <div class="container-price-promo" *ngIf="product?.promotion == 'promo'">
+              <div class="product-price2" [innerHTML]="product?.price_html"></div>
+              <div class="product-price-promo" [innerHTML]="product?.price_html_promo"></div>
+            </div>
+
           </ion-card-content>
 
           <ion-row class="row-panier">
@@ -201,7 +214,15 @@
           <ion-card-content (click)="goToDetail(product?.id)">
             <div class="product-name">{{product?.name}}</div>
 
-            <div class="product-price" [innerHTML]="product?.price_html"></div>
+            <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
+              <div class="product-price" [innerHTML]="product?.price_html"></div>
+            </div>
+
+            <div class="container-price-promo" *ngIf="product?.promotion == 'promo'">
+              <div class="product-price2" [innerHTML]="product?.price_html"></div>
+              <div class="product-price-promo" [innerHTML]="product?.price_html_promo"></div>
+            </div>
+
           </ion-card-content>
 
           <ion-row (click)="showPopover($event,product)" class="row-panier">

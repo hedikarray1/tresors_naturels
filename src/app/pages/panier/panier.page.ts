@@ -44,9 +44,7 @@ export class PanierPage implements OnInit {
     
     });
 
-   
-      event.target.complete();
-  
+      event.target.complete();  
   }
 
 
@@ -102,6 +100,11 @@ export class PanierPage implements OnInit {
             load.dismiss();
             console.log("loading dismissed");
           });
+          this.panierService.getCartItemNbr(val.id).then((d1)=>{
+            this.GLobalVarService.publishSomeData({
+              PanierNbr: d1["data"]
+          });
+        });
         }).catch(async (reason) => {
           if (this.oneCatch) {
     
