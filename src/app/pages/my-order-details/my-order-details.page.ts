@@ -75,7 +75,7 @@ export class MyOrderDetailsPage implements OnInit {
   getOrder() {
     let lineItems: any[] = [];
   
-    this.OrderService.getMyOrderDetails(this.orderId).then((data: any) => {
+    this.OrderService.getMyOrderDetailsCustom(this.orderId).then((data: any) => {
       this.Order = data;
       lineItems = data.line_items ;
       this.totalitem = 0 ;

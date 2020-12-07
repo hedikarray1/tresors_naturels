@@ -58,6 +58,18 @@ export class OrderService {
 
   }
 
+  getMyOrderDetailsCustom(id) {
+    let params ={
+      "id" : id
+    }
+    return this.http.post(environment.apiCustomURL+"order/order_details.php",params).toPromise();
+  }
+  getMyOrdersCustom(id) {
+    let params ={
+      "id" : id
+    }
+    return this.http.post(environment.apiCustomURL+"order/my_orders.php",params).toPromise();
+  }
   getAllPaymentMethods(zone_id) {
 
     return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/shipping/zones/" + zone_id + "/methods", {})).toPromise();
