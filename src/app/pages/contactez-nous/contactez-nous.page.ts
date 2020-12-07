@@ -16,13 +16,13 @@ export class ContactezNousPage implements OnInit {
   constructor(
     private fb : FormBuilder,
     private modalCtrl: ModalController,
-    private http:HttpClient  
+ 
   ) { 
    
   }
 
   ngOnInit() {
-    this.testCPU();
+  
     this.contactForm = this.fb.group({
       nom :['' , [Validators.required]],
       email :['' , [Validators.required]],
@@ -32,17 +32,6 @@ export class ContactezNousPage implements OnInit {
   }
 
   
-async openCart() {
- 
- 
-  let modal = await this.modalCtrl.create({
-    component: PanierModalPage,
-    cssClass: 'cart-modal'
-  });
-  modal.onWillDismiss().then(() => {
-  });
-  modal.present();
-}
   submit(){
 
   }
@@ -54,20 +43,6 @@ async openCart() {
     }
    
     return;
-}
-
-testCPU(){
-  let i=0;
-  let j =0;
-  for(i=0;i<100;i++){
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/all_products.php").toPromise().then((data)=>{
-console.log("req"+i);
-j++ ;
-console.log('data '+j,data);
-    },(err)=> {
-      console.log('error ',err);
-    })
-  }
 }
 
 

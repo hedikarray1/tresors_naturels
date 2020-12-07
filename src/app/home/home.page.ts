@@ -87,21 +87,7 @@ export class HomePage implements OnInit {
       event.target.complete();
     });
   }
-  doRefresh2(event) {
-    this.allProducts = [];
   
-    
-    console.log('Begin async operation');
-  
-    this.storage.get('user-state').then((val) => {
-      console.log('user state', val);
-      this.userState = val;
-
-  
-      this.getAllProducts();
-      event.target.complete();
-    });
-  }
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
@@ -178,7 +164,6 @@ export class HomePage implements OnInit {
   }
 
 
-
   showSearch() {
     this.searchText = '';
     this.searchShow = !this.searchShow;
@@ -225,7 +210,6 @@ export class HomePage implements OnInit {
     });
   }
 
-
   getSlidesNbr() {
     console.log('get slide nbr enter');
     this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").subscribe((res: any[]) => {
@@ -261,14 +245,10 @@ export class HomePage implements OnInit {
     });
   }
 
-
-
-
-
   getHomeJson() {
 
     console.log('get home json start');
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/homePage.json").subscribe((res: any[]) => {
+    this.http.get("https://laboratoiretresorsnaturels.tn/tresors_back/config/homePage.json").subscribe((res: any[]) => {
 
       this.homePageJson = [];
 

@@ -3,7 +3,7 @@ import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -21,15 +21,22 @@ loading;
     private loadingCtrl: LoadingController,
     private authService: AuthService,
     private storage: Storage,
+    public menuCtrl: MenuController
   ) { 
+    this.menuCtrl.enable(false);
   }
 
   ngOnInit() {
+    this.menuCtrl.enable(false);
     this.credentiels = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
+
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+   }
 
   async login() {
     this.loading =  this.loadingCtrl.create({

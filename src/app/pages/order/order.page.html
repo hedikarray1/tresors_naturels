@@ -48,7 +48,7 @@
   </ion-list>
 
   <ion-card>
-    <ion-card-header> EXPÉDITION ZONE </ion-card-header>
+    <ion-card-header class="txt-title-font-size"> EXPÉDITION ZONE </ion-card-header>
     <ion-radio-group mode="ios" [(ngModel)]="selectedzone"  (ngModelChange)="selectZone()">
 
       <ion-item *ngFor="let zone of shipping_zones ">
@@ -66,7 +66,8 @@
 -->
   </ion-card>
   <ion-card>
-    <ion-card-header> EXPÉDITION </ion-card-header>
+    <ion-card-header class="txt-title-font-size"> EXPÉDITION </ion-card-header>
+   
     <ion-radio-group mode="ios" [(ngModel)]="selectedpayment"   (ngModelChange)="selectMethod()">
 
       <ion-item *ngFor="let payment of payment_methodes">
@@ -111,7 +112,7 @@
 
   <ion-card>
     <ion-item class="item-total">
-      <ion-grid>
+      <ion-grid class="txt-font-size">
         <ion-row>
           <ion-col size="6"> Sous-Total : </ion-col>
           <ion-col size="6" class="ion-text-end"> {{totalPanier | number : '1.3-3'}} TND </ion-col>
@@ -151,8 +152,9 @@
   </ion-segment>
 
   <ion-card *ngIf="showFacturation" id="facturation-card">
+    <ion-card-header class="txt-title-font-size"> Informations de facturation </ion-card-header>
     <ion-card-content>
-      <ion-card-title>Informations de facturation</ion-card-title>
+     
       <ion-item>
         <ion-label position="floating">Nom</ion-label>
         <ion-input [(ngModel)]="billing.last_name" placeholder="Votre nom"></ion-input>
@@ -193,8 +195,9 @@
   </ion-card>
 
   <ion-card *ngIf="showLivraison" id="facturation-card">
+    <ion-card-header class="txt-title-font-size"> Informations de livraison </ion-card-header>
     <ion-card-content>
-      <ion-card-title>Informations de livraison</ion-card-title>
+    
       <ion-item>
         <ion-label position="floating">Nom</ion-label>
         <ion-input placeholder="Votre nom" [(ngModel)]="shipping.last_name"></ion-input>
@@ -227,8 +230,9 @@
   </ion-card>
 
   <ion-card>
+    <ion-card-header class="txt-title-font-size"> Ajouter un commentaire </ion-card-header>
     <ion-card-content>
-      <ion-card-title>Ajouter un commentaire</ion-card-title>
+    
 
       <ion-item>
         <ion-textarea [(ngModel)]="notes" placeholder="Remplissez vos notes..."></ion-textarea>
@@ -236,5 +240,5 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="block" fill="outline" color="dark" value="block" (click)="createOrder()">confirmer</ion-button>
+  <ion-button class="btn-commande-margin " expand="block" fill="outline" color="dark" value="block" (click)="createOrder()">confirmer</ion-button>
 </ion-content>

@@ -1,6 +1,6 @@
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { AlertController, IonSlides, LoadingController } from '@ionic/angular';
+import { AlertController, IonSlides, LoadingController, MenuController } from '@ionic/angular';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -61,12 +61,20 @@ export class RegisterPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private storage: Storage
-  ) { }
+    private storage: Storage,
+    public menuCtrl: MenuController
+  ) { 
+    this.menuCtrl.enable(false);
+  }
 
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+   }
+   
+   
 
   ngOnInit() {
-
+    this.menuCtrl.enable(false);
     this.register1Form = this.fb.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
