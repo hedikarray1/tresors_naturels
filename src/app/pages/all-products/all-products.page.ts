@@ -89,7 +89,9 @@ export class AllProductsPage implements OnInit {
 
       } else {
         this.oneCatch = true
-        event.target.complete();
+        setTimeout(() => {
+          event.target.complete();
+        }, 2000);
         console.log('error :',reason);
         this.loading.then((load) => {
           load.dismiss();
@@ -115,7 +117,9 @@ export class AllProductsPage implements OnInit {
       }
     });
     this.getAllProducts();
-    event.target.complete();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 
   getAllProducts() {

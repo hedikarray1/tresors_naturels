@@ -77,17 +77,19 @@ export class HomePage implements OnInit {
     this.homePageJson = []
 
     console.log('Begin async operation');
- 
+
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
       this.getSlidesNbr();
       this.getHomeJson();
       this.getAllProducts();
-      event.target.complete();
+      setTimeout(() => {
+        event.target.complete();
+      }, 2000);
     });
   }
-  
+
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);
@@ -292,8 +294,8 @@ export class HomePage implements OnInit {
           });
 
           this.poductService.getProductByCategoryCustom(element.category.id).then((dataProducts: any[]) => {
-            element.product_array = dataProducts ;
-            
+            element.product_array = dataProducts;
+
             if (this.homePageJson.length <= index + 1) {
               console.log('get home json object end');
               console.log('home json with object: ', this.homePageJson);

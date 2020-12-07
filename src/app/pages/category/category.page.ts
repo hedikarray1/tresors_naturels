@@ -64,7 +64,9 @@ export class CategoryPage implements OnInit {
     console.log('Begin async operation');
     await this.getCategory();
 
-    event.target.complete();
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
 
   }
 

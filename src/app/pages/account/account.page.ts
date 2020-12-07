@@ -115,7 +115,9 @@ export class AccountPage implements OnInit {
       console.log('user-state', val);
       this.userState = val;
       this.getUserData();
-      event.target.complete();
+      setTimeout(() => {
+        event.target.complete();
+      }, 2000);
     }).catch(async (reason) => {
       if (this.oneCatch) {
 
@@ -124,7 +126,9 @@ export class AccountPage implements OnInit {
           load.dismiss();
         });
         this.oneCatch = true
-        event.target.complete();
+        setTimeout(() => {
+          event.target.complete();
+        }, 2000);
         console.log("error get user state", reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",

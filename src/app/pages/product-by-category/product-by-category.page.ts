@@ -69,7 +69,9 @@ export class ProductByCategoryPage implements OnInit {
     this.idCategory = this.route.snapshot.paramMap.get('id');
     this.getCategory()
   
+    setTimeout(() => {
       event.target.complete();
+    }, 2000);
    
   }
 

@@ -109,7 +109,9 @@ export class CouponModalPage implements OnInit {
     this.getCoupons();
 
    
+    setTimeout(() => {
       event.target.complete();
+    }, 2000);
   
   }
 

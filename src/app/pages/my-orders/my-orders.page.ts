@@ -70,8 +70,6 @@ export class MyOrdersPage implements OnInit {
     });
     this.getUserdata();
     setTimeout(() => {
-
-      console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
   }

@@ -113,8 +113,9 @@ export class DetailProduitPage implements OnInit {
     });
 
     this.getProductById();
-    
+    setTimeout(() => {
       event.target.complete();
+    }, 2000);
   
   }
 

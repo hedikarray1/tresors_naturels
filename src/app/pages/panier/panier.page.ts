@@ -44,7 +44,9 @@ export class PanierPage implements OnInit {
     
     });
 
-      event.target.complete();  
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
   }
 
 
