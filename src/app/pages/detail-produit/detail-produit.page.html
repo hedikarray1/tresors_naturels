@@ -15,10 +15,17 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-card class="product-card">
+
     <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock-detail">
       <p class="txt-out-of-stock-detail">Rupture de stock</p>
       <img src="{{product?.images[0]?.src}}" />
     </div>
+    
+    <div class="container-txt-promo-detail" *ngIf="product?.promotion == 'promo'">
+      <p class="txt-promo-detail">Promo</p>
+      <img src="{{product?.images[0]?.src}}" />
+    </div>
+
     <div class="product-image-container">
       <img src="{{product?.images[0]?.src}}" />
     </div>
@@ -32,9 +39,17 @@
 
         <div class="product-name"><strong>{{product?.name}}</strong></div>
 
-        <div class="container-row">
+        
+        <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
           <div class="product-price" [innerHTML]="product?.price_html"></div>
         </div>
+       
+
+        <div class="container-price-promo" *ngIf="product?.promotion == 'promo'">
+          <div class="product-price2" [innerHTML]="product?.price_html"></div>
+          <div class="product-price-promo" [innerHTML]="product?.price_html_promo"></div>
+        </div>
+
         <br />
         <label class="text-size"><strong>Catégories</strong> : </label>
 

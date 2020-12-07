@@ -60,11 +60,72 @@
    justify-content: space-between;
 }
 
+
+
 .product-price {
-   font-family: Cormorant-Medium;
-   font-size: 5vw;
-  // text-align: center;
-}
+   font-family: 'Cormorant-Bold';
+   font-size: 6vw;
+   text-decoration: initial;
+   font-weight: inherit;
+  
+  
+ }
+ 
+ .container-price-nopromo{
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-content: center;
+   
+ }
+ 
+ .container-price-promo {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-content: center;
+   
+ }
+ .product-price2 {
+   font-family: 'Cormorant-Medium';
+     font-size: 5vw;
+     text-decoration: initial;
+     font-weight: inherit;
+   
+     color: #c9c6c6;
+  
+ }
+ 
+ .product-price-promo {
+   font-family: 'Cormorant-Bold';
+   font-size: 6vw;
+   text-decoration: initial;
+   font-weight: inherit;
+  
+ }
+ 
+ 
+ 
+ .container-txt-promo{
+   position: absolute;
+   display: block;
+   text-align: end;
+   width: 100%;
+   height: 100%;
+ }
+ 
+ .txt-promo {
+   background: #feeae7;
+     position: absolute;
+     height: 10vw;
+     margin: 0%;
+     font-family: 'Cormorant-SemiBoldItalic';
+     padding: 2vw;
+     right: 0;
+     top: 4%;
+     font-size: 5vw;
+ }
+ 
 
 .product-short_description {
    font-size: 4vw;
@@ -276,6 +337,33 @@
    top: 40%;
 }
 
+.container-txt-promo-detail{
+   position: absolute;
+   display: block;
+   text-align: end;
+   width: 100%;
+  
+   display : flex ;
+   justify-content : center;
+ }
+
+ .container-txt-promo-detail img {
+   width: 100%;
+   visibility: hidden;
+}
+ 
+ .txt-promo-detail {
+   background: #feeae7;
+   position: absolute;
+   height: 13vw;
+   margin: 0%;
+   font-family: "Cormorant-SemiBoldItalic";
+   padding: 3vw;
+   right: 0;
+   top: 4%;
+   font-size: 7vw;
+ }
+ 
 
 .txt-font-size {
    font-size: 3vw;

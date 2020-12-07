@@ -30,9 +30,10 @@
    box-shadow: 0 0 black;
 }
 
+
 ion-card-content {
-   padding: 2px 5px 5px;
-}
+   padding: 2px 2px 5px;
+ }
 
 .category-name {
    font-size: xx-large;
@@ -80,14 +81,72 @@ ion-card-content {
    font-size: 3vw;
 }
 
+
 .product-price {
-   font-family: Cormorant-Medium;
-   font-size: 3.5vw;
+   font-family: 'Cormorant-Bold';
+   font-size: 5vw;
    text-decoration: initial;
-   font-weight: 600;
+   font-weight: inherit;
    text-align: center;
+  
+ }
+ 
+ .container-price-nopromo{
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-content: center;
+   height: 7vw;
+ }
+ 
+ .container-price-promo {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-content: center;
    height: 11vw;
-}
+ }
+ .product-price2 {
+   font-family: 'Cormorant-Medium';
+     font-size: 4vw;
+     text-decoration: initial;
+     font-weight: inherit;
+     text-align: center;
+     color: #c9c6c6;
+  
+ }
+ 
+ .product-price-promo {
+   font-family: 'Cormorant-Bold';
+   font-size: 5vw;
+   text-decoration: initial;
+   font-weight: inherit;
+   text-align: center;
+  
+ }
+ 
+ 
+ 
+ .container-txt-promo{
+   position: absolute;
+   display: block;
+   text-align: end;
+   width: 100%;
+   height: 100%;
+ }
+ 
+ .txt-promo {
+   background: #feeae7;
+     position: absolute;
+     height: 10vw;
+     margin: 0%;
+     font-family: 'Cormorant-SemiBoldItalic';
+     padding: 2vw;
+     right: 0;
+     top: 4%;
+     font-size: 5vw;
+ }
+ 
 
 .icon-add-item{
    padding:5px;
