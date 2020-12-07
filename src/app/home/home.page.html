@@ -13,7 +13,7 @@
         <ion-icon slot="icon-only" class="icon-header" color="dark" slot="end" name="search-outline"></ion-icon>
       </ion-button>
 
-     
+
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar *ngIf="searchShow">
@@ -35,7 +35,7 @@
     (ionSlidesDidLoad)="ionSlidesDidLoad(slider)">
     <!--  [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" -->
     <ion-slide class="slide" *ngFor="let sldP of slidesPictures ">
-      <ion-col class="slide-col" (click)="goToPub(sldP?.type, sldP?.id, sldP?.name)" >
+      <ion-col class="slide-col" (click)="goToPub(sldP?.type, sldP?.id, sldP?.name)">
         <img class="slide-img" src="{{sldP?.src}}" />
       </ion-col>
     </ion-slide>
@@ -51,13 +51,15 @@
     <!-- show category with product-->
     <div *ngIf="homeItem1.type === 'category' ">
       <ion-card class="category-card">
-        <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn" fill="clear" color="dark">
+        <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn"
+          fill="clear" color="dark">
           {{homeItem1.category.name}}
         </ion-button>
         <ion-img class="category-slides-img" src="{{homeItem1.category_object?.image?.src}}"> </ion-img>
         <div class="category-container-slides">
           <div class="category-slides-title"> {{homeItem1.sub_category.name}}</div>
-          <div class="category-slides-viewAll" (click)="goToProductByCategory(homeItem1.category.name, homeItem1.category.id)">VOIR
+          <div class="category-slides-viewAll"
+            (click)="goToProductByCategory(homeItem1.category.name, homeItem1.category.id)">VOIR
             PLUS</div>
         </div>
       </ion-card>
@@ -70,6 +72,9 @@
               <p class="txt-out-of-stock">Rupture de stock</p>
             </div>
 
+            <div class="container-txt-promo" *ngIf="product?.promotion == 'promo'">
+              <p class="txt-promo">Promo</p>
+            </div>
             <div *ngIf="product?.stock_status=='outofstock'" (click)="goToDetail(product?.id)">
               <div class="product-image-container">
                 <img src="{{product?.images[0]?.src}}" />
@@ -78,7 +83,16 @@
               <ion-card-content>
                 <div class="product-name">{{product?.name}}</div>
 
-                <div class="product-price" [innerHTML]="product?.price_html.replace('ins','div')"></div>
+                <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
+                  <div class="product-price" [innerHTML]="product?.price_html"></div>
+                </div>
+
+
+                <div class="container-price-promo" *ngIf="product?.promotion == 'promo'">
+                  <div class="product-price2" [innerHTML]="product?.price_html"></div>
+                  <div class="product-price-promo" [innerHTML]="product?.price_html_promo"></div>
+                </div>
+
               </ion-card-content>
 
               <ion-row class="row-panier">
@@ -99,7 +113,15 @@
               <ion-card-content (click)="goToDetail(product?.id)">
                 <div class="product-name">{{product?.name}}</div>
 
-                <div class="product-price" [innerHTML]="product?.price_html"></div>
+                <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
+                  <div class="product-price" [innerHTML]="product?.price_html"></div>
+                </div>
+
+
+                <div class="container-price-promo" *ngIf="product?.promotion == 'promo'">
+                  <div class="product-price2" [innerHTML]="product?.price_html"></div>
+                  <div class="product-price-promo" [innerHTML]="product?.price_html_promo"></div>
+                </div>
               </ion-card-content>
 
               <ion-row (click)="showPopover($event,product)" class="row-panier">
@@ -111,19 +133,22 @@
                 </ion-col>
               </ion-row>
             </div>
+
           </ion-card>
         </ion-slide>
       </ion-slides>
     </div>
 
     <!-- show pub single -->
-    <div class="pub_single_container" *ngIf="homeItem1.type === 'pub_single' " >
-      <ion-img src="{{homeItem1.images[0]?.src}}" (click)=" goToPub(homeItem1.images[0]?.type, homeItem1.images[0]?.id,homeItem1.images[0]?.name)"></ion-img>
+    <div class="pub_single_container" *ngIf="homeItem1.type === 'pub_single' ">
+      <ion-img src="{{homeItem1.images[0]?.src}}"
+        (click)=" goToPub(homeItem1.images[0]?.type, homeItem1.images[0]?.id,homeItem1.images[0]?.name)"></ion-img>
     </div>
 
     <!-- show pub double -->
-    <div class="pub_double_container" *ngIf="homeItem1.type === 'pub_double' "  >
-      <ion-img *ngFor="let imgPub of homeItem1.images" src="{{imgPub?.src}}" (click)=" goToPub(imgPub?.type, imgPub?.id,imgPub?.name)"></ion-img>
+    <div class="pub_double_container" *ngIf="homeItem1.type === 'pub_double' ">
+      <ion-img *ngFor="let imgPub of homeItem1.images" src="{{imgPub?.src}}"
+        (click)=" goToPub(imgPub?.type, imgPub?.id,imgPub?.name)"></ion-img>
     </div>
 
     <br />
@@ -134,7 +159,7 @@
 
 
 <ion-content class="content-all-product" *ngIf="searchText != ''">
-  
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -154,7 +179,7 @@
           <div class="card-separator"></div>
           <ion-card-content>
             <div class="product-name">{{product?.name}}</div>
-           
+
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
 
@@ -175,7 +200,7 @@
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(product?.id)">
             <div class="product-name">{{product?.name}}</div>
-           
+
             <div class="product-price" [innerHTML]="product?.price_html"></div>
           </ion-card-content>
 
