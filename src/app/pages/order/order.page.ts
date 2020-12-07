@@ -1,8 +1,8 @@
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderAddCouponModalPage } from './../order-add-coupon-modal/order-add-coupon-modal.page';
 import { Storage } from '@ionic/storage';
 import { UserService } from './../../services/user/user.service';
-import { StorageService } from './../../services/storage/storage.service';
 import { PanierService } from './../../services/panier/panier.service';
 import { OrderService } from './../../services/order/order.service';
 import { Component, OnInit } from '@angular/core';
@@ -17,6 +17,8 @@ export class OrderPage implements OnInit {
 
   panier: any[] = [];
 
+  billingEmailForm: FormGroup;
+
   totalPanier = 0;
   pointsGain = 0;
   totalOrder = 0;
@@ -24,6 +26,7 @@ export class OrderPage implements OnInit {
   totalLaivraison = 0;
 
   selecteMethodState = false;
+  selecteZoneState = false;
 
   showFacturation = true;
   showLivraison = false;
@@ -45,21 +48,35 @@ export class OrderPage implements OnInit {
   selectedShippingMethod: any;
   selectedzone;
   notes = "";
+
+  validation_messages = {
+    Email: [
+      { type: 'required', message: 'Ce champs est obligatoire' },
+      { type: 'pattern', message: "L'e-mail doit être un e-mail valide." },
+    ]
+  } ;
+
+
+
   constructor(
     private UserService: UserService,
     private storage: Storage,
     private OrderService: OrderService,
     private PanierService: PanierService,
-    private StorageService: StorageService,
     private modalCtrl: ModalController,
     private alertController: AlertController,
     private router: Router,
-    private loadingController: LoadingController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
-
+    this.billingEmailForm = this.fb.group({
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')
+      ]))
+    });
     this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
@@ -273,9 +290,9 @@ export class OrderPage implements OnInit {
 
 
   async createOrder() {
-    if (this.selecteMethodState === false) {
+    if (this.selecteZoneState  === false) {
       const alert = await this.alertController.create({
-        header: "Vous devez selectionner la methode d'expédition .",
+        header: "Vous devez selectionner la zone d'expédition",
         mode: 'ios',
         message: '',
         buttons: [
@@ -291,8 +308,42 @@ export class OrderPage implements OnInit {
       });
       await alert.present();
     } else {
-
-
+      if (this.selecteMethodState === false) {
+        const alert = await this.alertController.create({
+          header: "Vous devez selectionner la méthode d'expédition ",
+          mode: 'ios',
+          message: '',
+          buttons: [
+  
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              }
+            },
+          ]
+        });
+        await alert.present();
+      } else {
+        if (!this.billingEmailForm.valid) {
+          const alert = await this.alertController.create({
+            header: "Adresse électronique invalide ",
+            mode: 'ios', 
+            message: 'Vous devez remplir le champ adresse électronique dans le formulaire de facturation avec une adresse valide',
+            buttons: [
+    
+              {
+                text: "D'accord",
+                cssClass: 'btn-alert-connexion',
+                handler: () => {
+                  alert.dismiss();
+                }
+              },
+            ]
+          });
+          await alert.present();
+        } else {
       this.loading = this.loadingCtrl.create({
         spinner: null,
         cssClass: 'custom-loading',
@@ -396,13 +447,14 @@ export class OrderPage implements OnInit {
       );
   
     }
-
+  }
+}
   }
 
 
 
   selectZone() {
-
+this.selecteZoneState = true;
     console.log('selected zone', this.selectedzone);
     this.getPAymentmethodes(this.selectedzone);
   }

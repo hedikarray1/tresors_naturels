@@ -124,6 +124,7 @@ export class MyOrderDetailsPage implements OnInit {
 
       } else {
         this.oneCatch = true
+        console.log('error',reason) ;
         this.loading.then((load)=>{
           load.dismiss();
                       });

@@ -48,7 +48,7 @@
   </ion-list>
 
   <ion-card>
-    <ion-card-header class="txt-title-font-size"> EXPÉDITION ZONE </ion-card-header>
+    <ion-card-header class="txt-title-font-size"> ZONE D'EXPÉDITION  </ion-card-header>
     <ion-radio-group mode="ios" [(ngModel)]="selectedzone"  (ngModelChange)="selectZone()">
 
       <ion-item *ngFor="let zone of shipping_zones ">
@@ -66,7 +66,7 @@
 -->
   </ion-card>
   <ion-card>
-    <ion-card-header class="txt-title-font-size"> EXPÉDITION </ion-card-header>
+    <ion-card-header class="txt-title-font-size">MÉTHODE D'EXPÉDITION </ion-card-header>
    
     <ion-radio-group mode="ios" [(ngModel)]="selectedpayment"   (ngModelChange)="selectMethod()">
 
@@ -183,10 +183,23 @@
         <ion-label position="floating">Code postal</ion-label>
         <ion-input [(ngModel)]="billing.postcode" placeholder="code postal"></ion-input>
       </ion-item>
+      <form  [formGroup]="billingEmailForm">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input placeholder="Votre adresse électronique" [(ngModel)]="billing.email"></ion-input>
+        <ion-input placeholder="Votre adresse électronique" formControlName="email" [(ngModel)]="billing.email"></ion-input>
       </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.Email">
+          <div class="error-message"
+            *ngIf="billingEmailForm.get('email').hasError(validation.type) && (billingEmailForm.get('email').dirty || billingEmailForm.get('email').touched)">
+            <span class="error ion-padding">
+              {{ validation.message }}
+            </span>
+
+          </div>
+        </ng-container>
+      </div>
+      </form>
       <ion-item>
         <ion-label position="floating">Téléphone</ion-label>
         <ion-input placeholder="Votre numéro de téléphone" [(ngModel)]="billing.phone"></ion-input>

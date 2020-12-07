@@ -1,4 +1,3 @@
-
 <ion-content>
 
   <div class="image-login">
@@ -6,12 +5,10 @@
   </div>
 
  <form class="form-login" (ngSubmit)="login()" [formGroup]="credentiels">
-  
   <ion-item>
     <ion-label position="floating" color="dark">Nom d'utilisateur</ion-label>
     <ion-input type="text" formControlName="username" class="form-controll" required></ion-input>
   </ion-item>
- 
   <ion-item>
     <ion-label position="floating" color="dark">Mot de passe</ion-label>
     <ion-input [type]="passwordType" formControlName="password" clearOnEdit="false" class="form-controll" required></ion-input>
