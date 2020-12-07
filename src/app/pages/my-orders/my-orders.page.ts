@@ -142,7 +142,7 @@ export class MyOrdersPage implements OnInit {
   }
 
   getOrders() {
-    this.OrderService.getMyOrders(this.current_user.id).then((data: any[]) => {
+    this.OrderService.getMyOrdersCustom(this.current_user.id).then((data: any[]) => {
       this.orders = data;
       if (this.orders.length > 0) {
         this.not_empty = true;
