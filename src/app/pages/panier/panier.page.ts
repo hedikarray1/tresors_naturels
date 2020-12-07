@@ -34,8 +34,7 @@ export class PanierPage implements OnInit {
   doRefresh(event) {
    
     this.panierModifier = false;
-    this.panier=[];
-    this.totale = 0;
+  
     this.storage.get('user-state').then((val) => {
       console.log('user-state', val);
       this.userState = val;
@@ -45,19 +44,24 @@ export class PanierPage implements OnInit {
     
     });
 
-    setTimeout(() => {
-
-      console.log('Async operation has ended');
+   
       event.target.complete();
-    }, 2000);
+  
   }
 
 
 
   ionViewDidEnter() {
-    //this.presentLoadingCustom();
-    
+    this.panierModifier = false;
+    this.totale = 0;
    
+    this.storage.get('user-state').then((val) => {
+      console.log('user-state', val);
+      this.userState = val;
+      this.getPanier();
+    });
+
+    console.log("userState", this.userState);
   }
 
   ngOnInit() {
@@ -84,18 +88,19 @@ export class PanierPage implements OnInit {
 
   async getPanier() {
    
-    this.panier = [];
+    
     if (this.userState) {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.panierService.getCartFromServer(val.id).then((res: any[]) => {
-         
+          this.panier = [];
           this.panier = res['data'];
           console.log('panier : ',this.panier);
           this.totale = parseFloat(res['subtotal']);
          
           this.loading.then((load) => {
             load.dismiss();
+            console.log("loading dismissed");
           });
         }).catch(async (reason) => {
           if (this.oneCatch) {

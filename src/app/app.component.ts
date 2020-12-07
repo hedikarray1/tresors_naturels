@@ -69,11 +69,11 @@ export class AppComponent implements OnInit {
       url: 'bottom-navigation/paiement-et-livraison',
       icon: 'pricetag'
     },
-    {
+   /* {
       title: 'Contactez nous',
       url: 'bottom-navigation/contactez-nous',
       icon: 'mail'
-    }
+    }*/
   ];
 
 
@@ -176,13 +176,13 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     const path = window.location.pathname.split('bottom-navigation/')[1];
+   
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
 
 
-    // this.storageService.saveUser(user);
-    // this.storageService.saveUserState(true);
+   
 
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
@@ -192,10 +192,32 @@ export class AppComponent implements OnInit {
 
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-      this.panierService.addEmtyToCartOnServer(val.id);
+    //  this.panierService.addEmtyToCartOnServer(val.id);
     });
 
 
+  }
+
+  ionViewDidLoad(){
+    const path = window.location.pathname.split('bottom-navigation/')[1];
+    console.log("page path", path);
+    if (path !== undefined) {
+      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+    }
+
+
+   
+
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
+    });
+
+
+    this.storage.get('auth-user').then((val) => {
+      console.log('auth-user', val);
+    //  this.panierService.addEmtyToCartOnServer(val.id);
+    });
   }
 
   goTo(link) {

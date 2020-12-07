@@ -26,3 +26,21 @@ component-item-group ion-list {
   --inner-border-width: 0;
   --border-width: 0 0 1px 0;
 }
+
+
+.txt-font-size {
+  font-size: 4vw;
+}
+
+.txt-title-font-size {
+  font-size: 4vw;
+    font-weight: 600;
+}
+
+ion-textarea , ion-input {
+  font-size: 4vw;
+}
+
+.btn-commande-margin {
+  margin: 5%;
+}

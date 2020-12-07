@@ -62,9 +62,12 @@
     
     </div>
     <div *ngIf="facturation" id="facturation-card" class="card-body">
-    
+     
+      <h3 class="fidelite-title">
+        Informations de facturation
+      </h3>
         <ion-card-content>
-          <ion-card-title>Informations de facturation</ion-card-title>
+          
           <ion-item>
             <ion-label position="floating">Nom</ion-label>
             <ion-input readonly="{{facturationinputs}}" [(ngModel)]="User.billing.last_name" placeholder="Votre nom">
@@ -117,8 +120,11 @@
       </div>
       <div *ngIf="livraison" id="facturation-card"  class="card-body">
     
+        <h3 class="fidelite-title">
+          Informations de livraison
+        </h3>
         <ion-card-content>
-          <ion-card-title>Informations de livraison</ion-card-title>
+        
           <ion-item>
             <ion-label position="floating">Nom</ion-label>
             <ion-input readonly="{{livraisoninputs}}" placeholder="Votre nom" [(ngModel)]="User.shipping.last_name">

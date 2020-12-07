@@ -111,11 +111,7 @@
                 </ion-col>
               </ion-row>
             </div>
-
-
           </ion-card>
-
-
         </ion-slide>
       </ion-slides>
     </div>
@@ -139,7 +135,7 @@
 
 <ion-content class="content-all-product" *ngIf="searchText != ''">
   
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh2($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 

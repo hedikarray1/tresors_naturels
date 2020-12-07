@@ -51,7 +51,7 @@
             {{product?.attributes[0]?.name}}
           </ion-label>
           <ion-select placeholder="choisir une option" [(ngModel)]="variationId">
-            <ion-select-option *ngFor="let valop of variations" value="{{valop.id}}">{{valop.option}}
+            <ion-select-option class="txt-font-size" *ngFor="let valop of variations" value="{{valop.id}}">{{valop.option}}
             </ion-select-option>
           </ion-select>
         </ion-item>
