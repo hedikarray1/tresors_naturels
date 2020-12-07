@@ -175,7 +175,11 @@ export class AppComponent implements OnInit {
 //check for app updates
 const updateUrl = 'https://laboratoiretresorsnaturels.tn/tresors_back/updates/app_update.xml';
 this.appUpdate.checkAppUpdate(updateUrl).then(update => {
-  alert("Update Status:  "+update.msg);
+  //alert("Update Status:  "+update.code);
+/*if(update.code=="201"){
+  console.log("need to update");
+}*/
+
 }).catch(error=>{
   alert("Error: "+error.msg);
 });
