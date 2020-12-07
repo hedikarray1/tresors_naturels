@@ -7,9 +7,7 @@ import {Subject} from 'rxjs';
 export class GlobalVarServiceService {
 
   constructor() { }
-  
   private PanierNbr= new Subject<any>();
-
   publishSomeData(data: any) {
       this.PanierNbr.next(data);
   }

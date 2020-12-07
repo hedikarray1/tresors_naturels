@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   panier: any[] = [];
   userState: boolean = false;
   public selectedIndex = 0;
+
   public appPages = [
     {
       title: 'Accueil',
@@ -69,11 +70,11 @@ export class AppComponent implements OnInit {
       url: 'bottom-navigation/paiement-et-livraison',
       icon: 'pricetag'
     },
-   /* {
-      title: 'Contactez nous',
-      url: 'bottom-navigation/contactez-nous',
-      icon: 'mail'
-    }*/
+    /* {
+       title: 'Contactez nous',
+       url: 'bottom-navigation/contactez-nous',
+       icon: 'mail'
+     }*/
   ];
 
 
@@ -142,7 +143,7 @@ export class AppComponent implements OnInit {
     });
 
     window.addEventListener('online', () => {
-      //Do task when internet connection returns
+  
       console.log("online");
 
       if (this.goneOffline) {
@@ -159,8 +160,6 @@ export class AppComponent implements OnInit {
         this.modal.then((mod) => {
           mod.present();
         });
-
-
       }
 
     });
@@ -176,38 +175,30 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     const path = window.location.pathname.split('bottom-navigation/')[1];
-   
+  
+
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
-
-
-   
 
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
     });
-
-
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-    //  this.panierService.addEmtyToCartOnServer(val.id);
     });
 
 
   }
 
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     const path = window.location.pathname.split('bottom-navigation/')[1];
     console.log("page path", path);
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
 
-
-   
-
     this.storage.get('user-state').then((val) => {
       console.log('user state', val);
       this.userState = val;
@@ -216,7 +207,6 @@ export class AppComponent implements OnInit {
 
     this.storage.get('auth-user').then((val) => {
       console.log('auth-user', val);
-    //  this.panierService.addEmtyToCartOnServer(val.id);
     });
   }
 

@@ -32,17 +32,6 @@ export class ContactezNousPage implements OnInit {
   }
 
   
-async openCart() {
- 
- 
-  let modal = await this.modalCtrl.create({
-    component: PanierModalPage,
-    cssClass: 'cart-modal'
-  });
-  modal.onWillDismiss().then(() => {
-  });
-  modal.present();
-}
   submit(){
 
   }

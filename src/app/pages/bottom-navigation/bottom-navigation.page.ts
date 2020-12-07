@@ -4,7 +4,7 @@ import { PanierService } from './../../services/panier/panier.service';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, MenuController } from '@ionic/angular';
 import {  Subscription } from 'rxjs';
 
 @Component({
@@ -23,16 +23,19 @@ export class BottomNavigationPage implements OnInit {
     private modalCtrl: ModalController,
     private panierService: PanierService,
     private storage: Storage,
-    private GLobalVarService:GlobalVarServiceService
+    private GLobalVarService:GlobalVarServiceService,
+    public menuCtrl: MenuController
   ) {
-
+    this.menuCtrl.enable(true);
     this.GLobalVarService.getObservable().subscribe((data) => {
     //  console.log('Data received', data);
     this.panierNbr=data.PanierNbr;
   });
     
 }
-   
+ionViewWillEnter() {
+  this.menuCtrl.enable(true);
+ }
 
   async ngOnInit() {
 
