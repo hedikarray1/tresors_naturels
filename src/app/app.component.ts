@@ -1,3 +1,4 @@
+import { AppUpdate } from '@ionic-native/app-update/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
 import { NoInternetPage } from './pages/no-internet/no-internet.page';
@@ -11,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform, AlertController, LoadingController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { AppUpdate } from '@ionic-native/app-update/ngx';
+
 
 @Component({
   selector: 'app-root',
