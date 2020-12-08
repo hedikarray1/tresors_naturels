@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { CategoryService } from './../services/category/category.service';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
@@ -221,7 +222,7 @@ export class HomePage implements OnInit {
 
   getSlidesNbr() {
     console.log('get slide nbr enter');
-    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/slider_count.json").subscribe((res: any[]) => {
+    this.http.get(environment.apiCustomURL+"config/get_slides.php").subscribe((res: any[]) => {
       this.slidesPictures = [];
       this.slidesPictures = res;
       console.log("get slide array :", this.slidesPictures);
@@ -257,7 +258,7 @@ export class HomePage implements OnInit {
   getHomeJson() {
 
     console.log('get home json start');
-    this.http.get("https://laboratoiretresorsnaturels.tn/tresors_back/config/get_home_config.php").subscribe((res: any[]) => {
+    this.http.get(environment.apiCustomURL+"config/get_home_config.php").subscribe((res: any[]) => {
 
       this.homePageJson = [];
 
