@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button>
+     
+      </ion-menu-button>
     </ion-buttons>
 
     <ion-title class="ion-title-header-center">
@@ -51,7 +53,7 @@
     <!-- show category with product-->
     <div *ngIf="homeItem1.type === 'category' ">
       <ion-card class="category-card">
-        <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn"
+        <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn ion-button-height-home"
           fill="clear" color="dark">
           {{homeItem1.category.name}}
         </ion-button>
@@ -100,7 +102,7 @@
                   ACHETER
                 </ion-col>
                 <ion-col class="col-panier col-panier-color panier-icon" size="3">
-                  <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+                  <ion-icon class="ion-icon-panier" size="small" color="light" name="cart-outline"></ion-icon>
                 </ion-col>
               </ion-row>
             </div>
@@ -129,7 +131,7 @@
                   ACHETER
                 </ion-col>
                 <ion-col class="col-panier col-panier-color panier-icon" size="3">
-                  <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+                  <ion-icon class="ion-icon-panier" size="small" color="light" name="cart-outline"></ion-icon>
                 </ion-col>
               </ion-row>
             </div>
@@ -201,7 +203,7 @@
               ACHETER
             </ion-col>
             <ion-col class="col-panier col-panier-color panier-icon" size="3">
-              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+              <ion-icon class="ion-icon-panier" size="small" color="light" name="cart-outline"></ion-icon>
             </ion-col>
           </ion-row>
         </div>
@@ -230,7 +232,7 @@
               ACHETER
             </ion-col>
             <ion-col class="col-panier col-panier-color panier-icon" size="3">
-              <ion-icon size="small" color="light" name="cart-outline"></ion-icon>
+              <ion-icon class="ion-icon-panier" size="small" color="light" name="cart-outline"></ion-icon>
             </ion-col>
           </ion-row>
 

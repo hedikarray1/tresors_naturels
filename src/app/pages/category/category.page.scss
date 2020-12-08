@@ -71,10 +71,12 @@ ion-card-content {
 
 .category-button-text {
   font-family: Lato, sans-serif;
-  font-size: 4.5vw;
+  font-size: 5vw;
   color: black;
-  text-align: start;
+  font-weight: 600;
   text-transform: uppercase;
+  text-align: start;
   margin: 0;
   min-inline-size: max-content;
+  height: 30%;
 }

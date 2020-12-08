@@ -41,7 +41,8 @@
 }
 
 .ion-title-header-center img{
-  width: 28%;
+  width: 90px;
+    height: 40px;
 }
  
 .cart-modal {
@@ -58,6 +59,26 @@
   --width: 100%;
  
 }
+
+ion-header {
+  ion-menu-button {
+    ion-icon {
+      width: 32px;
+      height: 48px;
+    }
+  
+  }
+
+  ion-icon {
+    width: 28px;
+    height: 32px;
+  }
+}
+
+.ion-icon-panier {
+    width: 70%;
+    height: 70%;
+  }
 
 
  
