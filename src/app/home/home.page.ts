@@ -92,20 +92,27 @@ export class HomePage implements OnInit {
 
 
   goToDetail(id) {
+    if (id !== ''){
     this.router.navigateByUrl('detail-produit/' + id);
+    }
   }
 
   goToProductByCategory(category, id) {
+    if (id !== ''){
     this.router.navigateByUrl('product-by-category/' + category + "/" + id);
+    }
   }
 
   goToPub(type, id, name) {
-    if (type === 'category') {
-      this.router.navigateByUrl('product-by-category/' + name + "/" + id);
+    if (id !== ''){
+      if (type === 'category') {
+        this.router.navigateByUrl('product-by-category/' + name + "/" + id);
+      }
+      if (type === 'produit') {
+        this.router.navigateByUrl('detail-produit/' + id);
+      }
     }
-    if (type === 'produit') {
-      this.router.navigateByUrl('detail-produit/' + id);
-    }
+  
   }
 
 
