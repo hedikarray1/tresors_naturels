@@ -233,6 +233,9 @@ export class HomePage implements OnInit {
 
       } else {
         this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
         console.log("error get slides ", reason);
         const alert = this.alertController.create({
           header: "Erreur lors du chargement de la page",
