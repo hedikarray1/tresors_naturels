@@ -250,7 +250,7 @@ export class HomePage implements OnInit {
   getHomeJson() {
 
     console.log('get home json start');
-    this.http.get("https://laboratoiretresorsnaturels.tn/tresors_back/config/homePage.json").subscribe((res: any[]) => {
+    this.http.get("https://laboratoiretresorsnaturels.tn/tresors_back/config/homePage.php").subscribe((res: any[]) => {
 
       this.homePageJson = [];
 
