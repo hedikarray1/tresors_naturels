@@ -61,6 +61,7 @@
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-uid": "^1.3.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-sqlite-storage": "^5.1.0",
     "jasmine-core": "~3.5.0",
@@ -91,7 +92,8 @@
       "cordova-sqlite-storage": {},
       "cordova-plugin-firebasex": {},
       "cordova-clipboard": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-dreamover-uid": {}
     },
     "platforms": [
       "android"

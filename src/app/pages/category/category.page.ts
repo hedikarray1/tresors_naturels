@@ -3,7 +3,6 @@ import { CategoryService } from './../../services/category/category.service';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { MbscListviewOptions } from '@mobiscroll/angular';
 
 @Component({
   selector: 'app-category',
@@ -55,14 +54,14 @@ export class CategoryPage implements OnInit {
       load.present();
     });
     // this.presentLoadingCustom();
-    await this.getCategory();
+     this.getCategory();
 
   }
 
 
   async doRefresh(event) {
     console.log('Begin async operation');
-    await this.getCategory();
+     this.getCategory();
 
     setTimeout(() => {
       event.target.complete();
@@ -72,14 +71,14 @@ export class CategoryPage implements OnInit {
 
   async getCategory() {
 
-    this.categoryService.getCatalogueCustom().then((data: any[]) => {
+    this.categoryService.getCatalogueCustom().subscribe((data: any[]) => {
 
       this.categorys = data;
       this.loading.then((load) => {
         load.dismiss();
       });
       console.log("category :", this.categorys);
-    }).catch(async (reason) => {
+    },async (reason) => {
       if (this.oneCatch) {
 
       } else {

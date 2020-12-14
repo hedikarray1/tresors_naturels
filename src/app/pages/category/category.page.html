@@ -11,14 +11,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content  class="card-background-page">
+<ion-content  >
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 <div  *ngFor="let cat of categorys" >
 
-  <ion-card class="product-card" (click)="goToProductByCategory(cat.id)"  [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length ==0" >
-    <ion-button class="icon-add-item category-button-text"  fill="clear" color="dark">
+  <ion-card  (click)="goToProductByCategory(cat.id)"   *ngIf="!cat.children.length " >
+    <ion-button  fill="clear" color="dark">
       {{cat.name.replace(rep,'&')}}
     </ion-button>
     
@@ -26,15 +27,15 @@
     
 </ion-card>
 
-<ion-card class="product-card" (click)="showCategory(cat.name)" [ngClass]="{active: isCategoryShown(cat.name)}" *ngIf="cat.children?.length >0">
-  <ion-button class="icon-add-item category-button-text"  fill="clear" color="dark">
+<ion-card  (click)="showCategory(cat.name)"  *ngIf="cat.children.length ">
+  <ion-button  fill="clear" color="dark">
     {{cat.name.replace(rep,'&')}}
   </ion-button>
   
     <ion-img src="{{cat?.image?.src}}"></ion-img>
     <ion-card-content *ngIf="isCategoryShown(cat.name)">
      
-        <ion-item class="item-accordion" *ngFor="let subCat of cat.children"
+        <ion-item *ngFor="let subCat of cat.children"
           (click)="goToProductByCategory(subCat.id)">
           <ion-label>  {{subCat.name.replace(rep,'&')}} </ion-label>
       
@@ -43,6 +44,8 @@
     </ion-card-content>
   
 </ion-card>
+
+
 
 </div>
 

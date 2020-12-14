@@ -103,6 +103,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private firebaseX: FirebaseX,
     private GLobalVarService:GlobalVarServiceService,
+  
   ) {
 
     this.GLobalVarService.getObservableUserState().subscribe((data) => {
@@ -223,5 +224,8 @@ export class AppComponent implements OnInit {
     this.storage.clear();
     this.router.navigateByUrl("login");
   }
+
+
+
 
 }

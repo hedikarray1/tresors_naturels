@@ -19,7 +19,6 @@ import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Network } from '@ionic-native/network/ngx';
 
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -42,7 +41,7 @@ import { Network } from '@ionic-native/network/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FirebaseX,
     Clipboard,
-    Network   
+    Network
   ],
   bootstrap: [AppComponent]
 })
