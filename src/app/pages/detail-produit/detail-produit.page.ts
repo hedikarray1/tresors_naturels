@@ -308,7 +308,7 @@ export class DetailProduitPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Vous devez vous connecter',
       mode: 'ios',
-      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      message: "Vous devez disposer d'un compte pour pouvoir passer une commande ou ajouter au panier .",
       buttons: [
         {
           text: 'ignorer',

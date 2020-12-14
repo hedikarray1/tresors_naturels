@@ -99,7 +99,7 @@
 
           <!--Input confirmPassword  and validation -->
           <ion-item>
-            <ion-label position="floating" color="dark">Confirm Password</ion-label>
+            <ion-label position="floating" color="dark">Confirm Mot de passe</ion-label>
             <ion-input formControlName="confirmPassword" [type]="passwordConfirmType" clearOnEdit="false"
               class="form-controll" required></ion-input>
             <ion-icon slot="end" size="small" item-end [name]="passwordConfirmIcon" class="passwordIcon"
@@ -120,7 +120,7 @@
             <div class="error-message"
               *ngIf="register1Form.hasError('mismatchedPasswords') && (register1Form.get('confirmPassword').dirty || register1Form.get('confirmPassword').touched)">
               <span class="error ion-padding">
-                Les mots de passe ne correspondent pas
+                Le mots de passe ne correspondent pas
               </span>
             </div>
           </div>

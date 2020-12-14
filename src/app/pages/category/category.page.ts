@@ -111,16 +111,14 @@ export class CategoryPage implements OnInit {
 
 
   showCategory(category) {
-    if (this.isCategoryShown(category)) {
+    if (this.shownCategory === category) {
       this.shownCategory = null;
     } else {
       this.shownCategory = category;
     }
   };
 
-  isCategoryShown(category) {
-    return this.shownCategory === category;
-  };
+ 
 
   goToProductByCategory( id) {
     this.router.navigateByUrl('product-by-category/'+ id);

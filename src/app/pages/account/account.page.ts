@@ -283,7 +283,10 @@ export class AccountPage implements OnInit {
       this.livraisoninputs = false;
       this.livraisonTextButton = "Sauvegarder"
     } else {
-      this.updateUser();
+      this.loading.then((load) => {
+        load.present();
+      });
+      this.updateLivraison();
       this.livraisoninputs = true;
       this.livraisonTextButton = "Modifier"
 
@@ -291,13 +294,17 @@ export class AccountPage implements OnInit {
   }
 
   FacturationAction() {
+    
     if (this.facturationTextButton == "Modifier") {
       this.facturationinputs = false;
       this.facturationTextButton = "Sauvegarder"
     } else {
-      this.updateUser();
-      this.facturationinputs = true;
-      this.facturationTextButton = "Modifier"
+      this.loading.then((load) => {
+        load.present();
+      });
+      this.updateFacturation();
+    /*  this.facturationinputs = true;
+      this.facturationTextButton = "Modifier"*/
     }
   }
 
@@ -312,6 +319,30 @@ export class AccountPage implements OnInit {
           metadataArray = data.meta_data;
           this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
 
+          
+          this.User.billing.address_1 =  this.User.billing.address_1?  this.User.billing.address_1 :  "" ;
+          this.User.billing.address_2 =  this.User.billing.address_2?  this.User.billing.address_2  : "" ;
+          this.User.billing.city =  this.User.billing.city? this.User.billing.city : "" ;
+          this.User.billing.company =  this.User.billing.company?  this.User.billing.company : "" ;
+          this.User.billing.country =  this.User.billing.country?  this.User.billing.country : "" ;
+          this.User.billing.email =  this.User.billing.email? this.User.billing.email : "" ;
+          this.User.billing.first_name =  this.User.billing.first_name? this.User.billing.first_name : "" ;
+          this.User.billing.last_name =  this.User.billing.last_name? this.User.billing.last_name : "" ;
+          this.User.billing.phone =  this.User.billing.phone?  this.User.billing.phone : "" ;
+          this.User.billing.postcode =  this.User.billing.postcode? this.User.billing.postcode : "" ;
+          this.User.billing.state =  this.User.billing.state?  this.User.billing.state : "" ;
+
+
+          
+          this.User.shipping.address_1 = this.User.shipping.address_1? this.User.shipping.address_1 : "" ;
+          this.User.shipping.address_2 = this.User.shipping.address_2? this.User.shipping.address_2 : "" ;
+          this.User.shipping.city = this.User.shipping.city? this.User.shipping.city : "" ;
+          this.User.shipping.country = this.User.shipping.country? this.User.shipping.country : "" ;
+          this.User.shipping.first_name = this.User.shipping.first_name? this.User.shipping.first_name : "" ;
+          this.User.shipping.last_name = this.User.shipping.last_name? this.User.shipping.last_name : "" ;
+          this.User.shipping.postcode = this.User.shipping.postcode? this.User.shipping.postcode : "" ;
+          this.User.shipping.state = this.User.shipping.state? this.User.shipping.state : "" ;
+
           console.log('user connecte : ', this.User);
 
           if (this.User.pointsData === undefined) {
@@ -325,6 +356,7 @@ export class AccountPage implements OnInit {
             points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
 
           });
+
           this.loading.then((load) => {
             load.dismiss();
           });
@@ -389,6 +421,184 @@ export class AccountPage implements OnInit {
     }).catch(async (reason) => {
 
       this.oneCatch = true
+      console.log("error updateUser", reason);
+      const alert = await this.alertController.create({
+        header: "Erreur lors de la mise à jour des données de l'utilisateur",
+        mode: 'ios',
+        message: "",
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              alert.dismiss();
+              this.oneCatch = false;
+            }
+          },
+        ]
+      });
+      await alert.present();
+
+    });
+  }
+
+  validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+  async updateFacturation() {
+
+    delete this.User.shipping ;
+
+    if (this.validateEmail( this.User.billing.email)) {
+      this.UserService.updateUser(this.User).then((data: any) => {
+     
+        this.User = data;
+        let metadataArray: any[] = [];
+        metadataArray = data.meta_data;
+        this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+   
+            this.User.billing.address_1 =  this.User.billing.address_1?  this.User.billing.address_1 :  "" ;
+            this.User.billing.address_2 =  this.User.billing.address_2?  this.User.billing.address_2  : "" ;
+            this.User.billing.city =  this.User.billing.city? this.User.billing.city : "" ;
+            this.User.billing.company =  this.User.billing.company?  this.User.billing.company : "" ;
+            this.User.billing.country =  this.User.billing.country?  this.User.billing.country : "" ;
+            this.User.billing.email =  this.User.billing.email? this.User.billing.email : "" ;
+            this.User.billing.first_name =  this.User.billing.first_name? this.User.billing.first_name : "" ;
+            this.User.billing.last_name =  this.User.billing.last_name? this.User.billing.last_name : "" ;
+            this.User.billing.phone =  this.User.billing.phone?  this.User.billing.phone : "" ;
+            this.User.billing.postcode =  this.User.billing.postcode? this.User.billing.postcode : "" ;
+            this.User.billing.state =  this.User.billing.state?  this.User.billing.state : "" ;
+  
+  
+            
+            this.User.shipping.address_1 = this.User.shipping.address_1? this.User.shipping.address_1 : "" ;
+            this.User.shipping.address_2 = this.User.shipping.address_2? this.User.shipping.address_2 : "" ;
+            this.User.shipping.city = this.User.shipping.city? this.User.shipping.city : "" ;
+            this.User.shipping.country = this.User.shipping.country? this.User.shipping.country : "" ;
+            this.User.shipping.first_name = this.User.shipping.first_name? this.User.shipping.first_name : "" ;
+            this.User.shipping.last_name = this.User.shipping.last_name? this.User.shipping.last_name : "" ;
+            this.User.shipping.postcode = this.User.shipping.postcode? this.User.shipping.postcode : "" ;
+            this.User.shipping.state = this.User.shipping.state? this.User.shipping.state : "" ;
+        console.log('user connecte : ', this.User);
+  
+        if (this.User.pointsData === undefined) {
+          this.User.pointsData = {
+            value: 0
+          }
+        }
+        this.facturation = false;
+        this.livraison = false;
+        this.facturationinputs = true;
+        this.facturationTextButton = "Modifier"
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+      }).catch(async (reason) => {
+  
+        this.oneCatch = true
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        console.log("error updateUser", reason);
+        const alert = await this.alertController.create({
+          header: "Erreur lors de la mise à jour des données de l'utilisateur",
+          mode: 'ios',
+          message: "",
+          buttons: [
+  
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+                this.oneCatch = false;
+              }
+            },
+          ]
+        });
+        await alert.present();
+  
+      });
+
+    }else {
+      this.loading.then((load) => {
+        load.dismiss();
+      });
+      const alert = await this.alertController.create({
+        header: "Adresse électronique invalide ",
+        mode: 'ios', 
+        message: 'Vous devez remplir le champ adresse électronique dans le formulaire de facturation avec une adresse valide',
+        buttons: [
+
+          {
+            text: "D'accord",
+            cssClass: 'btn-alert-connexion',
+            handler: () => {
+              alert.dismiss();
+            }
+          },
+        ]
+      });
+      await alert.present();
+    }
+
+  
+  }
+
+  updateLivraison() {
+
+    delete this.User.billing ;
+
+    this.UserService.updateUser(this.User).then((data: any) => {
+     
+      this.User = data;
+      let metadataArray: any[] = [];
+      metadataArray = data.meta_data;
+      this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+ 
+          this.User.billing.address_1 =  this.User.billing.address_1?  this.User.billing.address_1 :  "" ;
+          this.User.billing.address_2 =  this.User.billing.address_2?  this.User.billing.address_2  : "" ;
+          this.User.billing.city =  this.User.billing.city? this.User.billing.city : "" ;
+          this.User.billing.company =  this.User.billing.company?  this.User.billing.company : "" ;
+          this.User.billing.country =  this.User.billing.country?  this.User.billing.country : "" ;
+          this.User.billing.email =  this.User.billing.email? this.User.billing.email : "" ;
+          this.User.billing.first_name =  this.User.billing.first_name? this.User.billing.first_name : "" ;
+          this.User.billing.last_name =  this.User.billing.last_name? this.User.billing.last_name : "" ;
+          this.User.billing.phone =  this.User.billing.phone?  this.User.billing.phone : "" ;
+          this.User.billing.postcode =  this.User.billing.postcode? this.User.billing.postcode : "" ;
+          this.User.billing.state =  this.User.billing.state?  this.User.billing.state : "" ;
+
+
+          
+          this.User.shipping.address_1 = this.User.shipping.address_1? this.User.shipping.address_1 : "" ;
+          this.User.shipping.address_2 = this.User.shipping.address_2? this.User.shipping.address_2 : "" ;
+          this.User.shipping.city = this.User.shipping.city? this.User.shipping.city : "" ;
+          this.User.shipping.country = this.User.shipping.country? this.User.shipping.country : "" ;
+          this.User.shipping.first_name = this.User.shipping.first_name? this.User.shipping.first_name : "" ;
+          this.User.shipping.last_name = this.User.shipping.last_name? this.User.shipping.last_name : "" ;
+          this.User.shipping.postcode = this.User.shipping.postcode? this.User.shipping.postcode : "" ;
+          this.User.shipping.state = this.User.shipping.state? this.User.shipping.state : "" ;
+      console.log('user connecte : ', this.User);
+
+      if (this.User.pointsData === undefined) {
+        this.User.pointsData = {
+          value: 0
+        }
+      }
+      this.facturation = false;
+      this.livraison = false;
+      this.loading.then((load) => {
+        load.dismiss();
+      });
+    }).catch(async (reason) => {
+
+      this.oneCatch = true
+      this.loading.then((load) => {
+        load.dismiss();
+      });
       console.log("error updateUser", reason);
       const alert = await this.alertController.create({
         header: "Erreur lors de la mise à jour des données de l'utilisateur",

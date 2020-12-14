@@ -73,6 +73,8 @@ export class HomePage implements OnInit {
     slides.startAutoplay();
   }
 
+
+
   doRefresh(event) {
     this.allProducts = [];
     this.homePageJson = []
@@ -133,6 +135,10 @@ export class HomePage implements OnInit {
   }
 
   showPopover(event: MouseEvent, product) {
+
+    this.storage.get('user-state').then((val) => {
+      console.log('user state', val);
+      this.userState = val;
     if (this.userState) {
       if (product.type === 'variable') {
         this.goToDetail(product.id);
@@ -143,6 +149,8 @@ export class HomePage implements OnInit {
     } else {
       this.showAlertLogin();
     }
+    });
+
   }
 
 
@@ -151,7 +159,7 @@ export class HomePage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Vous devez vous connecter',
       mode: 'ios',
-      message: "Vous devez disposer d'un compte pour pouvoir passer un commande ou ajouter au panier .",
+      message: "Vous devez disposer d'un compte pour pouvoir passer une commande ou ajouter au panier .",
       buttons: [
         {
           text: 'ignorer',

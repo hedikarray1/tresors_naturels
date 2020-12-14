@@ -37,8 +37,9 @@
           </div>
           <div class="card-separator"></div>
           <ion-card-content>
+            <div class="product-name-container">
             <div class="product-name">{{product?.name}}</div>
-
+            </div>
             <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
               <div class="product-price" [innerHTML]="product?.price_html"></div>
             </div>
@@ -67,8 +68,9 @@
           </div>
           <div class="card-separator"></div>
           <ion-card-content (click)="goToDetail(product?.id)">
+            <div class="product-name-container">
             <div class="product-name">{{product?.name}}</div>
-
+            </div>
             <div class="container-price-nopromo" *ngIf="product?.promotion == 'nopromo'">
               <div class="product-price" [innerHTML]="product?.price_html"></div>
             </div>
