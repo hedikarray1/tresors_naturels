@@ -146,6 +146,61 @@ export class RegisterPage implements OnInit {
           UserState: true
       });
 
+      //check first Time
+ this.storage.get('first_time').then(async(val) => {
+  if (val !== null) {
+     console.log("app isn't for the first time started");
+     //set 10 points for registration
+     const alert = await this.alertController.create({
+      header: 'Cadeau',
+      message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
+      buttons: ['merci'],
+    });
+    await alert.present();
+     this.updateUserPoints(data,10);
+  } else {
+     console.log("probably the first time");
+        this.storage.set('first_time', 'done');
+
+ 
+    
+    this.userService.checkFirstTime(data.email).then(async (data1:any)=>{
+      if(data1.result==="exist"){
+//set 10 points for registration
+const alert = await this.alertController.create({
+  header: 'Cadeau',
+  message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
+  buttons: ['merci'],
+});
+await alert.present();
+this.updateUserPoints(data,10);
+
+      }else{
+  //add email to mobile_users table
+  this.userService.addFirstTime(data.email).then(async(data1:any)=>{
+    if(data1.result==="created"){
+// set 15 points (5 for first time and 10 for registration)
+const alert = await this.alertController.create({
+  header: 'Cadeau',
+  message: "Vous venez de recevoir 15 points de fidélité grâce au téléchargement de l'application",
+  buttons: ['merci'],
+});
+await alert.present();
+this.updateUserPoints(data,15);
+    }
+  });
+
+
+      }
+    });
+
+ 
+
+    
+  }
+});
+
+
         this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
 
       }, async (err) => {
@@ -196,4 +251,37 @@ export class RegisterPage implements OnInit {
     this.passwordConfirmIcon = this.passwordConfirmIcon === 'eye-off' ? 'eye' : 'eye-off';
   }
 
+
+  updateUserPoints(user:any,points:number){
+    let foundpoints=false;
+    let metadataArray: any[] = [];
+    metadataArray = user.meta_data;
+    user.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+    delete user.billing ;
+    delete user.shipping ;
+
+   // console.log('user connecte : ', this.User);
+
+    user.meta_data.forEach(element => {
+      if (element.key == "_acfw_loyalprog_user_total_points") {
+        foundpoints=true;
+       if(element.value=== undefined){
+         element.value=0;
+       }
+        element.value = (parseFloat(element.value) + points) + "";
+      }
+    });
+    if(!foundpoints){
+      user.meta_data.push({key:"_acfw_loyalprog_user_total_points",value:(points+"")})
+    }
+this.userService.insertLoyalityProgram(user.id,"earn","register_mobile",points+"").then((dat:any)=>{
+  if(dat.result==="created"){
+    console.log("updated user points loyality");
+  }
+});
+    this.userService.updateUser(user).then((data:any)=>{
+console.log("updated user points");
+this.storage.set('first_time', 'done');
+    });
+  }
 }

@@ -55,7 +55,7 @@ export class CategoryService {
 
 //custom category 
   getCatalogueCustom(){
-    return this.http.get(environment.apiCustomURL+"category/all_category.php").toPromise();
+    return this.http.get(environment.apiCustomURL+"category/all_category.php");
   }
 
   getCategoryByIdCustom(id) {

@@ -317,7 +317,7 @@ export class AccountPage implements OnInit {
           this.User = data;
           let metadataArray: any[] = [];
           metadataArray = data.meta_data;
-          this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+          this.getPoints();
 
           
           this.User.billing.address_1 =  this.User.billing.address_1?  this.User.billing.address_1 :  "" ;
@@ -352,11 +352,7 @@ export class AccountPage implements OnInit {
           }
 
           console.log('points : ', this.User.pointsData);
-          this.form = this.formBuilder.group({
-            points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
-
-          });
-
+         
           this.loading.then((load) => {
             load.dismiss();
           });
@@ -407,7 +403,7 @@ export class AccountPage implements OnInit {
       this.User = data;
       let metadataArray: any[] = [];
       metadataArray = data.meta_data;
-      this.User.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
+      this.getPoints();
 
       console.log('user connecte : ', this.User);
 
@@ -638,16 +634,11 @@ export class AccountPage implements OnInit {
     this.orderService.generateCoupon(code, parseInt(this.form.value.points), this.User.id).then(async (data: any) => {
       console.log(data);
      // this.form.value.points = "" ;
-      this.User.meta_data.forEach(element => {
-        if (element.key == "_acfw_loyalprog_user_total_points") {
-          console.log("element de points avant", element.value);
-          console.log("operation: ", (parseFloat(this.User.pointsData.value) - parseFloat(this.form.value.points)) + "");
-          console.log("parametres: user points:", this.User.pointsData, " points dans form", parseFloat(this.form.value.points));
-          element.value = (parseFloat(this.User.pointsData.value) - parseFloat(this.form.value.points)) + "";
-          console.log("element de points", element);
-
-          this.User.pointsData = element;
-          console.log("user after coupon", this.User);
+     this.getPoints();
+     
+      this.UserService.insertLoyalityProgram(this.User.id,"redeem","coupon",parseFloat(this.form.value.points)+"").then((dat:any)=>{
+        if(dat.result==="created"){
+          console.log("updated user points loyality");
         }
       });
       this.form.reset() ;
@@ -762,6 +753,17 @@ this.loading.then((load5)=>{
 
   goToLogin() {
     this.Router.navigateByUrl('/login');
+  }
+
+
+  getPoints() {
+    this.UserService.getPointsLoyalityProgram(this.User.id).then((data : any)=>{
+      this.User.pointsData.value = data.points ;
+       this.form = this.formBuilder.group({
+            points: new FormControl("", Validators.compose([Validators.min(30), Validators.max(parseInt(this.User.pointsData.value + "")), Validators.required]))
+
+          });
+    })
   }
 
 

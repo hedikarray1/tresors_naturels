@@ -46,4 +46,37 @@ export class UserService {
     return this.http.post(url1,user).toPromise(); 
   }
 
+
+  checkFirstTime(email){
+    let params={
+      email:email
+    };
+    return this.http.post(environment.apiCustomURL+"mobile_users/check_first_time.php",params).toPromise();
+  }
+  addFirstTime(email){
+    let params={
+      email:email
+    }
+  return   this.http.post(environment.apiCustomURL+"mobile_users/set_first_time.php",params).toPromise();
+  }
+
+ insertLoyalityProgram(user_id,entry_type,entry_action,entry_amount){
+   let params={
+    user_id: user_id,
+    entry_type:entry_type,
+    entry_action:entry_action,
+    entry_amount:entry_amount,
+    
+ };
+  return this.http.post(environment.apiCustomURL+"user/insert_loyality_program.php",params).toPromise();
+ }
+
+ getPointsLoyalityProgram(user_id){
+  let params={
+   id: user_id
+    };
+ return this.http.post(environment.apiCustomURL+"user/get_user_points.php",params).toPromise();
+}
+
+
 }
