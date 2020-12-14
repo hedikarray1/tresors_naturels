@@ -37,7 +37,7 @@
     (ionSlidesDidLoad)="ionSlidesDidLoad(slider)">
     <!--  [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" -->
     <ion-slide class="slide" *ngFor="let sldP of slidesPictures ">
-      <ion-col class="slide-col" (click)="goToPub(sldP?.type, sldP?.id, sldP?.name)">
+      <ion-col class="slide-col" (click)="goToPub(sldP?.type, sldP?.id)">
         <img class="slide-img" src="{{sldP?.src}}" />
       </ion-col>
     </ion-slide>
@@ -55,13 +55,13 @@
       <ion-card class="category-card">
         <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn ion-button-height-home"
           fill="clear" color="dark">
-          {{homeItem1.category.name}}
+          {{homeItem1.category.name.replace(rep,'&')}}
         </ion-button>
         <ion-img class="category-slides-img" src="{{homeItem1.category_object?.image?.src}}"> </ion-img>
         <div class="category-container-slides">
-          <div class="category-slides-title"> {{homeItem1.sub_category.name}}</div>
+          <div class="category-slides-title"> {{homeItem1.sub_category.name.replace(rep,'&')}}</div>
           <div class="category-slides-viewAll"
-            (click)="goToProductByCategory(homeItem1.category.name, homeItem1.category.id)">VOIR
+            (click)="goToProductByCategory( homeItem1.category.id)">VOIR
             PLUS</div>
         </div>
       </ion-card>
@@ -144,13 +144,13 @@
     <!-- show pub single -->
     <div class="pub_single_container" *ngIf="homeItem1.type === 'pub_single' ">
       <ion-img src="{{homeItem1.images[0]?.src}}"
-        (click)=" goToPub(homeItem1.images[0]?.type, homeItem1.images[0]?.id,homeItem1.images[0]?.name)"></ion-img>
+        (click)=" goToPub(homeItem1.images[0]?.type, homeItem1.images[0]?.id)"></ion-img>
     </div>
 
     <!-- show pub double -->
     <div class="pub_double_container" *ngIf="homeItem1.type === 'pub_double' ">
       <ion-img *ngFor="let imgPub of homeItem1.images" src="{{imgPub?.src}}"
-        (click)=" goToPub(imgPub?.type, imgPub?.id,imgPub?.name)"></ion-img>
+        (click)=" goToPub(imgPub?.type, imgPub?.id)"></ion-img>
     </div>
 
     <br />

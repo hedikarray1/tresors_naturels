@@ -36,7 +36,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/category/category.module').then( m => m.CategoryPageModule)
   },
   {
-    path: 'product-by-category/:category/:id',
+    path: 'product-by-category/:id',
     loadChildren: () => import('./pages/product-by-category/product-by-category.module').then( m => m.ProductByCategoryPageModule)
   },
   {

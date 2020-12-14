@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { GlobalVarServiceService } from './../../services/globalVarService/global-var-service.service';
 import { Storage } from '@ionic/storage';
 import { AuthService } from './../../services/auth/auth.service';
@@ -13,6 +14,7 @@ import { AlertController, LoadingController, MenuController } from '@ionic/angul
 })
 export class LoginPage implements OnInit {
 
+  loginPicture="../../../assets/images/login_picture.jpg";
   credentiels: FormGroup;
   passwordType: string = 'password';
   passwordIcon: string = 'eye-off';
@@ -25,7 +27,8 @@ loading;
     private authService: AuthService,
     private storage: Storage,
     private GLobalVarService:GlobalVarServiceService,
-    public menuCtrl: MenuController
+    public menuCtrl: MenuController,
+    private http:HttpClient
   ) { 
     this.menuCtrl.enable(false);
   }
@@ -111,5 +114,14 @@ loading;
   hideShowPassword() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+  }
+
+
+  getPicture(){
+    this.http.get("https://laboratoiretresorsnaturels.tn/static_pictures/login_picture.jpg").toPromise().then(data=>{
+    this.loginPicture="https://laboratoiretresorsnaturels.tn/static_pictures/login_picture.jpg";
+    }).catch(error=>{
+      this.loginPicture="../../../assets/images/login_picture.jpg";
+    });
   }
 }

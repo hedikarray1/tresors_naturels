@@ -1,3 +1,4 @@
+import { CategoryService } from './../../services/category/category.service';
 import { Storage } from '@ionic/storage';
 import { PanierModalPage } from './../panier-modal/panier-modal.page';
 import { PopoverCardProductPage } from './../popovers/popover-card-product/popover-card-product.page';
@@ -18,6 +19,7 @@ export class ProductByCategoryPage implements OnInit {
   idCategory: any;
   page = 1;
   count = null;
+ 
   rep = /&amp;/gi;
 
   oneCatch = false;
@@ -32,7 +34,8 @@ export class ProductByCategoryPage implements OnInit {
     private modalCtrl: ModalController,
     private storage: Storage,
     private alertController: AlertController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private categoryService : CategoryService
   ) { }
 
   ionViewDidEnter() {
@@ -55,9 +58,10 @@ export class ProductByCategoryPage implements OnInit {
       console.log('user state', val);
       this.userState = val;
     });
-    this.category = this.route.snapshot.paramMap.get('category');
     this.idCategory = this.route.snapshot.paramMap.get('id');
-    this.getCategory()
+   
+    this.getCategory();
+    this.getProductByCategory() ;
   }
   
   doRefresh(event) {
@@ -65,17 +69,18 @@ export class ProductByCategoryPage implements OnInit {
       console.log('user state', val);
       this.userState = val;
     });
-    this.category = this.route.snapshot.paramMap.get('category');
+ 
     this.idCategory = this.route.snapshot.paramMap.get('id');
-    this.getCategory()
-  
+   
+    this.getCategory();
+    this.getProductByCategory();
     setTimeout(() => {
       event.target.complete();
     }, 2000);
    
   }
 
-  async getCategory() {
+  async getProductByCategory() {
     this.products = [];
     this.poductService.getProductByCategoryCustom(this.idCategory).then((data: any[]) => {
       
@@ -116,6 +121,40 @@ export class ProductByCategoryPage implements OnInit {
     });
   }
 
+  getCategory(){
+    this.categoryService.getCategoryByIdCustom(this.idCategory).then((dataCategory: any) => {
+      this.category = dataCategory;
+   console.log('category :',this.category);
+    }, (reason: any) => {
+      if (this.oneCatch) {
+
+      } else {
+        this.loading.then((load) => {
+          load.dismiss();
+        });
+        this.oneCatch = true
+        console.log("error get category ", reason);
+        const alert = this.alertController.create({
+          header: "Erreur lors du chargement de la page",
+          mode: 'ios',
+          message: "",
+          buttons: [
+
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                this.oneCatch = false;
+                alert.then((alt) => { alt.dismiss() });
+              }
+            },
+          ]
+        });
+        alert.then((alt) => { alt.present() });
+      }
+    });
+
+  }
 
   goToDetail(id) {
     this.router.navigateByUrl('detail-produit/' + id);

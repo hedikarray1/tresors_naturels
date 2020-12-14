@@ -98,16 +98,16 @@ export class HomePage implements OnInit {
     }
   }
 
-  goToProductByCategory(category, id) {
+  goToProductByCategory( id) {
     if (id !== ''){
-    this.router.navigateByUrl('product-by-category/' + category + "/" + id);
+    this.router.navigateByUrl('product-by-category/' + id);
     }
   }
 
-  goToPub(type, id, name) {
+  goToPub(type, id) {
     if (id !== ''){
       if (type === 'category') {
-        this.router.navigateByUrl('product-by-category/' + name + "/" + id);
+        this.router.navigateByUrl('product-by-category/' + id);
       }
       if (type === 'produit') {
         this.router.navigateByUrl('detail-produit/' + id);
@@ -304,7 +304,7 @@ export class HomePage implements OnInit {
             }
           });
 
-          this.poductService.getProductByCategoryCustom(element.category.id).then((dataProducts: any[]) => {
+          this.poductService.getProductByCategoryCustom(element.product.category).then((dataProducts: any[]) => {
             element.product_array = dataProducts;
 
             if (this.homePageJson.length <= index + 1) {

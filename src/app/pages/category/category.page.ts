@@ -122,8 +122,8 @@ export class CategoryPage implements OnInit {
     return this.shownCategory === category;
   };
 
-  goToProductByCategory(category, id) {
-    this.router.navigateByUrl('product-by-category/' + category + "/" + id);
+  goToProductByCategory( id) {
+    this.router.navigateByUrl('product-by-category/'+ id);
   }
 
 

@@ -1,5 +1,4 @@
 import { GlobalVarServiceService } from './services/globalVarService/global-var-service.service';
-import { AppUpdate } from '@ionic-native/app-update/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
 import { NoInternetPage } from './pages/no-internet/no-internet.page';
@@ -104,7 +103,6 @@ export class AppComponent implements OnInit {
     private router: Router,
     private firebaseX: FirebaseX,
     private GLobalVarService:GlobalVarServiceService,
-    private appUpdate: AppUpdate
   ) {
 
     this.GLobalVarService.getObservableUserState().subscribe((data) => {
@@ -174,18 +172,6 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-//check for app updates
-const updateUrl = 'https://laboratoiretresorsnaturels.tn/tresors_back/updates/app_update.xml';
-this.appUpdate.checkAppUpdate(updateUrl).then(update => {
-  //alert("Update Status:  "+update.code);
-/*if(update.code=="201"){
-  console.log("need to update");
-}*/
-
-}).catch(error=>{
-  alert("Error: "+error.msg);
-});
 
     });
   }
