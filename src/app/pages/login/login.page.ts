@@ -103,9 +103,24 @@ this.updateUserPoints(data3,5);
 const alert = await this.alertController.create({
   header: 'Cadeau',
   message: "Vous venez de recevoir 5 points de fidélité grâce au téléchargement de l'application",
-  buttons: ['merci'],
+
+  mode: 'ios',
+
+  buttons: [
+
+    {
+      text: "Merci",
+      cssClass: 'btn-alert-connexion',
+      handler: () => {
+        alert.dismiss();
+       
+      }
+    },
+  ]
 });
 await alert.present();
+
+
     }
   });
 

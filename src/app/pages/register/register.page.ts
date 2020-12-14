@@ -154,9 +154,24 @@ export class RegisterPage implements OnInit {
      const alert = await this.alertController.create({
       header: 'Cadeau',
       message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
-      buttons: ['merci'],
+    
+      mode: 'ios',
+    
+      buttons: [
+
+        {
+          text: "Merci",
+          cssClass: 'btn-alert-connexion',
+          handler: () => {
+            alert.dismiss();
+           
+          }
+        },
+      ]
     });
     await alert.present();
+
+
      this.updateUserPoints(data,10);
   } else {
      console.log("probably the first time");
@@ -170,9 +185,24 @@ export class RegisterPage implements OnInit {
 const alert = await this.alertController.create({
   header: 'Cadeau',
   message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
-  buttons: ['merci'],
+
+  mode: 'ios',
+
+  buttons: [
+
+    {
+      text: "Merci",
+      cssClass: 'btn-alert-connexion',
+      handler: () => {
+        alert.dismiss();
+       
+      }
+    },
+  ]
 });
 await alert.present();
+
+
 this.updateUserPoints(data,10);
 
       }else{
@@ -183,9 +213,24 @@ this.updateUserPoints(data,10);
 const alert = await this.alertController.create({
   header: 'Cadeau',
   message: "Vous venez de recevoir 15 points de fidélité grâce au téléchargement de l'application",
-  buttons: ['merci'],
+
+  mode: 'ios',
+
+  buttons: [
+
+    {
+      text: "Merci",
+      cssClass: 'btn-alert-connexion',
+      handler: () => {
+        alert.dismiss();
+       
+      }
+    },
+  ]
 });
 await alert.present();
+
+
 this.updateUserPoints(data,15);
     }
   });
