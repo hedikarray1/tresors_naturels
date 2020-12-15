@@ -68,7 +68,6 @@ export class HomePage implements OnInit {
       this.getAllProducts();
     });
 
-    this.showAlertNotif("header","description","https://laboratoiretresorsnaturels.tn/static_pictures/offre.png","bottom-navigation/account") ;
   }
 
   ionSlidesDidLoad(slides: IonSlides) {

@@ -103,6 +103,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private firebaseX: FirebaseX,
     private GLobalVarService:GlobalVarServiceService,
+    private AlertController:AlertController
   
   ) {
 
@@ -132,6 +133,7 @@ this.firebaseX.subscribe("tresors").then((data)=>{
       }else{
         console.log('Received in foreground');
        //add the alert for foreground and navigation
+   this.showAlertNotif(data.title,data.body,data.image,data.linkto)
       }
       
     });
@@ -229,7 +231,33 @@ this.firebaseX.subscribe("tresors").then((data)=>{
     this.router.navigateByUrl("login");
   }
 
+  async showAlertNotif(header, msg,imgSrc, url) {
 
+    const alert = await this.AlertController.create({
+      header: header,
+      mode: 'ios',
+      message: "<div class='alert-notif-container'><p>"+msg+"</p> <img  src='"+imgSrc+"' /></div>",
+      cssClass : "alert-notif-msg",
+      buttons: [
+        {
+          text: 'Ignorer',
+          role: 'cancel',
+          cssClass: 'alert-notif-btn-annuler',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'Consulter',
+          cssClass: 'alert-notif-btn-ok',
+          handler: () => {
+            this.router.navigateByUrl(url);
+          }
+        },
+      ]
+    });
+    await alert.present();
+  }
 
 
 }
