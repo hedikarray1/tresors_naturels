@@ -74,6 +74,12 @@
    
 }
 
+.alert-notif-msg {
+  .alert-message.sc-ion-alert-ios {
+    padding: 0px !important;
+  }
+
+}
 
 .alert-notif-btn-ok {
   font-family: 'Cormorant-SemiBoldItalic' !important;

@@ -190,6 +190,7 @@ export class HomePage implements OnInit {
       header: header,
       mode: 'ios',
       message: "<div class='alert-notif-container'><p>"+msg+"</p> <img  src='"+imgSrc+"' /></div>",
+      cssClass : "alert-notif-msg",
       buttons: [
         {
           text: 'Ignorer',
