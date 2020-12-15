@@ -68,6 +68,11 @@ export class AppComponent implements OnInit {
       icon: 'information-circle'
     },
     {
+      title: 'Certification',
+      url: 'bottom-navigation/certification',
+      icon: 'ribbon'
+    },
+    {
       title: 'Paiement et livraison',
       url: 'bottom-navigation/paiement-et-livraison',
       icon: 'pricetag'
