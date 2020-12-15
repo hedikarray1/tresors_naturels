@@ -1,5 +1,13 @@
-<ion-content>
 
+
+
+
+<ion-content>
+ 
+  <div class="btn-back-to-home" (click)="goToHome()">
+    <ion-icon slot="icon-only" class="icon-btn-back-to-home" color="dark" slot="start" size="large" name="chevron-back-circle-outline"> </ion-icon>
+  </div>
+ 
   <div class="image-login">
     <img src="{{loginPicture}}"  >
   </div>
@@ -12,7 +20,7 @@
   <ion-item>
     <ion-label position="floating" color="dark">Mot de passe</ion-label>
     <ion-input [type]="passwordType" formControlName="password" clearOnEdit="false" class="form-controll" required></ion-input>
-    <ion-icon slot="end" size="small" item-end [name]="passwordIcon" class="passwordIcon"
+    <ion-icon slot="end" size="small" item-end [name]="passwordIcon" class="passwordIcon icon-input-margin"
     (click)='hideShowPassword()'></ion-icon>
   </ion-item>
   

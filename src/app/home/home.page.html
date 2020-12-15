@@ -53,10 +53,10 @@
     <!-- show category with product-->
     <div *ngIf="homeItem1.type === 'category' ">
       <ion-card class="category-card">
-        <ion-button *ngIf="homeItem1.category.name !== 'nouveauté'" class="icon-add-item category-slides-btn ion-button-height-home"
+        <p *ngIf="homeItem1.category.name !== 'nouveauté'" class="category-title-txt-float"
           fill="clear" color="dark">
           {{homeItem1.category.name.replace(rep,'&')}}
-        </ion-button>
+        </p>
         <ion-img class="category-slides-img" src="{{homeItem1.category_object?.image?.src}}"> </ion-img>
         <div class="category-container-slides">
           <div class="category-slides-title"> {{homeItem1.sub_category.name.replace(rep,'&')}}</div>
@@ -68,7 +68,7 @@
 
       <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
         <ion-slide *ngFor="let product of homeItem1.product_array" class="slide-product">
-          <ion-card class="product-card">
+          <ion-card class="product-card-slide">
 
             <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock">
               <p class="txt-out-of-stock">Rupture de stock</p>

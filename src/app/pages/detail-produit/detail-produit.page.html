@@ -18,7 +18,7 @@
 
     <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock-detail">
       <p class="txt-out-of-stock-detail">Rupture de stock</p>
-      <img src="{{product?.images[0]?.src}}" />
+      <img  src="{{product?.images[0]?.src}}" />
     </div>
     
     <div class="container-txt-promo-detail" *ngIf="product?.promotion == 'promo'">

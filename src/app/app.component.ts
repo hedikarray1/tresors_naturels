@@ -221,7 +221,9 @@ export class AppComponent implements OnInit {
   }
 
   logOut() {
-    this.storage.clear();
+    this.storage.remove('user-state');
+    this.storage.remove('auth-token');
+    this.storage.remove('auth-user');
     this.router.navigateByUrl("login");
   }
 

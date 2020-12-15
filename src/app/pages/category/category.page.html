@@ -21,9 +21,9 @@
 
     <ion-card (click)="goToProductByCategory(cat.id)"
       *ngIf="!cat.children.length ">
-      <ion-button fill="clear" color="dark">
+      <p fill="clear" color="dark">
         {{cat.name.replace(rep,'&')}}
-      </ion-button>
+      </p>
 
       <ion-img src="{{cat?.image?.src}}"></ion-img>
 
@@ -31,9 +31,9 @@
 
     <ion-card  (click)="showCategory(cat.name)" 
       *ngIf="cat.children.length">
-      <ion-button  fill="clear" color="dark">
+      <p  fill="clear" color="dark">
         {{cat.name.replace(rep,'&')}}
-      </ion-button>
+      </p>
 
       <ion-img src="{{cat?.image?.src}}"></ion-img>
       <ion-card-content *ngIf="this.shownCategory === cat.name">
