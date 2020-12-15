@@ -71,12 +71,7 @@ ion-content {
 .slide-product {
   width: 50%;
 }
-/*
-.product-card {
-  width: 95%;
-  margin: 0%;
-}
-*/
+
 .product-container {
   width: 190px;
   height: 250px;
@@ -208,6 +203,15 @@ ion-content {
     border: 1px solid #dad6d6;
     box-shadow: 0 0 black;
   }
+
+
+  .product-card-slide {
+    width: 95%;
+    margin: 0%;
+    border: 1px solid #dad6d6;
+    box-shadow: 0 0 black;
+  }
+
 
   .category-name {
     font-size: xx-large;
@@ -440,3 +444,20 @@ ion-slides {
   .ion-button-height-home {
     height: 30%;
   }
+
+
+  
+  .category-title-txt-float  {
+    position: absolute;
+    top: 50px;
+    right: 5px;
+    font-family: Lato, sans-serif;
+    font-size: 5vw;
+    color: black;
+    font-weight: 600;
+    text-transform: uppercase;
+  
+    height: 9vw;
+    padding: 2vw;
+  }
+  

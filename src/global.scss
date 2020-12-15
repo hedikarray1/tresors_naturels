@@ -54,6 +54,48 @@
   background: #000000ad !important;
 }
 
+.alert-notif-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin: 0px;
+
+  p {
+    font-family: 'Cormorant-SemiBoldItalic';
+    font-size: 5vw;
+    margin: 5px;
+    text-align: center;
+
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+   
+}
+
+.alert-notif-msg {
+  .alert-message.sc-ion-alert-ios {
+    padding: 0px !important;
+  }
+
+  .alert-title.sc-ion-alert-ios{
+    font-family: 'Lato-Regular';
+  }
+
+}
+
+.alert-notif-btn-ok {
+  font-family: 'Cormorant-SemiBoldItalic' !important;
+  color:  #f3c975 !important;
+}
+.alert-notif-btn-annuler {
+  font-family: 'Cormorant-SemiBoldItalic' !important;
+  color:  #050505 !important;
+}
+
 .no-connection-modal {
   --height: 100%;
   --width: 100%;

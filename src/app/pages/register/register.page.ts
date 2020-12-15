@@ -63,17 +63,17 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private storage: Storage,
-    private GLobalVarService:GlobalVarServiceService,
+    private GLobalVarService: GlobalVarServiceService,
     public menuCtrl: MenuController
-  ) { 
+  ) {
     this.menuCtrl.enable(false);
   }
 
   ionViewWillEnter() {
     this.menuCtrl.enable(false);
-   }
-   
-   
+  }
+
+
 
   ngOnInit() {
     this.menuCtrl.enable(false);
@@ -124,17 +124,12 @@ export class RegisterPage implements OnInit {
     this.loading.then((load) => {
       load.present();
     });
-
     this.userService.createUser(this.register1Form.value).then(
 
       async (data: any) => {
 
         console.log("response register ", data);
-        this.loading.then((load) => {
-          load.dismiss();
-        });
-
-
+       
         this.userRegistred = data;
         this.storage.remove('auth-user');
         this.storage.set('auth-user', this.userRegistred);
@@ -144,107 +139,86 @@ export class RegisterPage implements OnInit {
 
         this.GLobalVarService.publishSomeDataUserState({
           UserState: true
-      });
+        });
+        //check first Time
+        this.storage.get('first_time').then(async (val) => {
+          if (val !== null) {
+            console.log("app isn't for the first time started");
+            //set 10 points for registration
+         const alert = await this.alertController.create({
+              header: "Cadeau",
+              mode: 'ios',
+              message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
+              buttons: [
+      
+                {
+                  text: "Merci",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                  
+                  }
+                },
+              ]
+            });
+            await alert.present();
+         
+          } else {
+            console.log("probably the first time");
+            this.storage.set('first_time', 'done');
+            this.userService.checkFirstTime(data.email).then(async (data1: any) => {
+              if (data1.result === "exist") {
+                //set 10 points for registration
+                const alert = await this.alertController.create({
+                  header: "Cadeau",
+                  mode: 'ios',
+                  message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
+                  buttons: [
+          
+                    {
+                      text: "Merci",
+                      cssClass: 'btn-alert-connexion',
+                      handler: () => {
+                        alert.dismiss();
+                      
+                      }
+                    },
+                  ]
+                });
+                await alert.present();
+             
 
-      //check first Time
- this.storage.get('first_time').then(async(val) => {
-  if (val !== null) {
-     console.log("app isn't for the first time started");
-     //set 10 points for registration
-     const alert = await this.alertController.create({
-      header: 'Cadeau',
-      message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
-    
-      mode: 'ios',
-    
-      buttons: [
-
-        {
-          text: "Merci",
-          cssClass: 'btn-alert-connexion',
-          handler: () => {
-            alert.dismiss();
-           
+              } else {
+                //add email to mobile_users table
+                this.userService.addFirstTime(data.email).then(async (data1: any) => {
+                  if (data1.result === "created") {
+                    // set 15 points (5 for first time and 10 for registration)
+                    const alert = await this.alertController.create({
+                      header: "Cadeau",
+                      mode: 'ios',
+                      message: "Vous venez de recevoir 15 points de fidélité grâce au téléchargement de l'application",
+                      buttons: [
+              
+                        {
+                          text: "Merci",
+                          cssClass: 'btn-alert-connexion',
+                          handler: () => {
+                            alert.dismiss();
+                          }
+                        },
+                      ]
+                    });
+                    await alert.present();
+                    this.updateUserPoints(data, 5);
+                  }
+                });
+              }
+            });
           }
-        },
-      ]
-    });
-    await alert.present();
-
-
-     this.updateUserPoints(data,10);
-  } else {
-     console.log("probably the first time");
-        this.storage.set('first_time', 'done');
-
- 
-    
-    this.userService.checkFirstTime(data.email).then(async (data1:any)=>{
-      if(data1.result==="exist"){
-//set 10 points for registration
-const alert = await this.alertController.create({
-  header: 'Cadeau',
-  message: "Vous venez de recevoir 10 points de fidélité grâce au téléchargement de l'application",
-
-  mode: 'ios',
-
-  buttons: [
-
-    {
-      text: "Merci",
-      cssClass: 'btn-alert-connexion',
-      handler: () => {
-        alert.dismiss();
-       
-      }
-    },
-  ]
-});
-await alert.present();
-
-
-this.updateUserPoints(data,10);
-
-      }else{
-  //add email to mobile_users table
-  this.userService.addFirstTime(data.email).then(async(data1:any)=>{
-    if(data1.result==="created"){
-// set 15 points (5 for first time and 10 for registration)
-const alert = await this.alertController.create({
-  header: 'Cadeau',
-  message: "Vous venez de recevoir 15 points de fidélité grâce au téléchargement de l'application",
-
-  mode: 'ios',
-
-  buttons: [
-
-    {
-      text: "Merci",
-      cssClass: 'btn-alert-connexion',
-      handler: () => {
-        alert.dismiss();
-       
-      }
-    },
-  ]
-});
-await alert.present();
-
-
-this.updateUserPoints(data,15);
-    }
-  });
-
-
-      }
-    });
-
- 
-
-    
-  }
-});
-
+        });
+        this.loading.then((load) => {
+          load.dismiss();
+        });
 
         this.router.navigateByUrl('/bottom-navigation', { replaceUrl: true });
 
@@ -256,16 +230,22 @@ this.updateUserPoints(data,15);
 
 
         const alert = await this.alertController.create({
-          header: 'Erreur lors de la creation de compte',
+          header: "Erreur lors de la creation de compte",
+          mode: 'ios',
           message: err.error.message,
-          buttons: [{
-            text: "D'accord",
-            cssClass: 'btn-alert-connexion',
-          }],
+          buttons: [
+            {
+              text: "D'accord",
+              cssClass: 'btn-alert-connexion',
+              handler: () => {
+                alert.dismiss();
+              
+              }
+            },
+          ]
         });
         await alert.present();
       }
-
     );
   }
 
@@ -284,8 +264,6 @@ this.updateUserPoints(data,15);
     }
   }
 
-
-
   hideShowPassword() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
@@ -297,36 +275,24 @@ this.updateUserPoints(data,15);
   }
 
 
-  updateUserPoints(user:any,points:number){
-    let foundpoints=false;
-    let metadataArray: any[] = [];
-    metadataArray = user.meta_data;
-    user.pointsData = metadataArray.filter(x => x.key == "_acfw_loyalprog_user_total_points")[0];
-    delete user.billing ;
-    delete user.shipping ;
-
-   // console.log('user connecte : ', this.User);
-
-    user.meta_data.forEach(element => {
-      if (element.key == "_acfw_loyalprog_user_total_points") {
-        foundpoints=true;
-       if(element.value=== undefined){
-         element.value=0;
-       }
-        element.value = (parseFloat(element.value) + points) + "";
+  updateUserPoints(user: any, points: number) {
+    
+    let Us = user
+    delete Us.billing;
+    delete Us.shipping;
+    this.userService.insertLoyalityProgram(Us.id, "earn", "mobile_download", points + "").then((dat: any) => {
+      if (dat.result === "created") {
+        console.log("updated user points loyality");
       }
     });
-    if(!foundpoints){
-      user.meta_data.push({key:"_acfw_loyalprog_user_total_points",value:(points+"")})
-    }
-this.userService.insertLoyalityProgram(user.id,"earn","register_mobile",points+"").then((dat:any)=>{
-  if(dat.result==="created"){
-    console.log("updated user points loyality");
+    this.storage.set('first_time', 'done');
   }
-});
-    this.userService.updateUser(user).then((data:any)=>{
-console.log("updated user points");
-this.storage.set('first_time', 'done');
-    });
+
+  goToHome() {
+    this.router.navigateByUrl('/bottom-navigation');
+  }
+
+  goTologin() {
+    this.router.navigateByUrl("login");
   }
 }

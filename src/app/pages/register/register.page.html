@@ -2,6 +2,8 @@
 
 
  
+ 
+ 
   <div class="container-logo-register">
     
       <img src="../../../assets/logo/logo2.png" />
@@ -82,7 +84,7 @@
             <ion-label position="floating" color="dark">Mot de passe</ion-label>
             <ion-input formControlName="password" [type]="passwordType" clearOnEdit="false" class="form-controll"
               required></ion-input>
-            <ion-icon slot="end" size="small" item-end [name]="passwordIcon" class="passwordIcon"
+            <ion-icon slot="end" size="small" item-end [name]="passwordIcon" class="passwordIcon icon-input-margin"
               (click)='hideShowPassword()'></ion-icon>
           </ion-item>
 
@@ -99,10 +101,10 @@
 
           <!--Input confirmPassword  and validation -->
           <ion-item>
-            <ion-label position="floating" color="dark">Confirm Mot de passe</ion-label>
+            <ion-label position="floating" color="dark">Confirmer le mot de passe</ion-label>
             <ion-input formControlName="confirmPassword" [type]="passwordConfirmType" clearOnEdit="false"
               class="form-controll" required></ion-input>
-            <ion-icon slot="end" size="small" item-end [name]="passwordConfirmIcon" class="passwordIcon"
+            <ion-icon  slot="end" size="small" item-end [name]="passwordConfirmIcon" class="passwordIcon icon-input-margin"
               (click)='hideShowConfirmPassword()'></ion-icon>
           </ion-item>
 
@@ -128,7 +130,15 @@
           <ion-row class="row-register-btn">
             <ion-col>
               <ion-button type="submit" color="dark" fill="outline" [disabled]="!register1Form.valid" expand="block">
-               Créer compte
+               Créer un compte
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="row-register-btn">
+            <ion-col>
+              <ion-button color="dark" fill="outline" (click)="goTologin()" expand="block">
+               Annuler
               </ion-button>
             </ion-col>
           </ion-row>
