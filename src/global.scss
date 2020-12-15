@@ -65,6 +65,8 @@
     font-family: 'Cormorant-SemiBoldItalic';
     font-size: 5vw;
     margin: 5px;
+    text-align: center;
+
   }
 
   img {
@@ -77,6 +79,10 @@
 .alert-notif-msg {
   .alert-message.sc-ion-alert-ios {
     padding: 0px !important;
+  }
+
+  .alert-title.sc-ion-alert-ios{
+    font-family: 'Lato-Regular';
   }
 
 }
