@@ -98,7 +98,11 @@ const routes: Routes = [
   {
     path: 'internet-established',
     loadChildren: () => import('./pages/internet-established/internet-established.module').then( m => m.InternetEstablishedPageModule)
+  },  {
+    path: 'certification',
+    loadChildren: () => import('./pages/certification/certification.module').then( m => m.CertificationPageModule)
   },
+
 
 
 

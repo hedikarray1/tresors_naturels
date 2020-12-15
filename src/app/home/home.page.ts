@@ -68,7 +68,6 @@ export class HomePage implements OnInit {
       this.getAllProducts();
     });
 
-    this.showAlertNotif("header","description","https://laboratoiretresorsnaturels.tn/static_pictures/offre.png","bottom-navigation/account") ;
   }
 
   ionSlidesDidLoad(slides: IonSlides) {
@@ -184,33 +183,7 @@ export class HomePage implements OnInit {
   }
 
 
-  async showAlertNotif(header, msg,imgSrc, url) {
 
-    const alert = await this.alertController.create({
-      header: header,
-      mode: 'ios',
-      message: "<div class='alert-notif-container'><p>"+msg+"</p> <img  src='"+imgSrc+"' /></div>",
-      cssClass : "alert-notif-msg",
-      buttons: [
-        {
-          text: 'Ignorer',
-          role: 'cancel',
-          cssClass: 'alert-notif-btn-annuler',
-          handler: () => {
-            alert.dismiss();
-          }
-        },
-        {
-          text: 'Consulter',
-          cssClass: 'alert-notif-btn-ok',
-          handler: () => {
-            this.router.navigateByUrl(url);
-          }
-        },
-      ]
-    });
-    await alert.present();
-  }
 
   showSearch() {
     this.searchText = '';

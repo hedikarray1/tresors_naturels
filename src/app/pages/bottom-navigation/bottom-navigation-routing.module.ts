@@ -1,4 +1,5 @@
-import { AllProductsPageModule } from './../all-products/all-products.module';
+
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -62,6 +63,10 @@ const routes: Routes = [
       {
         path: 'my-order-details/:id',
         loadChildren: () => import('../my-order-details/my-order-details.module').then(m => m.MyOrderDetailsPageModule)
+      },
+      {
+        path: 'certification',
+        loadChildren: () => import('../certification/certification.module').then( m => m.CertificationPageModule)
       },
 
     ],

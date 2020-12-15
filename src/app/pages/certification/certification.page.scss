@@ -1,0 +1,39 @@
+.category-container {
+    background-color: #fbf9f9;
+    justify-content: center;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5%;
+ }
+ 
+ .category-container p {
+    font-size: 6vw;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    font-family: Lato,sans-serif;
+    text-transform: uppercase;
+ }
+ 
+ 
+ div , p {
+    font-family: 'Cormorant-SemiBoldItalic';
+    font-size: 4vw;
+    font-weight: 500;
+  
+    color: #2e2e2e;
+ }
+ 
+ .certif-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+ }
+
+ .certif-image img {
+     width: 100% !important;
+     height: auto;
+   
+ }
