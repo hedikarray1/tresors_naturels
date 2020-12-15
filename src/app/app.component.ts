@@ -112,7 +112,9 @@ export class AppComponent implements OnInit {
     });
 
     this.initializeApp();
-
+this.firebaseX.subscribe("tresors").then((data)=>{
+}).catch(()=>{
+});
     this.firebaseX.getToken().then(async token => {
       console.log(token);
 
@@ -123,15 +125,15 @@ export class AppComponent implements OnInit {
 
     this.firebaseX.onMessageReceived().subscribe(data => {
       console.log(data);
-      if (data.wasTapped) {
+    
+      if(data.tap==="background"){
         console.log('Received in background');
-
-      } else {
-        
+        this.router.navigateByUrl(data.linkto+"");
+      }else{
         console.log('Received in foreground');
-
-
+       //add the alert for foreground and navigation
       }
+      
     });
     //check offline or online for web
     window.addEventListener('offline', () => {

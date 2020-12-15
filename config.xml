@@ -54,6 +54,7 @@
         <resource-file src="res/drawable-xhdpi/fcm_push_icon.png" target="platforms/android/res/drawable-xhdpi/fcm_push_icon.png" />
         <resource-file src="res/drawable-xxhdpi/fcm_push_icon.png" target="platforms/android/res/drawable-xxhdpi/fcm_push_icon.png" />
         <resource-file src="res/drawable-xxxhdpi/fcm_push_icon.png" target="platforms/android/res/drawable-xxxhdpi/fcm_push_icon.png" />
+        <resource-file src="src/assets/sound/promo.mp3" target="app/src/main/res/raw/promo.mp3" />
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/fcm_push_icon" />
         <config-file parent="/manifest/application/" target="app/src/main/AndroidManifest.xml">
             <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/fcm_push_icon" />
