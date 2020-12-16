@@ -19,58 +19,19 @@
 
   <div *ngFor="let cat of categorys">
 
-    <ion-card  (click)="goToProductByCategory(cat.id)"
-    style=" position: relative;
-    text-align: center;
-    margin: 2%;"
-      *ngIf="!cat.children.length ">
-      <p fill="clear" color="dark" style=" position: absolute;
-      top: 50px;
-      right: 5px;
-      font-family: Lato, sans-serif;
-      font-size: 5vw;
-      color: black;
-      font-weight: 600;
-      text-transform: uppercase;
-    
-      height: 9vw;
-      padding: 2vw;">
-        {{cat.name.replace(rep,'&')}}
-      </p>
-
+    <ion-card  (click)="goToProductByCategory(cat.id)" *ngIf="!cat.children.length ">
+      <p  > {{cat.name.replace(rep,'&')}} </p>
       <ion-img src="{{cat?.image?.src}}"></ion-img>
-
     </ion-card>
 
-    <ion-card  (click)="showCategory(cat.name)" 
-    style=" position: relative;
-    text-align: center;
-    margin: 2%;"
-      *ngIf="cat.children.length">
-      <p  fill="clear" color="dark" style=" position: absolute;
-      top: 50px;
-      right: 5px;
-      font-family: Lato, sans-serif;
-      font-size: 5vw;
-      color: black;
-      font-weight: 600;
-      text-transform: uppercase;
-    
-      height: 9vw;
-      padding: 2vw;">
-        {{cat.name.replace(rep,'&')}}
-      </p>
-
+    <ion-card  (click)="showCategory(cat.name)" *ngIf="cat.children.length">
+      <p  > {{cat.name.replace(rep,'&')}} </p>
       <ion-img src="{{cat?.image?.src}}"></ion-img>
-      <ion-card-content style="padding: 0px 10px;" *ngIf="this.shownCategory === cat.name">
-
-        <ion-item class="item-accordion" *ngFor="let subCat of cat.children" (click)="goToProductByCategory(subCat.id)">
+      <ion-card-content  *ngIf="this.shownCategory === cat.name">
+        <ion-item *ngFor="let subCat of cat.children" (click)="goToProductByCategory(subCat.id)">
           <ion-label> {{subCat.name.replace(rep,'&')}} </ion-label>
-
         </ion-item>
-
       </ion-card-content>
-
     </ion-card>
 
     
