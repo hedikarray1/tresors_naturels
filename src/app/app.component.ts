@@ -118,9 +118,7 @@ export class AppComponent implements OnInit {
     });
 
     this.initializeApp();
-this.firebaseX.subscribe("tresors").then((data)=>{
-}).catch(()=>{
-});
+
     this.firebaseX.getToken().then(async token => {
       console.log(token);
 
@@ -129,19 +127,7 @@ this.firebaseX.subscribe("tresors").then((data)=>{
     this.firebaseX.onTokenRefresh()
       .subscribe((token: string) => console.log(`Got a new token ${token}`));
 
-    this.firebaseX.onMessageReceived().subscribe(data => {
-      console.log(data);
-    
-      if(data.tap==="background"){
-        console.log('Received in background');
-        this.router.navigateByUrl(data.linkto+"");
-      }else{
-        console.log('Received in foreground');
-       //add the alert for foreground and navigation
-   this.showAlertNotif(data.title,data.body,data.image,data.linkto)
-      }
-      
-    });
+   
     //check offline or online for web
     window.addEventListener('offline', () => {
       //Do task when no internet connection
@@ -182,7 +168,33 @@ this.firebaseX.subscribe("tresors").then((data)=>{
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.firebaseX.subscribe("tresors").then((data)=>{
+       
+      }).catch((error)=>{
+      
+      
+      });
+      this.firebaseX.onMessageReceived().subscribe(data => {
+        console.log(data);
+        if(data.tap==="background"){
+          console.log('Received in background');
+        
+         
+      
+            this.router.navigateByUrl(data.linkto+"");
+        
+        }else{
+          console.log('Received in foreground');
+         //add the alert for foreground and navigation
+       
 
+     
+          this.showAlertNotif(data.title,data.body,data.image,data.linkto+"");
+
+       
+        }
+        
+      });
     });
   }
 
@@ -231,6 +243,10 @@ this.firebaseX.subscribe("tresors").then((data)=>{
 
   logOut() {
     this.storage.remove('user-state');
+    this.storage.set('user-state', false);
+     this.GLobalVarService.publishSomeDataUserState({
+           UserState: false
+         });
     this.storage.remove('auth-token');
     this.storage.remove('auth-user');
     this.router.navigateByUrl("login");
@@ -256,7 +272,10 @@ this.firebaseX.subscribe("tresors").then((data)=>{
           text: 'Consulter',
           cssClass: 'alert-notif-btn-ok',
           handler: () => {
-            this.router.navigateByUrl(url);
+          
+              this.router.navigateByUrl(url);
+
+           
           }
         },
       ]

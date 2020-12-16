@@ -92,8 +92,7 @@
       "cordova-sqlite-storage": {},
       "cordova-plugin-firebasex": {},
       "cordova-clipboard": {},
-      "cordova-plugin-network-information": {},
-      "cordova-plugin-dreamover-uid": {}
+      "cordova-plugin-network-information": {}
     },
     "platforms": [
       "android"
