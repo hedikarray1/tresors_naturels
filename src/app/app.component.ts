@@ -226,7 +226,11 @@ export class AppComponent implements OnInit {
   }
 
   logOut() {
-    this.storage.remove('user-state');
+   this.storage.remove('user-state');
+   this.storage.set('user-state', false);
+    this.GLobalVarService.publishSomeDataUserState({
+          UserState: false
+        });
     this.storage.remove('auth-token');
     this.storage.remove('auth-user');
     this.router.navigateByUrl("login");

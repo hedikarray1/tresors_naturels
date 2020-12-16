@@ -27,23 +27,6 @@ export class CategoryPage implements OnInit {
     private alertController: AlertController
   ) { }
 
-  async ionViewDidEnter() {
-
-  }
-
-  async openCart() {
-
-
-    let modal = await this.modalCtrl.create({
-      component: PanierModalPage,
-      cssClass: 'cart-modal'
-    });
-    modal.onWillDismiss().then(() => {
-    });
-    modal.present();
-    
-  }
-
   async ngOnInit() {
     this.loading = this.loadingCtrl.create({
       spinner: null,
@@ -54,7 +37,7 @@ export class CategoryPage implements OnInit {
     this.loading.then((load) => {
       load.present();
     });
-    // this.presentLoadingCustom();
+  
      this.getCategory();
 
   }
