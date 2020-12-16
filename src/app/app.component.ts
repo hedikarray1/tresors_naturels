@@ -108,6 +108,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private firebaseX: FirebaseX,
     private GLobalVarService:GlobalVarServiceService,
+    private AlertController:AlertController
   
   ) {
 
@@ -126,18 +127,7 @@ export class AppComponent implements OnInit {
     this.firebaseX.onTokenRefresh()
       .subscribe((token: string) => console.log(`Got a new token ${token}`));
 
-    this.firebaseX.onMessageReceived().subscribe(data => {
-      console.log(data);
-      if (data.wasTapped) {
-        console.log('Received in background');
-
-      } else {
-        
-        console.log('Received in foreground');
-
-
-      }
-    });
+   
     //check offline or online for web
     window.addEventListener('offline', () => {
       //Do task when no internet connection
@@ -178,7 +168,33 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.firebaseX.subscribe("tresors").then((data)=>{
+       
+      }).catch((error)=>{
+      
+      
+      });
+      this.firebaseX.onMessageReceived().subscribe(data => {
+        console.log(data);
+        if(data.tap==="background"){
+          console.log('Received in background');
+        
+         
+      
+            this.router.navigateByUrl(data.linkto+"");
+        
+        }else{
+          console.log('Received in foreground');
+         //add the alert for foreground and navigation
+       
 
+     
+          this.showAlertNotif(data.title,data.body,data.image,data.linkto+"");
+
+       
+        }
+        
+      });
     });
   }
 
@@ -226,17 +242,46 @@ export class AppComponent implements OnInit {
   }
 
   logOut() {
-   this.storage.remove('user-state');
-   this.storage.set('user-state', false);
-    this.GLobalVarService.publishSomeDataUserState({
-          UserState: false
-        });
+    this.storage.remove('user-state');
+    this.storage.set('user-state', false);
+     this.GLobalVarService.publishSomeDataUserState({
+           UserState: false
+         });
     this.storage.remove('auth-token');
     this.storage.remove('auth-user');
     this.router.navigateByUrl("login");
   }
 
+  async showAlertNotif(header, msg,imgSrc, url) {
 
+    const alert = await this.AlertController.create({
+      header: header,
+      mode: 'ios',
+      message: "<div class='alert-notif-container'><p>"+msg+"</p> <img  src='"+imgSrc+"' /></div>",
+      cssClass : "alert-notif-msg",
+      buttons: [
+        {
+          text: 'Ignorer',
+          role: 'cancel',
+          cssClass: 'alert-notif-btn-annuler',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text: 'Consulter',
+          cssClass: 'alert-notif-btn-ok',
+          handler: () => {
+          
+              this.router.navigateByUrl(url);
+
+           
+          }
+        },
+      ]
+    });
+    await alert.present();
+  }
 
 
 }

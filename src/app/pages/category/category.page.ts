@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryPage implements OnInit {
 
-  categorys: any[];
+  categorys: any[] = [];
   shownCategory: any;
   rep = /&amp;/gi;
   loading;

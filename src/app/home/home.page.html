@@ -53,7 +53,7 @@
     <!-- show category with product-->
     <div *ngIf="homeItem1.type === 'category' ">
       <ion-card class="category-card">
-        <p *ngIf="homeItem1.category.name !== 'nouveauté'" class="category-title-txt-float"
+        <p class="category-title-txt-float"
           fill="clear" color="dark">
           {{homeItem1.category.name.replace(rep,'&')}}
         </p>
