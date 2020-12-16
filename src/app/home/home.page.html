@@ -52,11 +52,8 @@
 
     <!-- show category with product-->
     <div *ngIf="homeItem1.type === 'category' ">
-      <ion-card class="category-card">
-        <p class="category-title-txt-float"
-          fill="clear" color="dark">
-          {{homeItem1.category.name.replace(rep,'&')}}
-        </p>
+      <div >
+        <p class="category-title-txt-float"> {{homeItem1.category.name.replace(rep,'&')}}</p>
         <ion-img class="category-slides-img" src="{{homeItem1.category_object?.image?.src}}"> </ion-img>
         <div class="category-container-slides">
           <div class="category-slides-title"> {{homeItem1.sub_category.name.replace(rep,'&')}}</div>
@@ -64,7 +61,7 @@
             (click)="goToProductByCategory( homeItem1.category.id)">VOIR
             PLUS</div>
         </div>
-      </ion-card>
+      </div>
 
       <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
         <ion-slide *ngFor="let product of homeItem1.product_array" class="slide-product">

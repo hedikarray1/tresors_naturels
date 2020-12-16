@@ -125,7 +125,7 @@ export class DetailProduitPage implements OnInit {
     this.variations = [];
     for (let v of variationsss) {
       await this.ProductService.getproduct(v).then((data: any) => {
-        console.log(data);
+        console.log("variable : ",data);
         let vv = {
           option: data?.attributes[0]?.option,
           id: v

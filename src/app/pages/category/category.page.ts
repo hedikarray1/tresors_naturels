@@ -1,4 +1,4 @@
-import { PanierModalPage } from './../panier-modal/panier-modal.page';
+
 import { CategoryService } from './../../services/category/category.service';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController, AlertController } from '@ionic/angular';
@@ -19,10 +19,10 @@ export class CategoryPage implements OnInit {
 
 
   constructor(
-    private loadingController: LoadingController,
+   
     private router: Router,
     private categoryService: CategoryService,
-    private modalCtrl: ModalController,
+  
     private loadingCtrl: LoadingController,
     private alertController: AlertController
   ) { }
@@ -94,11 +94,16 @@ export class CategoryPage implements OnInit {
 
 
   showCategory(category) {
-    if (this.shownCategory === category) {
-      this.shownCategory = null;
-    } else {
-      this.shownCategory = category;
+    if (category.children.length){
+      if (this.shownCategory === category.name) {
+        this.shownCategory = null;
+      } else {
+        this.shownCategory = category.name;
+      }
+    }else{
+      this. goToProductByCategory( category.id)
     }
+    
   };
 
  

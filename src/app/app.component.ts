@@ -247,6 +247,9 @@ export class AppComponent implements OnInit {
      this.GLobalVarService.publishSomeDataUserState({
            UserState: false
          });
+         this.GLobalVarService.publishSomeData({
+          PanierNbr: 0
+      });
     this.storage.remove('auth-token');
     this.storage.remove('auth-user');
     this.router.navigateByUrl("login");

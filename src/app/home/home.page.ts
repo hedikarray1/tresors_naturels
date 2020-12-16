@@ -269,7 +269,8 @@ export class HomePage implements OnInit {
     });
   }
 
-  getHomeJson() {
+  getHomeJson() { 
+    
 
     console.log('get home json start');
     this.http.get(environment.apiCustomURL+"config/get_home_config.php").subscribe((res: any[]) => {

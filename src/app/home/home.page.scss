@@ -394,14 +394,18 @@ ion-slides {
     border-bottom: 1px solid #9b9898;
   
 }
-
+/*
 .category-card {
   width: 100%;
-  margin: 1% 0px;
-  border-radius: 0;
-  box-shadow: 0 0 black;
+ // margin: 10px 0px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  border-radius: 0px !important;
+  box-shadow: 0px 0px black !important;
 }
-
+*/
 
 .icon-add-item{
   position:absolute;
@@ -439,15 +443,15 @@ ion-slides {
   
   .category-title-txt-float  {
     position: absolute;
-    top: 50px;
-    right: 5px;
+ 
     font-family: Lato, sans-serif;
     font-size: 5vw;
     color: black;
     font-weight: 600;
     text-transform: uppercase;
-  
-    height: 9vw;
-    padding: 2vw;
+    height: 23vw;
+    padding: 8vw 3vw;
+    width: 100%;
+    text-align: end;
   }
   
