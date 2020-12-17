@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.firebaseX.subscribe("test").then((data)=>{
+      this.firebaseX.subscribe("tresors").then((data)=>{
        
       }).catch((error)=>{
       

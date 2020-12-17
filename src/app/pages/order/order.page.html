@@ -201,8 +201,24 @@
       </div>
       </form>
       <ion-item>
-        <ion-label position="floating">Téléphone</ion-label>
-        <ion-input placeholder="Votre numéro de téléphone" [(ngModel)]="billing.phone"></ion-input>
+        <form  [formGroup]="billingPhoneForm">
+          <ion-item>
+            <ion-label position="floating">Téléphone</ion-label>
+            <ion-input placeholder="Votre numéro de téléphone" formControlName="phone" [(ngModel)]="billing.phone"></ion-input>
+          </ion-item>
+          <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.Phone">
+              <div class="error-message"
+                *ngIf="billingPhoneForm.get('phone').hasError(validation.type) && (billingPhoneForm.get('phone').dirty || billingEmailForm.get('phone').touched)">
+                <span class="error ion-padding">
+                  {{ validation.message }}
+                </span>
+    
+              </div>
+            </ng-container>
+          </div>
+          </form>
+      
       </ion-item>
     </ion-card-content>
   </ion-card>
