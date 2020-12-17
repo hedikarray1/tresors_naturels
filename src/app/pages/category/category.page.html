@@ -17,17 +17,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div *ngFor="let cat of categorys">
-
-    <ion-card  (click)="goToProductByCategory(cat.id)" *ngIf="!cat.children.length ">
+    <ion-card *ngFor="let cat of categorys" (click)="showCategory(cat)" >
       <p  > {{cat.name.replace(rep,'&')}} </p>
       <ion-img src="{{cat?.image?.src}}"></ion-img>
-    </ion-card>
-
-    <ion-card  (click)="showCategory(cat.name)" *ngIf="cat.children.length">
-      <p  > {{cat.name.replace(rep,'&')}} </p>
-      <ion-img src="{{cat?.image?.src}}"></ion-img>
-      <ion-card-content  *ngIf="this.shownCategory === cat.name">
+      <ion-card-content  *ngIf="this.shownCategory === cat.name && cat.children.length">
         <ion-item *ngFor="let subCat of cat.children" (click)="goToProductByCategory(subCat.id)">
           <ion-label> {{subCat.name.replace(rep,'&')}} </ion-label>
         </ion-item>
@@ -35,6 +28,6 @@
     </ion-card>
 
     
-  </div>
+ 
 
 </ion-content>

@@ -1,4 +1,4 @@
-import { PanierModalPage } from './../panier-modal/panier-modal.page';
+
 import { CategoryService } from './../../services/category/category.service';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController, AlertController } from '@ionic/angular';
@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryPage implements OnInit {
 
-  categorys: any[];
+  categorys: any[] = [];
   shownCategory: any;
   rep = /&amp;/gi;
   loading;
@@ -19,30 +19,13 @@ export class CategoryPage implements OnInit {
 
 
   constructor(
-    private loadingController: LoadingController,
+   
     private router: Router,
     private categoryService: CategoryService,
-    private modalCtrl: ModalController,
+  
     private loadingCtrl: LoadingController,
     private alertController: AlertController
   ) { }
-
-  async ionViewDidEnter() {
-
-  }
-
-  async openCart() {
-
-
-    let modal = await this.modalCtrl.create({
-      component: PanierModalPage,
-      cssClass: 'cart-modal'
-    });
-    modal.onWillDismiss().then(() => {
-    });
-    modal.present();
-    
-  }
 
   async ngOnInit() {
     this.loading = this.loadingCtrl.create({
@@ -54,7 +37,7 @@ export class CategoryPage implements OnInit {
     this.loading.then((load) => {
       load.present();
     });
-    // this.presentLoadingCustom();
+  
      this.getCategory();
 
   }
@@ -111,11 +94,16 @@ export class CategoryPage implements OnInit {
 
 
   showCategory(category) {
-    if (this.shownCategory === category) {
-      this.shownCategory = null;
-    } else {
-      this.shownCategory = category;
+    if (category.children.length){
+      if (this.shownCategory === category.name) {
+        this.shownCategory = null;
+      } else {
+        this.shownCategory = category.name;
+      }
+    }else{
+      this. goToProductByCategory( category.id)
     }
+    
   };
 
  

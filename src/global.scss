@@ -28,7 +28,6 @@
 .ion-title-header-center {
   text-align: center !important;
     position: fixed;
-    /* display: contents; */
     top: 9%;
     left: 0;
     width: 100%;
@@ -126,8 +125,6 @@ ion-header {
  
 .add-coupon-modal {
   --height: 30%;
-//  --max-height: 75%;
-//  --min-height: 50%;
   --border-radius: 10px;
   padding: 25px;
 }
