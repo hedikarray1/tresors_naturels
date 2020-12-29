@@ -18,6 +18,7 @@ export class OrderPage implements OnInit {
   panier: any[] = [];
 
   billingEmailForm: FormGroup;
+  billingPhoneForm: FormGroup;
 
   totalPanier = 0;
   pointsGain = 0;
@@ -51,11 +52,18 @@ export class OrderPage implements OnInit {
 
   validation_messages = {
     Email: [
-      { type: 'required', message: 'Ce champs est obligatoire' },
-      { type: 'pattern', message: "L'e-mail doit être un e-mail valide." },
+      { type: 'required', message: 'Ce champ est obligatoire' },
+      { type: 'pattern', message: "L'adresse  électronique doit être valide." },
+    ],
+    Phone: [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: "Ce champs doit se composer que de numéros" },
+      { type: 'minlength', message: "Ce champs doit comporter 8 chiffres" },
+      { type: 'maxlength', message: "Ce champs doit comporter 8 chiffres au maximum" },
+
+
     ]
   } ;
-
 
 
   constructor(
@@ -75,6 +83,14 @@ export class OrderPage implements OnInit {
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')
+      ]))
+    });
+    this.billingPhoneForm = this.fb.group({
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(8),
+        Validators.minLength(8),
+        Validators.pattern('[0-9]+$')
       ]))
     });
     this.loading = this.loadingCtrl.create({
@@ -341,109 +357,129 @@ export class OrderPage implements OnInit {
             ]
           });
           await alert.present();
-        } else {
-      this.loading = this.loadingCtrl.create({
-        spinner: null,
-        cssClass: 'custom-loading',
-        message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
-  
-      });
-      this.loading.then((load) => {
-        load.present();
-      });
-      console.log('commander ***********************');
-      console.log('order user id', this.current_user.id);
-      console.log('order coupon', this.coupon_data);
-  
-      console.log('order note', this.notes);
-      console.log('order item', this.panier);
-      console.log('order billing', this.billing);
-      console.log('order shippping', this.shipping);
-  
-      let shippingMethod: any[] = [];
-      let shipping_line = {
-        "method_id": this.selectedShippingMethod.method_id,
-        "method_title": this.selectedShippingMethod.method_title,
-        "total": this.selectedShippingMethod.settings.cost.value
-      };
-      shippingMethod.push(shipping_line);
-  
-      console.log('order shippingMethod ', shippingMethod);
-  
-      let couponSendData: any[] = [];
-      this.coupon_data.forEach(element => {
-        //  couponSendData.push({"code":element.code+"","amount":element.amount+""});
-      });
-      console.log("coupons send data", couponSendData);
-  
-      this.OrderService.CreateOrder(
-        this.billing,
-        this.shipping,
-        this.current_user.id,
-        this.coupon_data,
-        this.notes,
-        "TND",
-        shippingMethod,
-        this.panier,
-        this.feeLines
-      ).then(async (res: any) => {
-  
-        console.log("succes", res);
-  
-        this.loading.then((load) => {
-          load.dismiss();
-        });
-  
-  
-        const alert = await this.alertController.create({
-          header: "Commande passée avec succés",
-          mode: 'ios',
-          message: '',
-          buttons: [
-  
-            {
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-              handler: () => {
-  
-                this.PanierService.emptyCartFromServer(this.current_user.id).then((data: any) => {
-                  console.log('data empty panier', data);
-                  alert.dismiss();
-                  this.router.navigateByUrl('/bottom-navigation/my-orders', { replaceUrl: true });
-                })
-  
-              }
-            },
-          ]
-        });
-        await alert.present();
-  
-  
-      }, async (err) => {
-        console.log('erreur', err);
-        this.loading.then((load) => {
-          load.dismiss();
-        });
-  
-        const alert = await this.alertController.create({
-          header: "Erreur lors de la commande",
-          mode: 'ios',
-          message: err.error.message,
-          buttons: [
-            {
-              text: "D'accord",
-              cssClass: 'btn-alert-connexion',
-              handler: () => {
-                alert.dismiss();
-              }
-            },
-          ]
-        });
-        await alert.present();
-      }
-      );
-  
-    }
+        } else{
+          if(!this.billingPhoneForm.valid){
+            const alert = await this.alertController.create({
+              header: "Numéro de téléphone invalide",
+              mode: 'ios', 
+              message: 'Vous devez remplir le champ téléphone dans le formulaire de facturation avec un numéro de téléphone valide',
+              buttons: [
+      
+                {
+                  text: "D'accord",
+                  cssClass: 'btn-alert-connexion',
+                  handler: () => {
+                    alert.dismiss();
+                  }
+                },
+              ]
+            });
+            await alert.present();
+          }else {
+            this.loading = this.loadingCtrl.create({
+              spinner: null,
+              cssClass: 'custom-loading',
+              message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
+        
+            });
+            this.loading.then((load) => {
+              load.present();
+            });
+            console.log('commander ***********************');
+            console.log('order user id', this.current_user.id);
+            console.log('order coupon', this.coupon_data);
+        
+            console.log('order note', this.notes);
+            console.log('order item', this.panier);
+            console.log('order billing', this.billing);
+            console.log('order shippping', this.shipping);
+        
+            let shippingMethod: any[] = [];
+            let shipping_line = {
+              "method_id": this.selectedShippingMethod.method_id,
+              "method_title": this.selectedShippingMethod.method_title,
+              "total": this.selectedShippingMethod.settings.cost.value
+            };
+            shippingMethod.push(shipping_line);
+        
+            console.log('order shippingMethod ', shippingMethod);
+        
+            let couponSendData: any[] = [];
+            this.coupon_data.forEach(element => {
+              //  couponSendData.push({"code":element.code+"","amount":element.amount+""});
+            });
+            console.log("coupons send data", couponSendData);
+        
+            this.OrderService.CreateOrder(
+              this.billing,
+              this.shipping,
+              this.current_user.id,
+              this.coupon_data,
+              this.notes,
+              "TND",
+              shippingMethod,
+              this.panier,
+              this.feeLines
+            ).then(async (res: any) => {
+        
+              console.log("succes", res);
+        
+              this.loading.then((load) => {
+                load.dismiss();
+              });
+        
+        
+              const alert = await this.alertController.create({
+                header: "Commande passée avec succés",
+                mode: 'ios',
+                message: '',
+                buttons: [
+        
+                  {
+                    text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+        
+                      this.PanierService.emptyCartFromServer(this.current_user.id).then((data: any) => {
+                        console.log('data empty panier', data);
+                        alert.dismiss();
+                        this.router.navigateByUrl('/bottom-navigation/my-orders', { replaceUrl: true });
+                      })
+        
+                    }
+                  },
+                ]
+              });
+              await alert.present();
+        
+        
+            }, async (err) => {
+              console.log('erreur', err);
+              this.loading.then((load) => {
+                load.dismiss();
+              });
+        
+              const alert = await this.alertController.create({
+                header: "Erreur lors de la commande",
+                mode: 'ios',
+                message: err.error.message,
+                buttons: [
+        
+                  {
+                    text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  },
+                ]
+              });
+              await alert.present();
+            }
+            );
+        
+          }
+        }
   }
 }
   }

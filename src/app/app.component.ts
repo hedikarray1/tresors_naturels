@@ -1,3 +1,4 @@
+import { Market } from '@ionic-native/market/ngx';
 import { GlobalVarServiceService } from './services/globalVarService/global-var-service.service';
 import { Network } from '@ionic-native/network/ngx';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
@@ -108,7 +109,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private firebaseX: FirebaseX,
     private GLobalVarService:GlobalVarServiceService,
-    private AlertController:AlertController
+    private AlertController:AlertController,
+    private market:Market
   
   ) {
 
@@ -180,17 +182,21 @@ export class AppComponent implements OnInit {
           console.log('Received in background');
         
          
-      
+            if(data.to==="store"){
+this.market.open("com.societe2i.sitetresor2020");
+            }else{
             this.router.navigateByUrl(data.linkto+"");
-        
+            }
         }else{
           console.log('Received in foreground');
          //add the alert for foreground and navigation
        
+         
 
+            
      
-          this.showAlertNotif(data.title,data.body,data.image,data.linkto+"");
-
+          this.showAlertNotif(data.title,data.body,data.image,data.linkto+"",data.to);
+            
        
         }
         
@@ -255,7 +261,7 @@ export class AppComponent implements OnInit {
     this.router.navigateByUrl("login");
   }
 
-  async showAlertNotif(header, msg,imgSrc, url) {
+  async showAlertNotif(header, msg,imgSrc, url,to) {
 
     const alert = await this.AlertController.create({
       header: header,
@@ -275,9 +281,13 @@ export class AppComponent implements OnInit {
           text: 'Consulter',
           cssClass: 'alert-notif-btn-ok',
           handler: () => {
+          if(to==="store"){
           
+              this.market.open("com.societe2i.sitetresor2020");
+                          
+          }else{
               this.router.navigateByUrl(url);
-
+          }
            
           }
         },
