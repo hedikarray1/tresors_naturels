@@ -430,7 +430,6 @@ export class OrderPage implements OnInit {
           mode: 'ios',
           message: err.error.message,
           buttons: [
-  
             {
               text: "D'accord",
               cssClass: 'btn-alert-connexion',
