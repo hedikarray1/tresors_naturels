@@ -52,11 +52,18 @@ export class OrderPage implements OnInit {
 
   validation_messages = {
     Email: [
-      { type: 'required', message: 'Ce champs est obligatoire' },
-      { type: 'pattern', message: "L'e-mail doit être un e-mail valide." },
+      { type: 'required', message: 'Ce champ est obligatoire' },
+      { type: 'pattern', message: "L'adresse  électronique doit être valide." },
+    ],
+    Phone: [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: "Ce champs doit se composer que de numéros" },
+      { type: 'minlength', message: "Ce champs doit comporter 8 chiffres" },
+      { type: 'maxlength', message: "Ce champs doit comporter 8 chiffres au maximum" },
+
+
     ]
   } ;
-
 
 
   constructor(
@@ -83,7 +90,7 @@ export class OrderPage implements OnInit {
         Validators.required,
         Validators.maxLength(8),
         Validators.minLength(8),
-        Validators.pattern('[0-9]')
+        Validators.pattern('[0-9]+$')
       ]))
     });
     this.loading = this.loadingCtrl.create({

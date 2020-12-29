@@ -17,7 +17,7 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Network } from '@ionic-native/network/ngx';
-
+import { Market } from '@ionic-native/market/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,7 +41,8 @@ import { Network } from '@ionic-native/network/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FirebaseX,
     Clipboard,
-    Network
+    Network,
+    Market
   ],
   bootstrap: [AppComponent]
 })
