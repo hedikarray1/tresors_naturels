@@ -16,10 +16,21 @@ import { ModalController, AlertController, LoadingController } from '@ionic/angu
 export class OrderPage implements OnInit {
 
   panier: any[] = [];
+  productsPromo: any[] = [];
+  productsPromoResult: any[] = [];
+
 
   billingEmailForm: FormGroup;
   billingPhoneForm: FormGroup;
 
+  billingForm: FormGroup;
+  shippingForm: FormGroup;
+
+
+
+  totalProductsPromo = 0;
+  totalProductsNoPromo = 0;
+  
   totalPanier = 0;
   pointsGain = 0;
   totalOrder = 0;
@@ -51,18 +62,41 @@ export class OrderPage implements OnInit {
   notes = "";
 
   validation_messages = {
-    Email: [
+    email: [
       { type: 'required', message: 'Ce champ est obligatoire' },
       { type: 'pattern', message: "L'adresse  électronique doit être valide." },
     ],
-    Phone: [
+    phone: [
       {type:'required',message:'Ce champ est obligatoire'},
-      { type: 'pattern', message: "Ce champs doit se composer que de numéros" },
+      { type: 'pattern', message: "Ce champs doit se composer que des chiffres" },
       { type: 'minlength', message: "Ce champs doit comporter 8 chiffres" },
-      { type: 'maxlength', message: "Ce champs doit comporter 8 chiffres au maximum" },
-
-
-    ]
+      { type: 'maxlength', message: "Ce champs doit comporter 12 chiffres au maximum" },
+    ],
+     last_name : [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: 'Le nom ne doit contenir que des lettres' }
+    ],
+    first_name :  [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: 'Le nom ne doit contenir que des lettres' }
+    ],
+    address_1 : [
+      {type:'required',message:'Ce champ est obligatoire'},
+    ],
+    address_2 : [
+    ],
+    city : [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: 'Le nom ne doit contenir que des lettres' }
+    ],
+    country: [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: 'Le nom ne doit contenir que des lettres' }
+    ],
+    postcode : [
+      {type:'required',message:'Ce champ est obligatoire'},
+      { type: 'pattern', message: "Ce champs doit se composer que des chiffres" }
+    ],
   } ;
 
 
@@ -79,20 +113,90 @@ export class OrderPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.billingEmailForm = this.fb.group({
+ 
+
+    this.billingForm = this.fb.group({
+      last_name : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])), 
+      first_name : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])),
+      address_1 : new FormControl('', Validators.compose([
+        Validators.required,
+      ])), 
+       
+      address_2 : new FormControl('', Validators.compose([
+      
+      ])),
+      company : new FormControl('', Validators.compose([
+      
+      ])),
+      state : new FormControl('', Validators.compose([
+      
+      ])),
+      city : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])),
+      country: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])),
+      postcode : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]+$')
+      ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')
+      ])),
+      phone : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(12),
+        Validators.minLength(8),
+        Validators.pattern('[0-9+]+$')
       ]))
     });
-    this.billingPhoneForm = this.fb.group({
-      phone: new FormControl('', Validators.compose([
+
+    this.shippingForm = this.fb.group({
+      last_name : new FormControl('', Validators.compose([
         Validators.required,
-        Validators.maxLength(8),
-        Validators.minLength(8),
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])), 
+      first_name : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])),
+      address_1 : new FormControl('', Validators.compose([
+        Validators.required,
+      ])), 
+      address_2 : new FormControl('', Validators.compose([
+        
+      ])),
+      
+      company : new FormControl('', Validators.compose([
+      
+      ])),
+      state : new FormControl('', Validators.compose([
+      
+      ])),
+      city : new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])),
+      country: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z]+$'),
+      ])),
+      postcode : new FormControl('', Validators.compose([
+        Validators.required,
         Validators.pattern('[0-9]+$')
       ]))
     });
+
     this.loading = this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
@@ -115,7 +219,50 @@ export class OrderPage implements OnInit {
 
   }
 
+  setFormControl(){
+    this.billingForm.setValue(this.billing);
+    this.shippingForm.setValue(this.shipping) ;
+  }
 
+
+  setProductsPromo(){
+    this.panier.forEach(element => {
+      let p = {
+        id : element.product_id ,
+        total : element.total
+      }
+      this.productsPromo.push(p);
+    });
+    console.log('productsPromo :',this.productsPromo) ;
+  }
+
+  checkProductsPromo(){
+    this.OrderService.checkProductsPromo(this.productsPromo).then(async (res: any[]) => {
+      console.log('resultat checkProductsPromo : ',res);
+      this.productsPromoResult = res  
+      this.setTotalePromo();
+    },(error)=>{
+  console.log("error",error);
+    });
+  }
+
+  setTotalePromo(){
+    this.totalProductsPromo =  0;
+    this.totalProductsNoPromo = 0
+    this.productsPromoResult.forEach(element => {
+       if (element.promotion == 'promo'){
+         this.totalProductsPromo = parseFloat(this.totalProductsPromo+"") +parseFloat(element.total) ;
+       }
+    });
+
+    this.totalProductsNoPromo = parseFloat(this.totalPanier+'') - parseFloat(this.totalProductsPromo+'') ;
+    this.totalProductsNoPromo = parseFloat(this.totalProductsNoPromo+'')  ;
+    
+
+    console.log('totalPanier',this.totalPanier);
+    console.log('totalProductsPromo',this.totalProductsPromo);
+    console.log('totalProductsNoPromo',this.totalProductsNoPromo);
+  }
 
   getUserdata() {
     if (this.userState) {
@@ -130,6 +277,7 @@ export class OrderPage implements OnInit {
           this.loading.then((load) => {
             load.dismiss();
           });
+          this.setFormControl();
         }).catch(async (reason) => {
           if (this.oneCatch) {
 
@@ -138,6 +286,7 @@ export class OrderPage implements OnInit {
             this.loading.then((load) => {
               load.dismiss();
             });
+            console.log('error :',reason);
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',
@@ -180,6 +329,7 @@ export class OrderPage implements OnInit {
         this.loading.then((load) => {
           load.dismiss();
         });
+        console.log('error :',reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -218,6 +368,7 @@ export class OrderPage implements OnInit {
         this.loading.then((load) => {
           load.dismiss();
         });
+        console.log('error :',reason);
         const alert = await this.alertController.create({
           header: "Erreur lors du chargement de la page",
           mode: 'ios',
@@ -247,7 +398,9 @@ export class OrderPage implements OnInit {
       this.storage.get('auth-user').then((val) => {
         console.log('auth-user', val);
         this.PanierService.getCartFromServer(val.id).then((res: any[]) => {
+          console.log('res data get panier :',res);
           this.panier = res['data'];
+          console.log('panier : ',this.panier);
           this.totalPanier = parseFloat(res['subtotal']);
           this.pointsGain = this.totalPanier / 10;
           this.pointsGain = parseInt(this.pointsGain + "");
@@ -255,6 +408,8 @@ export class OrderPage implements OnInit {
             element.subtotal = element.subtotal + "";
             element.total = element.total + "";
           });
+          this.setProductsPromo();
+          this.checkProductsPromo();
         }).catch(async (reason) => {
           if (this.oneCatch) {
 
@@ -263,6 +418,7 @@ export class OrderPage implements OnInit {
             this.loading.then((load) => {
               load.dismiss();
             });
+            console.log('error :',reason);
             const alert = await this.alertController.create({
               header: "Erreur lors du chargement de la page",
               mode: 'ios',
@@ -340,11 +496,11 @@ export class OrderPage implements OnInit {
         });
         await alert.present();
       } else {
-        if (!this.billingEmailForm.valid) {
+        if (!this.billingForm.valid) {
           const alert = await this.alertController.create({
-            header: "Adresse électronique invalide ",
+            header: "Le formulaire de facturation est invalide ",
             mode: 'ios', 
-            message: 'Vous devez remplir le champ adresse électronique dans le formulaire de facturation avec une adresse valide',
+            message: 'Vous devez remplir les champs manquants dans le formulaire de facturation .',
             buttons: [
     
               {
@@ -358,11 +514,11 @@ export class OrderPage implements OnInit {
           });
           await alert.present();
         } else{
-          if(!this.billingPhoneForm.valid){
+          if(!this.shippingForm.valid){
             const alert = await this.alertController.create({
-              header: "Numéro de téléphone invalide",
+              header: "Le formulaire de livraison est invalide",
               mode: 'ios', 
-              message: 'Vous devez remplir le champ téléphone dans le formulaire de facturation avec un numéro de téléphone valide',
+              message: 'Vous devez remplir les champs manquants dans le formulaire de livraison .',
               buttons: [
       
                 {
@@ -526,18 +682,19 @@ this.selecteZoneState = true;
       cssClass: 'add-coupon-modal'
     });
     modal.onWillDismiss().then(async (data) => {
-
+    if (this.totalProductsNoPromo > 0){
+      this.totalProductsNoPromo  = parseFloat(this.totalProductsNoPromo+"") ;
       if (data['data'] != undefined) {
         data['data'].amount = parseFloat(data['data'].amount);
 
 
-        if (parseFloat(data['data'].amount) < this.totalPanier) {
+        if (parseFloat(data['data'].amount) < this.totalProductsNoPromo) {
           this.totalCoupon = parseFloat(data['data'].amount);
 
-        } else if (parseFloat(data['data'].amount) >= this.totalPanier) {
+        } else if (parseFloat(data['data'].amount) >= this.totalProductsNoPromo) {
 
-          this.totalCoupon = this.totalPanier;
-          data['data'].amount = this.totalPanier;
+          this.totalCoupon = this.totalProductsNoPromo;
+          data['data'].amount = this.totalProductsNoPromo;
         }
 
 
@@ -555,7 +712,7 @@ this.selecteZoneState = true;
 
 
       }
-
+    }
     });
     modal.present();
 

@@ -7,7 +7,6 @@
     <ion-title class="ion-title-header-center">
       <img src="../../../assets/logo/logo2.png" />
     </ion-title>
-    
   </ion-toolbar>
 </ion-header>
 
@@ -17,7 +16,11 @@
   </ion-refresher>
   <ion-list>
     <ion-card>
-      <ion-item class="item-cart" *ngFor="let p of panier" class="ion-text-wrap">
+      <ion-item
+        class="item-cart"
+        *ngFor="let p of panier"
+        class="ion-text-wrap"
+      >
         <ion-thumbnail slot="start">
           <img src="{{p?.thumbnail}}" />
         </ion-thumbnail>
@@ -48,16 +51,20 @@
   </ion-list>
 
   <ion-card>
-    <ion-card-header class="txt-title-font-size"> ZONE D'EXPÉDITION  </ion-card-header>
-    <ion-radio-group mode="ios" [(ngModel)]="selectedzone"  (ngModelChange)="selectZone()">
-
+    <ion-card-header class="txt-title-font-size">
+      ZONE D'EXPÉDITION
+    </ion-card-header>
+    <ion-radio-group
+      mode="ios"
+      [(ngModel)]="selectedzone"
+      (ngModelChange)="selectZone()"
+    >
       <ion-item *ngFor="let zone of shipping_zones ">
         <ion-label class="label-size">{{zone.name}}</ion-label>
-        <ion-radio  slot="start" value="{{zone.id}}"></ion-radio>
-
+        <ion-radio slot="start" value="{{zone.id}}"></ion-radio>
       </ion-item>
     </ion-radio-group>
-<!--
+    <!--
     <ion-item>
       <ion-select mode="ios" [(ngModel)]="selectedzone" (ionChange)="selectZone()" okText="Ok" cancelText="Annuler">
         <ion-select-option *ngFor="let zone of shipping_zones" value="{{zone.id}}">{{zone.name}}</ion-select-option>
@@ -66,10 +73,15 @@
 -->
   </ion-card>
   <ion-card>
-    <ion-card-header class="txt-title-font-size">MÉTHODE D'EXPÉDITION </ion-card-header>
-   
-    <ion-radio-group mode="ios" [(ngModel)]="selectedpayment"   (ngModelChange)="selectMethod()">
+    <ion-card-header class="txt-title-font-size"
+      >MÉTHODE D'EXPÉDITION
+    </ion-card-header>
 
+    <ion-radio-group
+      mode="ios"
+      [(ngModel)]="selectedpayment"
+      (ngModelChange)="selectMethod()"
+    >
       <ion-item *ngFor="let payment of payment_methodes">
         <ion-label class="label-size">
           {{payment.title}}
@@ -77,37 +89,64 @@
             {{payment.settings.cost.value }} TND
           </p>
         </ion-label>
-        <ion-radio   slot="start" value="{{payment.id}}"></ion-radio>
+        <ion-radio slot="start" value="{{payment.id}}"></ion-radio>
       </ion-item>
     </ion-radio-group>
-   
   </ion-card>
 
- 
-  <ion-card>
-    <ion-button expand="block" fill="outline" color="dark" value="block" (click)="openAddCouponModal()">
+  <ion-card *ngIf="totalProductsNoPromo > 0">
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="dark"
+      value="block"
+      (click)="openAddCouponModal()"
+    >
       Ajouter code promo
     </ion-button>
 
     <ion-item-group *ngFor="let coup of coupon_data ; let i = index">
       <ion-item-divider>
-        <ion-label>CODE PROMO :{{coup?.code}} </ion-label>
+        <ion-label>CODE PROMO : <strong>{{coup?.code}}</strong> </ion-label>
       </ion-item-divider>
 
-
       <ion-item>
-        <ion-label>Reduction de -{{coup?.amount}} TND</ion-label>
+        <ion-label
+          >Reduction de -{{coup?.amount | number : '1.3-3'}} TND</ion-label
+        >
 
-        <ion-button (click)="suuprimerCoupon(i)" fill="clear" slot="end" color="dark">
+        <ion-button
+          (click)="suuprimerCoupon(i)"
+          fill="clear"
+          slot="end"
+          color="dark"
+        >
           <ion-icon name="close" slot="end"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-item-group>
+  </ion-card>
 
+  <ion-card *ngIf="totalProductsNoPromo == 0">
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="dark"
+      value="block"
+      [disabled]="true"
+    >
+      Ajouter code promo
+    </ion-button>
+    <ion-card-header>
+      Vous ne pouvez pas utiliser le code promo car tous les produits sont en
+      promotion
+    </ion-card-header>
   </ion-card>
 
   <ion-card>
-    <ion-card-header> Vous allez gagner {{pointsGain}} points avec cette commande. </ion-card-header>
+    <ion-card-header>
+      Vous allez gagner {{pointsGain}} points avec cette commande.
+    </ion-card-header>
   </ion-card>
 
   <ion-card>
@@ -115,13 +154,15 @@
       <ion-grid class="txt-font-size">
         <ion-row>
           <ion-col size="6"> Sous-Total : </ion-col>
-          <ion-col size="6" class="ion-text-end"> {{totalPanier | number : '1.3-3'}} TND </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            {{totalPanier | number : '1.3-3'}} TND
+          </ion-col>
         </ion-row>
 
         <ion-row *ngIf="coupon_data.length>0">
-          <ion-col size="7"> Reduction code promo  </ion-col>
+          <ion-col size="7"> Reduction code promo </ion-col>
           <ion-col size="5" class="ion-text-end">
-            - {{totalCoupon}} TND
+            - {{totalCoupon | number : '1.3-3'}} TND
           </ion-col>
         </ion-row>
 
@@ -143,131 +184,387 @@
   </ion-card>
 
   <ion-segment [(ngModel)]="segmentValue">
-    <ion-segment-button value="Facturation" (click)="showSegment()" >
+    <ion-segment-button value="Facturation" (click)="showSegment()">
       <ion-label>Facturation</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="Livraison"  (click)="showSegment()" >
+    <ion-segment-button value="Livraison" (click)="showSegment()">
       <ion-label>Livraison</ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <ion-card *ngIf="showFacturation" id="facturation-card">
-    <ion-card-header class="txt-title-font-size"> Informations de facturation </ion-card-header>
+    <ion-card-header class="txt-title-font-size">
+      Informations de facturation
+    </ion-card-header>
     <ion-card-content>
-     
-      <ion-item>
-        <ion-label position="floating">Nom</ion-label>
-        <ion-input [(ngModel)]="billing.last_name" placeholder="Votre nom"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Prenom</ion-label>
-        <ion-input [(ngModel)]="billing.first_name" placeholder="Votre prenom"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Adresse 1</ion-label>
-        <ion-input [(ngModel)]="billing.address_1" placeholder="Votre adresse 1"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Adresse 2</ion-label>
-        <ion-input [(ngModel)]="billing.address_2" placeholder="Votre adresse 2"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Ville</ion-label>
-        <ion-input [(ngModel)]="billing.city" placeholder="Votre ville"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Pays</ion-label>
-        <ion-input [(ngModel)]="billing.country" placeholder="Votre pays"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Code postal</ion-label>
-        <ion-input [(ngModel)]="billing.postcode" placeholder="code postal"></ion-input>
-      </ion-item>
-      <form  [formGroup]="billingEmailForm">
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input placeholder="Votre adresse électronique" formControlName="email" [(ngModel)]="billing.email"></ion-input>
-      </ion-item>
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.Email">
-          <div class="error-message"
-            *ngIf="billingEmailForm.get('email').hasError(validation.type) && (billingEmailForm.get('email').dirty || billingEmailForm.get('email').touched)">
-            <span class="error ion-padding">
-              {{ validation.message }}
-            </span>
+      <form [formGroup]="billingForm">
+        <ion-item>
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input
+            [(ngModel)]="billing.last_name"
+            formControlName="last_name"
+            placeholder="Votre nom"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.last_name"
+          >
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('last_name').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
 
-          </div>
-        </ng-container>
-      </div>
+        <ion-item>
+          <ion-label position="floating">Prenom</ion-label>
+          <ion-input
+            [(ngModel)]="billing.first_name"
+            formControlName="first_name"
+            placeholder="Votre prenom"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.first_name"
+          >
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('first_name').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Adresse 1</ion-label>
+          <ion-input
+            [(ngModel)]="billing.address_1"
+            formControlName="address_1"
+            placeholder="Votre adresse 1"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.address_1"
+          >
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('address_1').hasError(validation.type)"
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Adresse 2</ion-label>
+          <ion-input
+            [(ngModel)]="billing.address_2"
+            formControlName="address_2"
+            placeholder="Votre adresse 2"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.address_2"
+          >
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('address_2').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Ville</ion-label>
+          <ion-input
+            [(ngModel)]="billing.city"
+            formControlName="city"
+            placeholder="Votre ville"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.city">
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('city').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Pays</ion-label>
+          <ion-input
+            [(ngModel)]="billing.country"
+            formControlName="country"
+            placeholder="Votre pays"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.country">
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('country').hasError(validation.type)"
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Code postal</ion-label>
+          <ion-input
+            [(ngModel)]="billing.postcode"
+            formControlName="postcode"
+            placeholder="code postal"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.postcode">
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('postcode').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Société</ion-label>
+          <ion-input
+            [(ngModel)]="billing.company"
+            formControlName="company"
+            placeholder="Société"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input
+            placeholder="Votre adresse électronique"
+            formControlName="email"
+            [(ngModel)]="billing.email"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.email">
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('email').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Téléphone</ion-label>
+          <ion-input
+            placeholder="Votre numéro de téléphone"
+            formControlName="phone"
+            [(ngModel)]="billing.phone"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.phone">
+            <div
+              class="error-message"
+              *ngIf="billingForm.get('phone').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
       </form>
-   
-        <form  [formGroup]="billingPhoneForm">
-          <ion-item>
-            <ion-label position="floating">Téléphone</ion-label>
-            <ion-input placeholder="Votre numéro de téléphone" formControlName="phone" [(ngModel)]="billing.phone"></ion-input>
-          </ion-item>
-          <div class="validation-errors">
-            <ng-container *ngFor="let validation of validation_messages.Phone">
-              <div class="error-message"
-                *ngIf="billingPhoneForm.get('phone').hasError(validation.type) && (billingPhoneForm.get('phone').dirty || billingPhoneForm.get('phone').touched)">
-                <span class="error ion-padding">
-                  {{ validation.message }}
-                </span>
-    
-              </div>
-            </ng-container>
-          </div>
-          </form>
-      
-    
     </ion-card-content>
   </ion-card>
 
   <ion-card *ngIf="showLivraison" id="facturation-card">
-    <ion-card-header class="txt-title-font-size"> Informations de livraison </ion-card-header>
+    <ion-card-header class="txt-title-font-size">
+      Informations de livraison
+    </ion-card-header>
     <ion-card-content>
-    
-      <ion-item>
-        <ion-label position="floating">Nom</ion-label>
-        <ion-input placeholder="Votre nom" [(ngModel)]="shipping.last_name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Prenom</ion-label>
-        <ion-input placeholder="Votre nom" [(ngModel)]="shipping.first_name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Adresse 1</ion-label>
-        <ion-input placeholder="Votre adresse 1" [(ngModel)]="shipping.address_1"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Adresse 2</ion-label>
-        <ion-input placeholder="Votre adresse 2" [(ngModel)]="shipping.address_2"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Ville</ion-label>
-        <ion-input placeholder="Votre ville" [(ngModel)]="shipping.city"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Pays</ion-label>
-        <ion-input placeholder="Votre pays" [(ngModel)]="shipping.country"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Code postal</ion-label>
-        <ion-input placeholder="code postal" [(ngModel)]="shipping.postcode"></ion-input>
-      </ion-item>
+      <form [formGroup]="shippingForm">
+        <ion-item>
+          <ion-label position="floating">Nom</ion-label>
+          <ion-input
+            placeholder="Votre nom"
+            formControlName="last_name"
+            [(ngModel)]="shipping.last_name"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.last_name"
+          >
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('last_name').hasError(validation.type)"
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Prenom</ion-label>
+          <ion-input
+            placeholder="Votre nom"
+            formControlName="first_name"
+            [(ngModel)]="shipping.first_name"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.first_name"
+          >
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('first_name').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Adresse 1</ion-label>
+          <ion-input
+            placeholder="Votre adresse 1"
+            formControlName="address_1"
+            [(ngModel)]="shipping.address_1"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.address_1"
+          >
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('address_1').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Adresse 2</ion-label>
+          <ion-input
+            placeholder="Votre adresse 2"
+            formControlName="address_2"
+            [(ngModel)]="shipping.address_2"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container
+            *ngFor="let validation of validation_messages.address_2"
+          >
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('address_2').hasError(validation.type)"
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Ville</ion-label>
+          <ion-input
+            placeholder="Votre ville"
+            formControlName="city"
+            [(ngModel)]="shipping.city"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.city">
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('city').hasError(validation.type)"
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Pays</ion-label>
+          <ion-input
+            placeholder="Votre pays"
+            formControlName="country"
+            [(ngModel)]="shipping.country"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.country">
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('country').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+        <ion-item>
+          <ion-label position="floating">Code postal</ion-label>
+          <ion-input
+            placeholder="code postal"
+            formControlName="postcode"
+            [(ngModel)]="shipping.postcode"
+          ></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.postcode">
+            <div
+              class="error-message"
+              *ngIf="shippingForm.get('postcode').hasError(validation.type) "
+            >
+              <span class="error ion-padding"> {{ validation.message }} </span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Société</ion-label>
+          <ion-input
+            [(ngModel)]="shipping.company"
+            formControlName="company"
+            placeholder="Société"
+          ></ion-input>
+        </ion-item>
+      </form>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
-    <ion-card-header class="txt-title-font-size"> Ajouter un commentaire </ion-card-header>
+    <ion-card-header class="txt-title-font-size">
+      Ajouter un commentaire
+    </ion-card-header>
     <ion-card-content>
-    
-
       <ion-item>
-        <ion-textarea [(ngModel)]="notes" placeholder="Remplissez vos notes..."></ion-textarea>
+        <ion-textarea
+          [(ngModel)]="notes"
+          placeholder="Remplissez vos notes..."
+        ></ion-textarea>
       </ion-item>
     </ion-card-content>
   </ion-card>
 
-  <ion-button class="btn-commande-margin " expand="block" fill="outline" color="dark" value="block" (click)="createOrder()">confirmer</ion-button>
+  <ion-button
+    class="btn-commande-margin"
+    expand="block"
+    fill="outline"
+    color="dark"
+    value="block"
+    (click)="createOrder()"
+    >confirmer</ion-button
+  >
 </ion-content>

@@ -67,11 +67,11 @@
         <ion-slide *ngFor="let product of homeItem1.product_array" class="slide-product">
           <ion-card class="product-card-slide">
 
-            <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock">
+            <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock"  (click)="goToDetail(product?.id)">
               <p class="txt-out-of-stock">Rupture de stock</p>
             </div>
 
-            <div class="container-txt-promo" *ngIf="product?.promotion == 'promo'">
+            <div class="container-txt-promo" *ngIf="product?.promotion == 'promo'"  (click)="goToDetail(product?.id)">
               <p class="txt-promo">Promo</p>
             </div>
             <div *ngIf="product?.stock_status=='outofstock'" (click)="goToDetail(product?.id)">
@@ -169,11 +169,11 @@
     <div class="card-container" *ngFor="let product of allProducts |filter:searchText">
       <ion-card class="product-card">
 
-        <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock">
+        <div *ngIf="product?.stock_status=='outofstock'" class="container-out-of-stock"  (click)="goToDetail(product?.id)">
           <p class="txt-out-of-stock">Rupture de stock</p>
         </div>
 
-        <div class="container-txt-promo" *ngIf="product?.promotion == 'promo'">
+        <div class="container-txt-promo" *ngIf="product?.promotion == 'promo'"  (click)="goToDetail(product?.id)">
           <p class="txt-promo">Promo</p>
         </div>
 

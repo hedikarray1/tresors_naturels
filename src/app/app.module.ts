@@ -1,3 +1,4 @@
+import { Market } from '@ionic-native/market/ngx';
 import { OrderAddCouponModalPageModule } from './pages/order-add-coupon-modal/order-add-coupon-modal.module';
 import { PopoverCardProductPageModule } from './pages/popovers/popover-card-product/popover-card-product.module';
 import { PanierModalPageModule } from './pages/panier-modal/panier-modal.module';
@@ -17,7 +18,6 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Network } from '@ionic-native/network/ngx';
-import { Market } from '@ionic-native/market/ngx';
 
 @NgModule({
   declarations: [AppComponent],

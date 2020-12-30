@@ -209,5 +209,14 @@ export class OrderService {
     return this.http.get(this.WoocommerceService.authenticateApi("GET", environment.apiURL + "wc/v3/coupons", params)).toPromise();
 
   }
+
+  checkProductsPromo(products){
+    let params = {
+      products: products
+    };
+   // return this.http.post(environment.apiCustomURL+"order/checkPromotion.php",params).toPromise();
+    return this.http.post("http://localhost/tresors/tresors_back/order/checkPromotion.php",params).toPromise();
+  }
+
 }
 

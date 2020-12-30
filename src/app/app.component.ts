@@ -1,4 +1,5 @@
 import { Market } from '@ionic-native/market/ngx';
+
 import { GlobalVarServiceService } from './services/globalVarService/global-var-service.service';
 import { Network } from '@ionic-native/network/ngx';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';

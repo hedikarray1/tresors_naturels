@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -27,10 +27,10 @@
 
 .ion-title-header-center {
   text-align: center !important;
-    position: fixed;
-    top: 9%;
-    left: 0;
-    width: 100%;
+  position: fixed;
+  top: 9%;
+  left: 0;
+  width: 100%;
 }
 
 .icon-header {
@@ -39,16 +39,29 @@
   color: black;
 }
 
-.ion-title-header-center img{
+.ion-title-header-center img {
   width: 90px;
-    height: 40px;
+  height: 40px;
 }
- 
+
 .cart-modal {
   --height: auto;
   --max-height: 75%;
   --min-height: 60%;
   --border-radius: 10px;
+  padding: 25px;
+  background: #000000ad !important;
+}
+
+ion-segment {
+  ion-segment-button {
+    --color-checked: #fab324;
+    font-size: 3vw;
+  }
+}
+
+.add-coupon-modal {
+  --height: auto;
   padding: 25px;
   background: #000000ad !important;
 }
@@ -61,18 +74,16 @@
   margin: 0px;
 
   p {
-    font-family: 'Cormorant-SemiBoldItalic';
+    font-family: "Cormorant-SemiBoldItalic";
     font-size: 5vw;
     margin: 5px;
     text-align: center;
-
   }
 
   img {
     width: 100%;
     height: auto;
   }
-   
 }
 
 .alert-notif-msg {
@@ -80,25 +91,23 @@
     padding: 0px !important;
   }
 
-  .alert-title.sc-ion-alert-ios{
-    font-family: 'Lato-Regular';
+  .alert-title.sc-ion-alert-ios {
+    font-family: "Lato-Regular";
   }
-
 }
 
 .alert-notif-btn-ok {
-  font-family: 'Cormorant-SemiBoldItalic' !important;
-  color:  #f3c975 !important;
+  font-family: "Cormorant-SemiBoldItalic" !important;
+  color: #f3c975 !important;
 }
 .alert-notif-btn-annuler {
-  font-family: 'Cormorant-SemiBoldItalic' !important;
-  color:  #050505 !important;
+  font-family: "Cormorant-SemiBoldItalic" !important;
+  color: #050505 !important;
 }
 
 .no-connection-modal {
   --height: 100%;
   --width: 100%;
- 
 }
 
 ion-header {
@@ -107,7 +116,6 @@ ion-header {
       width: 32px;
       height: 48px;
     }
-  
   }
 
   ion-icon {
@@ -117,85 +125,83 @@ ion-header {
 }
 
 .ion-icon-panier {
-    width: 70%;
-    height: 70%;
-  }
+  width: 70%;
+  height: 70%;
+}
 
-
- 
 .add-coupon-modal {
   --height: 30%;
   --border-radius: 10px;
   padding: 25px;
 }
 .btn-alert-ignorer {
-  color :#979797 !important;
+  color: #979797 !important;
 }
 
 .btn-alert-connexion {
-  color :#4475cc !important;
+  color: #4475cc !important;
 }
 
 @font-face {
-    font-family: 'Cormorant-Regular';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-Regular.ttf');
-  };
-  @font-face {
-    font-family: 'Cormorant-Italic';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-Italic.ttf');
-  };
+  font-family: "Cormorant-Regular";
 
-  @font-face {
-    font-family: 'Cormorant-Bold';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-Bold.ttf');
-  };
-  @font-face {
-    font-family: 'Cormorant-BoldItalic';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-BoldItalic.ttf');
-  };
-  @font-face {
-    font-family: 'Cormorant-Light';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-Light.ttf');
-  };
-  @font-face {
-    font-family: 'Cormorant-LightItalic';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-LightItalic.ttf');
-  }
-  @font-face {
-    font-family: 'Cormorant-Medium';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-Medium.ttf');
-  }
-  @font-face {
-    font-family: 'Cormorant-MediumItalic';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-MediumItalic.ttf');
-  }
-  @font-face {
-    font-family: 'Cormorant-SemiBold';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-SemiBold.ttf');
-  }
-  @font-face {
-    font-family: 'Cormorant-SemiBoldItalic';
-    
-    src: url('./assets/fonts/Cormorant_Garamond/CormorantGaramond-SemiBoldItalic.ttf');
-  }
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-Regular.ttf");
+}
+@font-face {
+  font-family: "Cormorant-Italic";
 
-  @font-face {
-    font-family: 'Lato-Regular';
-    
-    src: url('./assets/fonts/lato/Lato-Regular.ttf');
-  }
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-Italic.ttf");
+}
 
-  @font-face {
-    font-family: 'TuesdayNight-Regular';
-    
-    src: url('./assets/fonts/TuesdayNight-Regular/TuesdayNight-Regular.otf');
-  }
+@font-face {
+  font-family: "Cormorant-Bold";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-Bold.ttf");
+}
+@font-face {
+  font-family: "Cormorant-BoldItalic";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-BoldItalic.ttf");
+}
+@font-face {
+  font-family: "Cormorant-Light";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-Light.ttf");
+}
+@font-face {
+  font-family: "Cormorant-LightItalic";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-LightItalic.ttf");
+}
+@font-face {
+  font-family: "Cormorant-Medium";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-Medium.ttf");
+}
+@font-face {
+  font-family: "Cormorant-MediumItalic";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-MediumItalic.ttf");
+}
+@font-face {
+  font-family: "Cormorant-SemiBold";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-SemiBold.ttf");
+}
+@font-face {
+  font-family: "Cormorant-SemiBoldItalic";
+
+  src: url("./assets/fonts/Cormorant_Garamond/CormorantGaramond-SemiBoldItalic.ttf");
+}
+
+@font-face {
+  font-family: "Lato-Regular";
+
+  src: url("./assets/fonts/lato/Lato-Regular.ttf");
+}
+
+@font-face {
+  font-family: "TuesdayNight-Regular";
+
+  src: url("./assets/fonts/TuesdayNight-Regular/TuesdayNight-Regular.otf");
+}

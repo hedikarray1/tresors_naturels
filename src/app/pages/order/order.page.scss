@@ -1,11 +1,10 @@
-
 .img-header {
-    width: 28%;
-    margin-left: 36%;
-    position: inherit;
-  }
-  
-ion-select{
+  width: 28%;
+  margin-left: 36%;
+  position: inherit;
+}
+
+ion-select {
   font-size: 4vw;
   width: 100%;
 }
@@ -27,20 +26,30 @@ component-item-group ion-list {
   --border-width: 0 0 1px 0;
 }
 
-
 .txt-font-size {
   font-size: 4vw;
 }
 
 .txt-title-font-size {
   font-size: 4vw;
-    font-weight: 600;
+  font-weight: 600;
 }
 
-ion-textarea , ion-input {
+ion-textarea,
+ion-input {
   font-size: 4vw;
 }
 
 .btn-commande-margin {
   margin: 5%;
+}
+.error {
+  color: red;
+}
+
+ion-segment {
+  ion-segment-button {
+    --color-checked: #fab324;
+    font-size: 3vw;
+  }
 }
