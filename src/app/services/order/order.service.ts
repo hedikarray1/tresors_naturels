@@ -214,8 +214,7 @@ export class OrderService {
     let params = {
       products: products
     };
-   // return this.http.post(environment.apiCustomURL+"order/checkPromotion.php",params).toPromise();
-    return this.http.post("http://localhost/tresors/tresors_back/order/checkPromotion.php",params).toPromise();
+    return this.http.post(environment.apiCustomURL+"order/checkPromotion.php",params).toPromise();
   }
 
 }
