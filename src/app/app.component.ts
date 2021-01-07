@@ -1,13 +1,10 @@
 import { Market } from '@ionic-native/market/ngx';
-
 import { GlobalVarServiceService } from './services/globalVarService/global-var-service.service';
 import { Network } from '@ionic-native/network/ngx';
 import { InternetEstablishedPage } from './pages/internet-established/internet-established.page';
 import { NoInternetPage } from './pages/no-internet/no-internet.page';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
-
 import { Storage } from '@ionic/storage';
-
 import { Router } from '@angular/router';
 import { PanierService } from './services/panier/panier.service';
 import { Component, OnInit } from '@angular/core';
