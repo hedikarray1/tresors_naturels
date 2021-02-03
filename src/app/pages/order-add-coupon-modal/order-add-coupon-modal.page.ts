@@ -150,6 +150,7 @@ export class OrderAddCouponModalPage implements OnInit {
               });
               await alert.present();
             }else {
+              
               this.coupon_data = data[0];
               this.modalCtrl.dismiss(this.coupon_data);
             }
