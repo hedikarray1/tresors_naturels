@@ -169,7 +169,8 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.firebaseX.subscribe("tresors").then((data)=>{
-       
+     //   this.firebaseX.subscribe("test").then((data)=>{
+
       }).catch((error)=>{
       
       

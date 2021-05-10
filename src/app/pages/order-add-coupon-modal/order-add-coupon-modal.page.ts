@@ -107,7 +107,7 @@ export class OrderAddCouponModalPage implements OnInit {
           if (this.coupons.length > 0) {
 
             const alert = await this.alertController.create({
-              header: "Vous avez déja utilisé un code promo . Voulez vous le remplacer ?",
+              header: "Vous avez déja utilisé un code promo .",
               mode: 'ios',
               message: "",
               buttons: [
@@ -120,12 +120,11 @@ export class OrderAddCouponModalPage implements OnInit {
                   }
                 },
                 {
-                  text: 'Oui',
-                  cssClass: 'btn-alert-connexion',
-                  handler: () => {
-                    this.coupon_data = data[0];
-                    this.modalCtrl.dismiss(this.coupon_data);
-                  }
+                  text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+                      alert.dismiss();
+                    }
                 },
               ]
             });
