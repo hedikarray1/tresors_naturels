@@ -52,7 +52,7 @@ export class WoocommerceService {
     this.nonce ='';
     for(var i = 0; i < 6; i++) {
         this.nonce += possible.charAt(Math.floor(Math.random() * possible.length));
-    }    
+    }     
     this.currentTimestamp = Math.floor(new Date().getTime() / 1000);
 
     let authParam:object ={

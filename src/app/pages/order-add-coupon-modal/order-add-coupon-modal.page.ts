@@ -1,8 +1,9 @@
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from './../../services/order/order.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, enableProdMode } from '@angular/core';
 import { ModalController, LoadingController, AlertController } from '@ionic/angular';
+import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-order-add-coupon-modal',
@@ -49,7 +50,7 @@ export class OrderAddCouponModalPage implements OnInit {
 
 
   async getCoupon(code) {
-    this.loading =  this.loadingCtrl.create({
+   this.loading =  this.loadingCtrl.create({
       spinner: null,
       cssClass: 'custom-loading',
       message: `<ion-img src="../../../assets/gif/LOAD-PAGE3.gif"  style="background: transparent !important;"/>`,
@@ -58,12 +59,13 @@ export class OrderAddCouponModalPage implements OnInit {
     this.loading.then((load)=>{
       load.present();
         });
-    this.orderService.getCoupon(code).then(async (data: any[]) => {
-      console.log('coupon info: ', data);
-      this.loading.then((load)=>{
+   await this.orderService.getCoupon(code).then(async (hedi: any[]) => {
+      let endpointResult = hedi;
+      console.log('coupon info: ', endpointResult);
+      this.loading.then((load)=>{0
         load.dismiss();
               });
-      if (data.length == 0) {
+        if (endpointResult.length == 0) {
         const alert = await this.alertController.create({
           header: "Code promo n'existe pas",
           mode: 'ios',
@@ -81,8 +83,11 @@ export class OrderAddCouponModalPage implements OnInit {
         });
         await alert.present();
       } else {
+        console.log(' in  else coupon info: ', endpointResult);
+  
+      
         let used = false;
-        data[0].used_by.forEach(element2 => {
+       endpointResult[0].used_by.forEach(element2 => {
           if (element2 == this.currentUser.id) {
             used = true;
           }
@@ -111,28 +116,22 @@ export class OrderAddCouponModalPage implements OnInit {
               mode: 'ios',
               message: "",
               buttons: [
-                {
-                  text: 'Non',
-                  role: 'cancel',
-                  cssClass: 'btn-alert-ignorer',
-                  handler: () => {
-                    alert.dismiss();
-                  }
-                },
+              
                 {
                   text: "D'accord",
                     cssClass: 'btn-alert-connexion',
                     handler: () => {
                       alert.dismiss();
+                      this.modalCtrl.dismiss();
                     }
                 },
               ]
             });
             await alert.present();
-
+           
           } else {
             
-              if (parseInt(data[0].usage_count + "") >= parseInt(data[0].usage_limit + "")) {
+              if (parseInt(endpointResult[0].usage_count + "") >= parseInt(endpointResult[0].usage_limit + "")) {
               const alert = await this.alertController.create({
                 header: "le code de promotion a atteint sa limite d'utilisation",
                 mode: 'ios',
@@ -148,14 +147,35 @@ export class OrderAddCouponModalPage implements OnInit {
                 ]
               });
               await alert.present();
-            }else {
+            }else 
+            if (   new Date(endpointResult[0].date_expires).getTime() < new Date().getTime() && endpointResult[0].date_expires !== null ){
+
+        
+
+              const alert = await this.alertController.create({
+                header: "le code de promotion a expiré",
+                mode: 'ios',
+                message: "",
+                buttons: [
+                  {
+                    text: "D'accord",
+                    cssClass: 'btn-alert-connexion',
+                    handler: () => {
+                      alert.dismiss();
+                    }
+                  },
+                ]
+              });
+              await alert.present();
+            }
+            
+            else {
               
-              this.coupon_data = data[0];
+              this.coupon_data = hedi[0];
               this.modalCtrl.dismiss(this.coupon_data);
             }
           }
         }
-
 
 
       }
